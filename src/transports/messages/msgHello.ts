@@ -1,6 +1,6 @@
 import { BufferWriter } from "../../coders/binary/bufferWriter";
 import { IEncodable } from "../../coders/iEncodable";
-import { UInt32 } from "../../common/baseTypes"
+import { UInt32 } from "../../types/baseTypes"
 import { MsgHeader } from "./msgHeader";
 import { MsgTypeHello } from "./msgTypes";
 

@@ -1,4 +1,4 @@
-import { UInt32, UInt8 } from "../../common/baseTypes";
+import { UInt32, UInt8 } from "../../types/baseTypes";
 
 export class BufferWriter {
     private buffer: Buffer;
