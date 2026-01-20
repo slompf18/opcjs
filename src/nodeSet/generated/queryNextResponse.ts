@@ -1,0 +1,39 @@
+// AUTO-GENERATED – DO NOT EDIT
+import { BufferReader } from "../../coders/binary/bufferReader";
+import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { ResponseHeader } from "./responseHeader";
+import { QueryDataSet } from "./queryDataSet";
+import { ByteString } from "../../types/byteString";
+import { IEncodable } from "../../coders/iEncodable";
+
+/**
+ * https://reference.opcfoundation.org/v105/Core/docs/Part4/5.10.4/#5.10.4.2
+ */
+export class QueryNextResponse implements IEncodable {
+    constructor(
+        public ResponseHeader: ResponseHeader,
+        public QueryDataSets: QueryDataSet[],
+        public RevisedContinuationPoint: ByteString
+    ) { }
+
+    public static decode(reader: BufferReader): QueryNextResponse {
+        const obj = new QueryNextResponse(
+            ResponseHeader.decode(reader),
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = QueryDataSet.decode(reader); } return arr; })(),
+            ByteString.decode(reader)
+        );
+        return obj;
+    }
+
+    encode(writer: BufferWriter): void {
+        this.ResponseHeader.encode(writer);
+        {
+            const arr = this.QueryDataSets ?? [];
+            writer.writeInt32(arr.length);
+            for (const v of arr) {
+                v.encode(writer);
+            }
+        };
+        this.RevisedContinuationPoint.encode(writer);
+    }
+}

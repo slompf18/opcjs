@@ -17,7 +17,7 @@ export class MsgAck implements IEncodable {
         public MaxChunkCount: UInt32) {
     }
 
-    public static decode(buffer: BufferReader): MsgAck {
+    static decode(buffer: BufferReader): MsgAck {
         const msg = new MsgAck(0, 0, 0, 0, 0);
         msg.header = MsgHeader.decode(buffer);
         msg.ProtocolVersion = buffer.readUInt32();

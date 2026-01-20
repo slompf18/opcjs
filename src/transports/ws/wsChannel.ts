@@ -1,6 +1,3 @@
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { IEncodable } from "../../coders/iEncodable";
-import { ChannelBase } from "../channelBase";
 import { ISocket } from "../iSocket";
 
 // Detect Node.js environment
@@ -34,6 +31,7 @@ export class WsChannel implements ISocket {
             };
 
             this.ws.onmessage = (event) => {
+                console.log("WebSocket message received, size:", event.data.byteLength);
                 if (this.onMessage) {
                     this.onMessage(event.data);
                 }
@@ -56,6 +54,7 @@ export class WsChannel implements ISocket {
             };
 
             this.ws.onerror = (error) => {
+                console.error("WebSocket error observed:", error);
                 reject();
                 if (this.onError) {
                     this.onError('WebSocket connection failed');
@@ -65,11 +64,8 @@ export class WsChannel implements ISocket {
         });
     }
 
-    async send(msg: IEncodable): Promise<void> {
-        const bufferWriter = new BufferWriter();
-        msg.encode(bufferWriter);
-
-        const data = bufferWriter.getData();
+    async send(data: Uint8Array): Promise<void> {
+        console.log("WsChannel sending data of length:", data.length);
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
             // Debug: show first 32 bytes in hex
             const hexBytes = Array.from(data.slice(0, 32))
@@ -85,6 +81,7 @@ export class WsChannel implements ISocket {
     }
 
     public disconnect(): Promise<void> {
+        console.log("WsChannel disconnecting...");
         return new Promise((resolve, reject) => {
             if (this.ws) {
                 // replace onclose to capture close event

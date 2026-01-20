@@ -8,5 +8,6 @@ export interface ITransportChannel {
     // getCancelFunc(): () => void;
     connect(endpointUrl: string): void;
     disconnect(): void;
-    send(data: IEncodable): void
+    send(data: Uint8Array): Promise<void>;
+    onMessage?: (data: Uint8Array) => void
 }

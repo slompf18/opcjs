@@ -1,0 +1,44 @@
+// AUTO-GENERATED – DO NOT EDIT
+import { BufferReader } from "../../coders/binary/bufferReader";
+import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { StatusCode } from "../../types/statusCode";
+import { DiagnosticInfo } from "../../types/diagnosticInfo";
+import { IEncodable } from "../../coders/iEncodable";
+
+/**
+ * https://reference.opcfoundation.org/v105/Core/docs/Part4/7.7.2
+ */
+export class ContentFilterElementResult implements IEncodable {
+    constructor(
+        public StatusCode: StatusCode,
+        public OperandStatusCodes: StatusCode[],
+        public OperandDiagnosticInfos: DiagnosticInfo[]
+    ) { }
+
+    public static decode(reader: BufferReader): ContentFilterElementResult {
+        const obj = new ContentFilterElementResult(
+            reader.readStatusCode(),
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+        );
+        return obj;
+    }
+
+    encode(writer: BufferWriter): void {
+        this.StatusCode.encode(writer);
+        {
+            const arr = this.OperandStatusCodes ?? [];
+            writer.writeInt32(arr.length);
+            for (const v of arr) {
+                v.encode(writer);
+            }
+        };
+        {
+            const arr = this.OperandDiagnosticInfos ?? [];
+            writer.writeInt32(arr.length);
+            for (const v of arr) {
+                v.encode(writer);
+            }
+        };
+    }
+}
