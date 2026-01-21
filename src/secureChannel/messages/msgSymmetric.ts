@@ -1,5 +1,5 @@
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { MsgHeader } from "./msgHeader";
 import { MsgSecurityHeaderSymmetric } from "./msgSecurityHeaderSymmetric";
 import { MsgSequenceHeader } from "./msgSequenceHeader";

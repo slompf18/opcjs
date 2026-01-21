@@ -1,4 +1,4 @@
-import { IEncodable } from "../coders/iEncodable"
+import { IEncodable } from "../codecs/iEncodable"
 
 export interface ISocket {
     connect(endpointUrl: string): Promise<void>

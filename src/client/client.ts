@@ -18,7 +18,7 @@ export class Client {
         console.log('Connected to OPC UA server.');
 
         this.channel = new SecureChannel(channel,0);
-        this.channel.open();
+        this.channel.openSecureChannelRequest();
 
     }
 

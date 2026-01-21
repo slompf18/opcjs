@@ -8,9 +8,12 @@ const path = require('path');
 const { XMLParser } = require('fast-xml-parser');
 
 const ROOT = path.resolve(__dirname, '..');
-const DEFAULT_INPUT = path.resolve(__dirname, 'schema', 'Opc.Ua.NodeSet2.Services.xml');
-const DEFAULT_OUT_DIR = path.resolve(__dirname, '../nodeSet/generated');
+const DEFAULT_INPUT = path.resolve(ROOT, 'nodeSets/schema/Opc.Ua.NodeSet2.Services.xml');
+const DEFAULT_NODEIDS_CSV = path.resolve(ROOT, 'nodeSets/schema/NodeIds.csv');
+const DEFAULT_OUT_DIR = path.resolve(ROOT, 'nodeSets/types');
+const CODEC_OUT_DIR = path.resolve(ROOT, 'nodeSets');
 let enumNameSet = new Set();
+let nodeIdsMap = new Map(); // typeName -> nodeId
 
 function parseArgs(argv) {
     const args = {};
@@ -23,6 +26,36 @@ function parseArgs(argv) {
         }
     }
     return args;
+}
+
+function parseNodeIds(csvPath) {
+    const nodeIds = new Map();
+    if (!fs.existsSync(csvPath)) {
+        console.warn(`NodeIds.csv not found at ${csvPath}, skipping ID assignment`);
+        return nodeIds;
+    }
+    
+    const content = fs.readFileSync(csvPath, 'utf-8');
+    const lines = content.split('\n');
+    
+    for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+        
+        const parts = trimmed.split(',');
+        if (parts.length >= 3) {
+            const typeName = parts[0].trim();
+            const nodeId = parts[1].trim();
+            const nodeClass = parts[2].trim();
+            
+            // Only store DataType entries
+            if (nodeClass === 'DataType') {
+                nodeIds.set(typeName, parseInt(nodeId, 10));
+            }
+        }
+    }
+    
+    return nodeIds;
 }
 
 function ensureArray(value) {
@@ -334,10 +367,10 @@ function renderImports(imports) {
 
 function renderStructure(type, outFile, outDir) {
     const imports = collectImports(type, outFile, outDir);
-    // Add IEncodable import
-    const iEncodableImport = relImport(outFile, path.resolve(ROOT, 'coders/iEncodable'));
-    if (!imports.has(iEncodableImport)) imports.set(iEncodableImport, new Set());
-    imports.get(iEncodableImport).add('IEncodable');
+    // Add IIdentifiable import instead of IEncodable
+    const iIdentifiableImport = relImport(outFile, path.resolve(ROOT, 'codecs/iIdentifiable'));
+    if (!imports.has(iIdentifiableImport)) imports.set(iIdentifiableImport, new Set());
+    imports.get(iIdentifiableImport).add('IIdentifiable');
     
     const lines = [];
     lines.push('// AUTO-GENERATED – DO NOT EDIT');
@@ -348,12 +381,17 @@ function renderStructure(type, outFile, outDir) {
         lines.push(` * ${String(type.doc).trim()}`);
         lines.push(' */');
     }
-    lines.push(`export class ${type.name} implements IEncodable {`);
+    lines.push(`export class ${type.name} implements IIdentifiable {`);
     
     // Handle abstract types with no fields
     if (type.fields.length === 0) {
         lines.push('    constructor() { }');
         lines.push('');
+        // Add readonly id field if we have it
+        if (type.id !== undefined) {
+            lines.push(`    readonly id = ${type.id}`);
+            lines.push('');
+        }
         lines.push(`    public static decode(reader: BufferReader): ${type.name} {`);
         lines.push('        // Abstract type - no fields to decode');
         lines.push('        return new ' + type.name + '();');
@@ -376,6 +414,11 @@ function renderStructure(type, outFile, outDir) {
     if (ctorParams) lines.push(ctorParams);
     lines.push('    ) { }');
     lines.push('');
+    // Add readonly id field if we have it
+    if (type.id !== undefined) {
+        lines.push(`    readonly id = ${type.id}`);
+        lines.push('');
+    }
     lines.push(`    public static decode(reader: BufferReader): ${type.name} {`);
     const decodeArgs = type.fields.map(f => `            ${decodeExpression(f.type, f.isArray)}`).join(',\n');
     lines.push('        const obj = new ' + type.name + '(');
@@ -433,15 +476,108 @@ function writeFile(filePath, content) {
     fs.writeFileSync(filePath, content, 'utf-8');
 }
 
+function generateBinaryDecoders(dataTypes) {
+    const lines = [];
+    lines.push('// AUTO-GENERATED – DO NOT EDIT');
+    lines.push('import { BufferReader } from "../codecs/binary/bufferReader";');
+    lines.push('');
+    
+    // Generate decoder functions with dynamic require
+    for (const dt of dataTypes) {
+        if (dt.kind === 'structure') {
+            const funcName = `decode${dt.name}`;
+            const fileName = dt.name.charAt(0).toLowerCase() + dt.name.slice(1);
+            lines.push(`export const ${funcName} = (reader: BufferReader) => {`);
+            lines.push(`    const { ${dt.name} } = require("./types/${fileName}");`);
+            lines.push(`    return ${dt.name}.decode(reader);`);
+            lines.push('};');
+            lines.push('');
+        }
+    }
+    
+    return lines.join('\n');
+}
+
+function generateBinaryEncoders(dataTypes) {
+    const lines = [];
+    lines.push('// AUTO-GENERATED – DO NOT EDIT');
+    lines.push('import { BufferWriter } from "../codecs/binary/bufferWriter";');
+    lines.push('import { IIdentifiable } from "../codecs/iIdentifiable";');
+    lines.push('');
+    
+    // Generate encoder functions with dynamic require
+    for (const dt of dataTypes) {
+        if (dt.kind === 'structure') {
+            const funcName = `encode${dt.name}`;
+            lines.push(`export const ${funcName} = (writer: BufferWriter, identifiable: IIdentifiable) => {`);
+            lines.push(`    (identifiable as any).encode(writer);`);
+            lines.push('};');
+            lines.push('');
+        }
+    }
+    
+    return lines.join('\n');
+}
+
+function generateSchemaCodec(dataTypes) {
+    const lines = [];
+    lines.push('// AUTO-GENERATED – DO NOT EDIT');
+    lines.push('import { BufferReader } from "../codecs/binary/bufferReader";');
+    lines.push('import { BufferWriter } from "../codecs/binary/bufferWriter";');
+    lines.push('import { IIdentifiable } from "../codecs/iIdentifiable";');
+    lines.push('');
+    lines.push('export class SchemaCodec {');
+    lines.push('');
+    lines.push('    public static encodeBinary(writer: BufferWriter, obj: IIdentifiable): void {');
+    lines.push('        const id = obj.id;');
+    lines.push('        switch (id) {');
+    
+    // Generate encoder switch cases sorted by id
+    const encoderCases = dataTypes
+        .filter(dt => dt.kind === 'structure' && dt.id !== undefined)
+        .sort((a, b) => a.id - b.id)
+        .map(dt => `            case ${dt.id}: require("./binaryEncoders").encode${dt.name}(writer, obj); break;`);
+    
+    lines.push(...encoderCases);
+    lines.push('            default:');
+    lines.push('                throw new Error(`Binary encoder for id ${id} not found`);');
+    lines.push('        }');
+    lines.push('    }');
+    lines.push('');
+    lines.push('    public static decode<T>(reader: BufferReader, id: number): T {');
+    lines.push('        switch (id) {');
+    
+    // Generate decoder switch cases sorted by id
+    const decoderCases = dataTypes
+        .filter(dt => dt.kind === 'structure' && dt.id !== undefined)
+        .sort((a, b) => a.id - b.id)
+        .map(dt => `            case ${dt.id}: return require("./binaryDecoders").decode${dt.name}(reader) as T;`);
+    
+    lines.push(...decoderCases);
+    lines.push('            default:');
+    lines.push('                throw new Error(`Binary decoder for id ${id} not found`);');
+    lines.push('        }');
+    lines.push('    }');
+    lines.push('}');
+    lines.push('');
+    
+    return lines.join('\n');
+}
+
 function generate() {
     const args = parseArgs(process.argv.slice(2));
     const input = args['--input'] ? path.resolve(process.cwd(), args['--input']) : DEFAULT_INPUT;
+    const nodeIdsPath = args['--nodeIds'] ? path.resolve(process.cwd(), args['--nodeIds']) : DEFAULT_NODEIDS_CSV;
     const outDir = args['--outDir'] ? path.resolve(process.cwd(), args['--outDir']) : DEFAULT_OUT_DIR;
 
     if (!fs.existsSync(input)) {
         console.error(`Input XML not found: ${input}`);
         process.exit(1);
     }
+
+    // Parse NodeIds.csv
+    nodeIdsMap = parseNodeIds(nodeIdsPath);
+    console.log(`Loaded ${nodeIdsMap.size} node IDs from ${nodeIdsPath}`);
 
     const xml = fs.readFileSync(input, 'utf-8');
     const parser = new XMLParser({
@@ -459,6 +595,15 @@ function generate() {
 
     const dataTypes = parseDataTypes(nodeSet);
     enumNameSet = new Set(dataTypes.filter(dt => dt.kind === 'enum').map(dt => dt.name));
+    
+    // Assign IDs to data types
+    for (const dt of dataTypes) {
+        const id = nodeIdsMap.get(dt.name);
+        if (id !== undefined) {
+            dt.id = id;
+        }
+    }
+    
     if (!dataTypes.length) {
         console.warn('No data types with definitions found.');
     }
@@ -487,7 +632,18 @@ function generate() {
     };
     writeFile(path.resolve(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
 
+    // Generate codec files
+    const decodersContent = generateBinaryDecoders(dataTypes);
+    writeFile(path.resolve(CODEC_OUT_DIR, 'binaryDecoders.ts'), decodersContent);
+    
+    const encodersContent = generateBinaryEncoders(dataTypes);
+    writeFile(path.resolve(CODEC_OUT_DIR, 'binaryEncoders.ts'), encodersContent);
+    
+    const codecContent = generateSchemaCodec(dataTypes);
+    writeFile(path.resolve(CODEC_OUT_DIR, 'schemaCodec.ts'), codecContent);
+
     console.log(`Generated ${written.length} types to ${outDir}`);
+    console.log(`Generated codec files to ${CODEC_OUT_DIR}`);
 }
 
 generate();

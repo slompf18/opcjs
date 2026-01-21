@@ -1,0 +1,46 @@
+// AUTO-GENERATED – DO NOT EDIT
+import { BufferReader } from "../../coders/binary/bufferReader";
+import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { StatusCode } from "../../types/statusCode";
+import { DiagnosticInfo } from "../../types/diagnosticInfo";
+import { IIdentifiable } from "../../codecs/iIdentifiable";
+
+/**
+ * https://reference.opcfoundation.org/v105/Core/docs/Part4/5.10.3/#5.10.3.1
+ */
+export class ParsingResult implements IIdentifiable {
+    constructor(
+        public StatusCode: StatusCode,
+        public DataStatusCodes: StatusCode[],
+        public DataDiagnosticInfos: DiagnosticInfo[]
+    ) { }
+
+    readonly id = 610
+
+    public static decode(reader: BufferReader): ParsingResult {
+        const obj = new ParsingResult(
+            reader.readStatusCode(),
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+        );
+        return obj;
+    }
+
+    encode(writer: BufferWriter): void {
+        this.StatusCode.encode(writer);
+        {
+            const arr = this.DataStatusCodes ?? [];
+            writer.writeInt32(arr.length);
+            for (const v of arr) {
+                v.encode(writer);
+            }
+        };
+        {
+            const arr = this.DataDiagnosticInfos ?? [];
+            writer.writeInt32(arr.length);
+            for (const v of arr) {
+                v.encode(writer);
+            }
+        };
+    }
+}

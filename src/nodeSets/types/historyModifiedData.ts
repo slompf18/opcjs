@@ -1,0 +1,33 @@
+// AUTO-GENERATED – DO NOT EDIT
+import { BufferReader } from "../../coders/binary/bufferReader";
+import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { ModificationInfo } from "./modificationInfo";
+import { IIdentifiable } from "../../codecs/iIdentifiable";
+
+/**
+ * https://reference.opcfoundation.org/v105/Core/docs/Part11/6.6.3
+ */
+export class HistoryModifiedData implements IIdentifiable {
+    constructor(
+        public ModificationInfos: ModificationInfo[]
+    ) { }
+
+    readonly id = 11217
+
+    public static decode(reader: BufferReader): HistoryModifiedData {
+        const obj = new HistoryModifiedData(
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ModificationInfo.decode(reader); } return arr; })()
+        );
+        return obj;
+    }
+
+    encode(writer: BufferWriter): void {
+        {
+            const arr = this.ModificationInfos ?? [];
+            writer.writeInt32(arr.length);
+            for (const v of arr) {
+                v.encode(writer);
+            }
+        };
+    }
+}

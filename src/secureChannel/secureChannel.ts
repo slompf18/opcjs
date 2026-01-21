@@ -1,7 +1,7 @@
-import { BufferReader } from "../coders/binary/bufferReader";
-import { BufferWriter } from "../coders/binary/bufferWriter";
-import { IEncodable } from "../coders/iEncodable";
-import { MessageSecurityModeEnum, OpenSecureChannelRequest, RequestHeader, SecurityTokenRequestTypeEnum } from "../nodeSet/generated";
+import { BufferReader } from "../codecs/binary/bufferReader";
+import { BufferWriter } from "../codecs/binary/bufferWriter";
+import { IEncodable } from "../codecs/iEncodable";
+import { MessageSecurityModeEnum, OpenSecureChannelRequest, OpenSecureChannelResponse, RequestHeader, SecurityTokenRequestTypeEnum } from "../nodeSet/generated";
 import { SecurityPolicyNone } from "../security/securityPolicyNone";
 import { ITransportChannel } from "../transports/iTransportChannel";
 import { UInt32 } from "../types/baseTypes";
@@ -22,8 +22,10 @@ export class SecureChannel {
     private requestNumber: number = 0;
     private securityPolicy = new SecurityPolicyNone();
     private resolvers: Map<UInt32, Function> = new Map();
+    private id: UInt32 = 0;
+    private token: UInt32 = 0;
 
-    public async open(): Promise<void> {
+    public async openSecureChannelRequest(): Promise<void> {
         const request = new OpenSecureChannelRequest(
             new RequestHeader(
                 new NodeId(), // AuthenticationToken
@@ -49,7 +51,7 @@ export class SecureChannel {
             new MsgHeader(
                 MsgTypeOpenFinal,
                 0, // will be set while encoding
-                this.id
+                0 // will be set from response
             ),
             new MsgSecurityHeaderAsymmetric(
                 'http://opcfoundation.org/UA/SecurityPolicy#None',
@@ -63,12 +65,16 @@ export class SecureChannel {
         const msgBuffer = new BufferWriter();
         msg.encode(msgBuffer, encryptionAlgorithm);
 
-        this.resolvers.set(msg.sequenceHeader.requestId, () => {
-            console.log("OpenSecureChannelResponse received");
-            this.resolvers.delete(msg.sequenceHeader.requestId);
-        });
+        this.resolvers.set(msg.sequenceHeader.requestId, this.openSecureChannelResponse.bind(this));
 
         this.channel.send(msgBuffer.getData());
+    }
+
+    private openSecureChannelResponse(response:OpenSecureChannelResponse): void {
+            
+        console.log("OpenSecureChannelResponse received");
+        this.id = response.SecurityToken.ChannelId;
+        this.token = response.SecurityToken.TokenId;
     }
 
     public async disconnect(): Promise<void> {
@@ -90,10 +96,12 @@ export class SecureChannel {
                     headerSecurity,
                     headerLength,
                     this.securityPolicy.getAlgorithmAsymmetric(new Uint8Array(), new Uint8Array()));
+                
                 const requestId = msg.sequenceHeader.requestId;
                 const resolver = this.resolvers.get(requestId);
+                this.resolvers.delete(msg.sequenceHeader.requestId);
                 if (resolver) {
-                    resolver();
+                    resolver(msg);
                 } else {
                     console.warn("No resolver found for requestId:", requestId);
                 }
@@ -135,7 +143,7 @@ export class SecureChannel {
         )
     }
 
-    constructor(private channel: ITransportChannel, private id: number) {
+    constructor(private channel: ITransportChannel) {
         channel.onMessage = this.onMessage.bind(this);
     }
 }

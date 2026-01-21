@@ -1,5 +1,5 @@
-import { BufferReader } from "../coders/binary/bufferReader";
-import { BufferWriter } from "../coders/binary/bufferWriter";
+import { BufferReader } from "../codecs/binary/bufferReader";
+import { BufferWriter } from "../codecs/binary/bufferWriter";
 
 export class Guid {
     constructor(public bytes: Uint8Array = new Uint8Array(16)) { }

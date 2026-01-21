@@ -1,4 +1,4 @@
-import { IEncodable } from "../coders/iEncodable";
+import { IEncodable } from "../codecs/iEncodable";
 
 export interface ITransportChannel {
     // getReciverChannel(): ReadableStream<ArrayBuffer>;

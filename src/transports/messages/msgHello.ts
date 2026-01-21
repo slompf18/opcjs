@@ -1,5 +1,5 @@
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { IEncodable } from "../../coders/iEncodable";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
+import { IEncodable } from "../../codecs/iEncodable";
 import { UInt32 } from "../../types/baseTypes"
 import { MsgHeader } from "./msgHeader";
 import { MsgTypeHello } from "./msgTypes";

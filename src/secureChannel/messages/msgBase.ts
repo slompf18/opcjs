@@ -1,4 +1,4 @@
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { IEncryptionAlgorithm } from "../../cryption/iEncryptionAlgorithm";
 
 export class MsgBase {
