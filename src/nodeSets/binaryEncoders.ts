@@ -1,6 +1,8 @@
 // AUTO-GENERATED – DO NOT EDIT
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../codecs/iIdentifiable";
+import { ExpandedNodeId } from "../types/expandedNodeId";
+import { NodeId } from "../types/nodeId";
 
 export const encodeEnumeration = (writer: BufferWriter, identifiable: IIdentifiable) => {
     (identifiable as any).encode(writer);

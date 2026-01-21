@@ -1,12 +1,10 @@
 import { BufferReader } from "../codecs/binary/bufferReader";
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IEncodable } from "../codecs/iEncodable";
-import { MessageSecurityModeEnum, OpenSecureChannelRequest, OpenSecureChannelResponse, RequestHeader, SecurityTokenRequestTypeEnum } from "../nodeSet/generated";
+import { OpenSecureChannelRequest, RequestHeader, SecurityTokenRequestTypeEnum, MessageSecurityModeEnum, OpenSecureChannelResponse } from "../nodeSets/types";
 import { SecurityPolicyNone } from "../security/securityPolicyNone";
 import { ITransportChannel } from "../transports/iTransportChannel";
 import { UInt32 } from "../types/baseTypes";
-import { ByteString } from "../types/byteString";
-import { DateTime } from "../types/dateTime";
 import { ExtensionObject } from "../types/extensionObject";
 import { NodeId } from "../types/nodeId";
 import { MsgAsymmetric } from "./messages/msgAsymmetric";
@@ -28,8 +26,8 @@ export class SecureChannel {
     public async openSecureChannelRequest(): Promise<void> {
         const request = new OpenSecureChannelRequest(
             new RequestHeader(
-                new NodeId(), // AuthenticationToken
-                new DateTime(), // Timestamp
+                NodeId.NewTwoByte(0), // AuthenticationToken
+                new Date(), // Timestamp
                 0, // RequestHandle
                 0, // ReturnDiagnostics
                 '', // AuditEntryId
@@ -40,7 +38,7 @@ export class SecureChannel {
             /* ClientProtocolVersion */ 0,
             /* RequestType */ SecurityTokenRequestTypeEnum.Issue,
             /* SecurityMode */ MessageSecurityModeEnum.None,
-            /* ClientNonce */ new ByteString(),
+            /* ClientNonce */ new Uint8Array(),
             /* RequestedLifetime */ 3600000
         );
 
@@ -55,8 +53,8 @@ export class SecureChannel {
             ),
             new MsgSecurityHeaderAsymmetric(
                 'http://opcfoundation.org/UA/SecurityPolicy#None',
-                new Uint8Array, // todo: get certificate if security policy is not None
-                new Uint8Array
+                new Uint8Array(), // todo: get certificate if security policy is not None
+                new Uint8Array()
             ), new MsgSequenceHeader(this.sequenceNumber++, this.requestNumber++),
             requestBuffer.getData()
         )

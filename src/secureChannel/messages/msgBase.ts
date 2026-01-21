@@ -45,7 +45,7 @@ export class MsgBase {
             // https://reference.opcfoundation.org/Core/Part6/v105/docs/6.7.2.5.1
             const bytesToWrite = buffer.getLength() - headerSize;
             const padding = encryptionAlgorithm.GetPadding(bytesToWrite)
-            buffer.writeDirect(padding);
+            buffer.writeBytes(padding);
 
             // write message size so signature is correct
             const dataSize = buffer.getLength();
@@ -54,7 +54,7 @@ export class MsgBase {
 
             // calculate signature
             const signature = encryptionAlgorithm.CalculateSignature(buffer.getData());
-            buffer.writeDirect(signature);
+            buffer.writeBytes(signature);
 
             // encrypt
             const encryptedData = encryptionAlgorithm.Encrypt(

@@ -1,7 +1,5 @@
-import { UInt32, UInt8, Int16, UInt16, Int32, UInt64, Int64, Float32, Float64 } from "../../types/baseTypes";
-import { ByteString } from "../../types/byteString";
+import { UInt32, UInt8, Int16, UInt16, Int32, UInt64, Int64, Float32, Float64, ByteString } from "../../types/baseTypes";
 import { Guid } from "../../types/guid";
-import { DateTime } from "../../types/dateTime";
 import { NodeId } from "../../types/nodeId";
 import { ExpandedNodeId } from "../../types/expandedNodeId";
 import { QualifiedName } from "../../types/qualifiedName";
@@ -12,6 +10,7 @@ import { XmlElement } from "../../types/xmlElement";
 import { DiagnosticInfo } from "../../types/diagnosticInfo";
 import { DataValue } from "../../types/dataValue";
 import { Variant } from "../../types/variant";
+import { TypeId } from "../../types/typeId";
 
 export class BufferReader {
     private buffer: Buffer;
@@ -65,13 +64,13 @@ export class BufferReader {
         return value;
     }
 
-    public readFloat(): Float32 {
+    public readFloat32(): Float32 {
         const value = this.buffer.readFloatLE(this.position) as Float32;
         this.position += 4;
         return value;
     }
 
-    public readDouble(): Float64 {
+    public readFloat64(): Float64 {
         const value = this.buffer.readDoubleLE(this.position) as Float64;
         this.position += 8;
         return value;
@@ -100,9 +99,8 @@ export class BufferReader {
 
     public readByteString(): ByteString {
         const length = this.readInt32();
-        if (length < 0) return new ByteString();
-        const bytes = this.readBytes(length);
-        return new ByteString(bytes);
+        if (length < 0) return new Uint8Array();
+        return this.readBytes(length);
     }
 
     public readGuid(): Guid {
@@ -111,8 +109,10 @@ export class BufferReader {
         return Guid.decodeRaw(bytes);
     }
 
-    public readDateTime(): DateTime {
-        return DateTime.decode(this);
+    public readDateTime(): Date {
+        const value = this.buffer.readBigInt64LE(this.position)
+        this.position += 8
+        return new Date(Number(value - BigInt(116444736000000000)) / 1e4)
     }
 
     public readNodeId(): NodeId {
@@ -132,7 +132,7 @@ export class BufferReader {
     }
 
     public readStatusCode(): StatusCode {
-        return StatusCode.decode(this);
+        return this.readUInt32() as StatusCode;
     }
 
     public readExtensionObject(): ExtensionObject {

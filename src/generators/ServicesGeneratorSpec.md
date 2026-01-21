@@ -122,10 +122,7 @@ nodeSets/binaryDecoder.ts
 ```
 import { BufferReader } from "../codecs/binary/bufferReader";
 
-export const decodeOpenSecureChannelRequest = (reader: BufferReader) => {
-    const { OpenSecureChannelRequest } = require("./types/openSecureChannelRequest");
-    return OpenSecureChannelRequest.decode(reader);
-}
+export const decodeOpenSecureChannelRequest = (reader: BufferReader) => {    const { OpenSecureChannelRequest } = require("./types/openSecureChannelRequest");    return OpenSecureChannelRequest.decode(reader); }
 ```
 
 nodeSets/binaryEncoders.ts
@@ -133,9 +130,7 @@ nodeSets/binaryEncoders.ts
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../codecs/iIdentifiable";
 
-export const encodeOpenSecureChannelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-    (identifiable as any).encode(writer);
-}
+export const encodeOpenSecureChannelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {    (identifiable as any).encode(writer);}
 ```
 
 nodeSets/schemaCodec.ts
@@ -174,28 +169,6 @@ export class SchemaCodec {
 - Switch cases in schemaCodec.ts must be **sorted by id** (ascending order) for maintainability and binary search optimization.
 - Encoder functions use `(identifiable as any).encode(writer)` to avoid TypeScript type system conflicts with dynamic require() loading.
 - Decoder functions use dynamic `require()` to load the type class and call its static `decode()` method.
-
-export class SchemaCodec {
-
-    public static encodeBinary(buffer: BufferWriter, obj: IIdentifiable): void {
-        const id = obj.id;
-        switch (id) {
-            case 444: require("../nodeSets/binaryDecoders").encodeOpenSecureChannelRequest(buffer, obj); break;
-            default:
-                throw new Error(`Binary encoder for id ${id} not found`);
-        }
-    }
-
-    public static decode<T>(buffer: BufferReader, id: number): T {
-        switch (id) {
-            case 447: throw new Error("Xml decoding not implemented yet");
-            case 446: return require("../nodeSets/binaryDecoders").decodeOpenSecureChannelRequest(buffer); break;
-            default:
-                throw new Error(`Binary decoder for id ${id} not found`);
-        }
-    }
-}
-```
 
 ## Testing
 - Not required for now.

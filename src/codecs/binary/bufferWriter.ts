@@ -1,7 +1,5 @@
-import { UInt32, UInt8, Int16, UInt16, Int32, Int64, UInt64, Float32, Float64 } from "../../types/baseTypes";
-import { ByteString } from "../../types/byteString";
+import { UInt32, UInt8, Int16, UInt16, Int32, Int64, UInt64, Float32, Float64, ByteString } from "../../types/baseTypes";
 import { Guid } from "../../types/guid";
-import { DateTime } from "../../types/dateTime";
 import { NodeId } from "../../types/nodeId";
 import { ExpandedNodeId } from "../../types/expandedNodeId";
 import { QualifiedName } from "../../types/qualifiedName";
@@ -12,6 +10,7 @@ import { XmlElement } from "../../types/xmlElement";
 import { DiagnosticInfo } from "../../types/diagnosticInfo";
 import { DataValue } from "../../types/dataValue";
 import { Variant } from "../../types/variant";
+import { write } from "node:fs";
 
 export class BufferWriter {
     private buffer: Buffer;
@@ -34,6 +33,12 @@ export class BufferWriter {
     public writeUInt16(value: UInt16): void {
         this.ensureCapacity(2);
         this.buffer.writeUInt16LE(value, this.position);
+        this.position += 2;
+    }
+
+    public writeInt16(value: Int16): void {
+        this.ensureCapacity(2);
+        this.buffer.writeInt16LE(value, this.position);
         this.position += 2;
     }
 
@@ -72,10 +77,18 @@ export class BufferWriter {
         this.position += 4;
     }
 
+    public writeFloat32(value: Float32): void {
+        this.writeFloat(value);
+    }
+
     public writeDouble(value: Float64): void {
         this.ensureCapacity(8);
         this.buffer.writeDoubleLE(value, this.position);
         this.position += 8;
+    }
+
+    public writeFloat64(value: Float64): void {
+        this.writeDouble(value);
     }
 
     public writeBoolean(value: boolean): void {
@@ -87,7 +100,7 @@ export class BufferWriter {
         if (value) {
             encoded = new TextEncoder().encode(value);
         }
-        this.writeByteArray(encoded);
+        this.writeByteString(encoded);
     }
 
     public writeBytes(value: Uint8Array): void {
@@ -96,18 +109,12 @@ export class BufferWriter {
         this.position += value.length;
     }
 
-    public writeDirect(value: Uint8Array): void {
-        this.ensureCapacity(value.length);
-        this.buffer.set(value, this.position);
-        this.position += value.length;
-    }
-    
-    public writeDirectAt(encryptedBody: Uint8Array, position: number): void {
+    public writeBytesAt(encryptedBody: Uint8Array, position: number): void {
         this.ensureCapacity(Math.max(0, position + encryptedBody.length - this.position));
         this.buffer.set(encryptedBody, position);
     }
 
-    public writeByteArray(value?: Uint8Array) {
+    public writeByteString(value: ByteString|undefined): void {
         if (!value) {
             this.writeInt32(-1);
             return;
@@ -116,20 +123,16 @@ export class BufferWriter {
         this.writeBytes(value);
     }
 
-    public writeByteString(value?: ByteString): void {
-        if (!value || value.value === undefined) {
-            this.writeInt32(-1);
-            return;
-        }
-        this.writeByteArray(value.value);
-    }
-
     public writeGuid(value: Guid): void {
         value.encode(this);
     }
 
-    public writeDateTime(value: DateTime): void {
-        value.encode(this);
+    public writeDateTime(value: Date): void {
+        const b = new Uint8Array(8)
+        const byte =
+            BigInt(value.getTime()) * BigInt(1e4) + BigInt(116444736000000000)
+        this.buffer.set(b, this.position)
+        this.position += 8
     }
 
     public writeNodeId(value: NodeId): void {
@@ -149,7 +152,7 @@ export class BufferWriter {
     }
 
     public writeStatusCode(value: StatusCode): void {
-        value.encode(this);
+        this.writeUInt32(value)
     }
 
     public writeExtensionObject(value: ExtensionObject): void {
