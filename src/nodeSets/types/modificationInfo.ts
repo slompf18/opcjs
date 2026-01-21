@@ -1,7 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { HistoryUpdateTypeEnum } from "./historyUpdateType";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -10,7 +9,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class ModificationInfo implements IIdentifiable {
     constructor(
-        public ModificationTime: DateTime,
+        public ModificationTime: Date,
         public UpdateType: HistoryUpdateTypeEnum,
         public UserName: string | undefined
     ) { }
@@ -19,7 +18,7 @@ export class ModificationInfo implements IIdentifiable {
 
     public static decode(reader: BufferReader): ModificationInfo {
         const obj = new ModificationInfo(
-            DateTime.decode(reader),
+            reader.readDateTime(),
             HistoryUpdateTypeEnum.decode(reader),
             reader.readString()
         );
@@ -27,7 +26,7 @@ export class ModificationInfo implements IIdentifiable {
     }
 
     encode(writer: BufferWriter): void {
-        this.ModificationTime.encode(writer);
+        writer.writeDateTime(this.ModificationTime);
         HistoryUpdateTypeEnum.encode(writer, this.UpdateType);
         writer.writeString(this.UserName);
     }

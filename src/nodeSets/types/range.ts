@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -17,14 +17,14 @@ export class Range implements IIdentifiable {
 
     public static decode(reader: BufferReader): Range {
         const obj = new Range(
-            reader.readDouble(),
-            reader.readDouble()
+            reader.readFloat64(),
+            reader.readFloat64()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        writer.writeDouble(this.Low);
-        writer.writeDouble(this.High);
+        writer.writeFloat64(this.Low);
+        writer.writeFloat64(this.High);
     }
 }

@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64, UInt8 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -18,13 +18,13 @@ export class DatagramWriterGroupTransportDataType implements IIdentifiable {
     public static decode(reader: BufferReader): DatagramWriterGroupTransportDataType {
         const obj = new DatagramWriterGroupTransportDataType(
             reader.readUInt8(),
-            reader.readDouble()
+            reader.readFloat64()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
         writer.writeUint8(this.MessageRepeatCount);
-        writer.writeDouble(this.MessageRepeatDelay);
+        writer.writeFloat64(this.MessageRepeatDelay);
     }
 }

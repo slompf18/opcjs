@@ -1,9 +1,9 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
 import { MessageSecurityModeEnum } from "./messageSecurityMode";
-import { ByteString } from "../../types/byteString";
+import { ByteString } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -34,7 +34,7 @@ export class SessionSecurityDiagnosticsDataType implements IIdentifiable {
             reader.readString(),
             MessageSecurityModeEnum.decode(reader),
             reader.readString(),
-            ByteString.decode(reader)
+            reader.readByteString()
         );
         return obj;
     }
@@ -54,6 +54,6 @@ export class SessionSecurityDiagnosticsDataType implements IIdentifiable {
         writer.writeString(this.TransportProtocol);
         MessageSecurityModeEnum.encode(writer, this.SecurityMode);
         writer.writeString(this.SecurityPolicyUri);
-        this.ClientCertificate.encode(writer);
+        writer.writeByteString(this.ClientCertificate);
     }
 }

@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Variant } from "../../types/variant";
 import { NetworkAddressDataType } from "./networkAddressDataType";
 import { KeyValuePair } from "./keyValuePair";

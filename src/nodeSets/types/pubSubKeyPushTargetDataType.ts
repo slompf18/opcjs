@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UserTokenPolicy } from "./userTokenPolicy";
 import { Float64, UInt16 } from "../../types/baseTypes";
 import { KeyValuePair } from "./keyValuePair";
@@ -32,7 +32,7 @@ export class PubSubKeyPushTargetDataType implements IIdentifiable {
             reader.readString(),
             UserTokenPolicy.decode(reader),
             reader.readUInt16(),
-            reader.readDouble(),
+            reader.readFloat64(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = KeyValuePair.decode(reader); } return arr; })(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
@@ -52,7 +52,7 @@ export class PubSubKeyPushTargetDataType implements IIdentifiable {
         writer.writeString(this.SecurityPolicyUri);
         this.UserTokenType.encode(writer);
         writer.writeUInt16(this.RequestedKeyCount);
-        writer.writeDouble(this.RetryInterval);
+        writer.writeFloat64(this.RetryInterval);
         {
             const arr = this.PushTargetProperties ?? [];
             writer.writeInt32(arr.length);

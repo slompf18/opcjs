@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64, UInt32 } from "../../types/baseTypes";
 import { RolePermissionType } from "./rolePermissionType";
 import { KeyValuePair } from "./keyValuePair";
@@ -28,7 +28,7 @@ export class SecurityGroupDataType implements IIdentifiable {
         const obj = new SecurityGroupDataType(
             reader.readString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readString(),
             reader.readUInt32(),
             reader.readUInt32(),
@@ -48,7 +48,7 @@ export class SecurityGroupDataType implements IIdentifiable {
                 writer.writeString(v);
             }
         };
-        writer.writeDouble(this.KeyLifetime);
+        writer.writeFloat64(this.KeyLifetime);
         writer.writeString(this.SecurityPolicyUri);
         writer.writeUInt32(this.MaxFutureKeyCount);
         writer.writeUInt32(this.MaxPastKeyCount);

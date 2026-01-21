@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64, UInt32 } from "../../types/baseTypes";
 import { DataSetOrderingTypeEnum } from "./dataSetOrderingType";
 import { UadpNetworkMessageContentMaskEnum } from "./uadpNetworkMessageContentMask";
@@ -25,8 +25,8 @@ export class UadpWriterGroupMessageDataType implements IIdentifiable {
             reader.readUInt32(),
             DataSetOrderingTypeEnum.decode(reader),
             UadpNetworkMessageContentMaskEnum.decode(reader),
-            reader.readDouble(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDouble(); } return arr; })()
+            reader.readFloat64(),
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readFloat64(); } return arr; })()
         );
         return obj;
     }
@@ -35,12 +35,12 @@ export class UadpWriterGroupMessageDataType implements IIdentifiable {
         writer.writeUInt32(this.GroupVersion);
         DataSetOrderingTypeEnum.encode(writer, this.DataSetOrdering);
         UadpNetworkMessageContentMaskEnum.encode(writer, this.NetworkMessageContentMask);
-        writer.writeDouble(this.SamplingOffset);
+        writer.writeFloat64(this.SamplingOffset);
         {
             const arr = this.PublishingOffset ?? [];
             writer.writeInt32(arr.length);
             for (const v of arr) {
-                writer.writeDouble(v);
+                writer.writeFloat64(v);
             }
         };
     }

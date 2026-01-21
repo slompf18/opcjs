@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { RequestHeader } from "./requestHeader";
 import { Float64 } from "../../types/baseTypes";
 import { TimestampsToReturnEnum } from "./timestampsToReturn";
@@ -23,7 +23,7 @@ export class ReadRequest implements IIdentifiable {
     public static decode(reader: BufferReader): ReadRequest {
         const obj = new ReadRequest(
             RequestHeader.decode(reader),
-            reader.readDouble(),
+            reader.readFloat64(),
             TimestampsToReturnEnum.decode(reader),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ReadValueId.decode(reader); } return arr; })()
         );
@@ -32,7 +32,7 @@ export class ReadRequest implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         this.RequestHeader.encode(writer);
-        writer.writeDouble(this.MaxAge);
+        writer.writeFloat64(this.MaxAge);
         TimestampsToReturnEnum.encode(writer, this.TimestampsToReturn);
         {
             const arr = this.NodesToRead ?? [];

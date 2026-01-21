@@ -1,7 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
 import { Float64 } from "../../types/baseTypes";
 import { AggregateConfiguration } from "./aggregateConfiguration";
@@ -12,7 +11,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class AggregateFilter implements IIdentifiable {
     constructor(
-        public StartTime: DateTime,
+        public StartTime: Date,
         public AggregateType: NodeId,
         public ProcessingInterval: Float64,
         public AggregateConfiguration: AggregateConfiguration
@@ -22,18 +21,18 @@ export class AggregateFilter implements IIdentifiable {
 
     public static decode(reader: BufferReader): AggregateFilter {
         const obj = new AggregateFilter(
-            DateTime.decode(reader),
+            reader.readDateTime(),
             reader.readNodeId(),
-            reader.readDouble(),
+            reader.readFloat64(),
             AggregateConfiguration.decode(reader)
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        this.StartTime.encode(writer);
+        writer.writeDateTime(this.StartTime);
         this.AggregateType.encode(writer);
-        writer.writeDouble(this.ProcessingInterval);
+        writer.writeFloat64(this.ProcessingInterval);
         this.AggregateConfiguration.encode(writer);
     }
 }

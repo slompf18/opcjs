@@ -1,7 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { ServerStateEnum } from "./serverState";
 import { BuildInfo } from "./buildInfo";
 import { UInt32 } from "../../types/baseTypes";
@@ -13,8 +12,8 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class ServerStatusDataType implements IIdentifiable {
     constructor(
-        public StartTime: DateTime,
-        public CurrentTime: DateTime,
+        public StartTime: Date,
+        public CurrentTime: Date,
         public State: ServerStateEnum,
         public BuildInfo: BuildInfo,
         public SecondsTillShutdown: UInt32,
@@ -25,8 +24,8 @@ export class ServerStatusDataType implements IIdentifiable {
 
     public static decode(reader: BufferReader): ServerStatusDataType {
         const obj = new ServerStatusDataType(
-            DateTime.decode(reader),
-            DateTime.decode(reader),
+            reader.readDateTime(),
+            reader.readDateTime(),
             ServerStateEnum.decode(reader),
             BuildInfo.decode(reader),
             reader.readUInt32(),
@@ -36,8 +35,8 @@ export class ServerStatusDataType implements IIdentifiable {
     }
 
     encode(writer: BufferWriter): void {
-        this.StartTime.encode(writer);
-        this.CurrentTime.encode(writer);
+        writer.writeDateTime(this.StartTime);
+        writer.writeDateTime(this.CurrentTime);
         ServerStateEnum.encode(writer, this.State);
         this.BuildInfo.encode(writer);
         writer.writeUInt32(this.SecondsTillShutdown);

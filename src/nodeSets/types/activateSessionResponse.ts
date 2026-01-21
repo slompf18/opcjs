@@ -1,8 +1,8 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { ResponseHeader } from "./responseHeader";
-import { ByteString } from "../../types/byteString";
+import { ByteString } from "../../types/baseTypes";
 import { StatusCode } from "../../types/statusCode";
 import { DiagnosticInfo } from "../../types/diagnosticInfo";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -23,7 +23,7 @@ export class ActivateSessionResponse implements IIdentifiable {
     public static decode(reader: BufferReader): ActivateSessionResponse {
         const obj = new ActivateSessionResponse(
             ResponseHeader.decode(reader),
-            ByteString.decode(reader),
+            reader.readByteString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
@@ -32,12 +32,12 @@ export class ActivateSessionResponse implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         this.ResponseHeader.encode(writer);
-        this.ServerNonce.encode(writer);
+        writer.writeByteString(this.ServerNonce);
         {
             const arr = this.Results ?? [];
             writer.writeInt32(arr.length);
             for (const v of arr) {
-                v.encode(writer);
+                writer.writeStatusCode(v);
             }
         };
         {

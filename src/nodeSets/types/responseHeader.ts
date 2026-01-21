@@ -1,7 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt32 } from "../../types/baseTypes";
 import { StatusCode } from "../../types/statusCode";
 import { DiagnosticInfo } from "../../types/diagnosticInfo";
@@ -13,7 +12,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class ResponseHeader implements IIdentifiable {
     constructor(
-        public Timestamp: DateTime,
+        public Timestamp: Date,
         public RequestHandle: UInt32,
         public ServiceResult: StatusCode,
         public ServiceDiagnostics: DiagnosticInfo,
@@ -25,7 +24,7 @@ export class ResponseHeader implements IIdentifiable {
 
     public static decode(reader: BufferReader): ResponseHeader {
         const obj = new ResponseHeader(
-            DateTime.decode(reader),
+            reader.readDateTime(),
             reader.readUInt32(),
             reader.readStatusCode(),
             reader.readDiagnosticInfo(),
@@ -36,9 +35,9 @@ export class ResponseHeader implements IIdentifiable {
     }
 
     encode(writer: BufferWriter): void {
-        this.Timestamp.encode(writer);
+        writer.writeDateTime(this.Timestamp);
         writer.writeUInt32(this.RequestHandle);
-        this.ServiceResult.encode(writer);
+        writer.writeStatusCode(this.ServiceResult);
         this.ServiceDiagnostics.encode(writer);
         {
             const arr = this.StringTable ?? [];

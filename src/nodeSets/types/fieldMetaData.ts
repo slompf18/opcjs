@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { LocalizedText } from "../../types/localizedText";
 import { DataSetFieldFlagsEnum } from "./dataSetFieldFlags";
 import { Int32, UInt32, UInt8 } from "../../types/baseTypes";
@@ -38,7 +38,7 @@ export class FieldMetaData implements IIdentifiable {
             reader.readInt32(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readUInt32(),
-            Guid.decode(reader),
+            reader.readGuid(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = KeyValuePair.decode(reader); } return arr; })()
         );
         return obj;
@@ -59,7 +59,7 @@ export class FieldMetaData implements IIdentifiable {
             }
         };
         writer.writeUInt32(this.MaxStringLength);
-        this.DataSetFieldId.encode(writer);
+        writer.writeGuid(this.DataSetFieldId);
         {
             const arr = this.Properties ?? [];
             writer.writeInt32(arr.length);

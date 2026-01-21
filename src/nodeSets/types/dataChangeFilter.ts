@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { DataChangeTriggerEnum } from "./dataChangeTrigger";
 import { Float64, UInt32 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -21,7 +21,7 @@ export class DataChangeFilter implements IIdentifiable {
         const obj = new DataChangeFilter(
             DataChangeTriggerEnum.decode(reader),
             reader.readUInt32(),
-            reader.readDouble()
+            reader.readFloat64()
         );
         return obj;
     }
@@ -29,6 +29,6 @@ export class DataChangeFilter implements IIdentifiable {
     encode(writer: BufferWriter): void {
         DataChangeTriggerEnum.encode(writer, this.Trigger);
         writer.writeUInt32(this.DeadbandType);
-        writer.writeDouble(this.DeadbandValue);
+        writer.writeFloat64(this.DeadbandValue);
     }
 }

@@ -1,7 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { ByteString } from "../../types/byteString";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
+import { ByteString } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -16,12 +16,12 @@ export class X509IdentityToken implements IIdentifiable {
 
     public static decode(reader: BufferReader): X509IdentityToken {
         const obj = new X509IdentityToken(
-            ByteString.decode(reader)
+            reader.readByteString()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        this.CertificateData.encode(writer);
+        writer.writeByteString(this.CertificateData);
     }
 }

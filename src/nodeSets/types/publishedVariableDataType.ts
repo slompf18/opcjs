@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
 import { Float64, UInt32 } from "../../types/baseTypes";
 import { Variant } from "../../types/variant";
@@ -28,9 +28,9 @@ export class PublishedVariableDataType implements IIdentifiable {
         const obj = new PublishedVariableDataType(
             reader.readNodeId(),
             reader.readUInt32(),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readUInt32(),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readString(),
             reader.readVariant(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readQualifiedName(); } return arr; })()
@@ -41,9 +41,9 @@ export class PublishedVariableDataType implements IIdentifiable {
     encode(writer: BufferWriter): void {
         this.PublishedVariable.encode(writer);
         writer.writeUInt32(this.AttributeId);
-        writer.writeDouble(this.SamplingIntervalHint);
+        writer.writeFloat64(this.SamplingIntervalHint);
         writer.writeUInt32(this.DeadbandType);
-        writer.writeDouble(this.DeadbandValue);
+        writer.writeFloat64(this.DeadbandValue);
         writer.writeString(this.IndexRange);
         this.SubstituteValue.encode(writer);
         {

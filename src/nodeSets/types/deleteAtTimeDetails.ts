@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
-import { DateTime } from "../../types/dateTime";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -11,7 +10,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class DeleteAtTimeDetails implements IIdentifiable {
     constructor(
         public NodeId: NodeId,
-        public ReqTimes: DateTime[]
+        public ReqTimes: Date[]
     ) { }
 
     readonly id = 689
@@ -19,7 +18,7 @@ export class DeleteAtTimeDetails implements IIdentifiable {
     public static decode(reader: BufferReader): DeleteAtTimeDetails {
         const obj = new DeleteAtTimeDetails(
             reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = DateTime.decode(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDateTime(); } return arr; })()
         );
         return obj;
     }
@@ -30,7 +29,7 @@ export class DeleteAtTimeDetails implements IIdentifiable {
             const arr = this.ReqTimes ?? [];
             writer.writeInt32(arr.length);
             for (const v of arr) {
-                v.encode(writer);
+                writer.writeDateTime(v);
             }
         };
     }

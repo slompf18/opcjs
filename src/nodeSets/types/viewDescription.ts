@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
-import { DateTime } from "../../types/dateTime";
 import { UInt32 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -12,7 +11,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class ViewDescription implements IIdentifiable {
     constructor(
         public ViewId: NodeId,
-        public Timestamp: DateTime,
+        public Timestamp: Date,
         public ViewVersion: UInt32
     ) { }
 
@@ -21,7 +20,7 @@ export class ViewDescription implements IIdentifiable {
     public static decode(reader: BufferReader): ViewDescription {
         const obj = new ViewDescription(
             reader.readNodeId(),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             reader.readUInt32()
         );
         return obj;
@@ -29,7 +28,7 @@ export class ViewDescription implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         this.ViewId.encode(writer);
-        this.Timestamp.encode(writer);
+        writer.writeDateTime(this.Timestamp);
         writer.writeUInt32(this.ViewVersion);
     }
 }

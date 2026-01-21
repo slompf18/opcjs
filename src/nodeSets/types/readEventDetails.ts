@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt32 } from "../../types/baseTypes";
-import { DateTime } from "../../types/dateTime";
 import { EventFilter } from "./eventFilter";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -12,8 +11,8 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class ReadEventDetails implements IIdentifiable {
     constructor(
         public NumValuesPerNode: UInt32,
-        public StartTime: DateTime,
-        public EndTime: DateTime,
+        public StartTime: Date,
+        public EndTime: Date,
         public Filter: EventFilter
     ) { }
 
@@ -22,8 +21,8 @@ export class ReadEventDetails implements IIdentifiable {
     public static decode(reader: BufferReader): ReadEventDetails {
         const obj = new ReadEventDetails(
             reader.readUInt32(),
-            DateTime.decode(reader),
-            DateTime.decode(reader),
+            reader.readDateTime(),
+            reader.readDateTime(),
             EventFilter.decode(reader)
         );
         return obj;
@@ -31,8 +30,8 @@ export class ReadEventDetails implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         writer.writeUInt32(this.NumValuesPerNode);
-        this.StartTime.encode(writer);
-        this.EndTime.encode(writer);
+        writer.writeDateTime(this.StartTime);
+        writer.writeDateTime(this.EndTime);
         this.Filter.encode(writer);
     }
 }

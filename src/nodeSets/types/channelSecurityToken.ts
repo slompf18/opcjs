@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt32 } from "../../types/baseTypes";
-import { DateTime } from "../../types/dateTime";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -12,7 +11,7 @@ export class ChannelSecurityToken implements IIdentifiable {
     constructor(
         public ChannelId: UInt32,
         public TokenId: UInt32,
-        public CreatedAt: DateTime,
+        public CreatedAt: Date,
         public RevisedLifetime: UInt32
     ) { }
 
@@ -22,7 +21,7 @@ export class ChannelSecurityToken implements IIdentifiable {
         const obj = new ChannelSecurityToken(
             reader.readUInt32(),
             reader.readUInt32(),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             reader.readUInt32()
         );
         return obj;
@@ -31,7 +30,7 @@ export class ChannelSecurityToken implements IIdentifiable {
     encode(writer: BufferWriter): void {
         writer.writeUInt32(this.ChannelId);
         writer.writeUInt32(this.TokenId);
-        this.CreatedAt.encode(writer);
+        writer.writeDateTime(this.CreatedAt);
         writer.writeUInt32(this.RevisedLifetime);
     }
 }

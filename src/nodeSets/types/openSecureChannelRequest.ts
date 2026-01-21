@@ -1,11 +1,10 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { RequestHeader } from "./requestHeader";
-import { UInt32 } from "../../types/baseTypes";
+import { ByteString, UInt32 } from "../../types/baseTypes";
 import { SecurityTokenRequestTypeEnum } from "./securityTokenRequestType";
 import { MessageSecurityModeEnum } from "./messageSecurityMode";
-import { ByteString } from "../../types/byteString";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -29,7 +28,7 @@ export class OpenSecureChannelRequest implements IIdentifiable {
             reader.readUInt32(),
             SecurityTokenRequestTypeEnum.decode(reader),
             MessageSecurityModeEnum.decode(reader),
-            ByteString.decode(reader),
+            reader.readByteString(),
             reader.readUInt32()
         );
         return obj;
@@ -40,7 +39,7 @@ export class OpenSecureChannelRequest implements IIdentifiable {
         writer.writeUInt32(this.ClientProtocolVersion);
         SecurityTokenRequestTypeEnum.encode(writer, this.RequestType);
         MessageSecurityModeEnum.encode(writer, this.SecurityMode);
-        this.ClientNonce.encode(writer);
+        writer.writeByteString(this.ClientNonce);
         writer.writeUInt32(this.RequestedLifetime);
     }
 }

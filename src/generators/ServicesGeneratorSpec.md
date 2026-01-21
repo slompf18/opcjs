@@ -19,12 +19,11 @@ Convert `schema/Opc.Ua.NodeSet2.Services.xml` into TypeScript types (classes/enu
 
 ### Type Mapping (core)
 - Built-ins → TS:
-  - Boolean→`boolean`; SByte/Byte/Int16/UInt16/Int32/UInt32→`number`; Int64/UInt64→`bigint` (configurable to `number` with comment); Float/Double→`number`; String→`string`.
-  - DateTime→`Date` (configurable: `string | number`);
-  - Guid→`string` (UUID); ByteString→`Uint8Array`.
-  - NodeId/ExpandedNodeId→`string | number` or custom `NodeId` (configurable).
-  - LocalizedText→`{ locale?: string; text?: string }`; QualifiedName→`{ namespaceIndex: number; name: string }`.
-  - StatusCode→`number | branded type`; ExtensionObject→`unknown | branded type`.
+  - Boolean→`boolean`; SByte/Byte/Int16/UInt16/Int32/UInt32→`number`; Int64/UInt64→`bigint`; Float→`Float32` (number); Double→`Float64` (number); String→`string`.
+  - DateTime→`Date`; Guid→`Guid` (class); ByteString→`ByteString` (type alias for `Uint8Array`).
+  - NodeId→`NodeId` (class); ExpandedNodeId→`ExpandedNodeId` (class).
+  - LocalizedText→`LocalizedText` (class); QualifiedName→`QualifiedName` (class).
+  - StatusCode→`StatusCode` (enum - UInt32 values); ExtensionObject→`ExtensionObject` (class).
   - **Variant**: Fields without a `DataType` attribute are mapped to `Variant` (holds any OPC UA value).
 - Arrays: valueRank/isArray → `T[]`.
 - Optional fields: `?` (optionally `| undefined`).
@@ -37,8 +36,8 @@ Convert `schema/Opc.Ua.NodeSet2.Services.xml` into TypeScript types (classes/enu
 Template:
 ```
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
 /**
  * doc
@@ -69,10 +68,9 @@ export namespace ConversionLimitEnumEnum {
 Template:
 ```
 import { RequestHeader } from "./requestHeader";
-import { UInt32 } from "../../types/baseTypes";
+import { UInt32, ByteString } from "../../types/baseTypes";
 import { SecurityTokenRequestTypeEnum } from "./securityTokenRequestType";
 import { MessageSecurityModeEnum } from "./messageSecurityMode";
-import { ByteString } from "../../types/byteString";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**

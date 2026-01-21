@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt16 } from "../../types/baseTypes";
-import { DateTime } from "../../types/dateTime";
 import { ActionTargetDataType } from "./actionTargetDataType";
 import { DataSetMetaDataType } from "./dataSetMetaDataType";
 import { ActionMethodDataType } from "./actionMethodDataType";
@@ -18,7 +17,7 @@ export class JsonActionMetaDataMessage implements IIdentifiable {
         public PublisherId: string | undefined,
         public DataSetWriterId: UInt16,
         public DataSetWriterName: string | undefined,
-        public Timestamp: DateTime,
+        public Timestamp: Date,
         public ActionTargets: ActionTargetDataType[],
         public Request: DataSetMetaDataType,
         public Response: DataSetMetaDataType,
@@ -34,7 +33,7 @@ export class JsonActionMetaDataMessage implements IIdentifiable {
             reader.readString(),
             reader.readUInt16(),
             reader.readString(),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ActionTargetDataType.decode(reader); } return arr; })(),
             DataSetMetaDataType.decode(reader),
             DataSetMetaDataType.decode(reader),
@@ -49,7 +48,7 @@ export class JsonActionMetaDataMessage implements IIdentifiable {
         writer.writeString(this.PublisherId);
         writer.writeUInt16(this.DataSetWriterId);
         writer.writeString(this.DataSetWriterName);
-        this.Timestamp.encode(writer);
+        writer.writeDateTime(this.Timestamp);
         {
             const arr = this.ActionTargets ?? [];
             writer.writeInt32(arr.length);

@@ -1,11 +1,10 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { ApplicationDescription } from "./applicationDescription";
-import { ByteString } from "../../types/byteString";
+import { ByteString, UInt8 } from "../../types/baseTypes";
 import { MessageSecurityModeEnum } from "./messageSecurityMode";
 import { UserTokenPolicy } from "./userTokenPolicy";
-import { UInt8 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -29,7 +28,7 @@ export class EndpointDescription implements IIdentifiable {
         const obj = new EndpointDescription(
             reader.readString(),
             ApplicationDescription.decode(reader),
-            ByteString.decode(reader),
+            reader.readByteString(),
             MessageSecurityModeEnum.decode(reader),
             reader.readString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = UserTokenPolicy.decode(reader); } return arr; })(),
@@ -42,7 +41,7 @@ export class EndpointDescription implements IIdentifiable {
     encode(writer: BufferWriter): void {
         writer.writeString(this.EndpointUrl);
         this.Server.encode(writer);
-        this.ServerCertificate.encode(writer);
+        writer.writeByteString(this.ServerCertificate);
         MessageSecurityModeEnum.encode(writer, this.SecurityMode);
         writer.writeString(this.SecurityPolicyUri);
         {

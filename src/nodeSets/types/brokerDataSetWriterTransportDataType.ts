@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { BrokerTransportQualityOfServiceEnum } from "./brokerTransportQualityOfService";
 import { Float64 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -27,7 +27,7 @@ export class BrokerDataSetWriterTransportDataType implements IIdentifiable {
             reader.readString(),
             BrokerTransportQualityOfServiceEnum.decode(reader),
             reader.readString(),
-            reader.readDouble()
+            reader.readFloat64()
         );
         return obj;
     }
@@ -38,6 +38,6 @@ export class BrokerDataSetWriterTransportDataType implements IIdentifiable {
         writer.writeString(this.AuthenticationProfileUri);
         BrokerTransportQualityOfServiceEnum.encode(writer, this.RequestedDeliveryGuarantee);
         writer.writeString(this.MetaDataQueueName);
-        writer.writeDouble(this.MetaDataUpdateTime);
+        writer.writeFloat64(this.MetaDataUpdateTime);
     }
 }

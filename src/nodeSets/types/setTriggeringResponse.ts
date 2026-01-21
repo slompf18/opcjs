@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { ResponseHeader } from "./responseHeader";
 import { StatusCode } from "../../types/statusCode";
 import { DiagnosticInfo } from "../../types/diagnosticInfo";
@@ -37,7 +37,7 @@ export class SetTriggeringResponse implements IIdentifiable {
             const arr = this.AddResults ?? [];
             writer.writeInt32(arr.length);
             for (const v of arr) {
-                v.encode(writer);
+                writer.writeStatusCode(v);
             }
         };
         {
@@ -51,7 +51,7 @@ export class SetTriggeringResponse implements IIdentifiable {
             const arr = this.RemoveResults ?? [];
             writer.writeInt32(arr.length);
             for (const v of arr) {
-                v.encode(writer);
+                writer.writeStatusCode(v);
             }
         };
         {

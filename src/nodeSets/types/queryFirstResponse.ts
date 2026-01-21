@@ -1,9 +1,9 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { ResponseHeader } from "./responseHeader";
 import { QueryDataSet } from "./queryDataSet";
-import { ByteString } from "../../types/byteString";
+import { ByteString } from "../../types/baseTypes";
 import { ParsingResult } from "./parsingResult";
 import { DiagnosticInfo } from "../../types/diagnosticInfo";
 import { ContentFilterResult } from "./contentFilterResult";
@@ -28,7 +28,7 @@ export class QueryFirstResponse implements IIdentifiable {
         const obj = new QueryFirstResponse(
             ResponseHeader.decode(reader),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = QueryDataSet.decode(reader); } return arr; })(),
-            ByteString.decode(reader),
+            reader.readByteString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ParsingResult.decode(reader); } return arr; })(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
             ContentFilterResult.decode(reader)
@@ -45,7 +45,7 @@ export class QueryFirstResponse implements IIdentifiable {
                 v.encode(writer);
             }
         };
-        this.ContinuationPoint.encode(writer);
+        writer.writeByteString(this.ContinuationPoint);
         {
             const arr = this.ParsingResults ?? [];
             writer.writeInt32(arr.length);

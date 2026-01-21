@@ -1,7 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { ByteString } from "../../types/byteString";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
+import { ByteString } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -17,14 +17,14 @@ export class OptionSet implements IIdentifiable {
 
     public static decode(reader: BufferReader): OptionSet {
         const obj = new OptionSet(
-            ByteString.decode(reader),
-            ByteString.decode(reader)
+            reader.readByteString(),
+            reader.readByteString()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        this.Value.encode(writer);
-        this.ValidBits.encode(writer);
+        writer.writeByteString(this.Value);
+        writer.writeByteString(this.ValidBits);
     }
 }

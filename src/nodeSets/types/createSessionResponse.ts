@@ -1,10 +1,9 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { ResponseHeader } from "./responseHeader";
 import { NodeId } from "../../types/nodeId";
-import { Float64, UInt32 } from "../../types/baseTypes";
-import { ByteString } from "../../types/byteString";
+import { ByteString, Float64, UInt32 } from "../../types/baseTypes";
 import { EndpointDescription } from "./endpointDescription";
 import { SignedSoftwareCertificate } from "./signedSoftwareCertificate";
 import { SignatureData } from "./signatureData";
@@ -34,9 +33,9 @@ export class CreateSessionResponse implements IIdentifiable {
             ResponseHeader.decode(reader),
             reader.readNodeId(),
             reader.readNodeId(),
-            reader.readDouble(),
-            ByteString.decode(reader),
-            ByteString.decode(reader),
+            reader.readFloat64(),
+            reader.readByteString(),
+            reader.readByteString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = EndpointDescription.decode(reader); } return arr; })(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = SignedSoftwareCertificate.decode(reader); } return arr; })(),
             SignatureData.decode(reader),
@@ -49,9 +48,9 @@ export class CreateSessionResponse implements IIdentifiable {
         this.ResponseHeader.encode(writer);
         this.SessionId.encode(writer);
         this.AuthenticationToken.encode(writer);
-        writer.writeDouble(this.RevisedSessionTimeout);
-        this.ServerNonce.encode(writer);
-        this.ServerCertificate.encode(writer);
+        writer.writeFloat64(this.RevisedSessionTimeout);
+        writer.writeByteString(this.ServerNonce);
+        writer.writeByteString(this.ServerCertificate);
         {
             const arr = this.ServerEndpoints ?? [];
             writer.writeInt32(arr.length);

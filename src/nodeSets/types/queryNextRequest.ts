@@ -1,8 +1,8 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { RequestHeader } from "./requestHeader";
-import { ByteString } from "../../types/byteString";
+import { ByteString } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -21,7 +21,7 @@ export class QueryNextRequest implements IIdentifiable {
         const obj = new QueryNextRequest(
             RequestHeader.decode(reader),
             reader.readBoolean(),
-            ByteString.decode(reader)
+            reader.readByteString()
         );
         return obj;
     }
@@ -29,6 +29,6 @@ export class QueryNextRequest implements IIdentifiable {
     encode(writer: BufferWriter): void {
         this.RequestHeader.encode(writer);
         writer.writeBoolean(this.ReleaseContinuationPoint);
-        this.ContinuationPoint.encode(writer);
+        writer.writeByteString(this.ContinuationPoint);
     }
 }

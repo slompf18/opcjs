@@ -1,9 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
-import { ByteString } from "../../types/byteString";
-import { Float64 } from "../../types/baseTypes";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
+import { ByteString, Float64 } from "../../types/baseTypes";
 import { ExtensionObject } from "../../types/extensionObject";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -15,7 +13,7 @@ export class JsonActionNetworkMessage implements IIdentifiable {
         public MessageId: string | undefined,
         public MessageType: string | undefined,
         public PublisherId: string | undefined,
-        public Timestamp: DateTime,
+        public Timestamp: Date,
         public ResponseAddress: string | undefined,
         public CorrelationData: ByteString,
         public RequestorId: string | undefined,
@@ -30,11 +28,11 @@ export class JsonActionNetworkMessage implements IIdentifiable {
             reader.readString(),
             reader.readString(),
             reader.readString(),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             reader.readString(),
-            ByteString.decode(reader),
+            reader.readByteString(),
             reader.readString(),
-            reader.readDouble(),
+            reader.readFloat64(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
         );
         return obj;
@@ -44,11 +42,11 @@ export class JsonActionNetworkMessage implements IIdentifiable {
         writer.writeString(this.MessageId);
         writer.writeString(this.MessageType);
         writer.writeString(this.PublisherId);
-        this.Timestamp.encode(writer);
+        writer.writeDateTime(this.Timestamp);
         writer.writeString(this.ResponseAddress);
-        this.CorrelationData.encode(writer);
+        writer.writeByteString(this.CorrelationData);
         writer.writeString(this.RequestorId);
-        writer.writeDouble(this.TimeoutHint);
+        writer.writeFloat64(this.TimeoutHint);
         {
             const arr = this.Messages ?? [];
             writer.writeInt32(arr.length);

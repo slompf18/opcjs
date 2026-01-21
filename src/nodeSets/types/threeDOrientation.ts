@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -18,16 +18,16 @@ export class ThreeDOrientation implements IIdentifiable {
 
     public static decode(reader: BufferReader): ThreeDOrientation {
         const obj = new ThreeDOrientation(
-            reader.readDouble(),
-            reader.readDouble(),
-            reader.readDouble()
+            reader.readFloat64(),
+            reader.readFloat64(),
+            reader.readFloat64()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        writer.writeDouble(this.A);
-        writer.writeDouble(this.B);
-        writer.writeDouble(this.C);
+        writer.writeFloat64(this.A);
+        writer.writeFloat64(this.B);
+        writer.writeFloat64(this.C);
     }
 }

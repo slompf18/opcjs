@@ -1,7 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { PubSubConnectionDataType } from "./pubSubConnectionDataType";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -13,7 +12,7 @@ export class JsonActionResponderMessage implements IIdentifiable {
         public MessageId: string | undefined,
         public MessageType: string | undefined,
         public PublisherId: string | undefined,
-        public Timestamp: DateTime,
+        public Timestamp: Date,
         public Connection: PubSubConnectionDataType
     ) { }
 
@@ -24,7 +23,7 @@ export class JsonActionResponderMessage implements IIdentifiable {
             reader.readString(),
             reader.readString(),
             reader.readString(),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             PubSubConnectionDataType.decode(reader)
         );
         return obj;
@@ -34,7 +33,7 @@ export class JsonActionResponderMessage implements IIdentifiable {
         writer.writeString(this.MessageId);
         writer.writeString(this.MessageType);
         writer.writeString(this.PublisherId);
-        this.Timestamp.encode(writer);
+        writer.writeDateTime(this.Timestamp);
         this.Connection.encode(writer);
     }
 }

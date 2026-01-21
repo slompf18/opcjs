@@ -1,7 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { ByteString } from "../../types/byteString";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
+import { ByteString } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -17,14 +17,14 @@ export class SignedSoftwareCertificate implements IIdentifiable {
 
     public static decode(reader: BufferReader): SignedSoftwareCertificate {
         const obj = new SignedSoftwareCertificate(
-            ByteString.decode(reader),
-            ByteString.decode(reader)
+            reader.readByteString(),
+            reader.readByteString()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        this.CertificateData.encode(writer);
-        this.Signature.encode(writer);
+        writer.writeByteString(this.CertificateData);
+        writer.writeByteString(this.Signature);
     }
 }

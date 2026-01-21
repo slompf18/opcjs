@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { ResponseHeader } from "./responseHeader";
-import { DateTime } from "../../types/dateTime";
 import { ServerOnNetwork } from "./serverOnNetwork";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -12,7 +11,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class FindServersOnNetworkResponse implements IIdentifiable {
     constructor(
         public ResponseHeader: ResponseHeader,
-        public LastCounterResetTime: DateTime,
+        public LastCounterResetTime: Date,
         public Servers: ServerOnNetwork[]
     ) { }
 
@@ -21,7 +20,7 @@ export class FindServersOnNetworkResponse implements IIdentifiable {
     public static decode(reader: BufferReader): FindServersOnNetworkResponse {
         const obj = new FindServersOnNetworkResponse(
             ResponseHeader.decode(reader),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ServerOnNetwork.decode(reader); } return arr; })()
         );
         return obj;
@@ -29,7 +28,7 @@ export class FindServersOnNetworkResponse implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         this.ResponseHeader.encode(writer);
-        this.LastCounterResetTime.encode(writer);
+        writer.writeDateTime(this.LastCounterResetTime);
         {
             const arr = this.Servers ?? [];
             writer.writeInt32(arr.length);

@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt32 } from "../../types/baseTypes";
-import { DateTime } from "../../types/dateTime";
 import { ExtensionObject } from "../../types/extensionObject";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -12,7 +11,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class NotificationMessage implements IIdentifiable {
     constructor(
         public SequenceNumber: UInt32,
-        public PublishTime: DateTime,
+        public PublishTime: Date,
         public NotificationData: ExtensionObject[]
     ) { }
 
@@ -21,7 +20,7 @@ export class NotificationMessage implements IIdentifiable {
     public static decode(reader: BufferReader): NotificationMessage {
         const obj = new NotificationMessage(
             reader.readUInt32(),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
         );
         return obj;
@@ -29,7 +28,7 @@ export class NotificationMessage implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         writer.writeUInt32(this.SequenceNumber);
-        this.PublishTime.encode(writer);
+        writer.writeDateTime(this.PublishTime);
         {
             const arr = this.NotificationData ?? [];
             writer.writeInt32(arr.length);

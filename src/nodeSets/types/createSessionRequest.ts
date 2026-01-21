@@ -1,10 +1,9 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { RequestHeader } from "./requestHeader";
 import { ApplicationDescription } from "./applicationDescription";
-import { ByteString } from "../../types/byteString";
-import { Float64, UInt32 } from "../../types/baseTypes";
+import { ByteString, Float64, UInt32 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -32,9 +31,9 @@ export class CreateSessionRequest implements IIdentifiable {
             reader.readString(),
             reader.readString(),
             reader.readString(),
-            ByteString.decode(reader),
-            ByteString.decode(reader),
-            reader.readDouble(),
+            reader.readByteString(),
+            reader.readByteString(),
+            reader.readFloat64(),
             reader.readUInt32()
         );
         return obj;
@@ -46,9 +45,9 @@ export class CreateSessionRequest implements IIdentifiable {
         writer.writeString(this.ServerUri);
         writer.writeString(this.EndpointUrl);
         writer.writeString(this.SessionName);
-        this.ClientNonce.encode(writer);
-        this.ClientCertificate.encode(writer);
-        writer.writeDouble(this.RequestedSessionTimeout);
+        writer.writeByteString(this.ClientNonce);
+        writer.writeByteString(this.ClientCertificate);
+        writer.writeFloat64(this.RequestedSessionTimeout);
         writer.writeUInt32(this.MaxResponseMessageSize);
     }
 }

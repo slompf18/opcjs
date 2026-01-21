@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float32, Float64 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -17,14 +17,14 @@ export class XVType implements IIdentifiable {
 
     public static decode(reader: BufferReader): XVType {
         const obj = new XVType(
-            reader.readDouble(),
-            reader.readFloat()
+            reader.readFloat64(),
+            reader.readFloat32()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        writer.writeDouble(this.X);
-        writer.writeFloat(this.Value);
+        writer.writeFloat64(this.X);
+        writer.writeFloat32(this.Value);
     }
 }

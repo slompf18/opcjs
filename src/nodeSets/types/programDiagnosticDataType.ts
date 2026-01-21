@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
-import { DateTime } from "../../types/dateTime";
 import { Argument } from "./argument";
 import { StatusResult } from "./statusResult";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -14,13 +13,13 @@ export class ProgramDiagnosticDataType implements IIdentifiable {
     constructor(
         public CreateSessionId: NodeId,
         public CreateClientName: string | undefined,
-        public InvocationCreationTime: DateTime,
-        public LastTransitionTime: DateTime,
+        public InvocationCreationTime: Date,
+        public LastTransitionTime: Date,
         public LastMethodCall: string | undefined,
         public LastMethodSessionId: NodeId,
         public LastMethodInputArguments: Argument[],
         public LastMethodOutputArguments: Argument[],
-        public LastMethodCallTime: DateTime,
+        public LastMethodCallTime: Date,
         public LastMethodReturnStatus: StatusResult
     ) { }
 
@@ -30,13 +29,13 @@ export class ProgramDiagnosticDataType implements IIdentifiable {
         const obj = new ProgramDiagnosticDataType(
             reader.readNodeId(),
             reader.readString(),
-            DateTime.decode(reader),
-            DateTime.decode(reader),
+            reader.readDateTime(),
+            reader.readDateTime(),
             reader.readString(),
             reader.readNodeId(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = Argument.decode(reader); } return arr; })(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = Argument.decode(reader); } return arr; })(),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             StatusResult.decode(reader)
         );
         return obj;
@@ -45,8 +44,8 @@ export class ProgramDiagnosticDataType implements IIdentifiable {
     encode(writer: BufferWriter): void {
         this.CreateSessionId.encode(writer);
         writer.writeString(this.CreateClientName);
-        this.InvocationCreationTime.encode(writer);
-        this.LastTransitionTime.encode(writer);
+        writer.writeDateTime(this.InvocationCreationTime);
+        writer.writeDateTime(this.LastTransitionTime);
         writer.writeString(this.LastMethodCall);
         this.LastMethodSessionId.encode(writer);
         {
@@ -63,7 +62,7 @@ export class ProgramDiagnosticDataType implements IIdentifiable {
                 v.encode(writer);
             }
         };
-        this.LastMethodCallTime.encode(writer);
+        writer.writeDateTime(this.LastMethodCallTime);
         this.LastMethodReturnStatus.encode(writer);
     }
 }

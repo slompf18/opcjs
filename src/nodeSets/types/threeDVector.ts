@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -18,16 +18,16 @@ export class ThreeDVector implements IIdentifiable {
 
     public static decode(reader: BufferReader): ThreeDVector {
         const obj = new ThreeDVector(
-            reader.readDouble(),
-            reader.readDouble(),
-            reader.readDouble()
+            reader.readFloat64(),
+            reader.readFloat64(),
+            reader.readFloat64()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        writer.writeDouble(this.X);
-        writer.writeDouble(this.Y);
-        writer.writeDouble(this.Z);
+        writer.writeFloat64(this.X);
+        writer.writeFloat64(this.Y);
+        writer.writeFloat64(this.Z);
     }
 }

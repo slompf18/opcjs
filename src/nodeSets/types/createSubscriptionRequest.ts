@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { RequestHeader } from "./requestHeader";
 import { Float64, UInt32, UInt8 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -24,7 +24,7 @@ export class CreateSubscriptionRequest implements IIdentifiable {
     public static decode(reader: BufferReader): CreateSubscriptionRequest {
         const obj = new CreateSubscriptionRequest(
             RequestHeader.decode(reader),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readUInt32(),
             reader.readUInt32(),
             reader.readUInt32(),
@@ -36,7 +36,7 @@ export class CreateSubscriptionRequest implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         this.RequestHeader.encode(writer);
-        writer.writeDouble(this.RequestedPublishingInterval);
+        writer.writeFloat64(this.RequestedPublishingInterval);
         writer.writeUInt32(this.RequestedLifetimeCount);
         writer.writeUInt32(this.RequestedMaxKeepAliveCount);
         writer.writeUInt32(this.MaxNotificationsPerPublish);

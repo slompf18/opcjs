@@ -1,7 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -14,7 +13,7 @@ export class BuildInfo implements IIdentifiable {
         public ProductName: string | undefined,
         public SoftwareVersion: string | undefined,
         public BuildNumber: string | undefined,
-        public BuildDate: DateTime
+        public BuildDate: Date
     ) { }
 
     readonly id = 338
@@ -26,7 +25,7 @@ export class BuildInfo implements IIdentifiable {
             reader.readString(),
             reader.readString(),
             reader.readString(),
-            DateTime.decode(reader)
+            reader.readDateTime()
         );
         return obj;
     }
@@ -37,6 +36,6 @@ export class BuildInfo implements IIdentifiable {
         writer.writeString(this.ProductName);
         writer.writeString(this.SoftwareVersion);
         writer.writeString(this.BuildNumber);
-        this.BuildDate.encode(writer);
+        writer.writeDateTime(this.BuildDate);
     }
 }

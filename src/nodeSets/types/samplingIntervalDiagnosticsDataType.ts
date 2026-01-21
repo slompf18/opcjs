@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64, UInt32 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -19,7 +19,7 @@ export class SamplingIntervalDiagnosticsDataType implements IIdentifiable {
 
     public static decode(reader: BufferReader): SamplingIntervalDiagnosticsDataType {
         const obj = new SamplingIntervalDiagnosticsDataType(
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readUInt32(),
             reader.readUInt32(),
             reader.readUInt32()
@@ -28,7 +28,7 @@ export class SamplingIntervalDiagnosticsDataType implements IIdentifiable {
     }
 
     encode(writer: BufferWriter): void {
-        writer.writeDouble(this.SamplingInterval);
+        writer.writeFloat64(this.SamplingInterval);
         writer.writeUInt32(this.MonitoredItemCount);
         writer.writeUInt32(this.MaxMonitoredItemCount);
         writer.writeUInt32(this.DisabledMonitoredItemCount);

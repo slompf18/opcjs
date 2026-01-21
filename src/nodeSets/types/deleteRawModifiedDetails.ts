@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
-import { DateTime } from "../../types/dateTime";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -12,8 +11,8 @@ export class DeleteRawModifiedDetails implements IIdentifiable {
     constructor(
         public NodeId: NodeId,
         public IsDeleteModified: boolean,
-        public StartTime: DateTime,
-        public EndTime: DateTime
+        public StartTime: Date,
+        public EndTime: Date
     ) { }
 
     readonly id = 686
@@ -22,8 +21,8 @@ export class DeleteRawModifiedDetails implements IIdentifiable {
         const obj = new DeleteRawModifiedDetails(
             reader.readNodeId(),
             reader.readBoolean(),
-            DateTime.decode(reader),
-            DateTime.decode(reader)
+            reader.readDateTime(),
+            reader.readDateTime()
         );
         return obj;
     }
@@ -31,7 +30,7 @@ export class DeleteRawModifiedDetails implements IIdentifiable {
     encode(writer: BufferWriter): void {
         this.NodeId.encode(writer);
         writer.writeBoolean(this.IsDeleteModified);
-        this.StartTime.encode(writer);
-        this.EndTime.encode(writer);
+        writer.writeDateTime(this.StartTime);
+        writer.writeDateTime(this.EndTime);
     }
 }

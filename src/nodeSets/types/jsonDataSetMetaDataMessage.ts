@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt16 } from "../../types/baseTypes";
-import { DateTime } from "../../types/dateTime";
 import { DataSetMetaDataType } from "./dataSetMetaDataType";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -17,7 +16,7 @@ export class JsonDataSetMetaDataMessage implements IIdentifiable {
         public DataSetWriterId: UInt16,
         public WriterGroupName: string | undefined,
         public DataSetWriterName: string | undefined,
-        public Timestamp: DateTime,
+        public Timestamp: Date,
         public MetaData: DataSetMetaDataType
     ) { }
 
@@ -31,7 +30,7 @@ export class JsonDataSetMetaDataMessage implements IIdentifiable {
             reader.readUInt16(),
             reader.readString(),
             reader.readString(),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             DataSetMetaDataType.decode(reader)
         );
         return obj;
@@ -44,7 +43,7 @@ export class JsonDataSetMetaDataMessage implements IIdentifiable {
         writer.writeUInt16(this.DataSetWriterId);
         writer.writeString(this.WriterGroupName);
         writer.writeString(this.DataSetWriterName);
-        this.Timestamp.encode(writer);
+        writer.writeDateTime(this.Timestamp);
         this.MetaData.encode(writer);
     }
 }

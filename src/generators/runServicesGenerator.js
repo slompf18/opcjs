@@ -186,12 +186,12 @@ const builtInMap = {
     UInt32: { tsType: 'UInt32', decode: 'reader.readUInt32()', encode: v => `writer.writeUInt32(${v})`, base: 'UInt32' },
     Int64: { tsType: 'Int64', decode: 'reader.readInt64()', encode: v => `writer.writeInt64(${v})`, base: 'Int64' },
     UInt64: { tsType: 'UInt64', decode: 'reader.readUInt64()', encode: v => `writer.writeUInt64(${v})`, base: 'UInt64' },
-    Float: { tsType: 'Float32', decode: 'reader.readFloat()', encode: v => `writer.writeFloat(${v})`, base: 'Float32' },
-    Double: { tsType: 'Float64', decode: 'reader.readDouble()', encode: v => `writer.writeDouble(${v})`, base: 'Float64' },
+    Float: { tsType: 'Float32', decode: 'reader.readFloat32()', encode: v => `writer.writeFloat32(${v})`, base: 'Float32' },
+    Double: { tsType: 'Float64', decode: 'reader.readFloat64()', encode: v => `writer.writeFloat64(${v})`, base: 'Float64' },
     String: { tsType: 'string | undefined', decode: 'reader.readString()', encode: v => `writer.writeString(${v})` },
-    DateTime: { tsType: 'DateTime', decode: 'DateTime.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/dateTime' },
-    Guid: { tsType: 'Guid', decode: 'Guid.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/guid' },
-    ByteString: { tsType: 'ByteString', decode: 'ByteString.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/byteString' },
+    DateTime: { tsType: 'Date', decode: 'reader.readDateTime()', encode: v => `writer.writeDateTime(${v})` },
+    Guid: { tsType: 'Guid', decode: 'reader.readGuid()', encode: v => `writer.writeGuid(${v})`, importPath: 'types/guid' },
+    ByteString: { tsType: 'ByteString', decode: 'reader.readByteString()', encode: v => `writer.writeByteString(${v})`, base: 'ByteString' },
     NodeId: { tsType: 'NodeId', decode: 'reader.readNodeId()', encode: v => `${v}.encode(writer)`, importPath: 'types/nodeId' },
     ExpandedNodeId: { tsType: 'ExpandedNodeId', decode: 'reader.readExpandedNodeId()', encode: v => `${v}.encode(writer)`, importPath: 'types/expandedNodeId' },
     QualifiedName: { tsType: 'QualifiedName', decode: 'reader.readQualifiedName()', encode: v => `${v}.encode(writer)`, importPath: 'types/qualifiedName' },
@@ -203,15 +203,15 @@ const builtInMap = {
     DataValue: { tsType: 'DataValue', decode: 'reader.readDataValue()', encode: v => `${v}.encode(writer)`, importPath: 'types/dataValue' },
     Variant: { tsType: 'Variant', decode: 'reader.readVariant()', encode: v => `${v}.encode(writer)`, importPath: 'types/variant' },
     // Type aliases - primitives
-    Duration: { tsType: 'Float64', decode: 'reader.readDouble()', encode: v => `writer.writeDouble(${v})`, base: 'Float64' },
-    UtcTime: { tsType: 'DateTime', decode: 'DateTime.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/dateTime' },
+    Duration: { tsType: 'Float64', decode: 'reader.readFloat64()', encode: v => `writer.writeFloat64(${v})`, base: 'Float64' },
+    UtcTime: { tsType: 'Date', decode: 'reader.readDateTime()', encode: v => `writer.writeDateTime(${v})` },
     IntegerId: { tsType: 'UInt32', decode: 'reader.readUInt32()', encode: v => `writer.writeUInt32(${v})`, base: 'UInt32' },
     Index: { tsType: 'UInt32', decode: 'reader.readUInt32()', encode: v => `writer.writeUInt32(${v})`, base: 'UInt32' },
     Counter: { tsType: 'UInt32', decode: 'reader.readUInt32()', encode: v => `writer.writeUInt32(${v})`, base: 'UInt32' },
     Handle: { tsType: 'UInt32', decode: 'reader.readUInt32()', encode: v => `writer.writeUInt32(${v})`, base: 'UInt32' },
     VersionTime: { tsType: 'UInt32', decode: 'reader.readUInt32()', encode: v => `writer.writeUInt32(${v})`, base: 'UInt32' },
     BitFieldMaskDataType: { tsType: 'UInt64', decode: 'reader.readUInt64()', encode: v => `writer.writeUInt64(${v})`, base: 'UInt64' },
-    Decimal: { tsType: 'Float64', decode: 'reader.readDouble()', encode: v => `writer.writeDouble(${v})`, base: 'Float64' },
+    Decimal: { tsType: 'Float64', decode: 'reader.readFloat64()', encode: v => `writer.writeFloat64(${v})`, base: 'Float64' },
     // Type aliases - strings
     LocaleId: { tsType: 'string | undefined', decode: 'reader.readString()', encode: v => `writer.writeString(${v})` },
     UriString: { tsType: 'string | undefined', decode: 'reader.readString()', encode: v => `writer.writeString(${v})` },
@@ -225,24 +225,24 @@ const builtInMap = {
     TimeString: { tsType: 'string | undefined', decode: 'reader.readString()', encode: v => `writer.writeString(${v})` },
     DateString: { tsType: 'string | undefined', decode: 'reader.readString()', encode: v => `writer.writeString(${v})` },
     // Type aliases - ByteString based
-    ApplicationInstanceCertificate: { tsType: 'ByteString', decode: 'ByteString.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/byteString' },
-    ContinuationPoint: { tsType: 'ByteString', decode: 'ByteString.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/byteString' },
-    ImageBMP: { tsType: 'ByteString', decode: 'ByteString.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/byteString' },
-    ImageGIF: { tsType: 'ByteString', decode: 'ByteString.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/byteString' },
-    ImageJPG: { tsType: 'ByteString', decode: 'ByteString.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/byteString' },
-    ImagePNG: { tsType: 'ByteString', decode: 'ByteString.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/byteString' },
-    AudioDataType: { tsType: 'ByteString', decode: 'ByteString.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/byteString' },
+    ApplicationInstanceCertificate: { tsType: 'ByteString', decode: 'reader.readByteString()', encode: v => `writer.writeByteString(${v})`, base: 'ByteString' },
+    ContinuationPoint: { tsType: 'ByteString', decode: 'reader.readByteString()', encode: v => `writer.writeByteString(${v})`, base: 'ByteString' },
+    ImageBMP: { tsType: 'ByteString', decode: 'reader.readByteString()', encode: v => `writer.writeByteString(${v})`, base: 'ByteString' },
+    ImageGIF: { tsType: 'ByteString', decode: 'reader.readByteString()', encode: v => `writer.writeByteString(${v})`, base: 'ByteString' },
+    ImageJPG: { tsType: 'ByteString', decode: 'reader.readByteString()', encode: v => `writer.writeByteString(${v})`, base: 'ByteString' },
+    ImagePNG: { tsType: 'ByteString', decode: 'reader.readByteString()', encode: v => `writer.writeByteString(${v})`, base: 'ByteString' },
+    AudioDataType: { tsType: 'ByteString', decode: 'reader.readByteString()', encode: v => `writer.writeByteString(${v})`, base: 'ByteString' },
     // Type aliases - NodeId based
     SessionAuthenticationToken: { tsType: 'NodeId', decode: 'reader.readNodeId()', encode: v => `${v}.encode(writer)`, importPath: 'types/nodeId' },
     // Type aliases - ExtensionObject based
     Structure: { tsType: 'ExtensionObject', decode: 'reader.readExtensionObject()', encode: v => `${v}.encode(writer)`, importPath: 'types/extensionObject' },
-    Guid: { tsType: 'Guid', decode: 'Guid.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/guid' },
-    ByteString: { tsType: 'ByteString', decode: 'ByteString.decode(reader)', encode: v => `${v}.encode(writer)`, importPath: 'types/byteString' },
+    Guid: { tsType: 'Guid', decode: 'reader.readGuid()', encode: v => `writer.writeGuid(${v})`, importPath: 'types/guid' },
+    ByteString: { tsType: 'ByteString', decode: 'reader.readByteString()', encode: v => `writer.writeByteString(${v})`, base: 'ByteString' },
     NodeId: { tsType: 'NodeId', decode: 'reader.readNodeId()', encode: v => `${v}.encode(writer)`, importPath: 'types/nodeId' },
     ExpandedNodeId: { tsType: 'ExpandedNodeId', decode: 'reader.readExpandedNodeId()', encode: v => `${v}.encode(writer)`, importPath: 'types/expandedNodeId' },
     QualifiedName: { tsType: 'QualifiedName', decode: 'reader.readQualifiedName()', encode: v => `${v}.encode(writer)`, importPath: 'types/qualifiedName' },
     LocalizedText: { tsType: 'LocalizedText', decode: 'reader.readLocalizedText()', encode: v => `${v}.encode(writer)`, importPath: 'types/localizedText' },
-    StatusCode: { tsType: 'StatusCode', decode: 'reader.readStatusCode()', encode: v => `${v}.encode(writer)`, importPath: 'types/statusCode' },
+    StatusCode: { tsType: 'StatusCode', decode: 'reader.readStatusCode()', encode: v => `writer.writeStatusCode(${v})`, importPath: 'types/statusCode' },
     ExtensionObject: { tsType: 'ExtensionObject', decode: 'reader.readExtensionObject()', encode: v => `${v}.encode(writer)`, importPath: 'types/extensionObject' },
     XmlElement: { tsType: 'XmlElement', decode: 'reader.readXmlElement()', encode: v => `${v}.encode(writer)`, importPath: 'types/xmlElement' },
     DiagnosticInfo: { tsType: 'DiagnosticInfo', decode: 'reader.readDiagnosticInfo()', encode: v => `${v}.encode(writer)`, importPath: 'types/diagnosticInfo' },
@@ -279,6 +279,8 @@ function defaultValue(typeName, isArray) {
     switch (info.tsType) {
         case 'boolean': return 'false';
         case 'string | undefined': return 'undefined';
+        case 'Date': return 'new Date()';
+        case 'ByteString': return 'new Uint8Array()';
         case 'UInt8':
         case 'Int16':
         case 'UInt16':
@@ -290,7 +292,7 @@ function defaultValue(typeName, isArray) {
         case 'Float64':
         case 'number': return '0';
         default:
-            return info.tsType.includes('DateTime') ? 'new DateTime()' : `new ${info.tsType}()`;
+            return `new ${info.tsType}()`;
     }
 }
 
@@ -337,8 +339,8 @@ function collectImports(type, outFile, outDir) {
     };
 
     // Core
-    addImport('BufferReader', relImport(outFile, path.resolve(ROOT, 'coders/binary/bufferReader')));
-    addImport('BufferWriter', relImport(outFile, path.resolve(ROOT, 'coders/binary/bufferWriter')));
+    addImport('BufferReader', relImport(outFile, path.resolve(ROOT, 'codecs/binary/bufferReader')));
+    addImport('BufferWriter', relImport(outFile, path.resolve(ROOT, 'codecs/binary/bufferWriter')));
 
     for (const field of type.fields) {
         const info = builtInMap[field.type];

@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64, UInt32 } from "../../types/baseTypes";
 import { ExtensionObject } from "../../types/extensionObject";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -22,7 +22,7 @@ export class MonitoringParameters implements IIdentifiable {
     public static decode(reader: BufferReader): MonitoringParameters {
         const obj = new MonitoringParameters(
             reader.readUInt32(),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readExtensionObject(),
             reader.readUInt32(),
             reader.readBoolean()
@@ -32,7 +32,7 @@ export class MonitoringParameters implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         writer.writeUInt32(this.ClientHandle);
-        writer.writeDouble(this.SamplingInterval);
+        writer.writeFloat64(this.SamplingInterval);
         this.Filter.encode(writer);
         writer.writeUInt32(this.QueueSize);
         writer.writeBoolean(this.DiscardOldest);

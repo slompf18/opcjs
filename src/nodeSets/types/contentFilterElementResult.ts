@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { StatusCode } from "../../types/statusCode";
 import { DiagnosticInfo } from "../../types/diagnosticInfo";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -27,12 +27,12 @@ export class ContentFilterElementResult implements IIdentifiable {
     }
 
     encode(writer: BufferWriter): void {
-        this.StatusCode.encode(writer);
+        writer.writeStatusCode(this.StatusCode);
         {
             const arr = this.OperandStatusCodes ?? [];
             writer.writeInt32(arr.length);
             for (const v of arr) {
-                v.encode(writer);
+                writer.writeStatusCode(v);
             }
         };
         {

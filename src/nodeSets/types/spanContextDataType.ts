@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Guid } from "../../types/guid";
 import { UInt64 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -18,14 +18,14 @@ export class SpanContextDataType implements IIdentifiable {
 
     public static decode(reader: BufferReader): SpanContextDataType {
         const obj = new SpanContextDataType(
-            Guid.decode(reader),
+            reader.readGuid(),
             reader.readUInt64()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        this.TraceId.encode(writer);
+        writer.writeGuid(this.TraceId);
         writer.writeUInt64(this.SpanId);
     }
 }

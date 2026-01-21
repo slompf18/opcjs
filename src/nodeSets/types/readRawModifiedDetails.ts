@@ -1,7 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt32 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -11,8 +10,8 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class ReadRawModifiedDetails implements IIdentifiable {
     constructor(
         public IsReadModified: boolean,
-        public StartTime: DateTime,
-        public EndTime: DateTime,
+        public StartTime: Date,
+        public EndTime: Date,
         public NumValuesPerNode: UInt32,
         public ReturnBounds: boolean
     ) { }
@@ -22,8 +21,8 @@ export class ReadRawModifiedDetails implements IIdentifiable {
     public static decode(reader: BufferReader): ReadRawModifiedDetails {
         const obj = new ReadRawModifiedDetails(
             reader.readBoolean(),
-            DateTime.decode(reader),
-            DateTime.decode(reader),
+            reader.readDateTime(),
+            reader.readDateTime(),
             reader.readUInt32(),
             reader.readBoolean()
         );
@@ -32,8 +31,8 @@ export class ReadRawModifiedDetails implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         writer.writeBoolean(this.IsReadModified);
-        this.StartTime.encode(writer);
-        this.EndTime.encode(writer);
+        writer.writeDateTime(this.StartTime);
+        writer.writeDateTime(this.EndTime);
         writer.writeUInt32(this.NumValuesPerNode);
         writer.writeBoolean(this.ReturnBounds);
     }

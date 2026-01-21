@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64, UInt16, UInt8 } from "../../types/baseTypes";
 import { WriterGroupTransportDataType } from "./writerGroupTransportDataType";
 import { WriterGroupMessageDataType } from "./writerGroupMessageDataType";
@@ -28,8 +28,8 @@ export class WriterGroupDataType implements IIdentifiable {
     public static decode(reader: BufferReader): WriterGroupDataType {
         const obj = new WriterGroupDataType(
             reader.readUInt16(),
-            reader.readDouble(),
-            reader.readDouble(),
+            reader.readFloat64(),
+            reader.readFloat64(),
             reader.readUInt8(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readString(),
@@ -42,8 +42,8 @@ export class WriterGroupDataType implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         writer.writeUInt16(this.WriterGroupId);
-        writer.writeDouble(this.PublishingInterval);
-        writer.writeDouble(this.KeepAliveTime);
+        writer.writeFloat64(this.PublishingInterval);
+        writer.writeFloat64(this.KeepAliveTime);
         writer.writeUint8(this.Priority);
         {
             const arr = this.LocaleIds ?? [];

@@ -1,8 +1,8 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { RequestHeader } from "./requestHeader";
-import { ByteString } from "../../types/byteString";
+import { ByteString } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -21,7 +21,7 @@ export class BrowseNextRequest implements IIdentifiable {
         const obj = new BrowseNextRequest(
             RequestHeader.decode(reader),
             reader.readBoolean(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ByteString.decode(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })()
         );
         return obj;
     }
@@ -33,7 +33,7 @@ export class BrowseNextRequest implements IIdentifiable {
             const arr = this.ContinuationPoints ?? [];
             writer.writeInt32(arr.length);
             for (const v of arr) {
-                v.encode(writer);
+                writer.writeByteString(v);
             }
         };
     }

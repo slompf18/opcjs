@@ -1,7 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -11,7 +10,7 @@ export class Annotation implements IIdentifiable {
     constructor(
         public Message: string | undefined,
         public UserName: string | undefined,
-        public AnnotationTime: DateTime
+        public AnnotationTime: Date
     ) { }
 
     readonly id = 891
@@ -20,7 +19,7 @@ export class Annotation implements IIdentifiable {
         const obj = new Annotation(
             reader.readString(),
             reader.readString(),
-            DateTime.decode(reader)
+            reader.readDateTime()
         );
         return obj;
     }
@@ -28,6 +27,6 @@ export class Annotation implements IIdentifiable {
     encode(writer: BufferWriter): void {
         writer.writeString(this.Message);
         writer.writeString(this.UserName);
-        this.AnnotationTime.encode(writer);
+        writer.writeDateTime(this.AnnotationTime);
     }
 }

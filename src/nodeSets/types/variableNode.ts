@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Variant } from "../../types/variant";
 import { NodeId } from "../../types/nodeId";
 import { Float64, Int32, UInt32, UInt8 } from "../../types/baseTypes";
@@ -32,7 +32,7 @@ export class VariableNode implements IIdentifiable {
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readUInt8(),
             reader.readUInt8(),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readBoolean(),
             reader.readUInt32()
         );
@@ -52,7 +52,7 @@ export class VariableNode implements IIdentifiable {
         };
         writer.writeUint8(this.AccessLevel);
         writer.writeUint8(this.UserAccessLevel);
-        writer.writeDouble(this.MinimumSamplingInterval);
+        writer.writeFloat64(this.MinimumSamplingInterval);
         writer.writeBoolean(this.Historizing);
         writer.writeUInt32(this.AccessLevelEx);
     }

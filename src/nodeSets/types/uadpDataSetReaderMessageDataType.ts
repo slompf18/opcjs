@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64, UInt16, UInt32 } from "../../types/baseTypes";
 import { Guid } from "../../types/guid";
 import { UadpNetworkMessageContentMaskEnum } from "./uadpNetworkMessageContentMask";
@@ -30,12 +30,12 @@ export class UadpDataSetReaderMessageDataType implements IIdentifiable {
             reader.readUInt32(),
             reader.readUInt16(),
             reader.readUInt16(),
-            Guid.decode(reader),
+            reader.readGuid(),
             UadpNetworkMessageContentMaskEnum.decode(reader),
             UadpDataSetMessageContentMaskEnum.decode(reader),
-            reader.readDouble(),
-            reader.readDouble(),
-            reader.readDouble()
+            reader.readFloat64(),
+            reader.readFloat64(),
+            reader.readFloat64()
         );
         return obj;
     }
@@ -44,11 +44,11 @@ export class UadpDataSetReaderMessageDataType implements IIdentifiable {
         writer.writeUInt32(this.GroupVersion);
         writer.writeUInt16(this.NetworkMessageNumber);
         writer.writeUInt16(this.DataSetOffset);
-        this.DataSetClassId.encode(writer);
+        writer.writeGuid(this.DataSetClassId);
         UadpNetworkMessageContentMaskEnum.encode(writer, this.NetworkMessageContentMask);
         UadpDataSetMessageContentMaskEnum.encode(writer, this.DataSetMessageContentMask);
-        writer.writeDouble(this.PublishingInterval);
-        writer.writeDouble(this.ReceiveOffset);
-        writer.writeDouble(this.ProcessingOffset);
+        writer.writeFloat64(this.PublishingInterval);
+        writer.writeFloat64(this.ReceiveOffset);
+        writer.writeFloat64(this.ProcessingOffset);
     }
 }

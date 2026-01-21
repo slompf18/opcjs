@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Guid } from "../../types/guid";
 import { NodeId } from "../../types/nodeId";
 import { UInt32 } from "../../types/baseTypes";
@@ -26,7 +26,7 @@ export class FieldTargetDataType implements IIdentifiable {
 
     public static decode(reader: BufferReader): FieldTargetDataType {
         const obj = new FieldTargetDataType(
-            Guid.decode(reader),
+            reader.readGuid(),
             reader.readString(),
             reader.readNodeId(),
             reader.readUInt32(),
@@ -38,7 +38,7 @@ export class FieldTargetDataType implements IIdentifiable {
     }
 
     encode(writer: BufferWriter): void {
-        this.DataSetFieldId.encode(writer);
+        writer.writeGuid(this.DataSetFieldId);
         writer.writeString(this.ReceiverIndexRange);
         this.TargetNodeId.encode(writer);
         writer.writeUInt32(this.AttributeId);

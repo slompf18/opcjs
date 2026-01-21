@@ -1,9 +1,8 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt16, UInt32 } from "../../types/baseTypes";
 import { ConfigurationVersionDataType } from "./configurationVersionDataType";
-import { DateTime } from "../../types/dateTime";
 import { ActionStateEnum } from "./actionState";
 import { ExtensionObject } from "../../types/extensionObject";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -19,7 +18,7 @@ export class JsonActionRequestMessage implements IIdentifiable {
         public WriterGroupName: string | undefined,
         public MetaDataVersion: ConfigurationVersionDataType,
         public MinorVersion: UInt32,
-        public Timestamp: DateTime,
+        public Timestamp: Date,
         public MessageType: string | undefined,
         public RequestId: UInt16,
         public ActionState: ActionStateEnum,
@@ -36,7 +35,7 @@ export class JsonActionRequestMessage implements IIdentifiable {
             reader.readString(),
             ConfigurationVersionDataType.decode(reader),
             reader.readUInt32(),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             reader.readString(),
             reader.readUInt16(),
             ActionStateEnum.decode(reader),
@@ -52,7 +51,7 @@ export class JsonActionRequestMessage implements IIdentifiable {
         writer.writeString(this.WriterGroupName);
         this.MetaDataVersion.encode(writer);
         writer.writeUInt32(this.MinorVersion);
-        this.Timestamp.encode(writer);
+        writer.writeDateTime(this.Timestamp);
         writer.writeString(this.MessageType);
         writer.writeUInt16(this.RequestId);
         ActionStateEnum.encode(writer, this.ActionState);

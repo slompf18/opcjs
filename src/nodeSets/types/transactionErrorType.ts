@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
 import { StatusCode } from "../../types/statusCode";
 import { LocalizedText } from "../../types/localizedText";
@@ -29,7 +29,7 @@ export class TransactionErrorType implements IIdentifiable {
 
     encode(writer: BufferWriter): void {
         this.TargetId.encode(writer);
-        this.Error.encode(writer);
+        writer.writeStatusCode(this.Error);
         this.Message.encode(writer);
     }
 }

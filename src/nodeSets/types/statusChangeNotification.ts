@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { StatusCode } from "../../types/statusCode";
 import { DiagnosticInfo } from "../../types/diagnosticInfo";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -25,7 +25,7 @@ export class StatusChangeNotification implements IIdentifiable {
     }
 
     encode(writer: BufferWriter): void {
-        this.Status.encode(writer);
+        writer.writeStatusCode(this.Status);
         this.DiagnosticInfo.encode(writer);
     }
 }

@@ -1,8 +1,8 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { StatusCode } from "../../types/statusCode";
-import { ByteString } from "../../types/byteString";
+import { ByteString } from "../../types/baseTypes";
 import { ExtensionObject } from "../../types/extensionObject";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -21,15 +21,15 @@ export class HistoryReadResult implements IIdentifiable {
     public static decode(reader: BufferReader): HistoryReadResult {
         const obj = new HistoryReadResult(
             reader.readStatusCode(),
-            ByteString.decode(reader),
+            reader.readByteString(),
             reader.readExtensionObject()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        this.StatusCode.encode(writer);
-        this.ContinuationPoint.encode(writer);
+        writer.writeStatusCode(this.StatusCode);
+        writer.writeByteString(this.ContinuationPoint);
         this.HistoryData.encode(writer);
     }
 }

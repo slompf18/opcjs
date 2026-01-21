@@ -1,7 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt16 } from "../../types/baseTypes";
 import { NodeId } from "../../types/nodeId";
 import { LocalizedText } from "../../types/localizedText";
@@ -14,7 +13,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class LogRecord implements IIdentifiable {
     constructor(
-        public Time: DateTime,
+        public Time: Date,
         public Severity: UInt16,
         public EventType?: NodeId,
         public SourceNode?: NodeId,
@@ -28,7 +27,7 @@ export class LogRecord implements IIdentifiable {
 
     public static decode(reader: BufferReader): LogRecord {
         const obj = new LogRecord(
-            DateTime.decode(reader),
+            reader.readDateTime(),
             reader.readUInt16(),
             reader.readNodeId(),
             reader.readNodeId(),
@@ -41,7 +40,7 @@ export class LogRecord implements IIdentifiable {
     }
 
     encode(writer: BufferWriter): void {
-        this.Time.encode(writer);
+        writer.writeDateTime(this.Time);
         writer.writeUInt16(this.Severity);
         (this.EventType ?? new NodeId()).encode(writer);
         (this.SourceNode ?? new NodeId()).encode(writer);

@@ -1,9 +1,8 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt16, UInt32 } from "../../types/baseTypes";
 import { ConfigurationVersionDataType } from "./configurationVersionDataType";
-import { DateTime } from "../../types/dateTime";
 import { StatusCode } from "../../types/statusCode";
 import { ExtensionObject } from "../../types/extensionObject";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -20,7 +19,7 @@ export class JsonDataSetMessage implements IIdentifiable {
         public SequenceNumber: UInt32,
         public MetaDataVersion: ConfigurationVersionDataType,
         public MinorVersion: UInt32,
-        public Timestamp: DateTime,
+        public Timestamp: Date,
         public Status: StatusCode,
         public MessageType: string | undefined,
         public Payload: ExtensionObject
@@ -37,7 +36,7 @@ export class JsonDataSetMessage implements IIdentifiable {
             reader.readUInt32(),
             ConfigurationVersionDataType.decode(reader),
             reader.readUInt32(),
-            DateTime.decode(reader),
+            reader.readDateTime(),
             reader.readStatusCode(),
             reader.readString(),
             reader.readExtensionObject()
@@ -53,8 +52,8 @@ export class JsonDataSetMessage implements IIdentifiable {
         writer.writeUInt32(this.SequenceNumber);
         this.MetaDataVersion.encode(writer);
         writer.writeUInt32(this.MinorVersion);
-        this.Timestamp.encode(writer);
-        this.Status.encode(writer);
+        writer.writeDateTime(this.Timestamp);
+        writer.writeStatusCode(this.Status);
         writer.writeString(this.MessageType);
         this.Payload.encode(writer);
     }

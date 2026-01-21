@@ -1,10 +1,9 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { ResponseHeader } from "./responseHeader";
-import { UInt32 } from "../../types/baseTypes";
+import { ByteString, UInt32 } from "../../types/baseTypes";
 import { ChannelSecurityToken } from "./channelSecurityToken";
-import { ByteString } from "../../types/byteString";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -25,7 +24,7 @@ export class OpenSecureChannelResponse implements IIdentifiable {
             ResponseHeader.decode(reader),
             reader.readUInt32(),
             ChannelSecurityToken.decode(reader),
-            ByteString.decode(reader)
+            reader.readByteString()
         );
         return obj;
     }
@@ -34,6 +33,6 @@ export class OpenSecureChannelResponse implements IIdentifiable {
         this.ResponseHeader.encode(writer);
         writer.writeUInt32(this.ServerProtocolVersion);
         this.SecurityToken.encode(writer);
-        this.ServerNonce.encode(writer);
+        writer.writeByteString(this.ServerNonce);
     }
 }

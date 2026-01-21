@@ -1,7 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { ByteString } from "../../types/byteString";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
+import { ByteString } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -17,14 +17,14 @@ export class IssuedIdentityToken implements IIdentifiable {
 
     public static decode(reader: BufferReader): IssuedIdentityToken {
         const obj = new IssuedIdentityToken(
-            ByteString.decode(reader),
+            reader.readByteString(),
             reader.readString()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        this.TokenData.encode(writer);
+        writer.writeByteString(this.TokenData);
         writer.writeString(this.EncryptionAlgorithm);
     }
 }

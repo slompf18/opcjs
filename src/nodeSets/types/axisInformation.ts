@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { EUInformation } from "./eUInformation";
 import { Range } from "./range";
 import { LocalizedText } from "../../types/localizedText";
@@ -28,7 +28,7 @@ export class AxisInformation implements IIdentifiable {
             Range.decode(reader),
             reader.readLocalizedText(),
             AxisScaleEnumerationEnum.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDouble(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readFloat64(); } return arr; })()
         );
         return obj;
     }
@@ -42,7 +42,7 @@ export class AxisInformation implements IIdentifiable {
             const arr = this.AxisSteps ?? [];
             writer.writeInt32(arr.length);
             for (const v of arr) {
-                writer.writeDouble(v);
+                writer.writeFloat64(v);
             }
         };
     }

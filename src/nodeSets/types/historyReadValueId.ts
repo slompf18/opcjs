@@ -1,9 +1,9 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
 import { QualifiedName } from "../../types/qualifiedName";
-import { ByteString } from "../../types/byteString";
+import { ByteString } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -24,7 +24,7 @@ export class HistoryReadValueId implements IIdentifiable {
             reader.readNodeId(),
             reader.readString(),
             reader.readQualifiedName(),
-            ByteString.decode(reader)
+            reader.readByteString()
         );
         return obj;
     }
@@ -33,6 +33,6 @@ export class HistoryReadValueId implements IIdentifiable {
         this.NodeId.encode(writer);
         writer.writeString(this.IndexRange);
         this.DataEncoding.encode(writer);
-        this.ContinuationPoint.encode(writer);
+        writer.writeByteString(this.ContinuationPoint);
     }
 }

@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Variant } from "../../types/variant";
 import { Float64, UInt16, UInt32 } from "../../types/baseTypes";
 import { DataSetMetaDataType } from "./dataSetMetaDataType";
@@ -48,7 +48,7 @@ export class DataSetReaderDataType implements IIdentifiable {
             reader.readUInt16(),
             DataSetMetaDataType.decode(reader),
             DataSetFieldContentMaskEnum.decode(reader),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readUInt32(),
             reader.readString(),
             MessageSecurityModeEnum.decode(reader),
@@ -70,7 +70,7 @@ export class DataSetReaderDataType implements IIdentifiable {
         writer.writeUInt16(this.DataSetWriterId);
         this.DataSetMetaData.encode(writer);
         DataSetFieldContentMaskEnum.encode(writer, this.DataSetFieldContentMask);
-        writer.writeDouble(this.MessageReceiveTimeout);
+        writer.writeFloat64(this.MessageReceiveTimeout);
         writer.writeUInt32(this.KeyFrameCount);
         writer.writeString(this.HeaderLayoutUri);
         MessageSecurityModeEnum.encode(writer, this.SecurityMode);

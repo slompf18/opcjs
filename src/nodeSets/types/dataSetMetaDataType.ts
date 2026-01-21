@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { LocalizedText } from "../../types/localizedText";
 import { FieldMetaData } from "./fieldMetaData";
 import { Guid } from "../../types/guid";
@@ -26,7 +26,7 @@ export class DataSetMetaDataType implements IIdentifiable {
             reader.readString(),
             reader.readLocalizedText(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = FieldMetaData.decode(reader); } return arr; })(),
-            Guid.decode(reader),
+            reader.readGuid(),
             ConfigurationVersionDataType.decode(reader)
         );
         return obj;
@@ -42,7 +42,7 @@ export class DataSetMetaDataType implements IIdentifiable {
                 v.encode(writer);
             }
         };
-        this.DataSetClassId.encode(writer);
+        writer.writeGuid(this.DataSetClassId);
         this.ConfigurationVersion.encode(writer);
     }
 }

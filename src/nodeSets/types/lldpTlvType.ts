@@ -1,8 +1,7 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { UInt32 } from "../../types/baseTypes";
-import { ByteString } from "../../types/byteString";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
+import { ByteString, UInt32 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
 /**
@@ -19,13 +18,13 @@ export class LldpTlvType implements IIdentifiable {
     public static decode(reader: BufferReader): LldpTlvType {
         const obj = new LldpTlvType(
             reader.readUInt32(),
-            ByteString.decode(reader)
+            reader.readByteString()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
         writer.writeUInt32(this.TlvType);
-        this.TlvInfo.encode(writer);
+        writer.writeByteString(this.TlvInfo);
     }
 }

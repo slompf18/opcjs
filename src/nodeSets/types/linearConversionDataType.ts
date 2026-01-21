@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float32 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -19,18 +19,18 @@ export class LinearConversionDataType implements IIdentifiable {
 
     public static decode(reader: BufferReader): LinearConversionDataType {
         const obj = new LinearConversionDataType(
-            reader.readFloat(),
-            reader.readFloat(),
-            reader.readFloat(),
-            reader.readFloat()
+            reader.readFloat32(),
+            reader.readFloat32(),
+            reader.readFloat32(),
+            reader.readFloat32()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        writer.writeFloat(this.InitialAddend);
-        writer.writeFloat(this.Multiplicand);
-        writer.writeFloat(this.Divisor);
-        writer.writeFloat(this.FinalAddend);
+        writer.writeFloat32(this.InitialAddend);
+        writer.writeFloat32(this.Multiplicand);
+        writer.writeFloat32(this.Divisor);
+        writer.writeFloat32(this.FinalAddend);
     }
 }

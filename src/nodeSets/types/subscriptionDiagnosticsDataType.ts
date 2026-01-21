@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
 import { Float64, UInt32, UInt8 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -50,7 +50,7 @@ export class SubscriptionDiagnosticsDataType implements IIdentifiable {
             reader.readNodeId(),
             reader.readUInt32(),
             reader.readUInt8(),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readUInt32(),
             reader.readUInt32(),
             reader.readUInt32(),
@@ -86,7 +86,7 @@ export class SubscriptionDiagnosticsDataType implements IIdentifiable {
         this.SessionId.encode(writer);
         writer.writeUInt32(this.SubscriptionId);
         writer.writeUint8(this.Priority);
-        writer.writeDouble(this.PublishingInterval);
+        writer.writeFloat64(this.PublishingInterval);
         writer.writeUInt32(this.MaxKeepAliveCount);
         writer.writeUInt32(this.MaxLifetimeCount);
         writer.writeUInt32(this.MaxNotificationsPerPublish);

@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { StatusCode } from "../../types/statusCode";
 import { Float64, UInt32 } from "../../types/baseTypes";
 import { ExtensionObject } from "../../types/extensionObject";
@@ -24,7 +24,7 @@ export class MonitoredItemCreateResult implements IIdentifiable {
         const obj = new MonitoredItemCreateResult(
             reader.readStatusCode(),
             reader.readUInt32(),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readUInt32(),
             reader.readExtensionObject()
         );
@@ -32,9 +32,9 @@ export class MonitoredItemCreateResult implements IIdentifiable {
     }
 
     encode(writer: BufferWriter): void {
-        this.StatusCode.encode(writer);
+        writer.writeStatusCode(this.StatusCode);
         writer.writeUInt32(this.MonitoredItemId);
-        writer.writeDouble(this.RevisedSamplingInterval);
+        writer.writeFloat64(this.RevisedSamplingInterval);
         writer.writeUInt32(this.RevisedQueueSize);
         this.FilterResult.encode(writer);
     }

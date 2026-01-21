@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -17,14 +17,14 @@ export class DoubleComplexNumberType implements IIdentifiable {
 
     public static decode(reader: BufferReader): DoubleComplexNumberType {
         const obj = new DoubleComplexNumberType(
-            reader.readDouble(),
-            reader.readDouble()
+            reader.readFloat64(),
+            reader.readFloat64()
         );
         return obj;
     }
 
     encode(writer: BufferWriter): void {
-        writer.writeDouble(this.Real);
-        writer.writeDouble(this.Imaginary);
+        writer.writeFloat64(this.Real);
+        writer.writeFloat64(this.Imaginary);
     }
 }

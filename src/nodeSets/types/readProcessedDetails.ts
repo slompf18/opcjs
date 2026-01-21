@@ -1,7 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
-import { DateTime } from "../../types/dateTime";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { Float64 } from "../../types/baseTypes";
 import { NodeId } from "../../types/nodeId";
 import { AggregateConfiguration } from "./aggregateConfiguration";
@@ -12,8 +11,8 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class ReadProcessedDetails implements IIdentifiable {
     constructor(
-        public StartTime: DateTime,
-        public EndTime: DateTime,
+        public StartTime: Date,
+        public EndTime: Date,
         public ProcessingInterval: Float64,
         public AggregateType: NodeId[],
         public AggregateConfiguration: AggregateConfiguration
@@ -23,9 +22,9 @@ export class ReadProcessedDetails implements IIdentifiable {
 
     public static decode(reader: BufferReader): ReadProcessedDetails {
         const obj = new ReadProcessedDetails(
-            DateTime.decode(reader),
-            DateTime.decode(reader),
-            reader.readDouble(),
+            reader.readDateTime(),
+            reader.readDateTime(),
+            reader.readFloat64(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })(),
             AggregateConfiguration.decode(reader)
         );
@@ -33,9 +32,9 @@ export class ReadProcessedDetails implements IIdentifiable {
     }
 
     encode(writer: BufferWriter): void {
-        this.StartTime.encode(writer);
-        this.EndTime.encode(writer);
-        writer.writeDouble(this.ProcessingInterval);
+        writer.writeDateTime(this.StartTime);
+        writer.writeDateTime(this.EndTime);
+        writer.writeFloat64(this.ProcessingInterval);
         {
             const arr = this.AggregateType ?? [];
             writer.writeInt32(arr.length);

@@ -1,10 +1,9 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { NodeId } from "../../types/nodeId";
 import { ApplicationDescription } from "./applicationDescription";
 import { Float64, UInt32 } from "../../types/baseTypes";
-import { DateTime } from "../../types/dateTime";
 import { ServiceCounterDataType } from "./serviceCounterDataType";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
 
@@ -21,8 +20,8 @@ export class SessionDiagnosticsDataType implements IIdentifiable {
         public LocaleIds: string | undefined[],
         public ActualSessionTimeout: Float64,
         public MaxResponseMessageSize: UInt32,
-        public ClientConnectionTime: DateTime,
-        public ClientLastContactTime: DateTime,
+        public ClientConnectionTime: Date,
+        public ClientLastContactTime: Date,
         public CurrentSubscriptionsCount: UInt32,
         public CurrentMonitoredItemsCount: UInt32,
         public CurrentPublishRequestsInQueue: UInt32,
@@ -68,10 +67,10 @@ export class SessionDiagnosticsDataType implements IIdentifiable {
             reader.readString(),
             reader.readString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readUInt32(),
-            DateTime.decode(reader),
-            DateTime.decode(reader),
+            reader.readDateTime(),
+            reader.readDateTime(),
             reader.readUInt32(),
             reader.readUInt32(),
             reader.readUInt32(),
@@ -122,10 +121,10 @@ export class SessionDiagnosticsDataType implements IIdentifiable {
                 writer.writeString(v);
             }
         };
-        writer.writeDouble(this.ActualSessionTimeout);
+        writer.writeFloat64(this.ActualSessionTimeout);
         writer.writeUInt32(this.MaxResponseMessageSize);
-        this.ClientConnectionTime.encode(writer);
-        this.ClientLastContactTime.encode(writer);
+        writer.writeDateTime(this.ClientConnectionTime);
+        writer.writeDateTime(this.ClientLastContactTime);
         writer.writeUInt32(this.CurrentSubscriptionsCount);
         writer.writeUInt32(this.CurrentMonitoredItemsCount);
         writer.writeUInt32(this.CurrentPublishRequestsInQueue);

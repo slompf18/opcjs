@@ -1,6 +1,6 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../coders/binary/bufferReader";
-import { BufferWriter } from "../../coders/binary/bufferWriter";
+import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { ResponseHeader } from "./responseHeader";
 import { Float64, UInt32 } from "../../types/baseTypes";
 import { IIdentifiable } from "../../codecs/iIdentifiable";
@@ -23,7 +23,7 @@ export class CreateSubscriptionResponse implements IIdentifiable {
         const obj = new CreateSubscriptionResponse(
             ResponseHeader.decode(reader),
             reader.readUInt32(),
-            reader.readDouble(),
+            reader.readFloat64(),
             reader.readUInt32(),
             reader.readUInt32()
         );
@@ -33,7 +33,7 @@ export class CreateSubscriptionResponse implements IIdentifiable {
     encode(writer: BufferWriter): void {
         this.ResponseHeader.encode(writer);
         writer.writeUInt32(this.SubscriptionId);
-        writer.writeDouble(this.RevisedPublishingInterval);
+        writer.writeFloat64(this.RevisedPublishingInterval);
         writer.writeUInt32(this.RevisedLifetimeCount);
         writer.writeUInt32(this.RevisedMaxKeepAliveCount);
     }
