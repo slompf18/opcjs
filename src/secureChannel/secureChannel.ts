@@ -53,9 +53,7 @@ export class SecureChannel {
                 0 // will be set from response
             ),
             new MsgSecurityHeaderAsymmetric(
-                'http://opcfoundation.org/UA/SecurityPolicy#None',
-                new Uint8Array(), // todo: get certificate if security policy is not None
-                new Uint8Array()
+                'http://opcfoundation.org/UA/SecurityPolicy#None'
             ), new MsgSequenceHeader(this.sequenceNumber++, this.requestNumber++),
             requestBuffer.getData()
         )
@@ -96,7 +94,8 @@ export class SecureChannel {
                     headerLength,
                     this.securityPolicy.getAlgorithmAsymmetric(new Uint8Array(), new Uint8Array()));
                 
-                const response = SchemaCodec.decode(new BufferReader(msg.body));
+                console.log(buffer.toString());
+                const response = SchemaCodec.decode(buffer);
 
                 const requestId = msg.sequenceHeader.requestId;
                 const resolver = this.resolvers.get(requestId);

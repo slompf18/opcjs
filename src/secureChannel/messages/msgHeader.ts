@@ -3,6 +3,7 @@ import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { UInt32 } from "../../types/baseTypes";
 import { MsgType } from "./msgType";
 
+// https://reference.opcfoundation.org/Core/Part6/v105/docs/6.7.2.2
 export class MsgHeader{
     constructor(
         public msgType: MsgType,

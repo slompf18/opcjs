@@ -6,6 +6,7 @@ import { MsgHeader } from "./msgHeader";
 import { MsgSecurityHeaderAsymmetric } from "./msgSecurityHeaderAsymmetric";
 import { MsgSequenceHeader } from "./msgSequenceHeader";
 
+// https://reference.opcfoundation.org/Core/Part6/v105/docs/6.7.2
 export class MsgAsymmetric extends MsgBase {
     constructor(
         public header: MsgHeader,

@@ -97,7 +97,7 @@ export class BufferWriter {
 
     public writeString(value: string | undefined): void {
         let encoded = undefined
-        if (value) {
+        if (value && value !== '') {
             encoded = new TextEncoder().encode(value);
         }
         this.writeByteString(encoded);

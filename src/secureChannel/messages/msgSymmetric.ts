@@ -6,6 +6,7 @@ import { MsgSequenceHeader } from "./msgSequenceHeader";
 import { IEncryptionAlgorithm } from "../../cryption/iEncryptionAlgorithm";
 import { MsgBase } from "./msgBase";
 
+// https://reference.opcfoundation.org/Core/Part6/v105/docs/6.7.2
 export class MsgSymmetric extends MsgBase {
     constructor(
         public header: MsgHeader,

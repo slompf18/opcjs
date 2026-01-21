@@ -1,11 +1,12 @@
 import { BufferReader } from "../../codecs/binary/bufferReader";
 import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
+// https://reference.opcfoundation.org/Core/Part6/v105/docs/6.7.2.3
 export class MsgSecurityHeaderAsymmetric {
     constructor(
         public securityPolicyUri: string,
-        public senderCertificate: Uint8Array,
-        public receiverCertificateThumbprint: Uint8Array
+        public senderCertificate?: Uint8Array,
+        public receiverCertificateThumbprint?: Uint8Array
     ) { }
 
     static decode(buffer:BufferReader): MsgSecurityHeaderAsymmetric {

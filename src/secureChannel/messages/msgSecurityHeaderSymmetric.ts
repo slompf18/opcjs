@@ -1,6 +1,7 @@
 import { BufferReader } from "../../codecs/binary/bufferReader";
 import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
+// https://reference.opcfoundation.org/Core/Part6/v105/docs/6.7.2.3
 export class MsgSecurityHeaderSymmetric {
     constructor(public tokenId: number) { }
 

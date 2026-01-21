@@ -82,6 +82,9 @@ export class BufferReader {
 
     public readString(): string {
         const bytes = this.readByteString();
+        if (bytes === undefined) {
+            return '';
+        }
         return new TextDecoder().decode(bytes);
     }
 
@@ -91,9 +94,9 @@ export class BufferReader {
         return bytes;
     }
 
-    public readByteString(): ByteString {
+    public readByteString(): ByteString | undefined {
         const length = this.readInt32();
-        if (length < 0) return new Uint8Array();
+        if (length < 0) return undefined;
         return this.readBytes(length);
     }
 
@@ -161,6 +164,66 @@ export class BufferReader {
 
     getPosition(): number {
         return this.position;
+    }
+
+    public toString(): string {
+        const lines: string[] = [];
+        let currentLine: string[] = [];
+        let lineStartOffset = 0;
+        
+        for (let i = 0; i < this.buffer.length; i++) {
+            // Start a new line - add offset prefix
+            if (i % 16 === 0) {
+                lineStartOffset = i;
+            }
+            
+            // Add position marker before the current position byte
+            if (i === this.position) {
+                // Finalize current line if it has content
+                if (currentLine.length > 0) {
+                    lines.push(lineStartOffset + ': ' + currentLine.join(''));
+                    currentLine = [];
+                }
+                
+                // Add marker line with offset prefix spacing
+                const bytesBeforeInLine = i % 16;
+                const offsetWidth = lineStartOffset.toString().length + 2; // offset + ": "
+                const spaces = bytesBeforeInLine * 3 + (bytesBeforeInLine > 8 ? 1 : 0);
+                lines.push(' '.repeat(offsetWidth) + ' '.repeat(spaces) + '=>');
+                
+                // Update lineStartOffset for the new line starting at position
+                lineStartOffset = i - (i % 16);
+            }
+            
+            const byte = this.buffer[i];
+            const ascii = byte >= 32 && byte <= 126 ? String.fromCharCode(byte) : '.';
+            
+            // Add byte with spacing
+            currentLine.push(ascii);
+            currentLine.push(' ');
+            
+            // Add extra space after 8th byte
+            if ((i + 1) % 16 === 8) {
+                currentLine.push(' ');
+            }
+            
+            // New line after 16 bytes
+            if ((i + 1) % 16 === 0) {
+                lines.push(lineStartOffset + ': ' + currentLine.join(''));
+                currentLine = [];
+            }
+        }
+        
+        // Add remaining bytes if any (only if position is not at the end)
+        if (this.position < this.buffer.length && currentLine.length > 0) {
+            lines.push(lineStartOffset + ': ' + currentLine.join(''));
+        }
+        
+        // Add position and length information
+        lines.push('');
+        lines.push(`Position: ${this.position}, Length: ${this.buffer.length}`);
+        
+        return lines.join('\n');
     }
 
     constructor(data: Uint8Array) {
