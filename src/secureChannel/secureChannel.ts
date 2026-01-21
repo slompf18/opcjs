@@ -1,6 +1,7 @@
 import { BufferReader } from "../codecs/binary/bufferReader";
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IEncodable } from "../codecs/iEncodable";
+import { SchemaCodec } from "../nodeSets/schemaCodec";
 import { OpenSecureChannelRequest, RequestHeader, SecurityTokenRequestTypeEnum, MessageSecurityModeEnum, OpenSecureChannelResponse } from "../nodeSets/types";
 import { SecurityPolicyNone } from "../security/securityPolicyNone";
 import { ITransportChannel } from "../transports/iTransportChannel";
@@ -95,11 +96,13 @@ export class SecureChannel {
                     headerLength,
                     this.securityPolicy.getAlgorithmAsymmetric(new Uint8Array(), new Uint8Array()));
                 
+                const response = SchemaCodec.decode(new BufferReader(msg.body));
+
                 const requestId = msg.sequenceHeader.requestId;
                 const resolver = this.resolvers.get(requestId);
                 this.resolvers.delete(msg.sequenceHeader.requestId);
                 if (resolver) {
-                    resolver(msg);
+                    resolver(response);
                 } else {
                     console.warn("No resolver found for requestId:", requestId);
                 }

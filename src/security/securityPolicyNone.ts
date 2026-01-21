@@ -1,7 +1,7 @@
 import { ICertificate } from "../certificates/iCertificate";
 import { EncryptionAlgorithmUnauthenticated } from "../cryption/encryptionAlgorithmUnauthenticated";
 import { IEncryptionAlgorithm } from "../cryption/iEncryptionAlgorithm";
-import { MessageSecurityModeEnum } from "../nodeSet/generated";
+import { MessageSecurityModeEnum } from "../nodeSets/types";
 
 export class SecurityPolicyNone{
     getSecurityMode(): MessageSecurityModeEnum{

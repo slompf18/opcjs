@@ -48,9 +48,14 @@ function parseNodeIds(csvPath) {
             const nodeId = parts[1].trim();
             const nodeClass = parts[2].trim();
             
-            // Only store DataType entries
+            // Store DataType entries
             if (nodeClass === 'DataType') {
                 nodeIds.set(typeName, parseInt(nodeId, 10));
+            }
+            // Also store Encoding_DefaultBinary entries for encoder IDs
+            if (typeName.endsWith('_Encoding_DefaultBinary')) {
+                const baseTypeName = typeName.replace('_Encoding_DefaultBinary', '');
+                nodeIds.set(baseTypeName + '_EncoderId', parseInt(nodeId, 10));
             }
         }
     }
@@ -505,13 +510,24 @@ function generateBinaryEncoders(dataTypes) {
     lines.push('// AUTO-GENERATED – DO NOT EDIT');
     lines.push('import { BufferWriter } from "../codecs/binary/bufferWriter";');
     lines.push('import { IIdentifiable } from "../codecs/iIdentifiable";');
+    lines.push('import { ExpandedNodeId } from "../types/expandedNodeId";');
+    lines.push('import { NodeId } from "../types/nodeId";');
+    lines.push('');
+    lines.push('export const encodeId = (writer: BufferWriter, encoderId: number) => {');
+    lines.push('   const id = new ExpandedNodeId(NodeId.NewFourByte(0,encoderId));');
+    lines.push('   writer.writeExpandedNodeId(id);');
+    lines.push('}');
     lines.push('');
     
     // Generate encoder functions with dynamic require
     for (const dt of dataTypes) {
         if (dt.kind === 'structure') {
             const funcName = `encode${dt.name}`;
+            const encoderId = nodeIdsMap.get(dt.name + '_EncoderId');
             lines.push(`export const ${funcName} = (writer: BufferWriter, identifiable: IIdentifiable) => {`);
+            if (encoderId !== undefined) {
+                lines.push(`    encodeId(writer, ${encoderId});`);
+            }
             lines.push(`    (identifiable as any).encode(writer);`);
             lines.push('};');
             lines.push('');
@@ -546,14 +562,16 @@ function generateSchemaCodec(dataTypes) {
     lines.push('        }');
     lines.push('    }');
     lines.push('');
-    lines.push('    public static decode<T>(reader: BufferReader, id: number): T {');
+    lines.push('    public static decode(reader: BufferReader): unknown {');
+    lines.push('        const eid = reader.readExpandedNodeId();');
+    lines.push('        const id = eid.NodeId.Identifier as number;');
     lines.push('        switch (id) {');
     
     // Generate decoder switch cases sorted by id
     const decoderCases = dataTypes
         .filter(dt => dt.kind === 'structure' && dt.id !== undefined)
         .sort((a, b) => a.id - b.id)
-        .map(dt => `            case ${dt.id}: return require("./binaryDecoders").decode${dt.name}(reader) as T;`);
+        .map(dt => `            case ${dt.id}: return require("./binaryDecoders").decode${dt.name}(reader);`);
     
     lines.push(...decoderCases);
     lines.push('            default:');

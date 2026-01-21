@@ -81,7 +81,7 @@ export class BufferReader {
     }
 
     public readString(): string {
-        const bytes = this.readByteArray();
+        const bytes = this.readByteString();
         return new TextDecoder().decode(bytes);
     }
 
@@ -89,12 +89,6 @@ export class BufferReader {
         const bytes = this.buffer.subarray(this.position, this.position + length);
         this.position += length;
         return bytes;
-    }
-
-    public readByteArray(): Uint8Array {
-        const length = this.readInt32();
-        if (length < 0) return new Uint8Array();
-        return this.readBytes(length);
     }
 
     public readByteString(): ByteString {

@@ -10,8 +10,8 @@ export class MsgSecurityHeaderAsymmetric {
 
     static decode(buffer:BufferReader): MsgSecurityHeaderAsymmetric {
         const securityPolicyUri = buffer.readString();
-        const senderCertificate = buffer.readByteArray();
-        const receiverCertificateThumbprint = buffer.readByteArray();
+        const senderCertificate = buffer.readByteString();
+        const receiverCertificateThumbprint = buffer.readByteString();
         return new MsgSecurityHeaderAsymmetric(
             securityPolicyUri,
             senderCertificate,
@@ -21,7 +21,7 @@ export class MsgSecurityHeaderAsymmetric {
 
     encode(buffer: BufferWriter) {
         buffer.writeString(this.securityPolicyUri);
-        buffer.writeByteArray(this.senderCertificate);
-        buffer.writeByteArray(this.receiverCertificateThumbprint);
+        buffer.writeByteString(this.senderCertificate);
+        buffer.writeByteString(this.receiverCertificateThumbprint);
     }
 }

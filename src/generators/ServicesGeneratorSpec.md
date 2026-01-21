@@ -127,8 +127,18 @@ nodeSets/binaryEncoders.ts
 ```
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../codecs/iIdentifiable";
+import { ExpandedNodeId } from "../types/expandedNodeId";
+import { NodeId } from "../types/nodeId";
 
-export const encodeOpenSecureChannelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {    (identifiable as any).encode(writer);}
+export const encodeId = (writer: BufferWriter, encoderId: number) => {
+   const id = new ExpandedNodeId(NodeId.NewFourByte(0,encoderId));
+   writer.writeExpandedNodeId(id);
+}
+
+export const encodeOpenSecureChannelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {    
+  encodeId(writer, 446);
+  (identifiable as any).encode(writer);
+}
 ```
 
 nodeSets/schemaCodec.ts
@@ -143,18 +153,20 @@ export class SchemaCodec {
         const id = obj.id;
         switch (id) {
             case 29: require("./binaryEncoders").encodeEnumeration(writer, obj); break;
-            case 444: require("./binaryEncoders").encodeOpenSecureChannelRequest(writer, obj); break;
+            case 446: require("./binaryEncoders").encodeOpenSecureChannelRequest(writer, obj); break;
             case 447: require("./binaryEncoders").encodeOpenSecureChannelResponse(writer, obj); break;
             default:
                 throw new Error(`Binary encoder for id ${id} not found`);
         }
     }
 
-    public static decode<T>(reader: BufferReader, id: number): T {
+    public static decode(reader: BufferReader): unknown {
+        const eid = reader.readExpandedNodeId();
+        const id = eid.NodeId.Identifier as number;
         switch (id) {
-            case 29: return require("./binaryDecoders").decodeEnumeration(reader) as T;
-            case 444: return require("./binaryDecoders").decodeOpenSecureChannelRequest(reader) as T;
-            case 447: return require("./binaryDecoders").decodeOpenSecureChannelResponse(reader) as T;
+            case 29: return require("./binaryDecoders").decodeEnumeration(reader);
+            case 444: return require("./binaryDecoders").decodeOpenSecureChannelRequest(reader);
+            case 447: return require("./binaryDecoders").decodeOpenSecureChannelResponse(reader)‚;
             default:
                 throw new Error(`Binary decoder for id ${id} not found`);
         }
@@ -166,6 +178,7 @@ export class SchemaCodec {
 - All imports in binaryDecoders and binaryEncoders use `require()` to dynamically load types where needed, avoiding massive import statements.
 - Switch cases in schemaCodec.ts must be **sorted by id** (ascending order) for maintainability and binary search optimization.
 - Encoder functions use `(identifiable as any).encode(writer)` to avoid TypeScript type system conflicts with dynamic require() loading.
+- The decode method reads the ExpandedNodeId from the buffer first, then extracts the numeric identifier for the switch statement.
 - Decoder functions use dynamic `require()` to load the type class and call its static `decode()` method.
 
 ## Testing
