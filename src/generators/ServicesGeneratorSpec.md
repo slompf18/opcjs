@@ -146,17 +146,10 @@ All encoder functions are organized in a static `BinaryEncoders` class with inli
 ```typescript
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../codecs/iIdentifiable";
-import { ExpandedNodeId } from "../types/expandedNodeId";
 import { NodeId } from "../types/nodeId";
 
 export class BinaryEncoders {
-    static encodeId = (writer: BufferWriter, encoderId: number) => {
-        const id = new ExpandedNodeId(NodeId.NewFourByte(0, encoderId));
-        writer.writeExpandedNodeId(id);
-    };
-
     static encodeOpenSecureChannelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 446);  // Uses encoding ID (446), not type ID (444)
         const { SecurityTokenRequestTypeEnum } = require("./types/securityTokenRequestType");
         const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         const obj = identifiable as any;
@@ -170,19 +163,29 @@ export class BinaryEncoders {
 }
 ```
 
+**Note**: Individual encoder functions do **not** call `encodeId()`. The type ID is written once in `SchemaCodec.encodeBinary()` before calling the encoder function.
+
 ### nodeSets/schemaCodec.ts
 The SchemaCodec class imports and uses the static encoder/decoder classes:
 ```typescript
 import { BufferReader } from "../codecs/binary/bufferReader";
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../codecs/iIdentifiable";
+import { ExpandedNodeId } from "../types/expandedNodeId";
+import { NodeId } from "../types/nodeId";
 import { BinaryEncoders } from "./binaryEncoders";
 import { BinaryDecoders } from "./binaryDecoders";
 
 export class SchemaCodec {
 
+    private static encodeId(writer: BufferWriter, id: number): void {
+        const eid = new ExpandedNodeId(NodeId.NewFourByte(0, id));
+        writer.writeExpandedNodeId(eid);
+    }
+
     public static encodeBinary(writer: BufferWriter, obj: IIdentifiable): void {
         const id = obj.id;  // Uses type ID from the object
+        SchemaCodec.encodeId(writer, id);
         switch (id) {
             case 29: BinaryEncoders.encodeEnumeration(writer, obj); break;
             case 444: BinaryEncoders.encodeOpenSecureChannelRequest(writer, obj); break;  // Type ID: 444

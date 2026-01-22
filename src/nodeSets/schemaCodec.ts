@@ -2,13 +2,21 @@
 import { BufferReader } from "../codecs/binary/bufferReader";
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../codecs/iIdentifiable";
+import { ExpandedNodeId } from "../types/expandedNodeId";
+import { NodeId } from "../types/nodeId";
 import { BinaryEncoders } from "./binaryEncoders";
 import { BinaryDecoders } from "./binaryDecoders";
 
 export class SchemaCodec {
 
+    private static encodeId(writer: BufferWriter, id: number): void {
+        const eid = new ExpandedNodeId(NodeId.NewFourByte(0, id));
+        writer.writeExpandedNodeId(eid);
+    }
+
     public static encodeBinary(writer: BufferWriter, obj: IIdentifiable): void {
         const id = obj.id;
+        SchemaCodec.encodeId(writer, id);
         switch (id) {
             case 29: BinaryEncoders.encodeEnumeration(writer, obj); break;
             case 96: BinaryEncoders.encodeRolePermissionType(writer, obj); break;

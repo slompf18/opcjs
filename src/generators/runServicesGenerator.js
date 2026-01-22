@@ -519,24 +519,15 @@ function generateBinaryEncoders(dataTypes) {
     lines.push('// AUTO-GENERATED – DO NOT EDIT');
     lines.push('import { BufferWriter } from "../codecs/binary/bufferWriter";');
     lines.push('import { IIdentifiable } from "../codecs/iIdentifiable";');
-    lines.push('import { ExpandedNodeId } from "../types/expandedNodeId";');
     lines.push('import { NodeId } from "../types/nodeId";');
     lines.push('');
     lines.push('export class BinaryEncoders {');
-    lines.push('    static encodeId = (writer: BufferWriter, encoderId: number) => {');
-    lines.push('        const id = new ExpandedNodeId(NodeId.NewFourByte(0,encoderId));');
-    lines.push('        writer.writeExpandedNodeId(id);');
-    lines.push('    };');
-    lines.push('');
     
     // Generate encoder functions with inline encoding logic
     for (const dt of dataTypes) {
         if (dt.kind === 'structure') {
             const funcName = `encode${dt.name}`;
             lines.push(`    static ${funcName} = (writer: BufferWriter, identifiable: IIdentifiable) => {`);
-            if (dt.encoderId !== undefined) {
-                lines.push(`        BinaryEncoders.encodeId(writer, ${dt.encoderId});`);
-            }
             
             if (dt.fields.length === 0) {
                 // Abstract type with no fields - nothing to encode
@@ -594,12 +585,22 @@ function generateSchemaCodec(dataTypes) {
     lines.push('// AUTO-GENERATED – DO NOT EDIT');
     lines.push('import { BufferReader } from "../codecs/binary/bufferReader";');
     lines.push('import { BufferWriter } from "../codecs/binary/bufferWriter";');
-    lines.push('import { IIdentifiable } from "../codecs/iIdentifiable";');    lines.push('import { BinaryEncoders } from "./binaryEncoders";');
-    lines.push('import { BinaryDecoders } from "./binaryDecoders";');    lines.push('');
+    lines.push('import { IIdentifiable } from "../codecs/iIdentifiable";');
+    lines.push('import { ExpandedNodeId } from "../types/expandedNodeId";');
+    lines.push('import { NodeId } from "../types/nodeId";');
+    lines.push('import { BinaryEncoders } from "./binaryEncoders";');
+    lines.push('import { BinaryDecoders } from "./binaryDecoders";');
+    lines.push('');
     lines.push('export class SchemaCodec {');
+    lines.push('');
+    lines.push('    private static encodeId(writer: BufferWriter, id: number): void {');
+    lines.push('        const eid = new ExpandedNodeId(NodeId.NewFourByte(0, id));');
+    lines.push('        writer.writeExpandedNodeId(eid);');
+    lines.push('    }');
     lines.push('');
     lines.push('    public static encodeBinary(writer: BufferWriter, obj: IIdentifiable): void {');
     lines.push('        const id = obj.id;');
+    lines.push('        SchemaCodec.encodeId(writer, id);');
     lines.push('        switch (id) {');
     
     // Generate encoder switch cases sorted by id

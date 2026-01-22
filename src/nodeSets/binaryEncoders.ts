@@ -1,33 +1,24 @@
 // AUTO-GENERATED – DO NOT EDIT
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../codecs/iIdentifiable";
-import { ExpandedNodeId } from "../types/expandedNodeId";
 import { NodeId } from "../types/nodeId";
 
 export class BinaryEncoders {
-    static encodeId = (writer: BufferWriter, encoderId: number) => {
-        const id = new ExpandedNodeId(NodeId.NewFourByte(0,encoderId));
-        writer.writeExpandedNodeId(id);
-    };
-
     static encodeEnumeration = (writer: BufferWriter, identifiable: IIdentifiable) => {
         // Abstract type - no fields to encode
     };
 
     static encodeUnion = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12766);
         // Abstract type - no fields to encode
     };
 
     static encodeKeyValuePair = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 14846);
         const obj = identifiable as any;
         obj.Key.encode(writer);
         obj.Value.encode(writer);
     };
 
     static encodeAdditionalParametersType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 17537);
         const obj = identifiable as any;
         {
             const arr = obj.Parameters ?? [];
@@ -39,14 +30,12 @@ export class BinaryEncoders {
     };
 
     static encodeEphemeralKeyType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 17549);
         const obj = identifiable as any;
         writer.writeByteString(obj.PublicKey);
         writer.writeByteString(obj.Signature);
     };
 
     static encodeEndpointType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15671);
         const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         const obj = identifiable as any;
         writer.writeString(obj.EndpointUrl);
@@ -56,7 +45,6 @@ export class BinaryEncoders {
     };
 
     static encodeBitFieldDefinition = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 32422);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         obj.Description.encode(writer);
@@ -66,19 +54,16 @@ export class BinaryEncoders {
     };
 
     static encodeRationalNumber = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18815);
         const obj = identifiable as any;
         writer.writeInt32(obj.Numerator);
         writer.writeUInt32(obj.Denominator);
     };
 
     static encodeVector = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18816);
         // Abstract type - no fields to encode
     };
 
     static encodeThreeDVector = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18817);
         const obj = identifiable as any;
         writer.writeFloat64(obj.X);
         writer.writeFloat64(obj.Y);
@@ -86,12 +71,10 @@ export class BinaryEncoders {
     };
 
     static encodeCartesianCoordinates = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18818);
         // Abstract type - no fields to encode
     };
 
     static encodeThreeDCartesianCoordinates = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18819);
         const obj = identifiable as any;
         writer.writeFloat64(obj.X);
         writer.writeFloat64(obj.Y);
@@ -99,12 +82,10 @@ export class BinaryEncoders {
     };
 
     static encodeOrientation = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18820);
         // Abstract type - no fields to encode
     };
 
     static encodeThreeDOrientation = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18821);
         const obj = identifiable as any;
         writer.writeFloat64(obj.A);
         writer.writeFloat64(obj.B);
@@ -112,19 +93,16 @@ export class BinaryEncoders {
     };
 
     static encodeFrame = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18822);
         // Abstract type - no fields to encode
     };
 
     static encodeThreeDFrame = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18823);
         const obj = identifiable as any;
         BinaryEncoders.encodeThreeDCartesianCoordinates(writer, obj.CartesianCoordinates);
         BinaryEncoders.encodeThreeDOrientation(writer, obj.Orientation);
     };
 
     static encodeIdentityMappingRuleType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15736);
         const { IdentityCriteriaTypeEnum } = require("./types/identityCriteriaType");
         const obj = identifiable as any;
         IdentityCriteriaTypeEnum.encode(writer, obj.CriteriaType);
@@ -132,7 +110,6 @@ export class BinaryEncoders {
     };
 
     static encodeCurrencyUnitType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23507);
         const obj = identifiable as any;
         writer.writeInt16(obj.NumericCode);
         writer.writeInt8(obj.Exponent);
@@ -141,7 +118,6 @@ export class BinaryEncoders {
     };
 
     static encodeAnnotationDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 32560);
         const obj = identifiable as any;
         writer.writeString(obj.Annotation);
         writer.writeString(obj.Discipline);
@@ -149,7 +125,6 @@ export class BinaryEncoders {
     };
 
     static encodeLinearConversionDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 32561);
         const obj = identifiable as any;
         writer.writeFloat32(obj.InitialAddend);
         writer.writeFloat32(obj.Multiplicand);
@@ -158,7 +133,6 @@ export class BinaryEncoders {
     };
 
     static encodeQuantityDimension = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 32562);
         const obj = identifiable as any;
         writer.writeInt8(obj.MassExponent);
         writer.writeInt8(obj.LengthExponent);
@@ -171,7 +145,6 @@ export class BinaryEncoders {
     };
 
     static encodeTrustListDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12680);
         const obj = identifiable as any;
         writer.writeUInt32(obj.SpecifiedLists);
         {
@@ -205,7 +178,6 @@ export class BinaryEncoders {
     };
 
     static encodeBaseConfigurationDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 16538);
         const obj = identifiable as any;
         writer.writeUInt32(obj.ConfigurationVersion);
         {
@@ -218,7 +190,6 @@ export class BinaryEncoders {
     };
 
     static encodeBaseConfigurationRecordDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 16539);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         {
@@ -231,7 +202,6 @@ export class BinaryEncoders {
     };
 
     static encodeCertificateGroupDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 16540);
         const { TrustListValidationOptionsEnum } = require("./types/trustListValidationOptions");
         const obj = identifiable as any;
         obj.Purpose.encode(writer);
@@ -253,7 +223,6 @@ export class BinaryEncoders {
     };
 
     static encodeConfigurationUpdateTargetType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 16541);
         const { ConfigurationUpdateTypeEnum } = require("./types/configurationUpdateType");
         const obj = identifiable as any;
         writer.writeString(obj.Path);
@@ -261,7 +230,6 @@ export class BinaryEncoders {
     };
 
     static encodeTransactionErrorType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 32382);
         const obj = identifiable as any;
         obj.TargetId.encode(writer);
         writer.writeStatusCode(obj.Error);
@@ -269,7 +237,6 @@ export class BinaryEncoders {
     };
 
     static encodeApplicationConfigurationDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23754);
         const obj = identifiable as any;
         BinaryEncoders.encodeApplicationIdentityDataType(writer, obj.ApplicationIdentity);
         {
@@ -317,7 +284,6 @@ export class BinaryEncoders {
     };
 
     static encodeApplicationIdentityDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 16543);
         const obj = identifiable as any;
         writer.writeString(obj.ApplicationUri);
         {
@@ -337,7 +303,6 @@ export class BinaryEncoders {
     };
 
     static encodeEndpointDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 16544);
         const obj = identifiable as any;
         {
             const arr = obj.DiscoveryUrls ?? [];
@@ -351,7 +316,6 @@ export class BinaryEncoders {
     };
 
     static encodeServerEndpointDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 16545);
         const obj = identifiable as any;
         {
             const arr = obj.EndpointUrls ?? [];
@@ -385,7 +349,6 @@ export class BinaryEncoders {
     };
 
     static encodeSecuritySettingsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 16546);
         const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         const obj = identifiable as any;
         {
@@ -406,7 +369,6 @@ export class BinaryEncoders {
     };
 
     static encodeUserTokenSettingsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 16547);
         const { UserTokenTypeEnum } = require("./types/userTokenType");
         const obj = identifiable as any;
         UserTokenTypeEnum.encode(writer, obj.TokenType);
@@ -418,7 +380,6 @@ export class BinaryEncoders {
     };
 
     static encodeServiceCertificateDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23725);
         const obj = identifiable as any;
         writer.writeByteString(obj.Certificate);
         {
@@ -433,7 +394,6 @@ export class BinaryEncoders {
     };
 
     static encodeAuthorizationServiceConfigurationDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23755);
         const obj = identifiable as any;
         writer.writeString(obj.ServiceUri);
         {
@@ -447,14 +407,12 @@ export class BinaryEncoders {
     };
 
     static encodeDecimalDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 17863);
         const obj = identifiable as any;
         writer.writeInt16(obj.Scale);
         writer.writeByteString(obj.Value);
     };
 
     static encodeDataTypeSchemaHeader = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15676);
         const obj = identifiable as any;
         {
             const arr = obj.Namespaces ?? [];
@@ -487,34 +445,29 @@ export class BinaryEncoders {
     };
 
     static encodeDataTypeDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 125);
         const obj = identifiable as any;
         obj.DataTypeId.encode(writer);
         obj.Name.encode(writer);
     };
 
     static encodeStructureDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 126);
         const obj = identifiable as any;
         BinaryEncoders.encodeStructureDefinition(writer, obj.StructureDefinition);
     };
 
     static encodeEnumDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 127);
         const obj = identifiable as any;
         BinaryEncoders.encodeEnumDefinition(writer, obj.EnumDefinition);
         writer.writeUint8(obj.BuiltInType);
     };
 
     static encodeSimpleTypeDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15421);
         const obj = identifiable as any;
         obj.BaseDataType.encode(writer);
         writer.writeUint8(obj.BuiltInType);
     };
 
     static encodeUABinaryFileDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15422);
         const obj = identifiable as any;
         writer.writeString(obj.SchemaLocation);
         {
@@ -528,28 +481,24 @@ export class BinaryEncoders {
     };
 
     static encodePortableQualifiedName = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 24108);
         const obj = identifiable as any;
         writer.writeString(obj.NamespaceUri);
         writer.writeString(obj.Name);
     };
 
     static encodePortableNodeId = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 24109);
         const obj = identifiable as any;
         writer.writeString(obj.NamespaceUri);
         obj.Identifier.encode(writer);
     };
 
     static encodeUnsignedRationalNumber = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 24110);
         const obj = identifiable as any;
         writer.writeUInt32(obj.Numerator);
         writer.writeUInt32(obj.Denominator);
     };
 
     static encodeDataSetMetaDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 124);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         obj.Description.encode(writer);
@@ -565,7 +514,6 @@ export class BinaryEncoders {
     };
 
     static encodeFieldMetaData = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 14839);
         const { DataSetFieldFlagsEnum } = require("./types/dataSetFieldFlags");
         const obj = identifiable as any;
         writer.writeString(obj.Name);
@@ -593,14 +541,12 @@ export class BinaryEncoders {
     };
 
     static encodeConfigurationVersionDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 14847);
         const obj = identifiable as any;
         writer.writeUInt32(obj.MajorVersion);
         writer.writeUInt32(obj.MinorVersion);
     };
 
     static encodePublishedDataSetDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15677);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         {
@@ -622,12 +568,10 @@ export class BinaryEncoders {
     };
 
     static encodePublishedDataSetSourceDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15678);
         // Abstract type - no fields to encode
     };
 
     static encodePublishedVariableDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 14323);
         const obj = identifiable as any;
         obj.PublishedVariable.encode(writer);
         writer.writeUInt32(obj.AttributeId);
@@ -646,7 +590,6 @@ export class BinaryEncoders {
     };
 
     static encodePublishedDataItemsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15679);
         const obj = identifiable as any;
         {
             const arr = obj.PublishedData ?? [];
@@ -658,7 +601,6 @@ export class BinaryEncoders {
     };
 
     static encodePublishedEventsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15681);
         const obj = identifiable as any;
         obj.EventNotifier.encode(writer);
         {
@@ -672,13 +614,11 @@ export class BinaryEncoders {
     };
 
     static encodePublishedDataSetCustomSourceDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 25529);
         const obj = identifiable as any;
         writer.writeBoolean(obj.CyclicDataSet);
     };
 
     static encodeActionTargetDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18598);
         const obj = identifiable as any;
         writer.writeUInt16(obj.ActionTargetId);
         writer.writeString(obj.Name);
@@ -686,7 +626,6 @@ export class BinaryEncoders {
     };
 
     static encodePublishedActionDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18599);
         const obj = identifiable as any;
         BinaryEncoders.encodeDataSetMetaDataType(writer, obj.RequestDataSetMetaData);
         {
@@ -699,14 +638,12 @@ export class BinaryEncoders {
     };
 
     static encodeActionMethodDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18600);
         const obj = identifiable as any;
         obj.ObjectId.encode(writer);
         obj.MethodId.encode(writer);
     };
 
     static encodePublishedActionMethodDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18795);
         const obj = identifiable as any;
         {
             const arr = obj.ActionMethods ?? [];
@@ -718,7 +655,6 @@ export class BinaryEncoders {
     };
 
     static encodeDataSetWriterDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15682);
         const { DataSetFieldContentMaskEnum } = require("./types/dataSetFieldContentMask");
         const obj = identifiable as any;
         writer.writeString(obj.Name);
@@ -739,17 +675,14 @@ export class BinaryEncoders {
     };
 
     static encodeDataSetWriterTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15683);
         // Abstract type - no fields to encode
     };
 
     static encodeDataSetWriterMessageDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15688);
         // Abstract type - no fields to encode
     };
 
     static encodePubSubGroupDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15689);
         const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         const obj = identifiable as any;
         writer.writeString(obj.Name);
@@ -774,7 +707,6 @@ export class BinaryEncoders {
     };
 
     static encodeWriterGroupDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 21150);
         const obj = identifiable as any;
         writer.writeUInt16(obj.WriterGroupId);
         writer.writeFloat64(obj.PublishingInterval);
@@ -800,17 +732,14 @@ export class BinaryEncoders {
     };
 
     static encodeWriterGroupTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15691);
         // Abstract type - no fields to encode
     };
 
     static encodeWriterGroupMessageDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15693);
         // Abstract type - no fields to encode
     };
 
     static encodePubSubConnectionDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15694);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         writer.writeBoolean(obj.Enabled);
@@ -842,24 +771,20 @@ export class BinaryEncoders {
     };
 
     static encodeConnectionTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15695);
         // Abstract type - no fields to encode
     };
 
     static encodeNetworkAddressDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 21151);
         const obj = identifiable as any;
         writer.writeString(obj.NetworkInterface);
     };
 
     static encodeNetworkAddressUrlDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 21152);
         const obj = identifiable as any;
         writer.writeString(obj.Url);
     };
 
     static encodeReaderGroupDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 21153);
         const obj = identifiable as any;
         BinaryEncoders.encodeReaderGroupTransportDataType(writer, obj.TransportSettings);
         BinaryEncoders.encodeReaderGroupMessageDataType(writer, obj.MessageSettings);
@@ -873,17 +798,14 @@ export class BinaryEncoders {
     };
 
     static encodeReaderGroupTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15701);
         // Abstract type - no fields to encode
     };
 
     static encodeReaderGroupMessageDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15702);
         // Abstract type - no fields to encode
     };
 
     static encodeDataSetReaderDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15703);
         const { DataSetFieldContentMaskEnum } = require("./types/dataSetFieldContentMask");
         const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         const obj = identifiable as any;
@@ -919,22 +841,18 @@ export class BinaryEncoders {
     };
 
     static encodeDataSetReaderTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15705);
         // Abstract type - no fields to encode
     };
 
     static encodeDataSetReaderMessageDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15706);
         // Abstract type - no fields to encode
     };
 
     static encodeSubscribedDataSetDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15707);
         // Abstract type - no fields to encode
     };
 
     static encodeTargetVariablesDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15712);
         const obj = identifiable as any;
         {
             const arr = obj.TargetVariables ?? [];
@@ -946,7 +864,6 @@ export class BinaryEncoders {
     };
 
     static encodeFieldTargetDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 14848);
         const { OverrideValueHandlingEnum } = require("./types/overrideValueHandling");
         const obj = identifiable as any;
         writer.writeGuid(obj.DataSetFieldId);
@@ -959,7 +876,6 @@ export class BinaryEncoders {
     };
 
     static encodeSubscribedDataSetMirrorDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15713);
         const obj = identifiable as any;
         writer.writeString(obj.ParentNodeName);
         {
@@ -972,7 +888,6 @@ export class BinaryEncoders {
     };
 
     static encodePubSubConfigurationDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 21154);
         const obj = identifiable as any;
         {
             const arr = obj.PublishedDataSets ?? [];
@@ -992,13 +907,11 @@ export class BinaryEncoders {
     };
 
     static encodeStandaloneSubscribedDataSetRefDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23851);
         const obj = identifiable as any;
         writer.writeString(obj.DataSetName);
     };
 
     static encodeStandaloneSubscribedDataSetDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23852);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         {
@@ -1013,7 +926,6 @@ export class BinaryEncoders {
     };
 
     static encodeSecurityGroupDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23853);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         {
@@ -1045,7 +957,6 @@ export class BinaryEncoders {
     };
 
     static encodePubSubKeyPushTargetDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 25530);
         const obj = identifiable as any;
         writer.writeString(obj.ApplicationUri);
         {
@@ -1077,7 +988,6 @@ export class BinaryEncoders {
     };
 
     static encodePubSubConfiguration2DataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23854);
         const obj = identifiable as any;
         {
             const arr = obj.SubscribedDataSets ?? [];
@@ -1125,7 +1035,6 @@ export class BinaryEncoders {
     };
 
     static encodeUadpWriterGroupMessageDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15715);
         const { DataSetOrderingTypeEnum } = require("./types/dataSetOrderingType");
         const { UadpNetworkMessageContentMaskEnum } = require("./types/uadpNetworkMessageContentMask");
         const obj = identifiable as any;
@@ -1143,7 +1052,6 @@ export class BinaryEncoders {
     };
 
     static encodeUadpDataSetWriterMessageDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15717);
         const { UadpDataSetMessageContentMaskEnum } = require("./types/uadpDataSetMessageContentMask");
         const obj = identifiable as any;
         UadpDataSetMessageContentMaskEnum.encode(writer, obj.DataSetMessageContentMask);
@@ -1153,7 +1061,6 @@ export class BinaryEncoders {
     };
 
     static encodeUadpDataSetReaderMessageDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15718);
         const { UadpNetworkMessageContentMaskEnum } = require("./types/uadpNetworkMessageContentMask");
         const { UadpDataSetMessageContentMaskEnum } = require("./types/uadpDataSetMessageContentMask");
         const obj = identifiable as any;
@@ -1169,21 +1076,18 @@ export class BinaryEncoders {
     };
 
     static encodeJsonWriterGroupMessageDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15719);
         const { JsonNetworkMessageContentMaskEnum } = require("./types/jsonNetworkMessageContentMask");
         const obj = identifiable as any;
         JsonNetworkMessageContentMaskEnum.encode(writer, obj.NetworkMessageContentMask);
     };
 
     static encodeJsonDataSetWriterMessageDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15724);
         const { JsonDataSetMessageContentMaskEnum } = require("./types/jsonDataSetMessageContentMask");
         const obj = identifiable as any;
         JsonDataSetMessageContentMaskEnum.encode(writer, obj.DataSetMessageContentMask);
     };
 
     static encodeJsonDataSetReaderMessageDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15725);
         const { JsonNetworkMessageContentMaskEnum } = require("./types/jsonNetworkMessageContentMask");
         const { JsonDataSetMessageContentMaskEnum } = require("./types/jsonDataSetMessageContentMask");
         const obj = identifiable as any;
@@ -1192,40 +1096,33 @@ export class BinaryEncoders {
     };
 
     static encodeQosDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23855);
         // Abstract type - no fields to encode
     };
 
     static encodeTransmitQosDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23856);
         // Abstract type - no fields to encode
     };
 
     static encodeTransmitQosPriorityDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23857);
         const obj = identifiable as any;
         writer.writeString(obj.PriorityLabel);
     };
 
     static encodeReceiveQosDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23860);
         // Abstract type - no fields to encode
     };
 
     static encodeReceiveQosPriorityDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23861);
         const obj = identifiable as any;
         writer.writeString(obj.PriorityLabel);
     };
 
     static encodeDatagramConnectionTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 17468);
         const obj = identifiable as any;
         BinaryEncoders.encodeNetworkAddressDataType(writer, obj.DiscoveryAddress);
     };
 
     static encodeDatagramConnectionTransport2DataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23864);
         const obj = identifiable as any;
         writer.writeUInt32(obj.DiscoveryAnnounceRate);
         writer.writeUInt32(obj.DiscoveryMaxMessageSize);
@@ -1240,14 +1137,12 @@ export class BinaryEncoders {
     };
 
     static encodeDatagramWriterGroupTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 21155);
         const obj = identifiable as any;
         writer.writeUint8(obj.MessageRepeatCount);
         writer.writeFloat64(obj.MessageRepeatDelay);
     };
 
     static encodeDatagramWriterGroupTransport2DataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23865);
         const obj = identifiable as any;
         BinaryEncoders.encodeNetworkAddressDataType(writer, obj.Address);
         writer.writeString(obj.QosCategory);
@@ -1263,7 +1158,6 @@ export class BinaryEncoders {
     };
 
     static encodeDatagramDataSetReaderTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23866);
         const obj = identifiable as any;
         BinaryEncoders.encodeNetworkAddressDataType(writer, obj.Address);
         writer.writeString(obj.QosCategory);
@@ -1278,7 +1172,6 @@ export class BinaryEncoders {
     };
 
     static encodeDtlsPubSubConnectionDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18930);
         const obj = identifiable as any;
         writer.writeString(obj.ClientCipherSuite);
         {
@@ -1294,14 +1187,12 @@ export class BinaryEncoders {
     };
 
     static encodeBrokerConnectionTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15479);
         const obj = identifiable as any;
         writer.writeString(obj.ResourceUri);
         writer.writeString(obj.AuthenticationProfileUri);
     };
 
     static encodeBrokerWriterGroupTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15727);
         const { BrokerTransportQualityOfServiceEnum } = require("./types/brokerTransportQualityOfService");
         const obj = identifiable as any;
         writer.writeString(obj.QueueName);
@@ -1311,7 +1202,6 @@ export class BinaryEncoders {
     };
 
     static encodeBrokerDataSetWriterTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15729);
         const { BrokerTransportQualityOfServiceEnum } = require("./types/brokerTransportQualityOfService");
         const obj = identifiable as any;
         writer.writeString(obj.QueueName);
@@ -1323,7 +1213,6 @@ export class BinaryEncoders {
     };
 
     static encodeBrokerDataSetReaderTransportDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15733);
         const { BrokerTransportQualityOfServiceEnum } = require("./types/brokerTransportQualityOfService");
         const obj = identifiable as any;
         writer.writeString(obj.QueueName);
@@ -1334,7 +1223,6 @@ export class BinaryEncoders {
     };
 
     static encodePubSubConfigurationRefDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 25531);
         const { PubSubConfigurationRefMaskEnum } = require("./types/pubSubConfigurationRefMask");
         const obj = identifiable as any;
         PubSubConfigurationRefMaskEnum.encode(writer, obj.ConfigurationMask);
@@ -1344,7 +1232,6 @@ export class BinaryEncoders {
     };
 
     static encodePubSubConfigurationValueDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 25532);
         const obj = identifiable as any;
         BinaryEncoders.encodePubSubConfigurationRefDataType(writer, obj.ConfigurationElement);
         writer.writeString(obj.Name);
@@ -1529,7 +1416,6 @@ export class BinaryEncoders {
     };
 
     static encodeAliasNameDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23499);
         const obj = identifiable as any;
         obj.AliasName.encode(writer);
         {
@@ -1542,7 +1428,6 @@ export class BinaryEncoders {
     };
 
     static encodeUserManagementDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 24292);
         const { UserConfigurationMaskEnum } = require("./types/userConfigurationMask");
         const obj = identifiable as any;
         writer.writeString(obj.UserName);
@@ -1551,7 +1436,6 @@ export class BinaryEncoders {
     };
 
     static encodePriorityMappingEntryType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 25239);
         const obj = identifiable as any;
         writer.writeString(obj.MappingUri);
         writer.writeString(obj.PriorityLabel);
@@ -1560,7 +1444,6 @@ export class BinaryEncoders {
     };
 
     static encodeLldpManagementAddressTxPortType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 19079);
         const { ManAddrIfSubtypeEnum } = require("./types/manAddrIfSubtype");
         const obj = identifiable as any;
         writer.writeUInt32(obj.AddressSubtype);
@@ -1572,7 +1455,6 @@ export class BinaryEncoders {
     };
 
     static encodeLldpManagementAddressType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 19080);
         const { ManAddrIfSubtypeEnum } = require("./types/manAddrIfSubtype");
         const obj = identifiable as any;
         writer.writeUInt32(obj.AddressSubtype);
@@ -1582,14 +1464,12 @@ export class BinaryEncoders {
     };
 
     static encodeLldpTlvType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 19081);
         const obj = identifiable as any;
         writer.writeUInt32(obj.TlvType);
         writer.writeByteString(obj.TlvInfo);
     };
 
     static encodeReferenceDescriptionDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 32661);
         const obj = identifiable as any;
         obj.SourceNode.encode(writer);
         obj.ReferenceType.encode(writer);
@@ -1598,7 +1478,6 @@ export class BinaryEncoders {
     };
 
     static encodeReferenceListEntryDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 32662);
         const obj = identifiable as any;
         obj.ReferenceType.encode(writer);
         writer.writeBoolean(obj.IsForward);
@@ -1606,7 +1485,6 @@ export class BinaryEncoders {
     };
 
     static encodeLogRecord = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 19379);
         const obj = identifiable as any;
         writer.writeDateTime(obj.Time);
         writer.writeUInt16(obj.Severity);
@@ -1625,7 +1503,6 @@ export class BinaryEncoders {
     };
 
     static encodeLogRecordsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 19753);
         const obj = identifiable as any;
         {
             const arr = obj.LogRecordArray ?? [];
@@ -1637,28 +1514,24 @@ export class BinaryEncoders {
     };
 
     static encodeSpanContextDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 19754);
         const obj = identifiable as any;
         writer.writeGuid(obj.TraceId);
         writer.writeUInt64(obj.SpanId);
     };
 
     static encodeTraceContextDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 19755);
         const obj = identifiable as any;
         writer.writeUInt64(obj.ParentSpanId);
         writer.writeString(obj.ParentIdentifier);
     };
 
     static encodeNameValuePair = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 19756);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         obj.Value.encode(writer);
     };
 
     static encodeRolePermissionType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 128);
         const { PermissionTypeEnum } = require("./types/permissionType");
         const obj = identifiable as any;
         obj.RoleId.encode(writer);
@@ -1666,12 +1539,10 @@ export class BinaryEncoders {
     };
 
     static encodeDataTypeDefinition = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 121);
         // Abstract type - no fields to encode
     };
 
     static encodeStructureField = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 14844);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         obj.Description.encode(writer);
@@ -1689,7 +1560,6 @@ export class BinaryEncoders {
     };
 
     static encodeStructureDefinition = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 122);
         const { StructureTypeEnum } = require("./types/structureType");
         const obj = identifiable as any;
         obj.DefaultEncodingId.encode(writer);
@@ -1705,7 +1575,6 @@ export class BinaryEncoders {
     };
 
     static encodeEnumDefinition = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 123);
         const obj = identifiable as any;
         {
             const arr = obj.Fields ?? [];
@@ -1717,7 +1586,6 @@ export class BinaryEncoders {
     };
 
     static encodeNode = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 260);
         const { NodeClassEnum } = require("./types/nodeClass");
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
@@ -1752,19 +1620,16 @@ export class BinaryEncoders {
     };
 
     static encodeObjectNode = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 263);
         const obj = identifiable as any;
         writer.writeUint8(obj.EventNotifier);
     };
 
     static encodeObjectTypeNode = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 266);
         const obj = identifiable as any;
         writer.writeBoolean(obj.IsAbstract);
     };
 
     static encodeVariableNode = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 269);
         const obj = identifiable as any;
         obj.Value.encode(writer);
         obj.DataType.encode(writer);
@@ -1784,7 +1649,6 @@ export class BinaryEncoders {
     };
 
     static encodeVariableTypeNode = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 272);
         const obj = identifiable as any;
         obj.Value.encode(writer);
         obj.DataType.encode(writer);
@@ -1800,7 +1664,6 @@ export class BinaryEncoders {
     };
 
     static encodeReferenceTypeNode = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 275);
         const obj = identifiable as any;
         writer.writeBoolean(obj.IsAbstract);
         writer.writeBoolean(obj.Symmetric);
@@ -1808,28 +1671,24 @@ export class BinaryEncoders {
     };
 
     static encodeMethodNode = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 278);
         const obj = identifiable as any;
         writer.writeBoolean(obj.Executable);
         writer.writeBoolean(obj.UserExecutable);
     };
 
     static encodeViewNode = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 281);
         const obj = identifiable as any;
         writer.writeBoolean(obj.ContainsNoLoops);
         writer.writeUint8(obj.EventNotifier);
     };
 
     static encodeDataTypeNode = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 284);
         const obj = identifiable as any;
         writer.writeBoolean(obj.IsAbstract);
         obj.DataTypeDefinition.encode(writer);
     };
 
     static encodeReferenceNode = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 287);
         const obj = identifiable as any;
         obj.ReferenceTypeId.encode(writer);
         writer.writeBoolean(obj.IsInverse);
@@ -1837,7 +1696,6 @@ export class BinaryEncoders {
     };
 
     static encodeArgument = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 298);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         obj.DataType.encode(writer);
@@ -1853,7 +1711,6 @@ export class BinaryEncoders {
     };
 
     static encodeEnumValueType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 8251);
         const obj = identifiable as any;
         writer.writeInt64(obj.Value);
         obj.DisplayName.encode(writer);
@@ -1861,27 +1718,23 @@ export class BinaryEncoders {
     };
 
     static encodeEnumField = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 14845);
         const obj = identifiable as any;
         writer.writeString(obj.Name);
     };
 
     static encodeOptionSet = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12765);
         const obj = identifiable as any;
         writer.writeByteString(obj.Value);
         writer.writeByteString(obj.ValidBits);
     };
 
     static encodeTimeZoneDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 8917);
         const obj = identifiable as any;
         writer.writeInt16(obj.Offset);
         writer.writeBoolean(obj.DaylightSavingInOffset);
     };
 
     static encodeApplicationDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 310);
         const { ApplicationTypeEnum } = require("./types/applicationType");
         const obj = identifiable as any;
         writer.writeString(obj.ApplicationUri);
@@ -1900,7 +1753,6 @@ export class BinaryEncoders {
     };
 
     static encodeRequestHeader = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 391);
         const obj = identifiable as any;
         obj.AuthenticationToken.encode(writer);
         writer.writeDateTime(obj.Timestamp);
@@ -1912,7 +1764,6 @@ export class BinaryEncoders {
     };
 
     static encodeResponseHeader = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 394);
         const obj = identifiable as any;
         writer.writeDateTime(obj.Timestamp);
         writer.writeUInt32(obj.RequestHandle);
@@ -1929,13 +1780,11 @@ export class BinaryEncoders {
     };
 
     static encodeServiceFault = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 397);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
     };
 
     static encodeSessionlessInvokeRequestType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 15903);
         const obj = identifiable as any;
         writer.writeUInt32(obj.UrisVersion);
         {
@@ -1963,7 +1812,6 @@ export class BinaryEncoders {
     };
 
     static encodeSessionlessInvokeResponseType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 21001);
         const obj = identifiable as any;
         {
             const arr = obj.NamespaceUris ?? [];
@@ -1983,7 +1831,6 @@ export class BinaryEncoders {
     };
 
     static encodeFindServersRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 422);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeString(obj.EndpointUrl);
@@ -2004,7 +1851,6 @@ export class BinaryEncoders {
     };
 
     static encodeFindServersResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 425);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2017,7 +1863,6 @@ export class BinaryEncoders {
     };
 
     static encodeServerOnNetwork = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12207);
         const obj = identifiable as any;
         writer.writeUInt32(obj.RecordId);
         writer.writeString(obj.ServerName);
@@ -2032,7 +1877,6 @@ export class BinaryEncoders {
     };
 
     static encodeFindServersOnNetworkRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12208);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeUInt32(obj.StartingRecordId);
@@ -2047,7 +1891,6 @@ export class BinaryEncoders {
     };
 
     static encodeFindServersOnNetworkResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12209);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         writer.writeDateTime(obj.LastCounterResetTime);
@@ -2061,7 +1904,6 @@ export class BinaryEncoders {
     };
 
     static encodeUserTokenPolicy = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 306);
         const { UserTokenTypeEnum } = require("./types/userTokenType");
         const obj = identifiable as any;
         writer.writeString(obj.PolicyId);
@@ -2072,7 +1914,6 @@ export class BinaryEncoders {
     };
 
     static encodeEndpointDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 314);
         const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         const obj = identifiable as any;
         writer.writeString(obj.EndpointUrl);
@@ -2092,7 +1933,6 @@ export class BinaryEncoders {
     };
 
     static encodeGetEndpointsRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 428);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeString(obj.EndpointUrl);
@@ -2113,7 +1953,6 @@ export class BinaryEncoders {
     };
 
     static encodeGetEndpointsResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 431);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2126,7 +1965,6 @@ export class BinaryEncoders {
     };
 
     static encodeRegisteredServer = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 434);
         const { ApplicationTypeEnum } = require("./types/applicationType");
         const obj = identifiable as any;
         writer.writeString(obj.ServerUri);
@@ -2152,20 +1990,17 @@ export class BinaryEncoders {
     };
 
     static encodeRegisterServerRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 437);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         BinaryEncoders.encodeRegisteredServer(writer, obj.Server);
     };
 
     static encodeRegisterServerResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 440);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
     };
 
     static encodeMdnsDiscoveryConfiguration = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12901);
         const obj = identifiable as any;
         writer.writeString(obj.MdnsServerName);
         {
@@ -2178,7 +2013,6 @@ export class BinaryEncoders {
     };
 
     static encodeRegisterServer2Request = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12211);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         BinaryEncoders.encodeRegisteredServer(writer, obj.Server);
@@ -2192,7 +2026,6 @@ export class BinaryEncoders {
     };
 
     static encodeRegisterServer2Response = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12212);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2212,7 +2045,6 @@ export class BinaryEncoders {
     };
 
     static encodeChannelSecurityToken = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 443);
         const obj = identifiable as any;
         writer.writeUInt32(obj.ChannelId);
         writer.writeUInt32(obj.TokenId);
@@ -2221,7 +2053,6 @@ export class BinaryEncoders {
     };
 
     static encodeOpenSecureChannelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 446);
         const { SecurityTokenRequestTypeEnum } = require("./types/securityTokenRequestType");
         const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         const obj = identifiable as any;
@@ -2234,7 +2065,6 @@ export class BinaryEncoders {
     };
 
     static encodeOpenSecureChannelResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 449);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         writer.writeUInt32(obj.ServerProtocolVersion);
@@ -2243,33 +2073,28 @@ export class BinaryEncoders {
     };
 
     static encodeCloseSecureChannelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 452);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
     };
 
     static encodeCloseSecureChannelResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 455);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
     };
 
     static encodeSignedSoftwareCertificate = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 346);
         const obj = identifiable as any;
         writer.writeByteString(obj.CertificateData);
         writer.writeByteString(obj.Signature);
     };
 
     static encodeSignatureData = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 458);
         const obj = identifiable as any;
         writer.writeString(obj.Algorithm);
         writer.writeByteString(obj.Signature);
     };
 
     static encodeCreateSessionRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 461);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         BinaryEncoders.encodeApplicationDescription(writer, obj.ClientDescription);
@@ -2283,7 +2108,6 @@ export class BinaryEncoders {
     };
 
     static encodeCreateSessionResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 464);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         obj.SessionId.encode(writer);
@@ -2310,13 +2134,11 @@ export class BinaryEncoders {
     };
 
     static encodeUserIdentityToken = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 318);
         const obj = identifiable as any;
         writer.writeString(obj.PolicyId);
     };
 
     static encodeUserNameIdentityToken = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 324);
         const obj = identifiable as any;
         writer.writeString(obj.UserName);
         writer.writeByteString(obj.Password);
@@ -2324,20 +2146,17 @@ export class BinaryEncoders {
     };
 
     static encodeX509IdentityToken = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 327);
         const obj = identifiable as any;
         writer.writeByteString(obj.CertificateData);
     };
 
     static encodeIssuedIdentityToken = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 940);
         const obj = identifiable as any;
         writer.writeByteString(obj.TokenData);
         writer.writeString(obj.EncryptionAlgorithm);
     };
 
     static encodeActivateSessionRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 467);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         BinaryEncoders.encodeSignatureData(writer, obj.ClientSignature);
@@ -2360,7 +2179,6 @@ export class BinaryEncoders {
     };
 
     static encodeActivateSessionResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 470);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         writer.writeByteString(obj.ServerNonce);
@@ -2381,34 +2199,29 @@ export class BinaryEncoders {
     };
 
     static encodeCloseSessionRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 473);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeBoolean(obj.DeleteSubscriptions);
     };
 
     static encodeCloseSessionResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 476);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
     };
 
     static encodeCancelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 479);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeUInt32(obj.RequestHandle);
     };
 
     static encodeCancelResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 482);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         writer.writeUInt32(obj.CancelCount);
     };
 
     static encodeNodeAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 351);
         const obj = identifiable as any;
         writer.writeUInt32(obj.SpecifiedAttributes);
         obj.DisplayName.encode(writer);
@@ -2418,13 +2231,11 @@ export class BinaryEncoders {
     };
 
     static encodeObjectAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 354);
         const obj = identifiable as any;
         writer.writeUint8(obj.EventNotifier);
     };
 
     static encodeVariableAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 357);
         const obj = identifiable as any;
         obj.Value.encode(writer);
         obj.DataType.encode(writer);
@@ -2443,20 +2254,17 @@ export class BinaryEncoders {
     };
 
     static encodeMethodAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 360);
         const obj = identifiable as any;
         writer.writeBoolean(obj.Executable);
         writer.writeBoolean(obj.UserExecutable);
     };
 
     static encodeObjectTypeAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 363);
         const obj = identifiable as any;
         writer.writeBoolean(obj.IsAbstract);
     };
 
     static encodeVariableTypeAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 366);
         const obj = identifiable as any;
         obj.Value.encode(writer);
         obj.DataType.encode(writer);
@@ -2472,7 +2280,6 @@ export class BinaryEncoders {
     };
 
     static encodeReferenceTypeAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 369);
         const obj = identifiable as any;
         writer.writeBoolean(obj.IsAbstract);
         writer.writeBoolean(obj.Symmetric);
@@ -2480,27 +2287,23 @@ export class BinaryEncoders {
     };
 
     static encodeDataTypeAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 372);
         const obj = identifiable as any;
         writer.writeBoolean(obj.IsAbstract);
     };
 
     static encodeViewAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 375);
         const obj = identifiable as any;
         writer.writeBoolean(obj.ContainsNoLoops);
         writer.writeUint8(obj.EventNotifier);
     };
 
     static encodeGenericAttributeValue = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 17610);
         const obj = identifiable as any;
         writer.writeUInt32(obj.AttributeId);
         obj.Value.encode(writer);
     };
 
     static encodeGenericAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 17611);
         const obj = identifiable as any;
         {
             const arr = obj.AttributeValues ?? [];
@@ -2512,7 +2315,6 @@ export class BinaryEncoders {
     };
 
     static encodeAddNodesItem = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 378);
         const { NodeClassEnum } = require("./types/nodeClass");
         const obj = identifiable as any;
         obj.ParentNodeId.encode(writer);
@@ -2525,14 +2327,12 @@ export class BinaryEncoders {
     };
 
     static encodeAddNodesResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 485);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         obj.AddedNodeId.encode(writer);
     };
 
     static encodeAddNodesRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 488);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -2545,7 +2345,6 @@ export class BinaryEncoders {
     };
 
     static encodeAddNodesResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 491);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2565,7 +2364,6 @@ export class BinaryEncoders {
     };
 
     static encodeAddReferencesItem = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 381);
         const { NodeClassEnum } = require("./types/nodeClass");
         const obj = identifiable as any;
         obj.SourceNodeId.encode(writer);
@@ -2577,7 +2375,6 @@ export class BinaryEncoders {
     };
 
     static encodeAddReferencesRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 494);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -2590,7 +2387,6 @@ export class BinaryEncoders {
     };
 
     static encodeAddReferencesResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 497);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2610,14 +2406,12 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteNodesItem = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 384);
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         writer.writeBoolean(obj.DeleteTargetReferences);
     };
 
     static encodeDeleteNodesRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 500);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -2630,7 +2424,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteNodesResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 503);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2650,7 +2443,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteReferencesItem = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 387);
         const obj = identifiable as any;
         obj.SourceNodeId.encode(writer);
         obj.ReferenceTypeId.encode(writer);
@@ -2660,7 +2452,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteReferencesRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 506);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -2673,7 +2464,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteReferencesResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 509);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2693,7 +2483,6 @@ export class BinaryEncoders {
     };
 
     static encodeViewDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 513);
         const obj = identifiable as any;
         obj.ViewId.encode(writer);
         writer.writeDateTime(obj.Timestamp);
@@ -2701,7 +2490,6 @@ export class BinaryEncoders {
     };
 
     static encodeBrowseDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 516);
         const { BrowseDirectionEnum } = require("./types/browseDirection");
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
@@ -2713,7 +2501,6 @@ export class BinaryEncoders {
     };
 
     static encodeReferenceDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 520);
         const { NodeClassEnum } = require("./types/nodeClass");
         const obj = identifiable as any;
         obj.ReferenceTypeId.encode(writer);
@@ -2726,7 +2513,6 @@ export class BinaryEncoders {
     };
 
     static encodeBrowseResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 524);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         writer.writeByteString(obj.ContinuationPoint);
@@ -2740,7 +2526,6 @@ export class BinaryEncoders {
     };
 
     static encodeBrowseRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 527);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         BinaryEncoders.encodeViewDescription(writer, obj.View);
@@ -2755,7 +2540,6 @@ export class BinaryEncoders {
     };
 
     static encodeBrowseResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 530);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2775,7 +2559,6 @@ export class BinaryEncoders {
     };
 
     static encodeBrowseNextRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 533);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeBoolean(obj.ReleaseContinuationPoints);
@@ -2789,7 +2572,6 @@ export class BinaryEncoders {
     };
 
     static encodeBrowseNextResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 536);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2809,7 +2591,6 @@ export class BinaryEncoders {
     };
 
     static encodeRelativePathElement = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 539);
         const obj = identifiable as any;
         obj.ReferenceTypeId.encode(writer);
         writer.writeBoolean(obj.IsInverse);
@@ -2818,7 +2599,6 @@ export class BinaryEncoders {
     };
 
     static encodeRelativePath = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 542);
         const obj = identifiable as any;
         {
             const arr = obj.Elements ?? [];
@@ -2830,21 +2610,18 @@ export class BinaryEncoders {
     };
 
     static encodeBrowsePath = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 545);
         const obj = identifiable as any;
         obj.StartingNode.encode(writer);
         BinaryEncoders.encodeRelativePath(writer, obj.RelativePath);
     };
 
     static encodeBrowsePathTarget = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 548);
         const obj = identifiable as any;
         obj.TargetId.encode(writer);
         writer.writeUInt32(obj.RemainingPathIndex);
     };
 
     static encodeBrowsePathResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 551);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
@@ -2857,7 +2634,6 @@ export class BinaryEncoders {
     };
 
     static encodeTranslateBrowsePathsToNodeIdsRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 554);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -2870,7 +2646,6 @@ export class BinaryEncoders {
     };
 
     static encodeTranslateBrowsePathsToNodeIdsResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 557);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2890,7 +2665,6 @@ export class BinaryEncoders {
     };
 
     static encodeRegisterNodesRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 560);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -2903,7 +2677,6 @@ export class BinaryEncoders {
     };
 
     static encodeRegisterNodesResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 563);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -2916,7 +2689,6 @@ export class BinaryEncoders {
     };
 
     static encodeUnregisterNodesRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 566);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -2929,13 +2701,11 @@ export class BinaryEncoders {
     };
 
     static encodeUnregisterNodesResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 569);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
     };
 
     static encodeEndpointConfiguration = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 333);
         const obj = identifiable as any;
         writer.writeInt32(obj.OperationTimeout);
         writer.writeBoolean(obj.UseBinaryEncoding);
@@ -2949,7 +2719,6 @@ export class BinaryEncoders {
     };
 
     static encodeQueryDataDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 572);
         const obj = identifiable as any;
         BinaryEncoders.encodeRelativePath(writer, obj.RelativePath);
         writer.writeUInt32(obj.AttributeId);
@@ -2957,7 +2726,6 @@ export class BinaryEncoders {
     };
 
     static encodeNodeTypeDescription = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 575);
         const obj = identifiable as any;
         obj.TypeDefinitionNode.encode(writer);
         writer.writeBoolean(obj.IncludeSubTypes);
@@ -2971,7 +2739,6 @@ export class BinaryEncoders {
     };
 
     static encodeQueryDataSet = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 579);
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         obj.TypeDefinitionNode.encode(writer);
@@ -2985,7 +2752,6 @@ export class BinaryEncoders {
     };
 
     static encodeNodeReference = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 582);
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         obj.ReferenceTypeId.encode(writer);
@@ -3000,7 +2766,6 @@ export class BinaryEncoders {
     };
 
     static encodeContentFilterElement = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 585);
         const { FilterOperatorEnum } = require("./types/filterOperator");
         const obj = identifiable as any;
         FilterOperatorEnum.encode(writer, obj.FilterOperator);
@@ -3014,7 +2779,6 @@ export class BinaryEncoders {
     };
 
     static encodeContentFilter = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 588);
         const obj = identifiable as any;
         {
             const arr = obj.Elements ?? [];
@@ -3026,24 +2790,20 @@ export class BinaryEncoders {
     };
 
     static encodeFilterOperand = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 591);
         // Abstract type - no fields to encode
     };
 
     static encodeElementOperand = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 594);
         const obj = identifiable as any;
         writer.writeUInt32(obj.Index);
     };
 
     static encodeLiteralOperand = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 597);
         const obj = identifiable as any;
         obj.Value.encode(writer);
     };
 
     static encodeAttributeOperand = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 600);
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         writer.writeString(obj.Alias);
@@ -3053,7 +2813,6 @@ export class BinaryEncoders {
     };
 
     static encodeSimpleAttributeOperand = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 603);
         const obj = identifiable as any;
         obj.TypeDefinitionId.encode(writer);
         {
@@ -3068,7 +2827,6 @@ export class BinaryEncoders {
     };
 
     static encodeContentFilterElementResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 606);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
@@ -3088,7 +2846,6 @@ export class BinaryEncoders {
     };
 
     static encodeContentFilterResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 609);
         const obj = identifiable as any;
         {
             const arr = obj.ElementResults ?? [];
@@ -3107,7 +2864,6 @@ export class BinaryEncoders {
     };
 
     static encodeParsingResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 612);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
@@ -3127,7 +2883,6 @@ export class BinaryEncoders {
     };
 
     static encodeQueryFirstRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 615);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         BinaryEncoders.encodeViewDescription(writer, obj.View);
@@ -3144,7 +2899,6 @@ export class BinaryEncoders {
     };
 
     static encodeQueryFirstResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 618);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3173,7 +2927,6 @@ export class BinaryEncoders {
     };
 
     static encodeQueryNextRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 621);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeBoolean(obj.ReleaseContinuationPoint);
@@ -3181,7 +2934,6 @@ export class BinaryEncoders {
     };
 
     static encodeQueryNextResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 624);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3195,7 +2947,6 @@ export class BinaryEncoders {
     };
 
     static encodeReadValueId = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 628);
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         writer.writeUInt32(obj.AttributeId);
@@ -3204,7 +2955,6 @@ export class BinaryEncoders {
     };
 
     static encodeReadRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 631);
         const { TimestampsToReturnEnum } = require("./types/timestampsToReturn");
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
@@ -3220,7 +2970,6 @@ export class BinaryEncoders {
     };
 
     static encodeReadResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 634);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3240,7 +2989,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryReadValueId = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 637);
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         writer.writeString(obj.IndexRange);
@@ -3249,7 +2997,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryReadResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 640);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         writer.writeByteString(obj.ContinuationPoint);
@@ -3257,12 +3004,10 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryReadDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 643);
         // Abstract type - no fields to encode
     };
 
     static encodeReadEventDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 646);
         const obj = identifiable as any;
         writer.writeUInt32(obj.NumValuesPerNode);
         writer.writeDateTime(obj.StartTime);
@@ -3271,13 +3016,11 @@ export class BinaryEncoders {
     };
 
     static encodeReadEventDetails2 = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 32800);
         const obj = identifiable as any;
         writer.writeBoolean(obj.ReadModified);
     };
 
     static encodeSortRuleElement = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18650);
         const { SortOrderTypeEnum } = require("./types/sortOrderType");
         const obj = identifiable as any;
         SortOrderTypeEnum.encode(writer, obj.SortOrder);
@@ -3285,7 +3028,6 @@ export class BinaryEncoders {
     };
 
     static encodeReadEventDetailsSorted = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 18651);
         const obj = identifiable as any;
         {
             const arr = obj.SortClause ?? [];
@@ -3297,7 +3039,6 @@ export class BinaryEncoders {
     };
 
     static encodeReadRawModifiedDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 649);
         const obj = identifiable as any;
         writer.writeBoolean(obj.IsReadModified);
         writer.writeDateTime(obj.StartTime);
@@ -3307,7 +3048,6 @@ export class BinaryEncoders {
     };
 
     static encodeReadProcessedDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 652);
         const obj = identifiable as any;
         writer.writeDateTime(obj.StartTime);
         writer.writeDateTime(obj.EndTime);
@@ -3323,7 +3063,6 @@ export class BinaryEncoders {
     };
 
     static encodeReadAtTimeDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 655);
         const obj = identifiable as any;
         {
             const arr = obj.ReqTimes ?? [];
@@ -3336,7 +3075,6 @@ export class BinaryEncoders {
     };
 
     static encodeReadAnnotationDataDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 23500);
         const obj = identifiable as any;
         {
             const arr = obj.ReqTimes ?? [];
@@ -3348,7 +3086,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryData = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 658);
         const obj = identifiable as any;
         {
             const arr = obj.DataValues ?? [];
@@ -3360,7 +3097,6 @@ export class BinaryEncoders {
     };
 
     static encodeModificationInfo = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 11226);
         const { HistoryUpdateTypeEnum } = require("./types/historyUpdateType");
         const obj = identifiable as any;
         writer.writeDateTime(obj.ModificationTime);
@@ -3369,7 +3105,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryModifiedData = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 11227);
         const obj = identifiable as any;
         {
             const arr = obj.ModificationInfos ?? [];
@@ -3381,7 +3116,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryEvent = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 661);
         const obj = identifiable as any;
         {
             const arr = obj.Events ?? [];
@@ -3393,7 +3127,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryModifiedEvent = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 32825);
         const obj = identifiable as any;
         {
             const arr = obj.ModificationInfos ?? [];
@@ -3405,7 +3138,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryReadRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 664);
         const { TimestampsToReturnEnum } = require("./types/timestampsToReturn");
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
@@ -3422,7 +3154,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryReadResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 667);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3442,7 +3173,6 @@ export class BinaryEncoders {
     };
 
     static encodeWriteValue = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 670);
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         writer.writeUInt32(obj.AttributeId);
@@ -3451,7 +3181,6 @@ export class BinaryEncoders {
     };
 
     static encodeWriteRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 673);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -3464,7 +3193,6 @@ export class BinaryEncoders {
     };
 
     static encodeWriteResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 676);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3484,12 +3212,10 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryUpdateDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 679);
         // Abstract type - no fields to encode
     };
 
     static encodeUpdateDataDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 682);
         const { PerformUpdateTypeEnum } = require("./types/performUpdateType");
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
@@ -3504,7 +3230,6 @@ export class BinaryEncoders {
     };
 
     static encodeUpdateStructureDataDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 11300);
         const { PerformUpdateTypeEnum } = require("./types/performUpdateType");
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
@@ -3519,7 +3244,6 @@ export class BinaryEncoders {
     };
 
     static encodeUpdateEventDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 685);
         const { PerformUpdateTypeEnum } = require("./types/performUpdateType");
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
@@ -3535,7 +3259,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteRawModifiedDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 688);
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         writer.writeBoolean(obj.IsDeleteModified);
@@ -3544,7 +3267,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteAtTimeDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 691);
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         {
@@ -3557,7 +3279,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteEventDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 694);
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         {
@@ -3570,7 +3291,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryUpdateResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 697);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
@@ -3590,7 +3310,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryUpdateRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 700);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -3603,7 +3322,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryUpdateResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 703);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3623,7 +3341,6 @@ export class BinaryEncoders {
     };
 
     static encodeCallMethodRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 706);
         const obj = identifiable as any;
         obj.ObjectId.encode(writer);
         obj.MethodId.encode(writer);
@@ -3637,7 +3354,6 @@ export class BinaryEncoders {
     };
 
     static encodeCallMethodResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 709);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
@@ -3664,7 +3380,6 @@ export class BinaryEncoders {
     };
 
     static encodeCallRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 712);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -3677,7 +3392,6 @@ export class BinaryEncoders {
     };
 
     static encodeCallResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 715);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3697,7 +3411,6 @@ export class BinaryEncoders {
     };
 
     static encodeDataChangeFilter = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 724);
         const { DataChangeTriggerEnum } = require("./types/dataChangeTrigger");
         const obj = identifiable as any;
         DataChangeTriggerEnum.encode(writer, obj.Trigger);
@@ -3706,7 +3419,6 @@ export class BinaryEncoders {
     };
 
     static encodeEventFilter = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 727);
         const obj = identifiable as any;
         {
             const arr = obj.SelectClauses ?? [];
@@ -3719,7 +3431,6 @@ export class BinaryEncoders {
     };
 
     static encodeAggregateConfiguration = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 950);
         const obj = identifiable as any;
         writer.writeBoolean(obj.UseServerCapabilitiesDefaults);
         writer.writeBoolean(obj.TreatUncertainAsBad);
@@ -3729,7 +3440,6 @@ export class BinaryEncoders {
     };
 
     static encodeAggregateFilter = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 730);
         const obj = identifiable as any;
         writer.writeDateTime(obj.StartTime);
         obj.AggregateType.encode(writer);
@@ -3738,7 +3448,6 @@ export class BinaryEncoders {
     };
 
     static encodeEventFilterResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 736);
         const obj = identifiable as any;
         {
             const arr = obj.SelectClauseResults ?? [];
@@ -3758,7 +3467,6 @@ export class BinaryEncoders {
     };
 
     static encodeAggregateFilterResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 739);
         const obj = identifiable as any;
         writer.writeDateTime(obj.RevisedStartTime);
         writer.writeFloat64(obj.RevisedProcessingInterval);
@@ -3766,7 +3474,6 @@ export class BinaryEncoders {
     };
 
     static encodeMonitoringParameters = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 742);
         const obj = identifiable as any;
         writer.writeUInt32(obj.ClientHandle);
         writer.writeFloat64(obj.SamplingInterval);
@@ -3776,7 +3483,6 @@ export class BinaryEncoders {
     };
 
     static encodeMonitoredItemCreateRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 745);
         const { MonitoringModeEnum } = require("./types/monitoringMode");
         const obj = identifiable as any;
         BinaryEncoders.encodeReadValueId(writer, obj.ItemToMonitor);
@@ -3785,7 +3491,6 @@ export class BinaryEncoders {
     };
 
     static encodeMonitoredItemCreateResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 748);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         writer.writeUInt32(obj.MonitoredItemId);
@@ -3795,7 +3500,6 @@ export class BinaryEncoders {
     };
 
     static encodeCreateMonitoredItemsRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 751);
         const { TimestampsToReturnEnum } = require("./types/timestampsToReturn");
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
@@ -3811,7 +3515,6 @@ export class BinaryEncoders {
     };
 
     static encodeCreateMonitoredItemsResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 754);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3831,14 +3534,12 @@ export class BinaryEncoders {
     };
 
     static encodeMonitoredItemModifyRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 757);
         const obj = identifiable as any;
         writer.writeUInt32(obj.MonitoredItemId);
         BinaryEncoders.encodeMonitoringParameters(writer, obj.RequestedParameters);
     };
 
     static encodeMonitoredItemModifyResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 760);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         writer.writeFloat64(obj.RevisedSamplingInterval);
@@ -3847,7 +3548,6 @@ export class BinaryEncoders {
     };
 
     static encodeModifyMonitoredItemsRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 763);
         const { TimestampsToReturnEnum } = require("./types/timestampsToReturn");
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
@@ -3863,7 +3563,6 @@ export class BinaryEncoders {
     };
 
     static encodeModifyMonitoredItemsResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 766);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3883,7 +3582,6 @@ export class BinaryEncoders {
     };
 
     static encodeSetMonitoringModeRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 769);
         const { MonitoringModeEnum } = require("./types/monitoringMode");
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
@@ -3899,7 +3597,6 @@ export class BinaryEncoders {
     };
 
     static encodeSetMonitoringModeResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 772);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3919,7 +3616,6 @@ export class BinaryEncoders {
     };
 
     static encodeSetTriggeringRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 775);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeUInt32(obj.SubscriptionId);
@@ -3941,7 +3637,6 @@ export class BinaryEncoders {
     };
 
     static encodeSetTriggeringResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 778);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -3975,7 +3670,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteMonitoredItemsRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 781);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeUInt32(obj.SubscriptionId);
@@ -3989,7 +3683,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteMonitoredItemsResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 784);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -4009,7 +3702,6 @@ export class BinaryEncoders {
     };
 
     static encodeCreateSubscriptionRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 787);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeFloat64(obj.RequestedPublishingInterval);
@@ -4021,7 +3713,6 @@ export class BinaryEncoders {
     };
 
     static encodeCreateSubscriptionResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 790);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         writer.writeUInt32(obj.SubscriptionId);
@@ -4031,7 +3722,6 @@ export class BinaryEncoders {
     };
 
     static encodeModifySubscriptionRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 793);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeUInt32(obj.SubscriptionId);
@@ -4043,7 +3733,6 @@ export class BinaryEncoders {
     };
 
     static encodeModifySubscriptionResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 796);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         writer.writeFloat64(obj.RevisedPublishingInterval);
@@ -4052,7 +3741,6 @@ export class BinaryEncoders {
     };
 
     static encodeSetPublishingModeRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 799);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeBoolean(obj.PublishingEnabled);
@@ -4066,7 +3754,6 @@ export class BinaryEncoders {
     };
 
     static encodeSetPublishingModeResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 802);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -4086,7 +3773,6 @@ export class BinaryEncoders {
     };
 
     static encodeNotificationMessage = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 805);
         const obj = identifiable as any;
         writer.writeUInt32(obj.SequenceNumber);
         writer.writeDateTime(obj.PublishTime);
@@ -4100,7 +3786,6 @@ export class BinaryEncoders {
     };
 
     static encodeDataChangeNotification = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 811);
         const obj = identifiable as any;
         {
             const arr = obj.MonitoredItems ?? [];
@@ -4119,14 +3804,12 @@ export class BinaryEncoders {
     };
 
     static encodeMonitoredItemNotification = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 808);
         const obj = identifiable as any;
         writer.writeUInt32(obj.ClientHandle);
         obj.Value.encode(writer);
     };
 
     static encodeEventNotificationList = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 916);
         const obj = identifiable as any;
         {
             const arr = obj.Events ?? [];
@@ -4138,7 +3821,6 @@ export class BinaryEncoders {
     };
 
     static encodeEventFieldList = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 919);
         const obj = identifiable as any;
         writer.writeUInt32(obj.ClientHandle);
         {
@@ -4151,7 +3833,6 @@ export class BinaryEncoders {
     };
 
     static encodeHistoryEventFieldList = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 922);
         const obj = identifiable as any;
         {
             const arr = obj.EventFields ?? [];
@@ -4163,21 +3844,18 @@ export class BinaryEncoders {
     };
 
     static encodeStatusChangeNotification = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 820);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.Status);
         obj.DiagnosticInfo.encode(writer);
     };
 
     static encodeSubscriptionAcknowledgement = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 823);
         const obj = identifiable as any;
         writer.writeUInt32(obj.SubscriptionId);
         writer.writeUInt32(obj.SequenceNumber);
     };
 
     static encodePublishRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 826);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -4190,7 +3868,6 @@ export class BinaryEncoders {
     };
 
     static encodePublishResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 829);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         writer.writeUInt32(obj.SubscriptionId);
@@ -4220,7 +3897,6 @@ export class BinaryEncoders {
     };
 
     static encodeRepublishRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 832);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeUInt32(obj.SubscriptionId);
@@ -4228,14 +3904,12 @@ export class BinaryEncoders {
     };
 
     static encodeRepublishResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 835);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         BinaryEncoders.encodeNotificationMessage(writer, obj.NotificationMessage);
     };
 
     static encodeTransferResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 838);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
@@ -4248,7 +3922,6 @@ export class BinaryEncoders {
     };
 
     static encodeTransferSubscriptionsRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 841);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -4262,7 +3935,6 @@ export class BinaryEncoders {
     };
 
     static encodeTransferSubscriptionsResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 844);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -4282,7 +3954,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteSubscriptionsRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 847);
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
@@ -4295,7 +3966,6 @@ export class BinaryEncoders {
     };
 
     static encodeDeleteSubscriptionsResponse = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 850);
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
@@ -4315,7 +3985,6 @@ export class BinaryEncoders {
     };
 
     static encodeBuildInfo = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 340);
         const obj = identifiable as any;
         writer.writeString(obj.ProductUri);
         writer.writeString(obj.ManufacturerName);
@@ -4326,7 +3995,6 @@ export class BinaryEncoders {
     };
 
     static encodeRedundantServerDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 855);
         const { ServerStateEnum } = require("./types/serverState");
         const obj = identifiable as any;
         writer.writeString(obj.ServerId);
@@ -4335,7 +4003,6 @@ export class BinaryEncoders {
     };
 
     static encodeEndpointUrlListDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 11957);
         const obj = identifiable as any;
         {
             const arr = obj.EndpointUrlList ?? [];
@@ -4347,7 +4014,6 @@ export class BinaryEncoders {
     };
 
     static encodeNetworkGroupDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 11958);
         const obj = identifiable as any;
         writer.writeString(obj.ServerUri);
         {
@@ -4360,7 +4026,6 @@ export class BinaryEncoders {
     };
 
     static encodeSamplingIntervalDiagnosticsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 858);
         const obj = identifiable as any;
         writer.writeFloat64(obj.SamplingInterval);
         writer.writeUInt32(obj.MonitoredItemCount);
@@ -4369,7 +4034,6 @@ export class BinaryEncoders {
     };
 
     static encodeServerDiagnosticsSummaryDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 861);
         const obj = identifiable as any;
         writer.writeUInt32(obj.ServerViewCount);
         writer.writeUInt32(obj.CurrentSessionCount);
@@ -4386,7 +4050,6 @@ export class BinaryEncoders {
     };
 
     static encodeServerStatusDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 864);
         const { ServerStateEnum } = require("./types/serverState");
         const obj = identifiable as any;
         writer.writeDateTime(obj.StartTime);
@@ -4398,7 +4061,6 @@ export class BinaryEncoders {
     };
 
     static encodeSessionDiagnosticsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 867);
         const obj = identifiable as any;
         obj.SessionId.encode(writer);
         writer.writeString(obj.SessionName);
@@ -4452,7 +4114,6 @@ export class BinaryEncoders {
     };
 
     static encodeSessionSecurityDiagnosticsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 870);
         const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         const obj = identifiable as any;
         obj.SessionId.encode(writer);
@@ -4473,21 +4134,18 @@ export class BinaryEncoders {
     };
 
     static encodeServiceCounterDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 873);
         const obj = identifiable as any;
         writer.writeUInt32(obj.TotalCount);
         writer.writeUInt32(obj.ErrorCount);
     };
 
     static encodeStatusResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 301);
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         obj.DiagnosticInfo.encode(writer);
     };
 
     static encodeSubscriptionDiagnosticsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 876);
         const obj = identifiable as any;
         obj.SessionId.encode(writer);
         writer.writeUInt32(obj.SubscriptionId);
@@ -4523,7 +4181,6 @@ export class BinaryEncoders {
     };
 
     static encodeModelChangeStructureDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 879);
         const obj = identifiable as any;
         obj.Affected.encode(writer);
         obj.AffectedType.encode(writer);
@@ -4531,21 +4188,18 @@ export class BinaryEncoders {
     };
 
     static encodeSemanticChangeStructureDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 899);
         const obj = identifiable as any;
         obj.Affected.encode(writer);
         obj.AffectedType.encode(writer);
     };
 
     static encodeRange = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 886);
         const obj = identifiable as any;
         writer.writeFloat64(obj.Low);
         writer.writeFloat64(obj.High);
     };
 
     static encodeEUInformation = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 889);
         const obj = identifiable as any;
         writer.writeString(obj.NamespaceUri);
         writer.writeInt32(obj.UnitId);
@@ -4554,21 +4208,18 @@ export class BinaryEncoders {
     };
 
     static encodeComplexNumberType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12181);
         const obj = identifiable as any;
         writer.writeFloat32(obj.Real);
         writer.writeFloat32(obj.Imaginary);
     };
 
     static encodeDoubleComplexNumberType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12182);
         const obj = identifiable as any;
         writer.writeFloat64(obj.Real);
         writer.writeFloat64(obj.Imaginary);
     };
 
     static encodeAxisInformation = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12089);
         const { AxisScaleEnumerationEnum } = require("./types/axisScaleEnumeration");
         const obj = identifiable as any;
         BinaryEncoders.encodeEUInformation(writer, obj.EngineeringUnits);
@@ -4585,14 +4236,12 @@ export class BinaryEncoders {
     };
 
     static encodeXVType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 12090);
         const obj = identifiable as any;
         writer.writeFloat64(obj.X);
         writer.writeFloat32(obj.Value);
     };
 
     static encodeProgramDiagnosticDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 896);
         const obj = identifiable as any;
         obj.CreateSessionId.encode(writer);
         writer.writeString(obj.CreateClientName);
@@ -4619,7 +4268,6 @@ export class BinaryEncoders {
     };
 
     static encodeProgramDiagnostic2DataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 24034);
         const obj = identifiable as any;
         obj.CreateSessionId.encode(writer);
         writer.writeString(obj.CreateClientName);
@@ -4660,7 +4308,6 @@ export class BinaryEncoders {
     };
 
     static encodeAnnotation = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        BinaryEncoders.encodeId(writer, 893);
         const obj = identifiable as any;
         writer.writeString(obj.Message);
         writer.writeString(obj.UserName);
