@@ -13,17 +13,4 @@ export class MethodAttributes implements IIdentifiable {
     ) { }
 
     readonly id = 358
-
-    public static decode(reader: BufferReader): MethodAttributes {
-        const obj = new MethodAttributes(
-            reader.readBoolean(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.Executable);
-        writer.writeBoolean(this.UserExecutable);
-    }
 }

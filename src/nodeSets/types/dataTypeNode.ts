@@ -14,17 +14,4 @@ export class DataTypeNode implements IIdentifiable {
     ) { }
 
     readonly id = 282
-
-    public static decode(reader: BufferReader): DataTypeNode {
-        const obj = new DataTypeNode(
-            reader.readBoolean(),
-            reader.readExtensionObject()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.IsAbstract);
-        this.DataTypeDefinition.encode(writer);
-    }
 }

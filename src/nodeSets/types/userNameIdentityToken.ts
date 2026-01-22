@@ -15,19 +15,4 @@ export class UserNameIdentityToken implements IIdentifiable {
     ) { }
 
     readonly id = 322
-
-    public static decode(reader: BufferReader): UserNameIdentityToken {
-        const obj = new UserNameIdentityToken(
-            reader.readString(),
-            reader.readByteString(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.UserName);
-        writer.writeByteString(this.Password);
-        writer.writeString(this.EncryptionAlgorithm);
-    }
 }

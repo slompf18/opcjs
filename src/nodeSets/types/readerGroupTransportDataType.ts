@@ -10,13 +10,4 @@ export class ReaderGroupTransportDataType implements IIdentifiable {
     constructor() { }
 
     readonly id = 15621
-
-    public static decode(reader: BufferReader): ReaderGroupTransportDataType {
-        // Abstract type - no fields to decode
-        return new ReaderGroupTransportDataType();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

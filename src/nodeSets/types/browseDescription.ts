@@ -20,25 +20,4 @@ export class BrowseDescription implements IIdentifiable {
     ) { }
 
     readonly id = 514
-
-    public static decode(reader: BufferReader): BrowseDescription {
-        const obj = new BrowseDescription(
-            reader.readNodeId(),
-            BrowseDirectionEnum.decode(reader),
-            reader.readNodeId(),
-            reader.readBoolean(),
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.NodeId.encode(writer);
-        BrowseDirectionEnum.encode(writer, this.BrowseDirection);
-        this.ReferenceTypeId.encode(writer);
-        writer.writeBoolean(this.IncludeSubtypes);
-        writer.writeUInt32(this.NodeClassMask);
-        writer.writeUInt32(this.ResultMask);
-    }
 }

@@ -15,17 +15,4 @@ export class SpanContextDataType implements IIdentifiable {
     ) { }
 
     readonly id = 19746
-
-    public static decode(reader: BufferReader): SpanContextDataType {
-        const obj = new SpanContextDataType(
-            reader.readGuid(),
-            reader.readUInt64()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeGuid(this.TraceId);
-        writer.writeUInt64(this.SpanId);
-    }
 }

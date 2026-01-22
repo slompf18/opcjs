@@ -15,23 +15,4 @@ export class EventFieldList implements IIdentifiable {
     ) { }
 
     readonly id = 917
-
-    public static decode(reader: BufferReader): EventFieldList {
-        const obj = new EventFieldList(
-            reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.ClientHandle);
-        {
-            const arr = this.EventFields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

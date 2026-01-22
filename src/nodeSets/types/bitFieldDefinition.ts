@@ -18,23 +18,4 @@ export class BitFieldDefinition implements IIdentifiable {
     ) { }
 
     readonly id = 32421
-
-    public static decode(reader: BufferReader): BitFieldDefinition {
-        const obj = new BitFieldDefinition(
-            reader.readString(),
-            reader.readLocalizedText(),
-            reader.readBoolean(),
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Name);
-        this.Description.encode(writer);
-        writer.writeBoolean(this.Reserved);
-        writer.writeUInt32(this.StartingBitPosition);
-        writer.writeUInt32(this.EndingBitPosition);
-    }
 }

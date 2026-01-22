@@ -23,49 +23,4 @@ export class SecurityGroupDataType implements IIdentifiable {
     ) { }
 
     readonly id = 23601
-
-    public static decode(reader: BufferReader): SecurityGroupDataType {
-        const obj = new SecurityGroupDataType(
-            reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            reader.readFloat64(),
-            reader.readString(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = RolePermissionType.decode(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = KeyValuePair.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Name);
-        {
-            const arr = this.SecurityGroupFolder ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-        writer.writeFloat64(this.KeyLifetime);
-        writer.writeString(this.SecurityPolicyUri);
-        writer.writeUInt32(this.MaxFutureKeyCount);
-        writer.writeUInt32(this.MaxPastKeyCount);
-        writer.writeString(this.SecurityGroupId);
-        {
-            const arr = this.RolePermissions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-        {
-            const arr = this.GroupProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

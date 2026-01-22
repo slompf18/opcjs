@@ -17,23 +17,4 @@ export class AggregateConfiguration implements IIdentifiable {
     ) { }
 
     readonly id = 948
-
-    public static decode(reader: BufferReader): AggregateConfiguration {
-        const obj = new AggregateConfiguration(
-            reader.readBoolean(),
-            reader.readBoolean(),
-            reader.readUInt8(),
-            reader.readUInt8(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.UseServerCapabilitiesDefaults);
-        writer.writeBoolean(this.TreatUncertainAsBad);
-        writer.writeUint8(this.PercentDataBad);
-        writer.writeUint8(this.PercentDataGood);
-        writer.writeBoolean(this.UseSlopedExtrapolation);
-    }
 }

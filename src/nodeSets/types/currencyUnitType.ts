@@ -17,21 +17,4 @@ export class CurrencyUnitType implements IIdentifiable {
     ) { }
 
     readonly id = 23498
-
-    public static decode(reader: BufferReader): CurrencyUnitType {
-        const obj = new CurrencyUnitType(
-            reader.readInt16(),
-            reader.readInt8(),
-            reader.readString(),
-            reader.readLocalizedText()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeInt16(this.NumericCode);
-        writer.writeInt8(this.Exponent);
-        writer.writeString(this.AlphabeticCode);
-        this.Currency.encode(writer);
-    }
 }

@@ -14,17 +14,4 @@ export class RationalNumber implements IIdentifiable {
     ) { }
 
     readonly id = 18806
-
-    public static decode(reader: BufferReader): RationalNumber {
-        const obj = new RationalNumber(
-            reader.readInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeInt32(this.Numerator);
-        writer.writeUInt32(this.Denominator);
-    }
 }

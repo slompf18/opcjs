@@ -20,25 +20,4 @@ export class AddReferencesItem implements IIdentifiable {
     ) { }
 
     readonly id = 379
-
-    public static decode(reader: BufferReader): AddReferencesItem {
-        const obj = new AddReferencesItem(
-            reader.readNodeId(),
-            reader.readNodeId(),
-            reader.readBoolean(),
-            reader.readString(),
-            reader.readExpandedNodeId(),
-            NodeClassEnum.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.SourceNodeId.encode(writer);
-        this.ReferenceTypeId.encode(writer);
-        writer.writeBoolean(this.IsForward);
-        writer.writeString(this.TargetServerUri);
-        this.TargetNodeId.encode(writer);
-        NodeClassEnum.encode(writer, this.TargetNodeClass);
-    }
 }

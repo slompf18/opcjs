@@ -13,15 +13,4 @@ export class X509IdentityToken implements IIdentifiable {
     ) { }
 
     readonly id = 325
-
-    public static decode(reader: BufferReader): X509IdentityToken {
-        const obj = new X509IdentityToken(
-            reader.readByteString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeByteString(this.CertificateData);
-    }
 }

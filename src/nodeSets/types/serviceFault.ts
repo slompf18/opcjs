@@ -13,15 +13,4 @@ export class ServiceFault implements IIdentifiable {
     ) { }
 
     readonly id = 395
-
-    public static decode(reader: BufferReader): ServiceFault {
-        const obj = new ServiceFault(
-            ResponseHeader.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-    }
 }

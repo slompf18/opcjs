@@ -21,31 +21,4 @@ export class ResponseHeader implements IIdentifiable {
     ) { }
 
     readonly id = 392
-
-    public static decode(reader: BufferReader): ResponseHeader {
-        const obj = new ResponseHeader(
-            reader.readDateTime(),
-            reader.readUInt32(),
-            reader.readStatusCode(),
-            reader.readDiagnosticInfo(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            reader.readExtensionObject()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeDateTime(this.Timestamp);
-        writer.writeUInt32(this.RequestHandle);
-        writer.writeStatusCode(this.ServiceResult);
-        this.ServiceDiagnostics.encode(writer);
-        {
-            const arr = this.StringTable ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-        this.AdditionalHeader.encode(writer);
-    }
 }

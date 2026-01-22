@@ -23,27 +23,4 @@ export class FieldTargetDataType implements IIdentifiable {
     ) { }
 
     readonly id = 14744
-
-    public static decode(reader: BufferReader): FieldTargetDataType {
-        const obj = new FieldTargetDataType(
-            reader.readGuid(),
-            reader.readString(),
-            reader.readNodeId(),
-            reader.readUInt32(),
-            reader.readString(),
-            OverrideValueHandlingEnum.decode(reader),
-            reader.readVariant()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeGuid(this.DataSetFieldId);
-        writer.writeString(this.ReceiverIndexRange);
-        this.TargetNodeId.encode(writer);
-        writer.writeUInt32(this.AttributeId);
-        writer.writeString(this.WriteIndexRange);
-        OverrideValueHandlingEnum.encode(writer, this.OverrideValueHandling);
-        this.OverrideValue.encode(writer);
-    }
 }

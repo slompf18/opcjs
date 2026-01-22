@@ -16,33 +16,4 @@ export class FindServersRequest implements IIdentifiable {
     ) { }
 
     readonly id = 420
-
-    public static decode(reader: BufferReader): FindServersRequest {
-        const obj = new FindServersRequest(
-            RequestHeader.decode(reader),
-            reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeString(this.EndpointUrl);
-        {
-            const arr = this.LocaleIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-        {
-            const arr = this.ServerUris ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-    }
 }

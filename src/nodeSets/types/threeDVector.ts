@@ -15,19 +15,4 @@ export class ThreeDVector implements IIdentifiable {
     ) { }
 
     readonly id = 18808
-
-    public static decode(reader: BufferReader): ThreeDVector {
-        const obj = new ThreeDVector(
-            reader.readFloat64(),
-            reader.readFloat64(),
-            reader.readFloat64()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeFloat64(this.X);
-        writer.writeFloat64(this.Y);
-        writer.writeFloat64(this.Z);
-    }
 }

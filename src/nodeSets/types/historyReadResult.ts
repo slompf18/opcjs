@@ -17,19 +17,4 @@ export class HistoryReadResult implements IIdentifiable {
     ) { }
 
     readonly id = 638
-
-    public static decode(reader: BufferReader): HistoryReadResult {
-        const obj = new HistoryReadResult(
-            reader.readStatusCode(),
-            reader.readByteString(),
-            reader.readExtensionObject()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeStatusCode(this.StatusCode);
-        writer.writeByteString(this.ContinuationPoint);
-        this.HistoryData.encode(writer);
-    }
 }

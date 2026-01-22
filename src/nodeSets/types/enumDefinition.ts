@@ -13,21 +13,4 @@ export class EnumDefinition implements IIdentifiable {
     ) { }
 
     readonly id = 100
-
-    public static decode(reader: BufferReader): EnumDefinition {
-        const obj = new EnumDefinition(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = EnumField.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        {
-            const arr = this.Fields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

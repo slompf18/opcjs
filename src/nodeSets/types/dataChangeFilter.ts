@@ -16,19 +16,4 @@ export class DataChangeFilter implements IIdentifiable {
     ) { }
 
     readonly id = 722
-
-    public static decode(reader: BufferReader): DataChangeFilter {
-        const obj = new DataChangeFilter(
-            DataChangeTriggerEnum.decode(reader),
-            reader.readUInt32(),
-            reader.readFloat64()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        DataChangeTriggerEnum.encode(writer, this.Trigger);
-        writer.writeUInt32(this.DeadbandType);
-        writer.writeFloat64(this.DeadbandValue);
-    }
 }

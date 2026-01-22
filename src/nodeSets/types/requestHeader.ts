@@ -21,27 +21,4 @@ export class RequestHeader implements IIdentifiable {
     ) { }
 
     readonly id = 389
-
-    public static decode(reader: BufferReader): RequestHeader {
-        const obj = new RequestHeader(
-            reader.readNodeId(),
-            reader.readDateTime(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readString(),
-            reader.readUInt32(),
-            reader.readExtensionObject()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.AuthenticationToken.encode(writer);
-        writer.writeDateTime(this.Timestamp);
-        writer.writeUInt32(this.RequestHandle);
-        writer.writeUInt32(this.ReturnDiagnostics);
-        writer.writeString(this.AuditEntryId);
-        writer.writeUInt32(this.TimeoutHint);
-        this.AdditionalHeader.encode(writer);
-    }
 }

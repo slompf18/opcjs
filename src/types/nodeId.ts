@@ -52,7 +52,7 @@ export class NodeId {
 
             case NodeIdTypeEnum.ByteString:
                 namespace = buffer.readUInt16()
-                identifier = buffer.readByteString()
+                identifier = buffer.readByteString() as ByteString
                 break;
 
             case NodeIdTypeEnum.String:

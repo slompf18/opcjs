@@ -18,23 +18,4 @@ export class DeleteReferencesItem implements IIdentifiable {
     ) { }
 
     readonly id = 385
-
-    public static decode(reader: BufferReader): DeleteReferencesItem {
-        const obj = new DeleteReferencesItem(
-            reader.readNodeId(),
-            reader.readNodeId(),
-            reader.readBoolean(),
-            reader.readExpandedNodeId(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.SourceNodeId.encode(writer);
-        this.ReferenceTypeId.encode(writer);
-        writer.writeBoolean(this.IsForward);
-        this.TargetNodeId.encode(writer);
-        writer.writeBoolean(this.DeleteBidirectional);
-    }
 }

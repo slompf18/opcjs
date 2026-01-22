@@ -16,21 +16,4 @@ export class DeleteRawModifiedDetails implements IIdentifiable {
     ) { }
 
     readonly id = 686
-
-    public static decode(reader: BufferReader): DeleteRawModifiedDetails {
-        const obj = new DeleteRawModifiedDetails(
-            reader.readNodeId(),
-            reader.readBoolean(),
-            reader.readDateTime(),
-            reader.readDateTime()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.NodeId.encode(writer);
-        writer.writeBoolean(this.IsDeleteModified);
-        writer.writeDateTime(this.StartTime);
-        writer.writeDateTime(this.EndTime);
-    }
 }

@@ -14,17 +14,4 @@ export class UnsignedRationalNumber implements IIdentifiable {
     ) { }
 
     readonly id = 24107
-
-    public static decode(reader: BufferReader): UnsignedRationalNumber {
-        const obj = new UnsignedRationalNumber(
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.Numerator);
-        writer.writeUInt32(this.Denominator);
-    }
 }

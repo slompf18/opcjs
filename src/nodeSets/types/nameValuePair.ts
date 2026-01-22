@@ -14,17 +14,4 @@ export class NameValuePair implements IIdentifiable {
     ) { }
 
     readonly id = 19748
-
-    public static decode(reader: BufferReader): NameValuePair {
-        const obj = new NameValuePair(
-            reader.readString(),
-            reader.readVariant()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Name);
-        this.Value.encode(writer);
-    }
 }

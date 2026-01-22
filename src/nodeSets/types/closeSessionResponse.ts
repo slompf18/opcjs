@@ -13,15 +13,4 @@ export class CloseSessionResponse implements IIdentifiable {
     ) { }
 
     readonly id = 474
-
-    public static decode(reader: BufferReader): CloseSessionResponse {
-        const obj = new CloseSessionResponse(
-            ResponseHeader.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-    }
 }

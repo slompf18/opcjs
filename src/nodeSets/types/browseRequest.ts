@@ -19,27 +19,4 @@ export class BrowseRequest implements IIdentifiable {
     ) { }
 
     readonly id = 525
-
-    public static decode(reader: BufferReader): BrowseRequest {
-        const obj = new BrowseRequest(
-            RequestHeader.decode(reader),
-            ViewDescription.decode(reader),
-            reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BrowseDescription.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        this.View.encode(writer);
-        writer.writeUInt32(this.RequestedMaxReferencesPerNode);
-        {
-            const arr = this.NodesToBrowse ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

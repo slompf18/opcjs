@@ -17,27 +17,4 @@ export class FindServersOnNetworkRequest implements IIdentifiable {
     ) { }
 
     readonly id = 12190
-
-    public static decode(reader: BufferReader): FindServersOnNetworkRequest {
-        const obj = new FindServersOnNetworkRequest(
-            RequestHeader.decode(reader),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeUInt32(this.StartingRecordId);
-        writer.writeUInt32(this.MaxRecordsToReturn);
-        {
-            const arr = this.ServerCapabilityFilter ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-    }
 }

@@ -17,21 +17,4 @@ export class UadpDataSetWriterMessageDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15652
-
-    public static decode(reader: BufferReader): UadpDataSetWriterMessageDataType {
-        const obj = new UadpDataSetWriterMessageDataType(
-            UadpDataSetMessageContentMaskEnum.decode(reader),
-            reader.readUInt16(),
-            reader.readUInt16(),
-            reader.readUInt16()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        UadpDataSetMessageContentMaskEnum.encode(writer, this.DataSetMessageContentMask);
-        writer.writeUInt16(this.ConfiguredSize);
-        writer.writeUInt16(this.NetworkMessageNumber);
-        writer.writeUInt16(this.DataSetOffset);
-    }
 }

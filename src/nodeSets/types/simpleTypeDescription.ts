@@ -15,17 +15,4 @@ export class SimpleTypeDescription implements IIdentifiable {
     ) { }
 
     readonly id = 15005
-
-    public static decode(reader: BufferReader): SimpleTypeDescription {
-        const obj = new SimpleTypeDescription(
-            reader.readNodeId(),
-            reader.readUInt8()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.BaseDataType.encode(writer);
-        writer.writeUint8(this.BuiltInType);
-    }
 }

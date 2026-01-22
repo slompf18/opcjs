@@ -14,17 +14,4 @@ export class PortableNodeId implements IIdentifiable {
     ) { }
 
     readonly id = 24106
-
-    public static decode(reader: BufferReader): PortableNodeId {
-        const obj = new PortableNodeId(
-            reader.readString(),
-            reader.readNodeId()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.NamespaceUri);
-        this.Identifier.encode(writer);
-    }
 }

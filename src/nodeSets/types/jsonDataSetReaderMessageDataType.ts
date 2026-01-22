@@ -15,17 +15,4 @@ export class JsonDataSetReaderMessageDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15665
-
-    public static decode(reader: BufferReader): JsonDataSetReaderMessageDataType {
-        const obj = new JsonDataSetReaderMessageDataType(
-            JsonNetworkMessageContentMaskEnum.decode(reader),
-            JsonDataSetMessageContentMaskEnum.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        JsonNetworkMessageContentMaskEnum.encode(writer, this.NetworkMessageContentMask);
-        JsonDataSetMessageContentMaskEnum.encode(writer, this.DataSetMessageContentMask);
-    }
 }

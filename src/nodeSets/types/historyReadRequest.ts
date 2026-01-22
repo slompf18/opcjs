@@ -20,29 +20,4 @@ export class HistoryReadRequest implements IIdentifiable {
     ) { }
 
     readonly id = 662
-
-    public static decode(reader: BufferReader): HistoryReadRequest {
-        const obj = new HistoryReadRequest(
-            RequestHeader.decode(reader),
-            reader.readExtensionObject(),
-            TimestampsToReturnEnum.decode(reader),
-            reader.readBoolean(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = HistoryReadValueId.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        this.HistoryReadDetails.encode(writer);
-        TimestampsToReturnEnum.encode(writer, this.TimestampsToReturn);
-        writer.writeBoolean(this.ReleaseContinuationPoints);
-        {
-            const arr = this.NodesToRead ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

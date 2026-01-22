@@ -19,33 +19,4 @@ export class ActivateSessionResponse implements IIdentifiable {
     ) { }
 
     readonly id = 468
-
-    public static decode(reader: BufferReader): ActivateSessionResponse {
-        const obj = new ActivateSessionResponse(
-            ResponseHeader.decode(reader),
-            reader.readByteString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-        writer.writeByteString(this.ServerNonce);
-        {
-            const arr = this.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
-            }
-        };
-        {
-            const arr = this.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

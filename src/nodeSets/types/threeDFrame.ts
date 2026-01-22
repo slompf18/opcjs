@@ -15,17 +15,4 @@ export class ThreeDFrame implements IIdentifiable {
     ) { }
 
     readonly id = 18814
-
-    public static decode(reader: BufferReader): ThreeDFrame {
-        const obj = new ThreeDFrame(
-            ThreeDCartesianCoordinates.decode(reader),
-            ThreeDOrientation.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.CartesianCoordinates.encode(writer);
-        this.Orientation.encode(writer);
-    }
 }

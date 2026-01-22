@@ -24,43 +24,4 @@ export class WriterGroupDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15480
-
-    public static decode(reader: BufferReader): WriterGroupDataType {
-        const obj = new WriterGroupDataType(
-            reader.readUInt16(),
-            reader.readFloat64(),
-            reader.readFloat64(),
-            reader.readUInt8(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            reader.readString(),
-            WriterGroupTransportDataType.decode(reader),
-            WriterGroupMessageDataType.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = DataSetWriterDataType.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt16(this.WriterGroupId);
-        writer.writeFloat64(this.PublishingInterval);
-        writer.writeFloat64(this.KeepAliveTime);
-        writer.writeUint8(this.Priority);
-        {
-            const arr = this.LocaleIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-        writer.writeString(this.HeaderLayoutUri);
-        this.TransportSettings.encode(writer);
-        this.MessageSettings.encode(writer);
-        {
-            const arr = this.DataSetWriters ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

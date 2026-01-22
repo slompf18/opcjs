@@ -16,19 +16,4 @@ export class ModelChangeStructureDataType implements IIdentifiable {
     ) { }
 
     readonly id = 877
-
-    public static decode(reader: BufferReader): ModelChangeStructureDataType {
-        const obj = new ModelChangeStructureDataType(
-            reader.readNodeId(),
-            reader.readNodeId(),
-            reader.readUInt8()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.Affected.encode(writer);
-        this.AffectedType.encode(writer);
-        writer.writeUint8(this.Verb);
-    }
 }

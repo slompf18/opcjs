@@ -19,29 +19,4 @@ export class UadpWriterGroupMessageDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15645
-
-    public static decode(reader: BufferReader): UadpWriterGroupMessageDataType {
-        const obj = new UadpWriterGroupMessageDataType(
-            reader.readUInt32(),
-            DataSetOrderingTypeEnum.decode(reader),
-            UadpNetworkMessageContentMaskEnum.decode(reader),
-            reader.readFloat64(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readFloat64(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.GroupVersion);
-        DataSetOrderingTypeEnum.encode(writer, this.DataSetOrdering);
-        UadpNetworkMessageContentMaskEnum.encode(writer, this.NetworkMessageContentMask);
-        writer.writeFloat64(this.SamplingOffset);
-        {
-            const arr = this.PublishingOffset ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeFloat64(v);
-            }
-        };
-    }
 }

@@ -16,21 +16,4 @@ export class LinearConversionDataType implements IIdentifiable {
     ) { }
 
     readonly id = 32435
-
-    public static decode(reader: BufferReader): LinearConversionDataType {
-        const obj = new LinearConversionDataType(
-            reader.readFloat32(),
-            reader.readFloat32(),
-            reader.readFloat32(),
-            reader.readFloat32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeFloat32(this.InitialAddend);
-        writer.writeFloat32(this.Multiplicand);
-        writer.writeFloat32(this.Divisor);
-        writer.writeFloat32(this.FinalAddend);
-    }
 }

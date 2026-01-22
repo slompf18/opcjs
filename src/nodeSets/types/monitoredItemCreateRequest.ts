@@ -17,19 +17,4 @@ export class MonitoredItemCreateRequest implements IIdentifiable {
     ) { }
 
     readonly id = 743
-
-    public static decode(reader: BufferReader): MonitoredItemCreateRequest {
-        const obj = new MonitoredItemCreateRequest(
-            ReadValueId.decode(reader),
-            MonitoringModeEnum.decode(reader),
-            MonitoringParameters.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ItemToMonitor.encode(writer);
-        MonitoringModeEnum.encode(writer, this.MonitoringMode);
-        this.RequestedParameters.encode(writer);
-    }
 }

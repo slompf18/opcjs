@@ -19,27 +19,4 @@ export class ReadRequest implements IIdentifiable {
     ) { }
 
     readonly id = 629
-
-    public static decode(reader: BufferReader): ReadRequest {
-        const obj = new ReadRequest(
-            RequestHeader.decode(reader),
-            reader.readFloat64(),
-            TimestampsToReturnEnum.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ReadValueId.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeFloat64(this.MaxAge);
-        TimestampsToReturnEnum.encode(writer, this.TimestampsToReturn);
-        {
-            const arr = this.NodesToRead ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

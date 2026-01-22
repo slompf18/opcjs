@@ -17,25 +17,4 @@ export class BuildInfo implements IIdentifiable {
     ) { }
 
     readonly id = 338
-
-    public static decode(reader: BufferReader): BuildInfo {
-        const obj = new BuildInfo(
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readDateTime()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.ProductUri);
-        writer.writeString(this.ManufacturerName);
-        writer.writeString(this.ProductName);
-        writer.writeString(this.SoftwareVersion);
-        writer.writeString(this.BuildNumber);
-        writer.writeDateTime(this.BuildDate);
-    }
 }

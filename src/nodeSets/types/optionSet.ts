@@ -14,17 +14,4 @@ export class OptionSet implements IIdentifiable {
     ) { }
 
     readonly id = 12755
-
-    public static decode(reader: BufferReader): OptionSet {
-        const obj = new OptionSet(
-            reader.readByteString(),
-            reader.readByteString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeByteString(this.Value);
-        writer.writeByteString(this.ValidBits);
-    }
 }

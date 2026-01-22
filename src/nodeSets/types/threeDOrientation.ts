@@ -15,19 +15,4 @@ export class ThreeDOrientation implements IIdentifiable {
     ) { }
 
     readonly id = 18812
-
-    public static decode(reader: BufferReader): ThreeDOrientation {
-        const obj = new ThreeDOrientation(
-            reader.readFloat64(),
-            reader.readFloat64(),
-            reader.readFloat64()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeFloat64(this.A);
-        writer.writeFloat64(this.B);
-        writer.writeFloat64(this.C);
-    }
 }

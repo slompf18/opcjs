@@ -16,21 +16,4 @@ export class ChannelSecurityToken implements IIdentifiable {
     ) { }
 
     readonly id = 441
-
-    public static decode(reader: BufferReader): ChannelSecurityToken {
-        const obj = new ChannelSecurityToken(
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readDateTime(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.ChannelId);
-        writer.writeUInt32(this.TokenId);
-        writer.writeDateTime(this.CreatedAt);
-        writer.writeUInt32(this.RevisedLifetime);
-    }
 }

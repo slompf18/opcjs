@@ -12,15 +12,4 @@ export class UserIdentityToken implements IIdentifiable {
     ) { }
 
     readonly id = 316
-
-    public static decode(reader: BufferReader): UserIdentityToken {
-        const obj = new UserIdentityToken(
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.PolicyId);
-    }
 }

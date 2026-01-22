@@ -15,23 +15,4 @@ export class BaseConfigurationDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15434
-
-    public static decode(reader: BufferReader): BaseConfigurationDataType {
-        const obj = new BaseConfigurationDataType(
-            reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = KeyValuePair.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.ConfigurationVersion);
-        {
-            const arr = this.ConfigurationProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

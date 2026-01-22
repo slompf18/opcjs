@@ -15,23 +15,4 @@ export class AddNodesRequest implements IIdentifiable {
     ) { }
 
     readonly id = 486
-
-    public static decode(reader: BufferReader): AddNodesRequest {
-        const obj = new AddNodesRequest(
-            RequestHeader.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = AddNodesItem.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        {
-            const arr = this.NodesToAdd ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

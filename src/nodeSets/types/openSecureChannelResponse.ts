@@ -18,21 +18,4 @@ export class OpenSecureChannelResponse implements IIdentifiable {
     ) { }
 
     readonly id = 447
-
-    public static decode(reader: BufferReader): OpenSecureChannelResponse {
-        const obj = new OpenSecureChannelResponse(
-            ResponseHeader.decode(reader),
-            reader.readUInt32(),
-            ChannelSecurityToken.decode(reader),
-            reader.readByteString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-        writer.writeUInt32(this.ServerProtocolVersion);
-        this.SecurityToken.encode(writer);
-        writer.writeByteString(this.ServerNonce);
-    }
 }

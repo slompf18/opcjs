@@ -18,27 +18,4 @@ export class StructureDefinition implements IIdentifiable {
     ) { }
 
     readonly id = 99
-
-    public static decode(reader: BufferReader): StructureDefinition {
-        const obj = new StructureDefinition(
-            reader.readNodeId(),
-            reader.readNodeId(),
-            StructureTypeEnum.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = StructureField.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.DefaultEncodingId.encode(writer);
-        this.BaseDataType.encode(writer);
-        StructureTypeEnum.encode(writer, this.StructureType);
-        {
-            const arr = this.Fields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

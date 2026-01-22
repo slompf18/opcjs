@@ -18,23 +18,4 @@ export class CreateSubscriptionResponse implements IIdentifiable {
     ) { }
 
     readonly id = 788
-
-    public static decode(reader: BufferReader): CreateSubscriptionResponse {
-        const obj = new CreateSubscriptionResponse(
-            ResponseHeader.decode(reader),
-            reader.readUInt32(),
-            reader.readFloat64(),
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-        writer.writeUInt32(this.SubscriptionId);
-        writer.writeFloat64(this.RevisedPublishingInterval);
-        writer.writeUInt32(this.RevisedLifetimeCount);
-        writer.writeUInt32(this.RevisedMaxKeepAliveCount);
-    }
 }

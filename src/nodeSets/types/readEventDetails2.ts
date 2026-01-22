@@ -12,15 +12,4 @@ export class ReadEventDetails2 implements IIdentifiable {
     ) { }
 
     readonly id = 32799
-
-    public static decode(reader: BufferReader): ReadEventDetails2 {
-        const obj = new ReadEventDetails2(
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.ReadModified);
-    }
 }

@@ -1,4 +1,5 @@
 import { BufferReader } from "../../codecs/binary/bufferReader";
+import { BufferUtils } from "../../codecs/binary/bufferUtils";
 import { BufferWriter } from "../../codecs/binary/bufferWriter";
 import { IEncryptionAlgorithm } from "../../cryption/iEncryptionAlgorithm";
 import { MsgBase } from "./msgBase";
@@ -22,9 +23,12 @@ export class MsgAsymmetric extends MsgBase {
         headerLength: number,
         encryptionAlgorithm: IEncryptionAlgorithm) {
 
+                BufferUtils.Log('before decryption',buffer.readRemainingBytes(), buffer.getPosition());
+                buffer.rewind();
         const decryptedBody = MsgBase.DecryptAndVerify(
             buffer.readRemainingBytes(), encryptionAlgorithm, headerLength);
         buffer = new BufferReader(decryptedBody);
+                BufferUtils.Log('after decryption',decryptedBody, 0);
         const sequenceHeader = MsgSequenceHeader.decode(buffer);
         const body = buffer.readRemainingBytes();
 
@@ -47,8 +51,8 @@ export class MsgAsymmetric extends MsgBase {
         const bodyStartPos = buffer.getLength();
         buffer.writeBytes(this.body);
         
-        const encryptedBody = super.Encrypt(buffer, encryptionAlgorithm, headerLength);
-        buffer.writeBytesAt(encryptedBody, bodyStartPos);
+        const encryptedBody = super.Encrypt(buffer, encryptionAlgorithm, headerLength, bodyStartPos);
+        buffer.writeBytesAt(encryptedBody, headerLength);
 
         // the size was written by encrypt
     }

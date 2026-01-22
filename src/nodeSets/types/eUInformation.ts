@@ -17,21 +17,4 @@ export class EUInformation implements IIdentifiable {
     ) { }
 
     readonly id = 887
-
-    public static decode(reader: BufferReader): EUInformation {
-        const obj = new EUInformation(
-            reader.readString(),
-            reader.readInt32(),
-            reader.readLocalizedText(),
-            reader.readLocalizedText()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.NamespaceUri);
-        writer.writeInt32(this.UnitId);
-        this.DisplayName.encode(writer);
-        this.Description.encode(writer);
-    }
 }

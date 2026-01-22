@@ -16,19 +16,4 @@ export class RedundantServerDataType implements IIdentifiable {
     ) { }
 
     readonly id = 853
-
-    public static decode(reader: BufferReader): RedundantServerDataType {
-        const obj = new RedundantServerDataType(
-            reader.readString(),
-            reader.readUInt8(),
-            ServerStateEnum.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.ServerId);
-        writer.writeUint8(this.ServiceLevel);
-        ServerStateEnum.encode(writer, this.ServerState);
-    }
 }

@@ -23,31 +23,4 @@ export class CreateSessionRequest implements IIdentifiable {
     ) { }
 
     readonly id = 459
-
-    public static decode(reader: BufferReader): CreateSessionRequest {
-        const obj = new CreateSessionRequest(
-            RequestHeader.decode(reader),
-            ApplicationDescription.decode(reader),
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readByteString(),
-            reader.readByteString(),
-            reader.readFloat64(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        this.ClientDescription.encode(writer);
-        writer.writeString(this.ServerUri);
-        writer.writeString(this.EndpointUrl);
-        writer.writeString(this.SessionName);
-        writer.writeByteString(this.ClientNonce);
-        writer.writeByteString(this.ClientCertificate);
-        writer.writeFloat64(this.RequestedSessionTimeout);
-        writer.writeUInt32(this.MaxResponseMessageSize);
-    }
 }

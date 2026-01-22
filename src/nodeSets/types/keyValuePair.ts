@@ -15,17 +15,4 @@ export class KeyValuePair implements IIdentifiable {
     ) { }
 
     readonly id = 14533
-
-    public static decode(reader: BufferReader): KeyValuePair {
-        const obj = new KeyValuePair(
-            reader.readQualifiedName(),
-            reader.readVariant()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.Key.encode(writer);
-        this.Value.encode(writer);
-    }
 }

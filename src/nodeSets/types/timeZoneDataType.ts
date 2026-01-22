@@ -14,17 +14,4 @@ export class TimeZoneDataType implements IIdentifiable {
     ) { }
 
     readonly id = 8912
-
-    public static decode(reader: BufferReader): TimeZoneDataType {
-        const obj = new TimeZoneDataType(
-            reader.readInt16(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeInt16(this.Offset);
-        writer.writeBoolean(this.DaylightSavingInOffset);
-    }
 }

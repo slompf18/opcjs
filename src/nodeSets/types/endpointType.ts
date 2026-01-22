@@ -16,21 +16,4 @@ export class EndpointType implements IIdentifiable {
     ) { }
 
     readonly id = 15528
-
-    public static decode(reader: BufferReader): EndpointType {
-        const obj = new EndpointType(
-            reader.readString(),
-            MessageSecurityModeEnum.decode(reader),
-            reader.readString(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.EndpointUrl);
-        MessageSecurityModeEnum.encode(writer, this.SecurityMode);
-        writer.writeString(this.SecurityPolicyUri);
-        writer.writeString(this.TransportProfileUri);
-    }
 }

@@ -15,17 +15,4 @@ export class MonitoredItemNotification implements IIdentifiable {
     ) { }
 
     readonly id = 806
-
-    public static decode(reader: BufferReader): MonitoredItemNotification {
-        const obj = new MonitoredItemNotification(
-            reader.readUInt32(),
-            reader.readDataValue()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.ClientHandle);
-        this.Value.encode(writer);
-    }
 }

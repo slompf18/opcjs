@@ -20,29 +20,4 @@ export class DataSetMetaDataType implements IIdentifiable {
     ) { }
 
     readonly id = 14523
-
-    public static decode(reader: BufferReader): DataSetMetaDataType {
-        const obj = new DataSetMetaDataType(
-            reader.readString(),
-            reader.readLocalizedText(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = FieldMetaData.decode(reader); } return arr; })(),
-            reader.readGuid(),
-            ConfigurationVersionDataType.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Name);
-        this.Description.encode(writer);
-        {
-            const arr = this.Fields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-        writer.writeGuid(this.DataSetClassId);
-        this.ConfigurationVersion.encode(writer);
-    }
 }

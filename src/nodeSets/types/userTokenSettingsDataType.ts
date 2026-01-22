@@ -18,25 +18,4 @@ export class UserTokenSettingsDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15560
-
-    public static decode(reader: BufferReader): UserTokenSettingsDataType {
-        const obj = new UserTokenSettingsDataType(
-            UserTokenTypeEnum.decode(reader),
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        UserTokenTypeEnum.encode(writer, this.TokenType);
-        writer.writeString(this.IssuedTokenType);
-        writer.writeString(this.IssuerEndpointUrl);
-        writer.writeString(this.SecurityPolicyUri);
-        writer.writeString(this.CertificateGroupName);
-        writer.writeString(this.AuthorizationServiceName);
-    }
 }

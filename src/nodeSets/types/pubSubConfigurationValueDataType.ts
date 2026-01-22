@@ -16,19 +16,4 @@ export class PubSubConfigurationValueDataType implements IIdentifiable {
     ) { }
 
     readonly id = 25520
-
-    public static decode(reader: BufferReader): PubSubConfigurationValueDataType {
-        const obj = new PubSubConfigurationValueDataType(
-            PubSubConfigurationRefDataType.decode(reader),
-            reader.readString(),
-            reader.readVariant()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ConfigurationElement.encode(writer);
-        writer.writeString(this.Name);
-        this.Identifier.encode(writer);
-    }
 }

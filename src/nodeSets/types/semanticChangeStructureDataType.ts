@@ -14,17 +14,4 @@ export class SemanticChangeStructureDataType implements IIdentifiable {
     ) { }
 
     readonly id = 897
-
-    public static decode(reader: BufferReader): SemanticChangeStructureDataType {
-        const obj = new SemanticChangeStructureDataType(
-            reader.readNodeId(),
-            reader.readNodeId()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.Affected.encode(writer);
-        this.AffectedType.encode(writer);
-    }
 }

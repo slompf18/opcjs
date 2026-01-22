@@ -23,45 +23,4 @@ export class PublishResponse implements IIdentifiable {
     ) { }
 
     readonly id = 827
-
-    public static decode(reader: BufferReader): PublishResponse {
-        const obj = new PublishResponse(
-            ResponseHeader.decode(reader),
-            reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
-            reader.readBoolean(),
-            NotificationMessage.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-        writer.writeUInt32(this.SubscriptionId);
-        {
-            const arr = this.AvailableSequenceNumbers ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
-            }
-        };
-        writer.writeBoolean(this.MoreNotifications);
-        this.NotificationMessage.encode(writer);
-        {
-            const arr = this.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
-            }
-        };
-        {
-            const arr = this.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

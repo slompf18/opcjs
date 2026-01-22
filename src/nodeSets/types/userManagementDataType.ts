@@ -15,19 +15,4 @@ export class UserManagementDataType implements IIdentifiable {
     ) { }
 
     readonly id = 24281
-
-    public static decode(reader: BufferReader): UserManagementDataType {
-        const obj = new UserManagementDataType(
-            reader.readString(),
-            UserConfigurationMaskEnum.decode(reader),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.UserName);
-        UserConfigurationMaskEnum.encode(writer, this.UserConfiguration);
-        writer.writeString(this.Description);
-    }
 }

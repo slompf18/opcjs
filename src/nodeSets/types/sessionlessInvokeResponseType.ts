@@ -15,31 +15,4 @@ export class SessionlessInvokeResponseType implements IIdentifiable {
     ) { }
 
     readonly id = 20999
-
-    public static decode(reader: BufferReader): SessionlessInvokeResponseType {
-        const obj = new SessionlessInvokeResponseType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        {
-            const arr = this.NamespaceUris ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-        {
-            const arr = this.ServerUris ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-        writer.writeUInt32(this.ServiceId);
-    }
 }

@@ -14,17 +14,4 @@ export class CloseSessionRequest implements IIdentifiable {
     ) { }
 
     readonly id = 471
-
-    public static decode(reader: BufferReader): CloseSessionRequest {
-        const obj = new CloseSessionRequest(
-            RequestHeader.decode(reader),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeBoolean(this.DeleteSubscriptions);
-    }
 }

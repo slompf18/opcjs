@@ -10,13 +10,4 @@ export class TransmitQosDataType implements IIdentifiable {
     constructor() { }
 
     readonly id = 23604
-
-    public static decode(reader: BufferReader): TransmitQosDataType {
-        // Abstract type - no fields to decode
-        return new TransmitQosDataType();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

@@ -16,21 +16,4 @@ export class BrokerWriterGroupTransportDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15667
-
-    public static decode(reader: BufferReader): BrokerWriterGroupTransportDataType {
-        const obj = new BrokerWriterGroupTransportDataType(
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            BrokerTransportQualityOfServiceEnum.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.QueueName);
-        writer.writeString(this.ResourceUri);
-        writer.writeString(this.AuthenticationProfileUri);
-        BrokerTransportQualityOfServiceEnum.encode(writer, this.RequestedDeliveryGuarantee);
-    }
 }

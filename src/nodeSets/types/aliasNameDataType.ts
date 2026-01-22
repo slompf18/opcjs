@@ -15,23 +15,4 @@ export class AliasNameDataType implements IIdentifiable {
     ) { }
 
     readonly id = 23468
-
-    public static decode(reader: BufferReader): AliasNameDataType {
-        const obj = new AliasNameDataType(
-            reader.readQualifiedName(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExpandedNodeId(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.AliasName.encode(writer);
-        {
-            const arr = this.ReferencedNodes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

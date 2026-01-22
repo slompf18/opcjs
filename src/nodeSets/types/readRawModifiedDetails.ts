@@ -17,23 +17,4 @@ export class ReadRawModifiedDetails implements IIdentifiable {
     ) { }
 
     readonly id = 647
-
-    public static decode(reader: BufferReader): ReadRawModifiedDetails {
-        const obj = new ReadRawModifiedDetails(
-            reader.readBoolean(),
-            reader.readDateTime(),
-            reader.readDateTime(),
-            reader.readUInt32(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.IsReadModified);
-        writer.writeDateTime(this.StartTime);
-        writer.writeDateTime(this.EndTime);
-        writer.writeUInt32(this.NumValuesPerNode);
-        writer.writeBoolean(this.ReturnBounds);
-    }
 }

@@ -15,17 +15,4 @@ export class RepublishResponse implements IIdentifiable {
     ) { }
 
     readonly id = 833
-
-    public static decode(reader: BufferReader): RepublishResponse {
-        const obj = new RepublishResponse(
-            ResponseHeader.decode(reader),
-            NotificationMessage.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-        this.NotificationMessage.encode(writer);
-    }
 }

@@ -14,17 +14,4 @@ export class EphemeralKeyType implements IIdentifiable {
     ) { }
 
     readonly id = 17548
-
-    public static decode(reader: BufferReader): EphemeralKeyType {
-        const obj = new EphemeralKeyType(
-            reader.readByteString(),
-            reader.readByteString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeByteString(this.PublicKey);
-        writer.writeByteString(this.Signature);
-    }
 }

@@ -16,19 +16,4 @@ export class ViewDescription implements IIdentifiable {
     ) { }
 
     readonly id = 511
-
-    public static decode(reader: BufferReader): ViewDescription {
-        const obj = new ViewDescription(
-            reader.readNodeId(),
-            reader.readDateTime(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ViewId.encode(writer);
-        writer.writeDateTime(this.Timestamp);
-        writer.writeUInt32(this.ViewVersion);
-    }
 }

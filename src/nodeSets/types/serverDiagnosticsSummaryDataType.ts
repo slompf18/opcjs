@@ -24,37 +24,4 @@ export class ServerDiagnosticsSummaryDataType implements IIdentifiable {
     ) { }
 
     readonly id = 859
-
-    public static decode(reader: BufferReader): ServerDiagnosticsSummaryDataType {
-        const obj = new ServerDiagnosticsSummaryDataType(
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.ServerViewCount);
-        writer.writeUInt32(this.CurrentSessionCount);
-        writer.writeUInt32(this.CumulatedSessionCount);
-        writer.writeUInt32(this.SecurityRejectedSessionCount);
-        writer.writeUInt32(this.RejectedSessionCount);
-        writer.writeUInt32(this.SessionTimeoutCount);
-        writer.writeUInt32(this.SessionAbortCount);
-        writer.writeUInt32(this.CurrentSubscriptionCount);
-        writer.writeUInt32(this.CumulatedSubscriptionCount);
-        writer.writeUInt32(this.PublishingIntervalCount);
-        writer.writeUInt32(this.SecurityRejectedRequestsCount);
-        writer.writeUInt32(this.RejectedRequestsCount);
-    }
 }

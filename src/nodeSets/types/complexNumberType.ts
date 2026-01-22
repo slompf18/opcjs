@@ -14,17 +14,4 @@ export class ComplexNumberType implements IIdentifiable {
     ) { }
 
     readonly id = 12171
-
-    public static decode(reader: BufferReader): ComplexNumberType {
-        const obj = new ComplexNumberType(
-            reader.readFloat32(),
-            reader.readFloat32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeFloat32(this.Real);
-        writer.writeFloat32(this.Imaginary);
-    }
 }

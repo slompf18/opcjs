@@ -14,17 +14,4 @@ export class TraceContextDataType implements IIdentifiable {
     ) { }
 
     readonly id = 19747
-
-    public static decode(reader: BufferReader): TraceContextDataType {
-        const obj = new TraceContextDataType(
-            reader.readUInt64(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt64(this.ParentSpanId);
-        writer.writeString(this.ParentIdentifier);
-    }
 }

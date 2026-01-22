@@ -15,19 +15,4 @@ export class ThreeDCartesianCoordinates implements IIdentifiable {
     ) { }
 
     readonly id = 18810
-
-    public static decode(reader: BufferReader): ThreeDCartesianCoordinates {
-        const obj = new ThreeDCartesianCoordinates(
-            reader.readFloat64(),
-            reader.readFloat64(),
-            reader.readFloat64()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeFloat64(this.X);
-        writer.writeFloat64(this.Y);
-        writer.writeFloat64(this.Z);
-    }
 }

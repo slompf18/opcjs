@@ -10,13 +10,4 @@ export class ConnectionTransportDataType implements IIdentifiable {
     constructor() { }
 
     readonly id = 15618
-
-    public static decode(reader: BufferReader): ConnectionTransportDataType {
-        // Abstract type - no fields to decode
-        return new ConnectionTransportDataType();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

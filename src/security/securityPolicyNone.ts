@@ -35,6 +35,7 @@ export class SecurityPolicyNone{
         return new EncryptionAlgorithmUnauthenticated(
             1,
             1,
+            false,
             (cleartext: Uint8Array) => cleartext,
             (ciphertext: Uint8Array) => ciphertext,
             (message: Uint8Array) => new Uint8Array(),
@@ -52,6 +53,7 @@ export class SecurityPolicyNone{
         return new EncryptionAlgorithmUnauthenticated(
             1,
             1,
+            false,
             (cleartext: Uint8Array) => cleartext,
             (ciphertext: Uint8Array) => ciphertext,
             (message: Uint8Array) => new Uint8Array(),

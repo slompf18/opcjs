@@ -13,15 +13,4 @@ export class ElementOperand implements IIdentifiable {
     ) { }
 
     readonly id = 592
-
-    public static decode(reader: BufferReader): ElementOperand {
-        const obj = new ElementOperand(
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.Index);
-    }
 }

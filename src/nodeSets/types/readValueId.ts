@@ -18,21 +18,4 @@ export class ReadValueId implements IIdentifiable {
     ) { }
 
     readonly id = 626
-
-    public static decode(reader: BufferReader): ReadValueId {
-        const obj = new ReadValueId(
-            reader.readNodeId(),
-            reader.readUInt32(),
-            reader.readString(),
-            reader.readQualifiedName()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.NodeId.encode(writer);
-        writer.writeUInt32(this.AttributeId);
-        writer.writeString(this.IndexRange);
-        this.DataEncoding.encode(writer);
-    }
 }

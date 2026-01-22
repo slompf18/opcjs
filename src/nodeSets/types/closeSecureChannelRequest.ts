@@ -13,15 +13,4 @@ export class CloseSecureChannelRequest implements IIdentifiable {
     ) { }
 
     readonly id = 450
-
-    public static decode(reader: BufferReader): CloseSecureChannelRequest {
-        const obj = new CloseSecureChannelRequest(
-            RequestHeader.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-    }
 }

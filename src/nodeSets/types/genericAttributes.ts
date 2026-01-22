@@ -13,21 +13,4 @@ export class GenericAttributes implements IIdentifiable {
     ) { }
 
     readonly id = 17607
-
-    public static decode(reader: BufferReader): GenericAttributes {
-        const obj = new GenericAttributes(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = GenericAttributeValue.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        {
-            const arr = this.AttributeValues ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

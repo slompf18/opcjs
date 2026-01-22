@@ -16,25 +16,4 @@ export class SetPublishingModeRequest implements IIdentifiable {
     ) { }
 
     readonly id = 797
-
-    public static decode(reader: BufferReader): SetPublishingModeRequest {
-        const obj = new SetPublishingModeRequest(
-            RequestHeader.decode(reader),
-            reader.readBoolean(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeBoolean(this.PublishingEnabled);
-        {
-            const arr = this.SubscriptionIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
-            }
-        };
-    }
 }

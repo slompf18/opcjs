@@ -15,19 +15,4 @@ export class ReferenceTypeNode implements IIdentifiable {
     ) { }
 
     readonly id = 273
-
-    public static decode(reader: BufferReader): ReferenceTypeNode {
-        const obj = new ReferenceTypeNode(
-            reader.readBoolean(),
-            reader.readBoolean(),
-            reader.readLocalizedText()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.IsAbstract);
-        writer.writeBoolean(this.Symmetric);
-        this.InverseName.encode(writer);
-    }
 }

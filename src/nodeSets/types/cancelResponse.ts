@@ -15,17 +15,4 @@ export class CancelResponse implements IIdentifiable {
     ) { }
 
     readonly id = 480
-
-    public static decode(reader: BufferReader): CancelResponse {
-        const obj = new CancelResponse(
-            ResponseHeader.decode(reader),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-        writer.writeUInt32(this.CancelCount);
-    }
 }

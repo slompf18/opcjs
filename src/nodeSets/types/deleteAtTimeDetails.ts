@@ -14,23 +14,4 @@ export class DeleteAtTimeDetails implements IIdentifiable {
     ) { }
 
     readonly id = 689
-
-    public static decode(reader: BufferReader): DeleteAtTimeDetails {
-        const obj = new DeleteAtTimeDetails(
-            reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDateTime(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.NodeId.encode(writer);
-        {
-            const arr = this.ReqTimes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeDateTime(v);
-            }
-        };
-    }
 }

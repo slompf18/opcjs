@@ -89,15 +89,15 @@ export class OpenSecureChannelRequest implements IIdentifiable {
 }
 ```
 
+**Important**: Types should only have constructor with fields and readonly id. No encode/decode methods on the type classes themselves - encoding/decoding is handled by separate encoder/decoder functions.
+
 ### Abstract Types
 - Types with `IsAbstract="true"` and no fields are generated as empty placeholder classes.
 - Abstract types serve as base types for polymorphic references (e.g., `DataSetWriterTransportDataType`, `DataSetWriterMessageDataType`, `ReceiveQosDataType`).
-- Abstract types must also implement the `IEncodable` interface.
-- Generated abstract types include:
+- Abstract types must also implement the `IIdentifiable` interface.
+- Generated abstract types include only:
   - Empty constructor: `constructor() { }`
-  - Static decode returning instance: `public static decode(reader: BufferReader): TypeName`
-  - Empty encode method: `encode(writer: BufferWriter): void`
-  - Comment markers indicating the type is abstract with no fields to encode/decode.
+  - readonly id field if available
 
 ### Type Aliases
 - The generator maintains a comprehensive mapping of OPC UA type aliases to their underlying types.
@@ -112,49 +112,81 @@ export class OpenSecureChannelRequest implements IIdentifiable {
 ## Codecs 
 - Always emit binary encode/decode per generated type for all generated types.
 - JSON/XML codecs are out-of-scope for now.
-- The ids for the binary decoders can be found in NodeIds.csv. Look in the first column for the type name appended with '_Encoding_DefaultBinary' or '_Encoding_DefaultXML'.
+- **Important**: Two different IDs are used:
+  - **Type ID**: Found in NodeIds.csv with just the type name (e.g., `OpenSecureChannelRequest,444,DataType`). This is stored in the `id` field of the class and used for the encoder switch statement.
+  - **Encoding ID**: Found in NodeIds.csv with `_Encoding_DefaultBinary` suffix (e.g., `OpenSecureChannelRequest_Encoding_DefaultBinary,446,Object`). This is written to the wire by `encodeId()` and used for the decoder switch statement.
 - Add a switch case for all types in SchemaCodec in both methods.
 
 Generate three files:
-nodeSets/binaryDecoder.ts
-```
+
+### nodeSets/binaryDecoders.ts
+All decoder functions are organized in a static `BinaryDecoders` class:
+```typescript
 import { BufferReader } from "../codecs/binary/bufferReader";
 
-export const decodeOpenSecureChannelRequest = (reader: BufferReader) => {    const { OpenSecureChannelRequest } = require("./types/openSecureChannelRequest");    return OpenSecureChannelRequest.decode(reader); }
+export class BinaryDecoders {
+    static decodeOpenSecureChannelRequest = (reader: BufferReader) => {
+        const { OpenSecureChannelRequest } = require("./types/openSecureChannelRequest");
+        const { SecurityTokenRequestTypeEnum } = require("./types/securityTokenRequestType");
+        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
+        return new OpenSecureChannelRequest(
+            BinaryDecoders.decodeRequestHeader(reader),
+            reader.readUInt32(),
+            SecurityTokenRequestTypeEnum.decode(reader),
+            MessageSecurityModeEnum.decode(reader),
+            reader.readByteString(),
+            reader.readUInt32()
+        );
+    };
+}
 ```
 
-nodeSets/binaryEncoders.ts
-```
+### nodeSets/binaryEncoders.ts
+All encoder functions are organized in a static `BinaryEncoders` class with inline encoding logic:
+```typescript
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../codecs/iIdentifiable";
 import { ExpandedNodeId } from "../types/expandedNodeId";
 import { NodeId } from "../types/nodeId";
 
-export const encodeId = (writer: BufferWriter, encoderId: number) => {
-   const id = new ExpandedNodeId(NodeId.NewFourByte(0,encoderId));
-   writer.writeExpandedNodeId(id);
-}
+export class BinaryEncoders {
+    static encodeId = (writer: BufferWriter, encoderId: number) => {
+        const id = new ExpandedNodeId(NodeId.NewFourByte(0, encoderId));
+        writer.writeExpandedNodeId(id);
+    };
 
-export const encodeOpenSecureChannelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {    
-  encodeId(writer, 446);
-  (identifiable as any).encode(writer);
+    static encodeOpenSecureChannelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
+        BinaryEncoders.encodeId(writer, 446);  // Uses encoding ID (446), not type ID (444)
+        const { SecurityTokenRequestTypeEnum } = require("./types/securityTokenRequestType");
+        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
+        const obj = identifiable as any;
+        BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
+        writer.writeUInt32(obj.ClientProtocolVersion);
+        SecurityTokenRequestTypeEnum.encode(writer, obj.RequestType);
+        MessageSecurityModeEnum.encode(writer, obj.SecurityMode);
+        writer.writeByteString(obj.ClientNonce);
+        writer.writeUInt32(obj.RequestedLifetime);
+    };
 }
 ```
 
-nodeSets/schemaCodec.ts
-```
+### nodeSets/schemaCodec.ts
+The SchemaCodec class imports and uses the static encoder/decoder classes:
+```typescript
 import { BufferReader } from "../codecs/binary/bufferReader";
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../codecs/iIdentifiable";
+import { BinaryEncoders } from "./binaryEncoders";
+import { BinaryDecoders } from "./binaryDecoders";
 
 export class SchemaCodec {
 
     public static encodeBinary(writer: BufferWriter, obj: IIdentifiable): void {
-        const id = obj.id;
+        const id = obj.id;  // Uses type ID from the object
         switch (id) {
-            case 29: require("./binaryEncoders").encodeEnumeration(writer, obj); break;
-            case 446: require("./binaryEncoders").encodeOpenSecureChannelRequest(writer, obj); break;
-            case 447: require("./binaryEncoders").encodeOpenSecureChannelResponse(writer, obj); break;
+            case 29: BinaryEncoders.encodeEnumeration(writer, obj); break;
+            case 444: BinaryEncoders.encodeOpenSecureChannelRequest(writer, obj); break;  // Type ID: 444
+            case 447: BinaryEncoders.encodeOpenSecureChannelResponse(writer, obj); break;
             default:
                 throw new Error(`Binary encoder for id ${id} not found`);
         }
@@ -162,11 +194,11 @@ export class SchemaCodec {
 
     public static decode(reader: BufferReader): unknown {
         const eid = reader.readExpandedNodeId();
-        const id = eid.NodeId.Identifier as number;
+        const id = eid.NodeId.Identifier as number;  // Reads encoding ID from wire
         switch (id) {
-            case 29: return require("./binaryDecoders").decodeEnumeration(reader);
-            case 444: return require("./binaryDecoders").decodeOpenSecureChannelRequest(reader);
-            case 447: return require("./binaryDecoders").decodeOpenSecureChannelResponse(reader)‚;
+            case 29: return BinaryDecoders.decodeEnumeration(reader);
+            case 446: return BinaryDecoders.decodeOpenSecureChannelRequest(reader);  // Encoding ID: 446
+            case 450: return BinaryDecoders.decodeOpenSecureChannelResponse(reader);
             default:
                 throw new Error(`Binary decoder for id ${id} not found`);
         }
@@ -175,11 +207,14 @@ export class SchemaCodec {
 ```
 
 **Important**: 
-- All imports in binaryDecoders and binaryEncoders use `require()` to dynamically load types where needed, avoiding massive import statements.
-- Switch cases in schemaCodec.ts must be **sorted by id** (ascending order) for maintainability and binary search optimization.
-- Encoder functions use `(identifiable as any).encode(writer)` to avoid TypeScript type system conflicts with dynamic require() loading.
+- All encoder and decoder functions are organized as static methods within `BinaryEncoders` and `BinaryDecoders` classes respectively.
+- Encoder functions contain inline encoding logic with all field encoding happening directly in the function body.
+- Decoder functions construct type instances directly with decoded field values.
+- Both encoder and decoder functions use dynamic `require()` to load enum types and avoid circular dependencies.
+- Encoders use `const obj = identifiable as any` to access fields with type safety bypass for dynamic requires.
+- Complex type encoding/decoding uses `BinaryEncoders.encodeTypeName()` / `BinaryDecoders.decodeTypeName()` for recursive calls.
+- Switch cases in schemaCodec.ts must be **sorted by id** (ascending order) for maintainability.
 - The decode method reads the ExpandedNodeId from the buffer first, then extracts the numeric identifier for the switch statement.
-- Decoder functions use dynamic `require()` to load the type class and call its static `decode()` method.
 
 ## Testing
 - Not required for now.

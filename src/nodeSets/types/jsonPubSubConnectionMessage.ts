@@ -17,23 +17,4 @@ export class JsonPubSubConnectionMessage implements IIdentifiable {
     ) { }
 
     readonly id = 19317
-
-    public static decode(reader: BufferReader): JsonPubSubConnectionMessage {
-        const obj = new JsonPubSubConnectionMessage(
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readDateTime(),
-            PubSubConnectionDataType.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.MessageId);
-        writer.writeString(this.MessageType);
-        writer.writeString(this.PublisherId);
-        writer.writeDateTime(this.Timestamp);
-        this.Connection.encode(writer);
-    }
 }

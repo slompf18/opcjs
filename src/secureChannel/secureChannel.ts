@@ -1,8 +1,9 @@
 import { BufferReader } from "../codecs/binary/bufferReader";
+import { BufferUtils } from "../codecs/binary/bufferUtils";
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IEncodable } from "../codecs/iEncodable";
 import { SchemaCodec } from "../nodeSets/schemaCodec";
-import { OpenSecureChannelRequest, RequestHeader, SecurityTokenRequestTypeEnum, MessageSecurityModeEnum, OpenSecureChannelResponse } from "../nodeSets/types";
+import { OpenSecureChannelRequest, RequestHeader, SecurityTokenRequestTypeEnum, MessageSecurityModeEnum, OpenSecureChannelResponse, ServiceFault } from "../nodeSets/types";
 import { SecurityPolicyNone } from "../security/securityPolicyNone";
 import { ITransportChannel } from "../transports/iTransportChannel";
 import { UInt32 } from "../types/baseTypes";
@@ -18,7 +19,7 @@ import { MsgTypeAbort, MsgTypeChunk, MsgTypeCloseFinal, MsgTypeFinal, MsgTypeOpe
 
 export class SecureChannel {
     private sequenceNumber: number = 0;
-    private requestNumber: number = 0;
+    private requestNumber: number = 1;
     private securityPolicy = new SecurityPolicyNone();
     private resolvers: Map<UInt32, Function> = new Map();
     private id: UInt32 = 0;
@@ -44,7 +45,8 @@ export class SecureChannel {
         );
 
         const requestBuffer = new BufferWriter();
-        request.encode(requestBuffer);
+        SchemaCodec.encodeBinary(requestBuffer, request);
+        BufferUtils.Log('before encryption', requestBuffer.getData(), requestBuffer.getLength(), 'dec');
 
         const msg = new MsgAsymmetric(
             new MsgHeader(
@@ -61,14 +63,15 @@ export class SecureChannel {
         const encryptionAlgorithm = this.securityPolicy.getAlgorithmAsymmetric(new Uint8Array(), new Uint8Array());
         const msgBuffer = new BufferWriter();
         msg.encode(msgBuffer, encryptionAlgorithm);
+        BufferUtils.Log('msgBuffer', msgBuffer.getData(), msgBuffer.getLength(), 'dec');
 
         this.resolvers.set(msg.sequenceHeader.requestId, this.openSecureChannelResponse.bind(this));
 
         this.channel.send(msgBuffer.getData());
     }
 
-    private openSecureChannelResponse(response:OpenSecureChannelResponse): void {
-            
+    private openSecureChannelResponse(response: OpenSecureChannelResponse): void {
+
         console.log("OpenSecureChannelResponse received");
         this.id = response.SecurityToken.ChannelId;
         this.token = response.SecurityToken.TokenId;
@@ -80,31 +83,38 @@ export class SecureChannel {
 
     private onMessage(data: Uint8Array) {
         const buffer = new BufferReader(data);
+        BufferUtils.Log('received data', data, buffer.getPosition());
         const header = MsgHeader.decode(buffer);
-        const headerLength = buffer.getPosition();
 
         switch (header.msgType) {
             case MsgTypeOpenFinal:
                 console.log("SecureChannel received OpenFinal message");
                 const headerSecurity = MsgSecurityHeaderAsymmetric.decode(buffer);
+                const headerLength = buffer.getPosition();
                 const msg = MsgAsymmetric.decode(
-                    buffer, 
+                    buffer,
                     header,
                     headerSecurity,
                     headerLength,
                     this.securityPolicy.getAlgorithmAsymmetric(new Uint8Array(), new Uint8Array()));
-                
-                console.log(buffer.toString());
-                const response = SchemaCodec.decode(buffer);
+
+                const responseBuffer = new BufferReader(msg.body);
+                const response = SchemaCodec.decode(responseBuffer);
 
                 const requestId = msg.sequenceHeader.requestId;
-                const resolver = this.resolvers.get(requestId);
-                this.resolvers.delete(msg.sequenceHeader.requestId);
-                if (resolver) {
-                    resolver(response);
+                if (response instanceof ServiceFault) {
+                    const fault = response as ServiceFault;
+                    console.error("ServiceFault received:", fault);
                 } else {
-                    console.warn("No resolver found for requestId:", requestId);
+                    const resolver = this.resolvers.get(requestId);
+                    if (resolver) {
+                        resolver(response);
+                    } else {
+                        console.warn("No resolver found for requestId:", requestId);
+                    }
                 }
+
+                this.resolvers.delete(msg.sequenceHeader.requestId);
                 break;
             case MsgTypeAbort:
                 console.log("SecureChannel received Abort message");

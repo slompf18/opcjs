@@ -14,23 +14,4 @@ export class SubscribedDataSetMirrorDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15635
-
-    public static decode(reader: BufferReader): SubscribedDataSetMirrorDataType {
-        const obj = new SubscribedDataSetMirrorDataType(
-            reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = RolePermissionType.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.ParentNodeName);
-        {
-            const arr = this.RolePermissions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

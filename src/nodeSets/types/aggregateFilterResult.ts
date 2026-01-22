@@ -16,19 +16,4 @@ export class AggregateFilterResult implements IIdentifiable {
     ) { }
 
     readonly id = 737
-
-    public static decode(reader: BufferReader): AggregateFilterResult {
-        const obj = new AggregateFilterResult(
-            reader.readDateTime(),
-            reader.readFloat64(),
-            AggregateConfiguration.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeDateTime(this.RevisedStartTime);
-        writer.writeFloat64(this.RevisedProcessingInterval);
-        this.RevisedAggregateConfiguration.encode(writer);
-    }
 }

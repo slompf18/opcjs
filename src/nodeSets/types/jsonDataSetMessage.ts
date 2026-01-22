@@ -26,35 +26,4 @@ export class JsonDataSetMessage implements IIdentifiable {
     ) { }
 
     readonly id = 19312
-
-    public static decode(reader: BufferReader): JsonDataSetMessage {
-        const obj = new JsonDataSetMessage(
-            reader.readUInt16(),
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readUInt32(),
-            ConfigurationVersionDataType.decode(reader),
-            reader.readUInt32(),
-            reader.readDateTime(),
-            reader.readStatusCode(),
-            reader.readString(),
-            reader.readExtensionObject()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt16(this.DataSetWriterId);
-        writer.writeString(this.DataSetWriterName);
-        writer.writeString(this.PublisherId);
-        writer.writeString(this.WriterGroupName);
-        writer.writeUInt32(this.SequenceNumber);
-        this.MetaDataVersion.encode(writer);
-        writer.writeUInt32(this.MinorVersion);
-        writer.writeDateTime(this.Timestamp);
-        writer.writeStatusCode(this.Status);
-        writer.writeString(this.MessageType);
-        this.Payload.encode(writer);
-    }
 }

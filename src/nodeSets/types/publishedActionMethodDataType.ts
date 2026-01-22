@@ -13,21 +13,4 @@ export class PublishedActionMethodDataType implements IIdentifiable {
     ) { }
 
     readonly id = 18793
-
-    public static decode(reader: BufferReader): PublishedActionMethodDataType {
-        const obj = new PublishedActionMethodDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ActionMethodDataType.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        {
-            const arr = this.ActionMethods ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

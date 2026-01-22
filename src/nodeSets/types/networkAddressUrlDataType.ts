@@ -12,15 +12,4 @@ export class NetworkAddressUrlDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15510
-
-    public static decode(reader: BufferReader): NetworkAddressUrlDataType {
-        const obj = new NetworkAddressUrlDataType(
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Url);
-    }
 }

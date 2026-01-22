@@ -15,17 +15,4 @@ export class CancelRequest implements IIdentifiable {
     ) { }
 
     readonly id = 477
-
-    public static decode(reader: BufferReader): CancelRequest {
-        const obj = new CancelRequest(
-            RequestHeader.decode(reader),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeUInt32(this.RequestHandle);
-    }
 }

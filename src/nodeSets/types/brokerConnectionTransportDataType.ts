@@ -13,17 +13,4 @@ export class BrokerConnectionTransportDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15007
-
-    public static decode(reader: BufferReader): BrokerConnectionTransportDataType {
-        const obj = new BrokerConnectionTransportDataType(
-            reader.readString(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.ResourceUri);
-        writer.writeString(this.AuthenticationProfileUri);
-    }
 }

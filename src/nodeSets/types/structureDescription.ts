@@ -13,15 +13,4 @@ export class StructureDescription implements IIdentifiable {
     ) { }
 
     readonly id = 15487
-
-    public static decode(reader: BufferReader): StructureDescription {
-        const obj = new StructureDescription(
-            StructureDefinition.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.StructureDefinition.encode(writer);
-    }
 }

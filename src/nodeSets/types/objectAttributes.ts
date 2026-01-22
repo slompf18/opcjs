@@ -13,15 +13,4 @@ export class ObjectAttributes implements IIdentifiable {
     ) { }
 
     readonly id = 352
-
-    public static decode(reader: BufferReader): ObjectAttributes {
-        const obj = new ObjectAttributes(
-            reader.readUInt8()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUint8(this.EventNotifier);
-    }
 }

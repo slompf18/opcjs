@@ -17,23 +17,4 @@ export class BrokerDataSetReaderTransportDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15670
-
-    public static decode(reader: BufferReader): BrokerDataSetReaderTransportDataType {
-        const obj = new BrokerDataSetReaderTransportDataType(
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            BrokerTransportQualityOfServiceEnum.decode(reader),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.QueueName);
-        writer.writeString(this.ResourceUri);
-        writer.writeString(this.AuthenticationProfileUri);
-        BrokerTransportQualityOfServiceEnum.encode(writer, this.RequestedDeliveryGuarantee);
-        writer.writeString(this.MetaDataQueueName);
-    }
 }

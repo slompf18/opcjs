@@ -14,19 +14,4 @@ export class Annotation implements IIdentifiable {
     ) { }
 
     readonly id = 891
-
-    public static decode(reader: BufferReader): Annotation {
-        const obj = new Annotation(
-            reader.readString(),
-            reader.readString(),
-            reader.readDateTime()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Message);
-        writer.writeString(this.UserName);
-        writer.writeDateTime(this.AnnotationTime);
-    }
 }

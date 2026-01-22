@@ -15,23 +15,4 @@ export class PublishRequest implements IIdentifiable {
     ) { }
 
     readonly id = 824
-
-    public static decode(reader: BufferReader): PublishRequest {
-        const obj = new PublishRequest(
-            RequestHeader.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = SubscriptionAcknowledgement.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        {
-            const arr = this.SubscriptionAcknowledgements ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

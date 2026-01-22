@@ -21,33 +21,4 @@ export class StructureField implements IIdentifiable {
     ) { }
 
     readonly id = 101
-
-    public static decode(reader: BufferReader): StructureField {
-        const obj = new StructureField(
-            reader.readString(),
-            reader.readLocalizedText(),
-            reader.readNodeId(),
-            reader.readInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
-            reader.readUInt32(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Name);
-        this.Description.encode(writer);
-        this.DataType.encode(writer);
-        writer.writeInt32(this.ValueRank);
-        {
-            const arr = this.ArrayDimensions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
-            }
-        };
-        writer.writeUInt32(this.MaxStringLength);
-        writer.writeBoolean(this.IsOptional);
-    }
 }

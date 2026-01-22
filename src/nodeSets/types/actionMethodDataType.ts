@@ -14,17 +14,4 @@ export class ActionMethodDataType implements IIdentifiable {
     ) { }
 
     readonly id = 18597
-
-    public static decode(reader: BufferReader): ActionMethodDataType {
-        const obj = new ActionMethodDataType(
-            reader.readNodeId(),
-            reader.readNodeId()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ObjectId.encode(writer);
-        this.MethodId.encode(writer);
-    }
 }

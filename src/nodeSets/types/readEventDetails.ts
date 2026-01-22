@@ -17,21 +17,4 @@ export class ReadEventDetails implements IIdentifiable {
     ) { }
 
     readonly id = 644
-
-    public static decode(reader: BufferReader): ReadEventDetails {
-        const obj = new ReadEventDetails(
-            reader.readUInt32(),
-            reader.readDateTime(),
-            reader.readDateTime(),
-            EventFilter.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.NumValuesPerNode);
-        writer.writeDateTime(this.StartTime);
-        writer.writeDateTime(this.EndTime);
-        this.Filter.encode(writer);
-    }
 }

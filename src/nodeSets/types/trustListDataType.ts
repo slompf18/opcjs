@@ -17,47 +17,4 @@ export class TrustListDataType implements IIdentifiable {
     ) { }
 
     readonly id = 12554
-
-    public static decode(reader: BufferReader): TrustListDataType {
-        const obj = new TrustListDataType(
-            reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.SpecifiedLists);
-        {
-            const arr = this.TrustedCertificates ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
-            }
-        };
-        {
-            const arr = this.TrustedCrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
-            }
-        };
-        {
-            const arr = this.IssuerCertificates ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
-            }
-        };
-        {
-            const arr = this.IssuerCrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
-            }
-        };
-    }
 }

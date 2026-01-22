@@ -17,27 +17,4 @@ export class DatagramConnectionTransport2DataType implements IIdentifiable {
     ) { }
 
     readonly id = 23612
-
-    public static decode(reader: BufferReader): DatagramConnectionTransport2DataType {
-        const obj = new DatagramConnectionTransport2DataType(
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = QosDataType.decode(reader); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.DiscoveryAnnounceRate);
-        writer.writeUInt32(this.DiscoveryMaxMessageSize);
-        writer.writeString(this.QosCategory);
-        {
-            const arr = this.DatagramQos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

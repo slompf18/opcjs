@@ -15,17 +15,4 @@ export class RegisterServerRequest implements IIdentifiable {
     ) { }
 
     readonly id = 435
-
-    public static decode(reader: BufferReader): RegisterServerRequest {
-        const obj = new RegisterServerRequest(
-            RequestHeader.decode(reader),
-            RegisteredServer.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        this.Server.encode(writer);
-    }
 }

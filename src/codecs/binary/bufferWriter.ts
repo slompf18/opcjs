@@ -114,6 +114,22 @@ export class BufferWriter {
         this.buffer.set(encryptedBody, position);
     }
 
+    public insertBytesAt(bytes: Uint8Array, position: number): void {        
+        const insertLength = bytes.length;
+        this.ensureCapacity(insertLength);
+        
+        // Shift existing content to the right
+        if (position < this.position) {
+            this.buffer.copy(this.buffer, position + insertLength, position, this.position);
+        }
+        
+        // Insert the new bytes
+        this.buffer.set(bytes, position);
+        
+        // Update position
+        this.position += insertLength;
+    }
+
     public writeByteString(value: ByteString|undefined): void {
         if (!value) {
             this.writeInt32(-1);
@@ -128,11 +144,11 @@ export class BufferWriter {
     }
 
     public writeDateTime(value: Date): void {
-        const b = new Uint8Array(8)
-        const byte =
-            BigInt(value.getTime()) * BigInt(1e4) + BigInt(116444736000000000)
-        this.buffer.set(b, this.position)
-        this.position += 8
+        this.ensureCapacity(8);
+        const ticks =
+            BigInt(value.getTime()) * BigInt(1e4) + BigInt(116444736000000000);
+        this.buffer.writeBigInt64LE(ticks, this.position);
+        this.position += 8;
     }
 
     public writeNodeId(value: NodeId): void {

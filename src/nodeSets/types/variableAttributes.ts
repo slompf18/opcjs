@@ -22,35 +22,4 @@ export class VariableAttributes implements IIdentifiable {
     ) { }
 
     readonly id = 355
-
-    public static decode(reader: BufferReader): VariableAttributes {
-        const obj = new VariableAttributes(
-            reader.readVariant(),
-            reader.readNodeId(),
-            reader.readInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
-            reader.readUInt8(),
-            reader.readUInt8(),
-            reader.readFloat64(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.Value.encode(writer);
-        this.DataType.encode(writer);
-        writer.writeInt32(this.ValueRank);
-        {
-            const arr = this.ArrayDimensions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
-            }
-        };
-        writer.writeUint8(this.AccessLevel);
-        writer.writeUint8(this.UserAccessLevel);
-        writer.writeFloat64(this.MinimumSamplingInterval);
-        writer.writeBoolean(this.Historizing);
-    }
 }

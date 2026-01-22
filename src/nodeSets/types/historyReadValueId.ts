@@ -18,21 +18,4 @@ export class HistoryReadValueId implements IIdentifiable {
     ) { }
 
     readonly id = 635
-
-    public static decode(reader: BufferReader): HistoryReadValueId {
-        const obj = new HistoryReadValueId(
-            reader.readNodeId(),
-            reader.readString(),
-            reader.readQualifiedName(),
-            reader.readByteString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.NodeId.encode(writer);
-        writer.writeString(this.IndexRange);
-        this.DataEncoding.encode(writer);
-        writer.writeByteString(this.ContinuationPoint);
-    }
 }

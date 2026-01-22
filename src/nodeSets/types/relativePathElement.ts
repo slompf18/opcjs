@@ -17,21 +17,4 @@ export class RelativePathElement implements IIdentifiable {
     ) { }
 
     readonly id = 537
-
-    public static decode(reader: BufferReader): RelativePathElement {
-        const obj = new RelativePathElement(
-            reader.readNodeId(),
-            reader.readBoolean(),
-            reader.readBoolean(),
-            reader.readQualifiedName()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ReferenceTypeId.encode(writer);
-        writer.writeBoolean(this.IsInverse);
-        writer.writeBoolean(this.IncludeSubtypes);
-        this.TargetName.encode(writer);
-    }
 }

@@ -20,27 +20,4 @@ export class ModifySubscriptionRequest implements IIdentifiable {
     ) { }
 
     readonly id = 791
-
-    public static decode(reader: BufferReader): ModifySubscriptionRequest {
-        const obj = new ModifySubscriptionRequest(
-            RequestHeader.decode(reader),
-            reader.readUInt32(),
-            reader.readFloat64(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt8()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeUInt32(this.SubscriptionId);
-        writer.writeFloat64(this.RequestedPublishingInterval);
-        writer.writeUInt32(this.RequestedLifetimeCount);
-        writer.writeUInt32(this.RequestedMaxKeepAliveCount);
-        writer.writeUInt32(this.MaxNotificationsPerPublish);
-        writer.writeUint8(this.Priority);
-    }
 }

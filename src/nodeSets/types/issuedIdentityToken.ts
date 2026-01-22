@@ -14,17 +14,4 @@ export class IssuedIdentityToken implements IIdentifiable {
     ) { }
 
     readonly id = 938
-
-    public static decode(reader: BufferReader): IssuedIdentityToken {
-        const obj = new IssuedIdentityToken(
-            reader.readByteString(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeByteString(this.TokenData);
-        writer.writeString(this.EncryptionAlgorithm);
-    }
 }

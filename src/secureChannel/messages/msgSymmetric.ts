@@ -44,9 +44,8 @@ export class MsgSymmetric extends MsgBase {
         const bodyStartPos = buffer.getLength();
         buffer.writeBytes(this.body);
 
-        const dataToPrependForSignature = buffer.getData().slice(0, buffer.getLength());
-        const encryptedBody=super.Encrypt(buffer, encryptionAlgorithm, headerLength)
-        buffer.writeBytesAt(encryptedBody, bodyStartPos);
+        const encryptedBody=super.Encrypt(buffer, encryptionAlgorithm, headerLength, bodyStartPos)
+        buffer.writeBytesAt(encryptedBody, headerLength);
 
         // the size was written by encrypt
     }

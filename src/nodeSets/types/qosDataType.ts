@@ -10,13 +10,4 @@ export class QosDataType implements IIdentifiable {
     constructor() { }
 
     readonly id = 23603
-
-    public static decode(reader: BufferReader): QosDataType {
-        // Abstract type - no fields to decode
-        return new QosDataType();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

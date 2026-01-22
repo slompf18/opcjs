@@ -13,17 +13,4 @@ export class PortableQualifiedName implements IIdentifiable {
     ) { }
 
     readonly id = 24105
-
-    public static decode(reader: BufferReader): PortableQualifiedName {
-        const obj = new PortableQualifiedName(
-            reader.readString(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.NamespaceUri);
-        writer.writeString(this.Name);
-    }
 }

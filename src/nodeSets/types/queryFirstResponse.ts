@@ -23,43 +23,4 @@ export class QueryFirstResponse implements IIdentifiable {
     ) { }
 
     readonly id = 616
-
-    public static decode(reader: BufferReader): QueryFirstResponse {
-        const obj = new QueryFirstResponse(
-            ResponseHeader.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = QueryDataSet.decode(reader); } return arr; })(),
-            reader.readByteString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ParsingResult.decode(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
-            ContentFilterResult.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-        {
-            const arr = this.QueryDataSets ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-        writer.writeByteString(this.ContinuationPoint);
-        {
-            const arr = this.ParsingResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-        {
-            const arr = this.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-        this.FilterResult.encode(writer);
-    }
 }

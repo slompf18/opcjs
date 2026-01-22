@@ -19,25 +19,4 @@ export class LldpManagementAddressTxPortType implements IIdentifiable {
     ) { }
 
     readonly id = 18953
-
-    public static decode(reader: BufferReader): LldpManagementAddressTxPortType {
-        const obj = new LldpManagementAddressTxPortType(
-            reader.readUInt32(),
-            reader.readString(),
-            reader.readBoolean(),
-            reader.readUInt32(),
-            ManAddrIfSubtypeEnum.decode(reader),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.AddressSubtype);
-        writer.writeString(this.ManAddress);
-        writer.writeBoolean(this.TxEnable);
-        writer.writeUInt32(this.AddrLen);
-        ManAddrIfSubtypeEnum.encode(writer, this.IfSubtype);
-        writer.writeUInt32(this.IfId);
-    }
 }

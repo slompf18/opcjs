@@ -16,25 +16,4 @@ export class CallMethodRequest implements IIdentifiable {
     ) { }
 
     readonly id = 704
-
-    public static decode(reader: BufferReader): CallMethodRequest {
-        const obj = new CallMethodRequest(
-            reader.readNodeId(),
-            reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ObjectId.encode(writer);
-        this.MethodId.encode(writer);
-        {
-            const arr = this.InputArguments ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

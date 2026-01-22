@@ -13,15 +13,4 @@ export class UnregisterNodesResponse implements IIdentifiable {
     ) { }
 
     readonly id = 567
-
-    public static decode(reader: BufferReader): UnregisterNodesResponse {
-        const obj = new UnregisterNodesResponse(
-            ResponseHeader.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-    }
 }

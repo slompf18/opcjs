@@ -19,23 +19,4 @@ export class AttributeOperand implements IIdentifiable {
     ) { }
 
     readonly id = 598
-
-    public static decode(reader: BufferReader): AttributeOperand {
-        const obj = new AttributeOperand(
-            reader.readNodeId(),
-            reader.readString(),
-            RelativePath.decode(reader),
-            reader.readUInt32(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.NodeId.encode(writer);
-        writer.writeString(this.Alias);
-        this.BrowsePath.encode(writer);
-        writer.writeUInt32(this.AttributeId);
-        writer.writeString(this.IndexRange);
-    }
 }

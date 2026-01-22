@@ -19,27 +19,4 @@ export class JsonStatusMessage implements IIdentifiable {
     ) { }
 
     readonly id = 19316
-
-    public static decode(reader: BufferReader): JsonStatusMessage {
-        const obj = new JsonStatusMessage(
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readDateTime(),
-            reader.readBoolean(),
-            PubSubStateEnum.decode(reader),
-            reader.readDateTime()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.MessageId);
-        writer.writeString(this.MessageType);
-        writer.writeString(this.PublisherId);
-        writer.writeDateTime(this.Timestamp);
-        writer.writeBoolean(this.IsCyclic);
-        PubSubStateEnum.encode(writer, this.Status);
-        writer.writeDateTime(this.NextReportTime);
-    }
 }

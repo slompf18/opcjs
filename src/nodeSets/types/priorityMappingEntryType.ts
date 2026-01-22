@@ -16,21 +16,4 @@ export class PriorityMappingEntryType implements IIdentifiable {
     ) { }
 
     readonly id = 25220
-
-    public static decode(reader: BufferReader): PriorityMappingEntryType {
-        const obj = new PriorityMappingEntryType(
-            reader.readString(),
-            reader.readString(),
-            reader.readUInt8(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.MappingUri);
-        writer.writeString(this.PriorityLabel);
-        writer.writeUint8(this.PriorityValue_PCP);
-        writer.writeUInt32(this.PriorityValue_DSCP);
-    }
 }

@@ -16,19 +16,4 @@ export class QueryDataDescription implements IIdentifiable {
     ) { }
 
     readonly id = 570
-
-    public static decode(reader: BufferReader): QueryDataDescription {
-        const obj = new QueryDataDescription(
-            RelativePath.decode(reader),
-            reader.readUInt32(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RelativePath.encode(writer);
-        writer.writeUInt32(this.AttributeId);
-        writer.writeString(this.IndexRange);
-    }
 }

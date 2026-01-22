@@ -26,35 +26,4 @@ export class JsonActionRequestMessage implements IIdentifiable {
     ) { }
 
     readonly id = 19321
-
-    public static decode(reader: BufferReader): JsonActionRequestMessage {
-        const obj = new JsonActionRequestMessage(
-            reader.readUInt16(),
-            reader.readUInt16(),
-            reader.readString(),
-            reader.readString(),
-            ConfigurationVersionDataType.decode(reader),
-            reader.readUInt32(),
-            reader.readDateTime(),
-            reader.readString(),
-            reader.readUInt16(),
-            ActionStateEnum.decode(reader),
-            reader.readExtensionObject()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt16(this.DataSetWriterId);
-        writer.writeUInt16(this.ActionTargetId);
-        writer.writeString(this.DataSetWriterName);
-        writer.writeString(this.WriterGroupName);
-        this.MetaDataVersion.encode(writer);
-        writer.writeUInt32(this.MinorVersion);
-        writer.writeDateTime(this.Timestamp);
-        writer.writeString(this.MessageType);
-        writer.writeUInt16(this.RequestId);
-        ActionStateEnum.encode(writer, this.ActionState);
-        this.Payload.encode(writer);
-    }
 }

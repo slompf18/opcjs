@@ -14,17 +14,4 @@ export class SignatureData implements IIdentifiable {
     ) { }
 
     readonly id = 456
-
-    public static decode(reader: BufferReader): SignatureData {
-        const obj = new SignatureData(
-            reader.readString(),
-            reader.readByteString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Algorithm);
-        writer.writeByteString(this.Signature);
-    }
 }

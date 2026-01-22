@@ -14,17 +14,4 @@ export class SignedSoftwareCertificate implements IIdentifiable {
     ) { }
 
     readonly id = 344
-
-    public static decode(reader: BufferReader): SignedSoftwareCertificate {
-        const obj = new SignedSoftwareCertificate(
-            reader.readByteString(),
-            reader.readByteString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeByteString(this.CertificateData);
-        writer.writeByteString(this.Signature);
-    }
 }

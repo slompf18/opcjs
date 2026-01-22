@@ -25,37 +25,4 @@ export class DataSetWriterDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15597
-
-    public static decode(reader: BufferReader): DataSetWriterDataType {
-        const obj = new DataSetWriterDataType(
-            reader.readString(),
-            reader.readBoolean(),
-            reader.readUInt16(),
-            DataSetFieldContentMaskEnum.decode(reader),
-            reader.readUInt32(),
-            reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = KeyValuePair.decode(reader); } return arr; })(),
-            DataSetWriterTransportDataType.decode(reader),
-            DataSetWriterMessageDataType.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Name);
-        writer.writeBoolean(this.Enabled);
-        writer.writeUInt16(this.DataSetWriterId);
-        DataSetFieldContentMaskEnum.encode(writer, this.DataSetFieldContentMask);
-        writer.writeUInt32(this.KeyFrameCount);
-        writer.writeString(this.DataSetName);
-        {
-            const arr = this.DataSetWriterProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-        this.TransportSettings.encode(writer);
-        this.MessageSettings.encode(writer);
-    }
 }

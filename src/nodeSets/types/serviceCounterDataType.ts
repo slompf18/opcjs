@@ -14,17 +14,4 @@ export class ServiceCounterDataType implements IIdentifiable {
     ) { }
 
     readonly id = 871
-
-    public static decode(reader: BufferReader): ServiceCounterDataType {
-        const obj = new ServiceCounterDataType(
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.TotalCount);
-        writer.writeUInt32(this.ErrorCount);
-    }
 }

@@ -10,13 +10,4 @@ export class CartesianCoordinates implements IIdentifiable {
     constructor() { }
 
     readonly id = 18809
-
-    public static decode(reader: BufferReader): CartesianCoordinates {
-        // Abstract type - no fields to decode
-        return new CartesianCoordinates();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

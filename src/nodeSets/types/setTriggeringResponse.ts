@@ -19,47 +19,4 @@ export class SetTriggeringResponse implements IIdentifiable {
     ) { }
 
     readonly id = 776
-
-    public static decode(reader: BufferReader): SetTriggeringResponse {
-        const obj = new SetTriggeringResponse(
-            ResponseHeader.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-        {
-            const arr = this.AddResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
-            }
-        };
-        {
-            const arr = this.AddDiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-        {
-            const arr = this.RemoveResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
-            }
-        };
-        {
-            const arr = this.RemoveDiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

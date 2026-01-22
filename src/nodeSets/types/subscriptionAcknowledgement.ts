@@ -14,17 +14,4 @@ export class SubscriptionAcknowledgement implements IIdentifiable {
     ) { }
 
     readonly id = 821
-
-    public static decode(reader: BufferReader): SubscriptionAcknowledgement {
-        const obj = new SubscriptionAcknowledgement(
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.SubscriptionId);
-        writer.writeUInt32(this.SequenceNumber);
-    }
 }

@@ -15,17 +15,4 @@ export class BrowsePathTarget implements IIdentifiable {
     ) { }
 
     readonly id = 546
-
-    public static decode(reader: BufferReader): BrowsePathTarget {
-        const obj = new BrowsePathTarget(
-            reader.readExpandedNodeId(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.TargetId.encode(writer);
-        writer.writeUInt32(this.RemainingPathIndex);
-    }
 }

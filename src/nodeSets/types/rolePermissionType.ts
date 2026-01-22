@@ -15,17 +15,4 @@ export class RolePermissionType implements IIdentifiable {
     ) { }
 
     readonly id = 96
-
-    public static decode(reader: BufferReader): RolePermissionType {
-        const obj = new RolePermissionType(
-            reader.readNodeId(),
-            PermissionTypeEnum.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RoleId.encode(writer);
-        PermissionTypeEnum.encode(writer, this.Permissions);
-    }
 }

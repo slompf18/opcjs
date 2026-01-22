@@ -21,25 +21,4 @@ export class ServerStatusDataType implements IIdentifiable {
     ) { }
 
     readonly id = 862
-
-    public static decode(reader: BufferReader): ServerStatusDataType {
-        const obj = new ServerStatusDataType(
-            reader.readDateTime(),
-            reader.readDateTime(),
-            ServerStateEnum.decode(reader),
-            BuildInfo.decode(reader),
-            reader.readUInt32(),
-            reader.readLocalizedText()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeDateTime(this.StartTime);
-        writer.writeDateTime(this.CurrentTime);
-        ServerStateEnum.encode(writer, this.State);
-        this.BuildInfo.encode(writer);
-        writer.writeUInt32(this.SecondsTillShutdown);
-        this.ShutdownReason.encode(writer);
-    }
 }

@@ -19,25 +19,4 @@ export class BrokerDataSetWriterTransportDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15669
-
-    public static decode(reader: BufferReader): BrokerDataSetWriterTransportDataType {
-        const obj = new BrokerDataSetWriterTransportDataType(
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            BrokerTransportQualityOfServiceEnum.decode(reader),
-            reader.readString(),
-            reader.readFloat64()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.QueueName);
-        writer.writeString(this.ResourceUri);
-        writer.writeString(this.AuthenticationProfileUri);
-        BrokerTransportQualityOfServiceEnum.encode(writer, this.RequestedDeliveryGuarantee);
-        writer.writeString(this.MetaDataQueueName);
-        writer.writeFloat64(this.MetaDataUpdateTime);
-    }
 }

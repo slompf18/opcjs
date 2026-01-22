@@ -23,35 +23,4 @@ export class EndpointDescription implements IIdentifiable {
     ) { }
 
     readonly id = 312
-
-    public static decode(reader: BufferReader): EndpointDescription {
-        const obj = new EndpointDescription(
-            reader.readString(),
-            ApplicationDescription.decode(reader),
-            reader.readByteString(),
-            MessageSecurityModeEnum.decode(reader),
-            reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = UserTokenPolicy.decode(reader); } return arr; })(),
-            reader.readString(),
-            reader.readUInt8()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.EndpointUrl);
-        this.Server.encode(writer);
-        writer.writeByteString(this.ServerCertificate);
-        MessageSecurityModeEnum.encode(writer, this.SecurityMode);
-        writer.writeString(this.SecurityPolicyUri);
-        {
-            const arr = this.UserIdentityTokens ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-        writer.writeString(this.TransportProfileUri);
-        writer.writeUint8(this.SecurityLevel);
-    }
 }

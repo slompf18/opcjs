@@ -16,19 +16,4 @@ export class ActionTargetDataType implements IIdentifiable {
     ) { }
 
     readonly id = 18593
-
-    public static decode(reader: BufferReader): ActionTargetDataType {
-        const obj = new ActionTargetDataType(
-            reader.readUInt16(),
-            reader.readString(),
-            reader.readLocalizedText()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt16(this.ActionTargetId);
-        writer.writeString(this.Name);
-        this.Description.encode(writer);
-    }
 }

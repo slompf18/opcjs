@@ -13,15 +13,4 @@ export class ObjectNode implements IIdentifiable {
     ) { }
 
     readonly id = 261
-
-    public static decode(reader: BufferReader): ObjectNode {
-        const obj = new ObjectNode(
-            reader.readUInt8()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUint8(this.EventNotifier);
-    }
 }

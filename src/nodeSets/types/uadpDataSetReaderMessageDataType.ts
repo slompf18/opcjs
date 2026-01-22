@@ -24,31 +24,4 @@ export class UadpDataSetReaderMessageDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15653
-
-    public static decode(reader: BufferReader): UadpDataSetReaderMessageDataType {
-        const obj = new UadpDataSetReaderMessageDataType(
-            reader.readUInt32(),
-            reader.readUInt16(),
-            reader.readUInt16(),
-            reader.readGuid(),
-            UadpNetworkMessageContentMaskEnum.decode(reader),
-            UadpDataSetMessageContentMaskEnum.decode(reader),
-            reader.readFloat64(),
-            reader.readFloat64(),
-            reader.readFloat64()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.GroupVersion);
-        writer.writeUInt16(this.NetworkMessageNumber);
-        writer.writeUInt16(this.DataSetOffset);
-        writer.writeGuid(this.DataSetClassId);
-        UadpNetworkMessageContentMaskEnum.encode(writer, this.NetworkMessageContentMask);
-        UadpDataSetMessageContentMaskEnum.encode(writer, this.DataSetMessageContentMask);
-        writer.writeFloat64(this.PublishingInterval);
-        writer.writeFloat64(this.ReceiveOffset);
-        writer.writeFloat64(this.ProcessingOffset);
-    }
 }

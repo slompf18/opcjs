@@ -12,15 +12,4 @@ export class TransmitQosPriorityDataType implements IIdentifiable {
     ) { }
 
     readonly id = 23605
-
-    public static decode(reader: BufferReader): TransmitQosPriorityDataType {
-        const obj = new TransmitQosPriorityDataType(
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.PriorityLabel);
-    }
 }

@@ -15,25 +15,4 @@ export class EndpointDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15557
-
-    public static decode(reader: BufferReader): EndpointDataType {
-        const obj = new EndpointDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            reader.readString(),
-            reader.readUInt16()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        {
-            const arr = this.DiscoveryUrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-        writer.writeString(this.NetworkName);
-        writer.writeUInt16(this.Port);
-    }
 }

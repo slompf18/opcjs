@@ -17,25 +17,4 @@ export class RegisterServer2Request implements IIdentifiable {
     ) { }
 
     readonly id = 12193
-
-    public static decode(reader: BufferReader): RegisterServer2Request {
-        const obj = new RegisterServer2Request(
-            RequestHeader.decode(reader),
-            RegisteredServer.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        this.Server.encode(writer);
-        {
-            const arr = this.DiscoveryConfiguration ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

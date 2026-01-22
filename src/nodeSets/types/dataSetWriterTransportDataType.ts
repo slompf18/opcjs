@@ -10,13 +10,4 @@ export class DataSetWriterTransportDataType implements IIdentifiable {
     constructor() { }
 
     readonly id = 15598
-
-    public static decode(reader: BufferReader): DataSetWriterTransportDataType {
-        // Abstract type - no fields to decode
-        return new DataSetWriterTransportDataType();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

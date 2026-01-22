@@ -15,23 +15,4 @@ export class TransferResult implements IIdentifiable {
     ) { }
 
     readonly id = 836
-
-    public static decode(reader: BufferReader): TransferResult {
-        const obj = new TransferResult(
-            reader.readStatusCode(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeStatusCode(this.StatusCode);
-        {
-            const arr = this.AvailableSequenceNumbers ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
-            }
-        };
-    }
 }

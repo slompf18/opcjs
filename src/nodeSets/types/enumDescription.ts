@@ -15,17 +15,4 @@ export class EnumDescription implements IIdentifiable {
     ) { }
 
     readonly id = 15488
-
-    public static decode(reader: BufferReader): EnumDescription {
-        const obj = new EnumDescription(
-            EnumDefinition.decode(reader),
-            reader.readUInt8()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.EnumDefinition.encode(writer);
-        writer.writeUint8(this.BuiltInType);
-    }
 }

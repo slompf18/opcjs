@@ -13,17 +13,4 @@ export class MethodNode implements IIdentifiable {
     ) { }
 
     readonly id = 276
-
-    public static decode(reader: BufferReader): MethodNode {
-        const obj = new MethodNode(
-            reader.readBoolean(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.Executable);
-        writer.writeBoolean(this.UserExecutable);
-    }
 }

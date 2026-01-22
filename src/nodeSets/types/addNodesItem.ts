@@ -23,27 +23,4 @@ export class AddNodesItem implements IIdentifiable {
     ) { }
 
     readonly id = 376
-
-    public static decode(reader: BufferReader): AddNodesItem {
-        const obj = new AddNodesItem(
-            reader.readExpandedNodeId(),
-            reader.readNodeId(),
-            reader.readExpandedNodeId(),
-            reader.readQualifiedName(),
-            NodeClassEnum.decode(reader),
-            reader.readExtensionObject(),
-            reader.readExpandedNodeId()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ParentNodeId.encode(writer);
-        this.ReferenceTypeId.encode(writer);
-        this.RequestedNewNodeId.encode(writer);
-        this.BrowseName.encode(writer);
-        NodeClassEnum.encode(writer, this.NodeClass);
-        this.NodeAttributes.encode(writer);
-        this.TypeDefinition.encode(writer);
-    }
 }

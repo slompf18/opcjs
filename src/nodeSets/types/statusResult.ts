@@ -15,17 +15,4 @@ export class StatusResult implements IIdentifiable {
     ) { }
 
     readonly id = 299
-
-    public static decode(reader: BufferReader): StatusResult {
-        const obj = new StatusResult(
-            reader.readStatusCode(),
-            reader.readDiagnosticInfo()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeStatusCode(this.StatusCode);
-        this.DiagnosticInfo.encode(writer);
-    }
 }

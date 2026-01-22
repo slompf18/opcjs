@@ -16,21 +16,4 @@ export class SamplingIntervalDiagnosticsDataType implements IIdentifiable {
     ) { }
 
     readonly id = 856
-
-    public static decode(reader: BufferReader): SamplingIntervalDiagnosticsDataType {
-        const obj = new SamplingIntervalDiagnosticsDataType(
-            reader.readFloat64(),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeFloat64(this.SamplingInterval);
-        writer.writeUInt32(this.MonitoredItemCount);
-        writer.writeUInt32(this.MaxMonitoredItemCount);
-        writer.writeUInt32(this.DisabledMonitoredItemCount);
-    }
 }

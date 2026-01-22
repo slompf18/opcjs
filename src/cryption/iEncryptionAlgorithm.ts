@@ -7,6 +7,9 @@ export interface IEncryptionAlgorithm {
     GetEncryptedSize(dataSize: UInt32): UInt32
 
     GetPadding(bytesToWrite: UInt32): Uint8Array
+
+    HasPadding(): boolean
+    
     // Encrypt encrypts the input cleartext based on the algorithms and keys passed in
     Encrypt(cleartext: Uint8Array): Uint8Array
 

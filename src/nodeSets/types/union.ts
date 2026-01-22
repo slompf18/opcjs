@@ -10,13 +10,4 @@ export class Union implements IIdentifiable {
     constructor() { }
 
     readonly id = 12756
-
-    public static decode(reader: BufferReader): Union {
-        // Abstract type - no fields to decode
-        return new Union();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

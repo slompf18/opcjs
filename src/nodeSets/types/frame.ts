@@ -10,13 +10,4 @@ export class Frame implements IIdentifiable {
     constructor() { }
 
     readonly id = 18813
-
-    public static decode(reader: BufferReader): Frame {
-        // Abstract type - no fields to decode
-        return new Frame();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

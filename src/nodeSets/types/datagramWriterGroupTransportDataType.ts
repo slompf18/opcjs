@@ -14,17 +14,4 @@ export class DatagramWriterGroupTransportDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15532
-
-    public static decode(reader: BufferReader): DatagramWriterGroupTransportDataType {
-        const obj = new DatagramWriterGroupTransportDataType(
-            reader.readUInt8(),
-            reader.readFloat64()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUint8(this.MessageRepeatCount);
-        writer.writeFloat64(this.MessageRepeatDelay);
-    }
 }

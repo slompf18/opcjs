@@ -13,15 +13,4 @@ export class JsonWriterGroupMessageDataType implements IIdentifiable {
     ) { }
 
     readonly id = 15657
-
-    public static decode(reader: BufferReader): JsonWriterGroupMessageDataType {
-        const obj = new JsonWriterGroupMessageDataType(
-            JsonNetworkMessageContentMaskEnum.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        JsonNetworkMessageContentMaskEnum.encode(writer, this.NetworkMessageContentMask);
-    }
 }

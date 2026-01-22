@@ -21,25 +21,4 @@ export class OpenSecureChannelRequest implements IIdentifiable {
     ) { }
 
     readonly id = 444
-
-    public static decode(reader: BufferReader): OpenSecureChannelRequest {
-        const obj = new OpenSecureChannelRequest(
-            RequestHeader.decode(reader),
-            reader.readUInt32(),
-            SecurityTokenRequestTypeEnum.decode(reader),
-            MessageSecurityModeEnum.decode(reader),
-            reader.readByteString(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeUInt32(this.ClientProtocolVersion);
-        SecurityTokenRequestTypeEnum.encode(writer, this.RequestType);
-        MessageSecurityModeEnum.encode(writer, this.SecurityMode);
-        writer.writeByteString(this.ClientNonce);
-        writer.writeUInt32(this.RequestedLifetime);
-    }
 }

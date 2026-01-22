@@ -10,13 +10,4 @@ export class PublishedDataSetSourceDataType implements IIdentifiable {
     constructor() { }
 
     readonly id = 15580
-
-    public static decode(reader: BufferReader): PublishedDataSetSourceDataType {
-        // Abstract type - no fields to decode
-        return new PublishedDataSetSourceDataType();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

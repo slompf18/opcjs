@@ -21,31 +21,4 @@ export class EndpointConfiguration implements IIdentifiable {
     ) { }
 
     readonly id = 331
-
-    public static decode(reader: BufferReader): EndpointConfiguration {
-        const obj = new EndpointConfiguration(
-            reader.readInt32(),
-            reader.readBoolean(),
-            reader.readInt32(),
-            reader.readInt32(),
-            reader.readInt32(),
-            reader.readInt32(),
-            reader.readInt32(),
-            reader.readInt32(),
-            reader.readInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeInt32(this.OperationTimeout);
-        writer.writeBoolean(this.UseBinaryEncoding);
-        writer.writeInt32(this.MaxStringLength);
-        writer.writeInt32(this.MaxByteStringLength);
-        writer.writeInt32(this.MaxArrayLength);
-        writer.writeInt32(this.MaxMessageSize);
-        writer.writeInt32(this.MaxBufferSize);
-        writer.writeInt32(this.ChannelLifetime);
-        writer.writeInt32(this.SecurityTokenLifetime);
-    }
 }

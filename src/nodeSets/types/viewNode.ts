@@ -14,17 +14,4 @@ export class ViewNode implements IIdentifiable {
     ) { }
 
     readonly id = 279
-
-    public static decode(reader: BufferReader): ViewNode {
-        const obj = new ViewNode(
-            reader.readBoolean(),
-            reader.readUInt8()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.ContainsNoLoops);
-        writer.writeUint8(this.EventNotifier);
-    }
 }

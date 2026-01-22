@@ -19,29 +19,4 @@ export class QuantityDimension implements IIdentifiable {
     ) { }
 
     readonly id = 32438
-
-    public static decode(reader: BufferReader): QuantityDimension {
-        const obj = new QuantityDimension(
-            reader.readInt8(),
-            reader.readInt8(),
-            reader.readInt8(),
-            reader.readInt8(),
-            reader.readInt8(),
-            reader.readInt8(),
-            reader.readInt8(),
-            reader.readInt8()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeInt8(this.MassExponent);
-        writer.writeInt8(this.LengthExponent);
-        writer.writeInt8(this.TimeExponent);
-        writer.writeInt8(this.ElectricCurrentExponent);
-        writer.writeInt8(this.AmountOfSubstanceExponent);
-        writer.writeInt8(this.LuminousIntensityExponent);
-        writer.writeInt8(this.AbsoluteTemperatureExponent);
-        writer.writeInt8(this.DimensionlessExponent);
-    }
 }

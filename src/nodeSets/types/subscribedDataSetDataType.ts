@@ -10,13 +10,4 @@ export class SubscribedDataSetDataType implements IIdentifiable {
     constructor() { }
 
     readonly id = 15630
-
-    public static decode(reader: BufferReader): SubscribedDataSetDataType {
-        // Abstract type - no fields to decode
-        return new SubscribedDataSetDataType();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

@@ -16,19 +16,4 @@ export class QueryNextRequest implements IIdentifiable {
     ) { }
 
     readonly id = 619
-
-    public static decode(reader: BufferReader): QueryNextRequest {
-        const obj = new QueryNextRequest(
-            RequestHeader.decode(reader),
-            reader.readBoolean(),
-            reader.readByteString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeBoolean(this.ReleaseContinuationPoint);
-        writer.writeByteString(this.ContinuationPoint);
-    }
 }

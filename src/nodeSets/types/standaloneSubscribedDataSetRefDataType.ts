@@ -12,15 +12,4 @@ export class StandaloneSubscribedDataSetRefDataType implements IIdentifiable {
     ) { }
 
     readonly id = 23599
-
-    public static decode(reader: BufferReader): StandaloneSubscribedDataSetRefDataType {
-        const obj = new StandaloneSubscribedDataSetRefDataType(
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.DataSetName);
-    }
 }

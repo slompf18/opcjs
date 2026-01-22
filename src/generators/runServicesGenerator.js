@@ -271,9 +271,10 @@ function decodeExpression(typeName, isArray) {
         return `(() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ${rendered}.decode(reader); } return arr; })()`;
     }
     const info = builtInMap[typeName];
-    const readExpr = info ? info.decode : `${typeName}.decode(reader)`;
+    const readExpr = info ? info.decode : `BinaryDecoders.decode${typeName}(reader)`;
     if (!isArray) return readExpr;
-    return `(() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ${info ? info.decode : `${typeName}.decode(reader)`}; } return arr; })()`;
+    const arrayReadExpr = info ? info.decode : `BinaryDecoders.decode${typeName}(reader)`;
+    return `(() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ${arrayReadExpr}; } return arr; })()`;
 }
 
 function defaultValue(typeName, isArray) {
@@ -286,6 +287,10 @@ function defaultValue(typeName, isArray) {
         case 'string | undefined': return 'undefined';
         case 'Date': return 'new Date()';
         case 'ByteString': return 'new Uint8Array()';
+        case 'NodeId': return 'NodeId.NewTwoByte(0)';
+        case 'ExpandedNodeId': return 'new ExpandedNodeId(NodeId.NewTwoByte(0))';
+        case 'QualifiedName': return 'new QualifiedName(\"\", 0)';
+        case 'LocalizedText': return 'new LocalizedText(\"\", \"\")';
         case 'UInt8':
         case 'Int16':
         case 'UInt16':
@@ -328,7 +333,7 @@ function encodeExpression(valueRef, typeName, isArray) {
     if (info) {
         return info.encode(valueRef);
     }
-    return `${valueRef}.encode(writer)`;
+    return `BinaryEncoders.encode${typeName}(writer, ${valueRef})`;
 }
 
 function relImport(fromFile, target) {
@@ -397,16 +402,7 @@ function renderStructure(type, outFile, outDir) {
         // Add readonly id field if we have it
         if (type.id !== undefined) {
             lines.push(`    readonly id = ${type.id}`);
-            lines.push('');
         }
-        lines.push(`    public static decode(reader: BufferReader): ${type.name} {`);
-        lines.push('        // Abstract type - no fields to decode');
-        lines.push('        return new ' + type.name + '();');
-        lines.push('    }');
-        lines.push('');
-        lines.push('    encode(writer: BufferWriter): void {');
-        lines.push('        // Abstract type - no fields to encode');
-        lines.push('    }');
         lines.push('}');
         lines.push('');
         return lines.join('\n');
@@ -424,23 +420,7 @@ function renderStructure(type, outFile, outDir) {
     // Add readonly id field if we have it
     if (type.id !== undefined) {
         lines.push(`    readonly id = ${type.id}`);
-        lines.push('');
     }
-    lines.push(`    public static decode(reader: BufferReader): ${type.name} {`);
-    const decodeArgs = type.fields.map(f => `            ${decodeExpression(f.type, f.isArray)}`).join(',\n');
-    lines.push('        const obj = new ' + type.name + '(');
-    if (decodeArgs) lines.push(decodeArgs);
-    lines.push('        );');
-    lines.push('        return obj;');
-    lines.push('    }');
-    lines.push('');
-    lines.push('    encode(writer: BufferWriter): void {');
-    for (const f of type.fields) {
-        const safeValue = f.isOptional ? `(this.${f.name} ?? ${defaultValue(f.type, f.isArray)})` : `this.${f.name}`;
-        const expr = encodeExpression(safeValue, f.type, f.isArray);
-        lines.push(`        ${expr};`);
-    }
-    lines.push('    }');
     lines.push('}');
     lines.push('');
     return lines.join('\n');
@@ -488,20 +468,49 @@ function generateBinaryDecoders(dataTypes) {
     lines.push('// AUTO-GENERATED – DO NOT EDIT');
     lines.push('import { BufferReader } from "../codecs/binary/bufferReader";');
     lines.push('');
+    lines.push('export class BinaryDecoders {');
     
-    // Generate decoder functions with dynamic require
+    // Generate decoder functions with inline decoding logic
     for (const dt of dataTypes) {
         if (dt.kind === 'structure') {
             const funcName = `decode${dt.name}`;
             const fileName = dt.name.charAt(0).toLowerCase() + dt.name.slice(1);
-            lines.push(`export const ${funcName} = (reader: BufferReader) => {`);
-            lines.push(`    const { ${dt.name} } = require("./types/${fileName}");`);
-            lines.push(`    return ${dt.name}.decode(reader);`);
-            lines.push('};');
+            lines.push(`    static ${funcName} = (reader: BufferReader) => {`);
+            lines.push(`        const { ${dt.name} } = require("./types/${fileName}");`);
+            
+            if (dt.fields.length === 0) {
+                // Abstract type with no fields
+                lines.push(`        return new ${dt.name}();`);
+            } else {
+                // Collect all enum types used in this structure
+                const enumTypes = new Set();
+                for (const f of dt.fields) {
+                    if (enumNameSet.has(f.type)) {
+                        const renderedEnum = renderedTypeName(f.type, enumNameSet);
+                        enumTypes.add(renderedEnum);
+                    }
+                }
+                // Import enums at runtime
+                for (const enumType of enumTypes) {
+                    // enumType already has 'Enum' suffix from renderedTypeName
+                    // File name should be the base name without Enum suffix, lowercased
+                    const baseEnumName = enumType.endsWith('Enum') ? enumType.slice(0, -4) : enumType;
+                    const enumFileName = baseEnumName.charAt(0).toLowerCase() + baseEnumName.slice(1);
+                    lines.push(`        const { ${enumType} } = require("./types/${enumFileName}");`);
+                }
+                
+                // Type with fields - construct with decoded values
+                const decodeArgs = dt.fields.map(f => `            ${decodeExpression(f.type, f.isArray)}`).join(',\n');
+                lines.push(`        return new ${dt.name}(`);
+                if (decodeArgs) lines.push(decodeArgs);
+                lines.push('        );');
+            }
+            lines.push('    };');
             lines.push('');
         }
     }
     
+    lines.push('}');
     return lines.join('\n');
 }
 
@@ -513,27 +522,70 @@ function generateBinaryEncoders(dataTypes) {
     lines.push('import { ExpandedNodeId } from "../types/expandedNodeId";');
     lines.push('import { NodeId } from "../types/nodeId";');
     lines.push('');
-    lines.push('export const encodeId = (writer: BufferWriter, encoderId: number) => {');
-    lines.push('   const id = new ExpandedNodeId(NodeId.NewFourByte(0,encoderId));');
-    lines.push('   writer.writeExpandedNodeId(id);');
-    lines.push('}');
+    lines.push('export class BinaryEncoders {');
+    lines.push('    static encodeId = (writer: BufferWriter, encoderId: number) => {');
+    lines.push('        const id = new ExpandedNodeId(NodeId.NewFourByte(0,encoderId));');
+    lines.push('        writer.writeExpandedNodeId(id);');
+    lines.push('    };');
     lines.push('');
     
-    // Generate encoder functions with dynamic require
+    // Generate encoder functions with inline encoding logic
     for (const dt of dataTypes) {
         if (dt.kind === 'structure') {
             const funcName = `encode${dt.name}`;
-            const encoderId = nodeIdsMap.get(dt.name + '_EncoderId');
-            lines.push(`export const ${funcName} = (writer: BufferWriter, identifiable: IIdentifiable) => {`);
-            if (encoderId !== undefined) {
-                lines.push(`    encodeId(writer, ${encoderId});`);
+            lines.push(`    static ${funcName} = (writer: BufferWriter, identifiable: IIdentifiable) => {`);
+            if (dt.encoderId !== undefined) {
+                lines.push(`        BinaryEncoders.encodeId(writer, ${dt.encoderId});`);
             }
-            lines.push(`    (identifiable as any).encode(writer);`);
-            lines.push('};');
+            
+            if (dt.fields.length === 0) {
+                // Abstract type with no fields - nothing to encode
+                lines.push('        // Abstract type - no fields to encode');
+            } else {
+                // Collect all enum types used in this structure
+                const enumTypes = new Set();
+                for (const f of dt.fields) {
+                    if (enumNameSet.has(f.type)) {
+                        const renderedEnum = renderedTypeName(f.type, enumNameSet);
+                        enumTypes.add(renderedEnum);
+                    }
+                }
+                // Import enums at runtime
+                for (const enumType of enumTypes) {
+                    // enumType already has 'Enum' suffix from renderedTypeName
+                    // File name should be the base name without Enum suffix, lowercased
+                    const baseEnumName = enumType.endsWith('Enum') ? enumType.slice(0, -4) : enumType;
+                    const enumFileName = baseEnumName.charAt(0).toLowerCase() + baseEnumName.slice(1);
+                    lines.push(`        const { ${enumType} } = require("./types/${enumFileName}");`);
+                }
+                
+                // Type with fields - cast and encode each field
+                lines.push(`        const obj = identifiable as any;`);
+                for (const f of dt.fields) {
+                    let safeValue;
+                    if (f.isOptional) {
+                        // For optional fields, check if it's a built-in or enum type
+                        const info = builtInMap[f.type];
+                        if (info || enumNameSet.has(f.type) || f.isArray) {
+                            // Built-in, enum, or array - use default value
+                            safeValue = `(obj.${f.name} ?? ${defaultValue(f.type, f.isArray)})`;
+                        } else {
+                            // Complex type - just use the value directly, encoder will handle undefined
+                            safeValue = `obj.${f.name}`;
+                        }
+                    } else {
+                        safeValue = `obj.${f.name}`;
+                    }
+                    const expr = encodeExpression(safeValue, f.type, f.isArray);
+                    lines.push(`        ${expr};`);
+                }
+            }
+            lines.push('    };');
             lines.push('');
         }
     }
     
+    lines.push('}');
     return lines.join('\n');
 }
 
@@ -542,8 +594,8 @@ function generateSchemaCodec(dataTypes) {
     lines.push('// AUTO-GENERATED – DO NOT EDIT');
     lines.push('import { BufferReader } from "../codecs/binary/bufferReader";');
     lines.push('import { BufferWriter } from "../codecs/binary/bufferWriter";');
-    lines.push('import { IIdentifiable } from "../codecs/iIdentifiable";');
-    lines.push('');
+    lines.push('import { IIdentifiable } from "../codecs/iIdentifiable";');    lines.push('import { BinaryEncoders } from "./binaryEncoders";');
+    lines.push('import { BinaryDecoders } from "./binaryDecoders";');    lines.push('');
     lines.push('export class SchemaCodec {');
     lines.push('');
     lines.push('    public static encodeBinary(writer: BufferWriter, obj: IIdentifiable): void {');
@@ -554,7 +606,7 @@ function generateSchemaCodec(dataTypes) {
     const encoderCases = dataTypes
         .filter(dt => dt.kind === 'structure' && dt.id !== undefined)
         .sort((a, b) => a.id - b.id)
-        .map(dt => `            case ${dt.id}: require("./binaryEncoders").encode${dt.name}(writer, obj); break;`);
+        .map(dt => `            case ${dt.id}: BinaryEncoders.encode${dt.name}(writer, obj); break;`);
     
     lines.push(...encoderCases);
     lines.push('            default:');
@@ -567,11 +619,11 @@ function generateSchemaCodec(dataTypes) {
     lines.push('        const id = eid.NodeId.Identifier as number;');
     lines.push('        switch (id) {');
     
-    // Generate decoder switch cases sorted by id
+    // Generate decoder switch cases sorted by encoderId
     const decoderCases = dataTypes
-        .filter(dt => dt.kind === 'structure' && dt.id !== undefined)
-        .sort((a, b) => a.id - b.id)
-        .map(dt => `            case ${dt.id}: return require("./binaryDecoders").decode${dt.name}(reader);`);
+        .filter(dt => dt.kind === 'structure' && dt.encoderId !== undefined)
+        .sort((a, b) => a.encoderId - b.encoderId)
+        .map(dt => `            case ${dt.encoderId}: return BinaryDecoders.decode${dt.name}(reader);`);
     
     lines.push(...decoderCases);
     lines.push('            default:');
@@ -619,8 +671,12 @@ function generate() {
     // Assign IDs to data types
     for (const dt of dataTypes) {
         const id = nodeIdsMap.get(dt.name);
+        const encoderId = nodeIdsMap.get(dt.name + '_EncoderId');
         if (id !== undefined) {
             dt.id = id;
+        }
+        if (encoderId !== undefined) {
+            dt.encoderId = encoderId;
         }
     }
     

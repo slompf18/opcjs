@@ -10,13 +10,4 @@ export class Enumeration implements IIdentifiable {
     constructor() { }
 
     readonly id = 29
-
-    public static decode(reader: BufferReader): Enumeration {
-        // Abstract type - no fields to decode
-        return new Enumeration();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

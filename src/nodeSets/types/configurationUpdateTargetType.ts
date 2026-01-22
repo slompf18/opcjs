@@ -14,17 +14,4 @@ export class ConfigurationUpdateTargetType implements IIdentifiable {
     ) { }
 
     readonly id = 15538
-
-    public static decode(reader: BufferReader): ConfigurationUpdateTargetType {
-        const obj = new ConfigurationUpdateTargetType(
-            reader.readString(),
-            ConfigurationUpdateTypeEnum.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Path);
-        ConfigurationUpdateTypeEnum.encode(writer, this.UpdateType);
-    }
 }

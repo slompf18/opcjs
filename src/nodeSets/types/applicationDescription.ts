@@ -20,33 +20,4 @@ export class ApplicationDescription implements IIdentifiable {
     ) { }
 
     readonly id = 308
-
-    public static decode(reader: BufferReader): ApplicationDescription {
-        const obj = new ApplicationDescription(
-            reader.readString(),
-            reader.readString(),
-            reader.readLocalizedText(),
-            ApplicationTypeEnum.decode(reader),
-            reader.readString(),
-            reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.ApplicationUri);
-        writer.writeString(this.ProductUri);
-        this.ApplicationName.encode(writer);
-        ApplicationTypeEnum.encode(writer, this.ApplicationType);
-        writer.writeString(this.GatewayServerUri);
-        writer.writeString(this.DiscoveryProfileUri);
-        {
-            const arr = this.DiscoveryUrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-    }
 }

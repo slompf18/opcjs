@@ -14,17 +14,4 @@ export class Range implements IIdentifiable {
     ) { }
 
     readonly id = 884
-
-    public static decode(reader: BufferReader): Range {
-        const obj = new Range(
-            reader.readFloat64(),
-            reader.readFloat64()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeFloat64(this.Low);
-        writer.writeFloat64(this.High);
-    }
 }

@@ -17,21 +17,4 @@ export class ModifySubscriptionResponse implements IIdentifiable {
     ) { }
 
     readonly id = 794
-
-    public static decode(reader: BufferReader): ModifySubscriptionResponse {
-        const obj = new ModifySubscriptionResponse(
-            ResponseHeader.decode(reader),
-            reader.readFloat64(),
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-        writer.writeFloat64(this.RevisedPublishingInterval);
-        writer.writeUInt32(this.RevisedLifetimeCount);
-        writer.writeUInt32(this.RevisedMaxKeepAliveCount);
-    }
 }

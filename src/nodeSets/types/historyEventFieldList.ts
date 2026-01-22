@@ -13,21 +13,4 @@ export class HistoryEventFieldList implements IIdentifiable {
     ) { }
 
     readonly id = 920
-
-    public static decode(reader: BufferReader): HistoryEventFieldList {
-        const obj = new HistoryEventFieldList(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        {
-            const arr = this.EventFields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

@@ -12,15 +12,4 @@ export class ObjectTypeAttributes implements IIdentifiable {
     ) { }
 
     readonly id = 361
-
-    public static decode(reader: BufferReader): ObjectTypeAttributes {
-        const obj = new ObjectTypeAttributes(
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.IsAbstract);
-    }
 }

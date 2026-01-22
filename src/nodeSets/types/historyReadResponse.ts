@@ -17,31 +17,4 @@ export class HistoryReadResponse implements IIdentifiable {
     ) { }
 
     readonly id = 665
-
-    public static decode(reader: BufferReader): HistoryReadResponse {
-        const obj = new HistoryReadResponse(
-            ResponseHeader.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = HistoryReadResult.decode(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-        {
-            const arr = this.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-        {
-            const arr = this.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

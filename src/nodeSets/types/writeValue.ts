@@ -18,21 +18,4 @@ export class WriteValue implements IIdentifiable {
     ) { }
 
     readonly id = 668
-
-    public static decode(reader: BufferReader): WriteValue {
-        const obj = new WriteValue(
-            reader.readNodeId(),
-            reader.readUInt32(),
-            reader.readString(),
-            reader.readDataValue()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.NodeId.encode(writer);
-        writer.writeUInt32(this.AttributeId);
-        writer.writeString(this.IndexRange);
-        this.Value.encode(writer);
-    }
 }

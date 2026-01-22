@@ -16,19 +16,4 @@ export class RepublishRequest implements IIdentifiable {
     ) { }
 
     readonly id = 830
-
-    public static decode(reader: BufferReader): RepublishRequest {
-        const obj = new RepublishRequest(
-            RequestHeader.decode(reader),
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeUInt32(this.SubscriptionId);
-        writer.writeUInt32(this.RetransmitSequenceNumber);
-    }
 }

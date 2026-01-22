@@ -16,19 +16,4 @@ export class ReferenceNode implements IIdentifiable {
     ) { }
 
     readonly id = 285
-
-    public static decode(reader: BufferReader): ReferenceNode {
-        const obj = new ReferenceNode(
-            reader.readNodeId(),
-            reader.readBoolean(),
-            reader.readExpandedNodeId()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ReferenceTypeId.encode(writer);
-        writer.writeBoolean(this.IsInverse);
-        this.TargetId.encode(writer);
-    }
 }

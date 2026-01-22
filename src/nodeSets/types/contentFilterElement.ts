@@ -15,23 +15,4 @@ export class ContentFilterElement implements IIdentifiable {
     ) { }
 
     readonly id = 583
-
-    public static decode(reader: BufferReader): ContentFilterElement {
-        const obj = new ContentFilterElement(
-            FilterOperatorEnum.decode(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        FilterOperatorEnum.encode(writer, this.FilterOperator);
-        {
-            const arr = this.FilterOperands ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

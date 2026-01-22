@@ -16,19 +16,4 @@ export class ReferenceListEntryDataType implements IIdentifiable {
     ) { }
 
     readonly id = 32660
-
-    public static decode(reader: BufferReader): ReferenceListEntryDataType {
-        const obj = new ReferenceListEntryDataType(
-            reader.readNodeId(),
-            reader.readBoolean(),
-            reader.readExpandedNodeId()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ReferenceType.encode(writer);
-        writer.writeBoolean(this.IsForward);
-        this.TargetNode.encode(writer);
-    }
 }

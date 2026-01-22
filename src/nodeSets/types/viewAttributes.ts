@@ -14,17 +14,4 @@ export class ViewAttributes implements IIdentifiable {
     ) { }
 
     readonly id = 373
-
-    public static decode(reader: BufferReader): ViewAttributes {
-        const obj = new ViewAttributes(
-            reader.readBoolean(),
-            reader.readUInt8()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.ContainsNoLoops);
-        writer.writeUint8(this.EventNotifier);
-    }
 }

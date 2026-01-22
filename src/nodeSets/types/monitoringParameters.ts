@@ -18,23 +18,4 @@ export class MonitoringParameters implements IIdentifiable {
     ) { }
 
     readonly id = 740
-
-    public static decode(reader: BufferReader): MonitoringParameters {
-        const obj = new MonitoringParameters(
-            reader.readUInt32(),
-            reader.readFloat64(),
-            reader.readExtensionObject(),
-            reader.readUInt32(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.ClientHandle);
-        writer.writeFloat64(this.SamplingInterval);
-        this.Filter.encode(writer);
-        writer.writeUInt32(this.QueueSize);
-        writer.writeBoolean(this.DiscardOldest);
-    }
 }

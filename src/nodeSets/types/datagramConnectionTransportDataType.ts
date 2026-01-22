@@ -13,15 +13,4 @@ export class DatagramConnectionTransportDataType implements IIdentifiable {
     ) { }
 
     readonly id = 17467
-
-    public static decode(reader: BufferReader): DatagramConnectionTransportDataType {
-        const obj = new DatagramConnectionTransportDataType(
-            NetworkAddressDataType.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.DiscoveryAddress.encode(writer);
-    }
 }

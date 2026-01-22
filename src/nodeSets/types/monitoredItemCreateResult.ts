@@ -19,23 +19,4 @@ export class MonitoredItemCreateResult implements IIdentifiable {
     ) { }
 
     readonly id = 746
-
-    public static decode(reader: BufferReader): MonitoredItemCreateResult {
-        const obj = new MonitoredItemCreateResult(
-            reader.readStatusCode(),
-            reader.readUInt32(),
-            reader.readFloat64(),
-            reader.readUInt32(),
-            reader.readExtensionObject()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeStatusCode(this.StatusCode);
-        writer.writeUInt32(this.MonitoredItemId);
-        writer.writeFloat64(this.RevisedSamplingInterval);
-        writer.writeUInt32(this.RevisedQueueSize);
-        this.FilterResult.encode(writer);
-    }
 }

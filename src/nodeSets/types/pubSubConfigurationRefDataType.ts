@@ -17,21 +17,4 @@ export class PubSubConfigurationRefDataType implements IIdentifiable {
     ) { }
 
     readonly id = 25519
-
-    public static decode(reader: BufferReader): PubSubConfigurationRefDataType {
-        const obj = new PubSubConfigurationRefDataType(
-            PubSubConfigurationRefMaskEnum.decode(reader),
-            reader.readUInt16(),
-            reader.readUInt16(),
-            reader.readUInt16()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        PubSubConfigurationRefMaskEnum.encode(writer, this.ConfigurationMask);
-        writer.writeUInt16(this.ElementIndex);
-        writer.writeUInt16(this.ConnectionIndex);
-        writer.writeUInt16(this.GroupIndex);
-    }
 }

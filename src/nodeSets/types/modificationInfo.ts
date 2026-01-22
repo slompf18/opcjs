@@ -15,19 +15,4 @@ export class ModificationInfo implements IIdentifiable {
     ) { }
 
     readonly id = 11216
-
-    public static decode(reader: BufferReader): ModificationInfo {
-        const obj = new ModificationInfo(
-            reader.readDateTime(),
-            HistoryUpdateTypeEnum.decode(reader),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeDateTime(this.ModificationTime);
-        HistoryUpdateTypeEnum.encode(writer, this.UpdateType);
-        writer.writeString(this.UserName);
-    }
 }

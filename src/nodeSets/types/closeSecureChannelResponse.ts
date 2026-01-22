@@ -13,15 +13,4 @@ export class CloseSecureChannelResponse implements IIdentifiable {
     ) { }
 
     readonly id = 453
-
-    public static decode(reader: BufferReader): CloseSecureChannelResponse {
-        const obj = new CloseSecureChannelResponse(
-            ResponseHeader.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.ResponseHeader.encode(writer);
-    }
 }

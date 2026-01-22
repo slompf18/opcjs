@@ -15,17 +15,4 @@ export class StatusChangeNotification implements IIdentifiable {
     ) { }
 
     readonly id = 818
-
-    public static decode(reader: BufferReader): StatusChangeNotification {
-        const obj = new StatusChangeNotification(
-            reader.readStatusCode(),
-            reader.readDiagnosticInfo()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeStatusCode(this.Status);
-        this.DiagnosticInfo.encode(writer);
-    }
 }

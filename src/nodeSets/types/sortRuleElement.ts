@@ -15,17 +15,4 @@ export class SortRuleElement implements IIdentifiable {
     ) { }
 
     readonly id = 18648
-
-    public static decode(reader: BufferReader): SortRuleElement {
-        const obj = new SortRuleElement(
-            SortOrderTypeEnum.decode(reader),
-            SimpleAttributeOperand.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        SortOrderTypeEnum.encode(writer, this.SortOrder);
-        this.EventField.encode(writer);
-    }
 }

@@ -4,10 +4,10 @@ import { IEncryptionAlgorithm } from "../../cryption/iEncryptionAlgorithm";
 export class MsgBase {
     static DecryptAndVerify(
         data: Uint8Array,
-        encryptionAlgorithm: IEncryptionAlgorithm, 
+        encryptionAlgorithm: IEncryptionAlgorithm,
         headerLength: number): Uint8Array {
 
-        if(encryptionAlgorithm.IsAuthenticated()) {
+        if (encryptionAlgorithm.IsAuthenticated()) {
             throw new Error("Not implemented");
         } else {
             // decrypt
@@ -17,7 +17,7 @@ export class MsgBase {
             // verify
             const signatureLength = encryptionAlgorithm.GetSignatureLength();
             const receivedData = decryptedData.slice(0, decryptedData.length - signatureLength);
-            if (signatureLength > 0){
+            if (signatureLength > 0) {
                 const receivedSignature = decryptedData.slice(decryptedData.length - signatureLength);
                 const verificationBytes = new Uint8Array([
                     ...dataToDecrypt.slice(0, headerLength),
@@ -35,7 +35,7 @@ export class MsgBase {
 
     protected Encrypt(
         buffer: BufferWriter,
-        encryptionAlgorithm: IEncryptionAlgorithm, headerSize: number): Uint8Array {
+        encryptionAlgorithm: IEncryptionAlgorithm, headerSize: number, paddingPosition: number): Uint8Array {
 
         if (encryptionAlgorithm.IsAuthenticated()) {
             // todo: implement authenticated encryption
@@ -43,10 +43,12 @@ export class MsgBase {
         } else {
             // add padding bytes
             // https://reference.opcfoundation.org/Core/Part6/v105/docs/6.7.2.5.1
-            const bytesToWrite = buffer.getLength() - headerSize;
-            const padding = encryptionAlgorithm.GetPadding(bytesToWrite)
-            buffer.writeBytes(padding);
-
+            if (encryptionAlgorithm.HasPadding()) {
+                const bytesToWrite = buffer.getLength() - headerSize;
+                const padding = encryptionAlgorithm.GetPadding(bytesToWrite)
+                buffer.insertBytesAt(padding, paddingPosition);
+            }
+            
             // write message size so signature is correct
             const dataSize = buffer.getLength();
             const encryptedDataSize = encryptionAlgorithm.GetEncryptedSize(dataSize);

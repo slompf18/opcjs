@@ -15,17 +15,4 @@ export class DataTypeDescription implements IIdentifiable {
     ) { }
 
     readonly id = 14525
-
-    public static decode(reader: BufferReader): DataTypeDescription {
-        const obj = new DataTypeDescription(
-            reader.readNodeId(),
-            reader.readQualifiedName()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.DataTypeId.encode(writer);
-        this.Name.encode(writer);
-    }
 }

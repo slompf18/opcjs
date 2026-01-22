@@ -14,17 +14,4 @@ export class DecimalDataType implements IIdentifiable {
     ) { }
 
     readonly id = 17861
-
-    public static decode(reader: BufferReader): DecimalDataType {
-        const obj = new DecimalDataType(
-            reader.readInt16(),
-            reader.readByteString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeInt16(this.Scale);
-        writer.writeByteString(this.Value);
-    }
 }

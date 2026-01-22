@@ -18,35 +18,4 @@ export class SetTriggeringRequest implements IIdentifiable {
     ) { }
 
     readonly id = 773
-
-    public static decode(reader: BufferReader): SetTriggeringRequest {
-        const obj = new SetTriggeringRequest(
-            RequestHeader.decode(reader),
-            reader.readUInt32(),
-            reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeUInt32(this.SubscriptionId);
-        writer.writeUInt32(this.TriggeringItemId);
-        {
-            const arr = this.LinksToAdd ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
-            }
-        };
-        {
-            const arr = this.LinksToRemove ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
-            }
-        };
-    }
 }

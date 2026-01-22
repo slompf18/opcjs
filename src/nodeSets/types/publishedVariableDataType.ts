@@ -23,35 +23,4 @@ export class PublishedVariableDataType implements IIdentifiable {
     ) { }
 
     readonly id = 14273
-
-    public static decode(reader: BufferReader): PublishedVariableDataType {
-        const obj = new PublishedVariableDataType(
-            reader.readNodeId(),
-            reader.readUInt32(),
-            reader.readFloat64(),
-            reader.readUInt32(),
-            reader.readFloat64(),
-            reader.readString(),
-            reader.readVariant(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readQualifiedName(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.PublishedVariable.encode(writer);
-        writer.writeUInt32(this.AttributeId);
-        writer.writeFloat64(this.SamplingIntervalHint);
-        writer.writeUInt32(this.DeadbandType);
-        writer.writeFloat64(this.DeadbandValue);
-        writer.writeString(this.IndexRange);
-        this.SubstituteValue.encode(writer);
-        {
-            const arr = this.MetaDataProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-    }
 }

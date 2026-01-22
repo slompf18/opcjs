@@ -14,17 +14,4 @@ export class LldpTlvType implements IIdentifiable {
     ) { }
 
     readonly id = 18955
-
-    public static decode(reader: BufferReader): LldpTlvType {
-        const obj = new LldpTlvType(
-            reader.readUInt32(),
-            reader.readByteString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.TlvType);
-        writer.writeByteString(this.TlvInfo);
-    }
 }

@@ -17,29 +17,4 @@ export class DtlsPubSubConnectionDataType implements IIdentifiable {
     ) { }
 
     readonly id = 18794
-
-    public static decode(reader: BufferReader): DtlsPubSubConnectionDataType {
-        const obj = new DtlsPubSubConnectionDataType(
-            reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            reader.readBoolean(),
-            reader.readNodeId(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.ClientCipherSuite);
-        {
-            const arr = this.ServerCipherSuites ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
-            }
-        };
-        writer.writeBoolean(this.ZeroRTT);
-        this.CertificateGroupId.encode(writer);
-        writer.writeBoolean(this.VerifyClientCertificate);
-    }
 }

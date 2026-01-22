@@ -19,29 +19,4 @@ export class VariableTypeAttributes implements IIdentifiable {
     ) { }
 
     readonly id = 364
-
-    public static decode(reader: BufferReader): VariableTypeAttributes {
-        const obj = new VariableTypeAttributes(
-            reader.readVariant(),
-            reader.readNodeId(),
-            reader.readInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.Value.encode(writer);
-        this.DataType.encode(writer);
-        writer.writeInt32(this.ValueRank);
-        {
-            const arr = this.ArrayDimensions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
-            }
-        };
-        writer.writeBoolean(this.IsAbstract);
-    }
 }

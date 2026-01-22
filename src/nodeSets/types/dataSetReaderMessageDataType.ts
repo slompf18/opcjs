@@ -10,13 +10,4 @@ export class DataSetReaderMessageDataType implements IIdentifiable {
     constructor() { }
 
     readonly id = 15629
-
-    public static decode(reader: BufferReader): DataSetReaderMessageDataType {
-        // Abstract type - no fields to decode
-        return new DataSetReaderMessageDataType();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

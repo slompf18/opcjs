@@ -12,15 +12,4 @@ export class EnumField implements IIdentifiable {
     ) { }
 
     readonly id = 102
-
-    public static decode(reader: BufferReader): EnumField {
-        const obj = new EnumField(
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.Name);
-    }
 }

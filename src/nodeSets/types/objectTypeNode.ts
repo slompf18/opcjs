@@ -12,15 +12,4 @@ export class ObjectTypeNode implements IIdentifiable {
     ) { }
 
     readonly id = 264
-
-    public static decode(reader: BufferReader): ObjectTypeNode {
-        const obj = new ObjectTypeNode(
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.IsAbstract);
-    }
 }

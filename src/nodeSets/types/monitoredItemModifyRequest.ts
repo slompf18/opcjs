@@ -15,17 +15,4 @@ export class MonitoredItemModifyRequest implements IIdentifiable {
     ) { }
 
     readonly id = 755
-
-    public static decode(reader: BufferReader): MonitoredItemModifyRequest {
-        const obj = new MonitoredItemModifyRequest(
-            reader.readUInt32(),
-            MonitoringParameters.decode(reader)
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.MonitoredItemId);
-        this.RequestedParameters.encode(writer);
-    }
 }

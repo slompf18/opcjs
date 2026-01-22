@@ -18,25 +18,4 @@ export class JsonNetworkMessage implements IIdentifiable {
     ) { }
 
     readonly id = 19311
-
-    public static decode(reader: BufferReader): JsonNetworkMessage {
-        const obj = new JsonNetworkMessage(
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readString(),
-            reader.readExtensionObject()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.MessageId);
-        writer.writeString(this.MessageType);
-        writer.writeString(this.PublisherId);
-        writer.writeString(this.WriterGroupName);
-        writer.writeString(this.DataSetClassId);
-        this.Messages.encode(writer);
-    }
 }

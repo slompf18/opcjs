@@ -14,17 +14,4 @@ export class IdentityMappingRuleType implements IIdentifiable {
     ) { }
 
     readonly id = 15634
-
-    public static decode(reader: BufferReader): IdentityMappingRuleType {
-        const obj = new IdentityMappingRuleType(
-            IdentityCriteriaTypeEnum.decode(reader),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        IdentityCriteriaTypeEnum.encode(writer, this.CriteriaType);
-        writer.writeString(this.Criteria);
-    }
 }

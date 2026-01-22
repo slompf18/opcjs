@@ -14,17 +14,4 @@ export class DeleteNodesItem implements IIdentifiable {
     ) { }
 
     readonly id = 382
-
-    public static decode(reader: BufferReader): DeleteNodesItem {
-        const obj = new DeleteNodesItem(
-            reader.readNodeId(),
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.NodeId.encode(writer);
-        writer.writeBoolean(this.DeleteTargetReferences);
-    }
 }

@@ -12,15 +12,4 @@ export class PublishedDataSetCustomSourceDataType implements IIdentifiable {
     ) { }
 
     readonly id = 25269
-
-    public static decode(reader: BufferReader): PublishedDataSetCustomSourceDataType {
-        const obj = new PublishedDataSetCustomSourceDataType(
-            reader.readBoolean()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.CyclicDataSet);
-    }
 }

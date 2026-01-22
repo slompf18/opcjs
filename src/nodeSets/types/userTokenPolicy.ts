@@ -17,23 +17,4 @@ export class UserTokenPolicy implements IIdentifiable {
     ) { }
 
     readonly id = 304
-
-    public static decode(reader: BufferReader): UserTokenPolicy {
-        const obj = new UserTokenPolicy(
-            reader.readString(),
-            UserTokenTypeEnum.decode(reader),
-            reader.readString(),
-            reader.readString(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeString(this.PolicyId);
-        UserTokenTypeEnum.encode(writer, this.TokenType);
-        writer.writeString(this.IssuedTokenType);
-        writer.writeString(this.IssuerEndpointUrl);
-        writer.writeString(this.SecurityPolicyUri);
-    }
 }

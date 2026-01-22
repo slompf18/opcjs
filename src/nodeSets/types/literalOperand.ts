@@ -13,15 +13,4 @@ export class LiteralOperand implements IIdentifiable {
     ) { }
 
     readonly id = 595
-
-    public static decode(reader: BufferReader): LiteralOperand {
-        const obj = new LiteralOperand(
-            reader.readVariant()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.Value.encode(writer);
-    }
 }

@@ -19,29 +19,4 @@ export class DatagramWriterGroupTransport2DataType implements IIdentifiable {
     ) { }
 
     readonly id = 23613
-
-    public static decode(reader: BufferReader): DatagramWriterGroupTransport2DataType {
-        const obj = new DatagramWriterGroupTransport2DataType(
-            NetworkAddressDataType.decode(reader),
-            reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = TransmitQosDataType.decode(reader); } return arr; })(),
-            reader.readUInt32(),
-            reader.readString()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.Address.encode(writer);
-        writer.writeString(this.QosCategory);
-        {
-            const arr = this.DatagramQos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
-            }
-        };
-        writer.writeUInt32(this.DiscoveryAnnounceRate);
-        writer.writeString(this.Topic);
-    }
 }

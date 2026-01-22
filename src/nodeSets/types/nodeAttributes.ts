@@ -18,23 +18,4 @@ export class NodeAttributes implements IIdentifiable {
     ) { }
 
     readonly id = 349
-
-    public static decode(reader: BufferReader): NodeAttributes {
-        const obj = new NodeAttributes(
-            reader.readUInt32(),
-            reader.readLocalizedText(),
-            reader.readLocalizedText(),
-            reader.readUInt32(),
-            reader.readUInt32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.SpecifiedAttributes);
-        this.DisplayName.encode(writer);
-        this.Description.encode(writer);
-        writer.writeUInt32(this.WriteMask);
-        writer.writeUInt32(this.UserWriteMask);
-    }
 }

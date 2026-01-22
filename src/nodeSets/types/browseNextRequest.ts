@@ -16,25 +16,4 @@ export class BrowseNextRequest implements IIdentifiable {
     ) { }
 
     readonly id = 531
-
-    public static decode(reader: BufferReader): BrowseNextRequest {
-        const obj = new BrowseNextRequest(
-            RequestHeader.decode(reader),
-            reader.readBoolean(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.RequestHeader.encode(writer);
-        writer.writeBoolean(this.ReleaseContinuationPoints);
-        {
-            const arr = this.ContinuationPoints ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
-            }
-        };
-    }
 }

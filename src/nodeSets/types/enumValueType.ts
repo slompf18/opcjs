@@ -16,19 +16,4 @@ export class EnumValueType implements IIdentifiable {
     ) { }
 
     readonly id = 7594
-
-    public static decode(reader: BufferReader): EnumValueType {
-        const obj = new EnumValueType(
-            reader.readInt64(),
-            reader.readLocalizedText(),
-            reader.readLocalizedText()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeInt64(this.Value);
-        this.DisplayName.encode(writer);
-        this.Description.encode(writer);
-    }
 }

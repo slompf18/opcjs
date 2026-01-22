@@ -10,13 +10,4 @@ export class HistoryUpdateDetails implements IIdentifiable {
     constructor() { }
 
     readonly id = 677
-
-    public static decode(reader: BufferReader): HistoryUpdateDetails {
-        // Abstract type - no fields to decode
-        return new HistoryUpdateDetails();
-    }
-
-    encode(writer: BufferWriter): void {
-        // Abstract type - no fields to encode
-    }
 }

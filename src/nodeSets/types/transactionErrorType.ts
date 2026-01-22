@@ -17,19 +17,4 @@ export class TransactionErrorType implements IIdentifiable {
     ) { }
 
     readonly id = 32285
-
-    public static decode(reader: BufferReader): TransactionErrorType {
-        const obj = new TransactionErrorType(
-            reader.readNodeId(),
-            reader.readStatusCode(),
-            reader.readLocalizedText()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        this.TargetId.encode(writer);
-        writer.writeStatusCode(this.Error);
-        this.Message.encode(writer);
-    }
 }

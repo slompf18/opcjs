@@ -15,17 +15,4 @@ export class AddNodesResult implements IIdentifiable {
     ) { }
 
     readonly id = 483
-
-    public static decode(reader: BufferReader): AddNodesResult {
-        const obj = new AddNodesResult(
-            reader.readStatusCode(),
-            reader.readNodeId()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeStatusCode(this.StatusCode);
-        this.AddedNodeId.encode(writer);
-    }
 }

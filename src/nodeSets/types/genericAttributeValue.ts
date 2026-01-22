@@ -15,17 +15,4 @@ export class GenericAttributeValue implements IIdentifiable {
     ) { }
 
     readonly id = 17606
-
-    public static decode(reader: BufferReader): GenericAttributeValue {
-        const obj = new GenericAttributeValue(
-            reader.readUInt32(),
-            reader.readVariant()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeUInt32(this.AttributeId);
-        this.Value.encode(writer);
-    }
 }

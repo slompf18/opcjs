@@ -15,19 +15,4 @@ export class ReferenceTypeAttributes implements IIdentifiable {
     ) { }
 
     readonly id = 367
-
-    public static decode(reader: BufferReader): ReferenceTypeAttributes {
-        const obj = new ReferenceTypeAttributes(
-            reader.readBoolean(),
-            reader.readBoolean(),
-            reader.readLocalizedText()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeBoolean(this.IsAbstract);
-        writer.writeBoolean(this.Symmetric);
-        this.InverseName.encode(writer);
-    }
 }

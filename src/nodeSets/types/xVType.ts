@@ -14,17 +14,4 @@ export class XVType implements IIdentifiable {
     ) { }
 
     readonly id = 12080
-
-    public static decode(reader: BufferReader): XVType {
-        const obj = new XVType(
-            reader.readFloat64(),
-            reader.readFloat32()
-        );
-        return obj;
-    }
-
-    encode(writer: BufferWriter): void {
-        writer.writeFloat64(this.X);
-        writer.writeFloat32(this.Value);
-    }
 }

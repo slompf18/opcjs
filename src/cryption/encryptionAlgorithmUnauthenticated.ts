@@ -5,6 +5,7 @@ export class EncryptionAlgorithmUnauthenticated implements IEncryptionAlgorithm 
     constructor(
         private cipherBlockSize: UInt32,
         private plainTextBlockSize: UInt32,
+        private hasPadding: boolean,
         private encrypt: (cleartext: Uint8Array) => Uint8Array,
         private decrypt: (ciphertext: Uint8Array) => Uint8Array,
         private calculateSignature: (message: Uint8Array) => Uint8Array,
@@ -34,6 +35,10 @@ export class EncryptionAlgorithmUnauthenticated implements IEncryptionAlgorithm 
         return encryptedLength
     }
 
+    HasPadding(): boolean {
+        return this.hasPadding;
+    }
+    
     GetPadding(bytesToWrite: UInt32): Uint8Array {
         const plaintextBlockSize = this.plainTextBlockSize
         const signatureSize = this.GetSignatureLength()
