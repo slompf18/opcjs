@@ -14,7 +14,7 @@ export class MsgAsymmetric extends MsgBase {
         public securityHeader: MsgSecurityHeaderAsymmetric,
         public sequenceHeader: MsgSequenceHeader,
         public body: Uint8Array) {
-            super();
+        super();
     }
 
     static decode(buffer: BufferReader,
@@ -23,12 +23,10 @@ export class MsgAsymmetric extends MsgBase {
         headerLength: number,
         encryptionAlgorithm: IEncryptionAlgorithm) {
 
-                BufferUtils.Log('before decryption',buffer.readRemainingBytes(), buffer.getPosition());
-                buffer.rewind();
+        buffer.rewind();
         const decryptedBody = MsgBase.DecryptAndVerify(
             buffer.readRemainingBytes(), encryptionAlgorithm, headerLength);
         buffer = new BufferReader(decryptedBody);
-                BufferUtils.Log('after decryption',decryptedBody, 0);
         const sequenceHeader = MsgSequenceHeader.decode(buffer);
         const body = buffer.readRemainingBytes();
 
@@ -43,14 +41,14 @@ export class MsgAsymmetric extends MsgBase {
     encode(
         buffer: BufferWriter,
         encryptionAlgorithm: IEncryptionAlgorithm) {
-        
+
         this.header.encode(buffer);
         this.securityHeader.encode(buffer);
         const headerLength = buffer.getLength();
         this.sequenceHeader.encode(buffer);
         const bodyStartPos = buffer.getLength();
         buffer.writeBytes(this.body);
-        
+
         const encryptedBody = super.Encrypt(buffer, encryptionAlgorithm, headerLength, bodyStartPos);
         buffer.writeBytesAt(encryptedBody, headerLength);
 

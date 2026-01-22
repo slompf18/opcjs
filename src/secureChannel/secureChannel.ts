@@ -46,7 +46,6 @@ export class SecureChannel {
 
         const requestBuffer = new BufferWriter();
         SchemaCodec.encodeBinary(requestBuffer, request);
-        BufferUtils.Log('before encryption', requestBuffer.getData(), requestBuffer.getLength(), 'dec');
 
         const msg = new MsgAsymmetric(
             new MsgHeader(
@@ -63,7 +62,6 @@ export class SecureChannel {
         const encryptionAlgorithm = this.securityPolicy.getAlgorithmAsymmetric(new Uint8Array(), new Uint8Array());
         const msgBuffer = new BufferWriter();
         msg.encode(msgBuffer, encryptionAlgorithm);
-        BufferUtils.Log('msgBuffer', msgBuffer.getData(), msgBuffer.getLength(), 'dec');
 
         this.resolvers.set(msg.sequenceHeader.requestId, this.openSecureChannelResponse.bind(this));
 
@@ -83,7 +81,6 @@ export class SecureChannel {
 
     private onMessage(data: Uint8Array) {
         const buffer = new BufferReader(data);
-        BufferUtils.Log('received data', data, buffer.getPosition());
         const header = MsgHeader.decode(buffer);
 
         switch (header.msgType) {

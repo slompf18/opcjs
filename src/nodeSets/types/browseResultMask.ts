@@ -1,6 +1,4 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../codecs/binary/bufferReader";
-import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
 /**
  * BrowseResultMask
@@ -16,14 +14,4 @@ export enum BrowseResultMaskEnum {
     All = 63,
     ReferenceTypeInfo = 3,
     TargetInfo = 60,
-}
-
-export namespace BrowseResultMaskEnum {
-    export function decode(reader: BufferReader): BrowseResultMaskEnum {
-        return reader.readInt32() as BrowseResultMaskEnum;
-    }
-
-    export function encode(writer: BufferWriter, value: BrowseResultMaskEnum): void {
-        writer.writeInt32(value as any);
-    }
 }

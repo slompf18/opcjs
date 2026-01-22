@@ -266,9 +266,9 @@ function typeScriptType(typeName, isArray) {
 function decodeExpression(typeName, isArray) {
     const rendered = renderedTypeName(typeName, enumNameSet);
     if (enumNameSet.has(typeName)) {
-        const call = `${rendered}.decode(reader)`;
+        const call = `reader.readUInt32() as ${rendered}`;
         if (!isArray) return call;
-        return `(() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ${rendered}.decode(reader); } return arr; })()`;
+        return `(() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32() as ${rendered}; } return arr; })()`;
     }
     const info = builtInMap[typeName];
     const readExpr = info ? info.decode : `BinaryDecoders.decode${typeName}(reader)`;
@@ -314,11 +314,11 @@ function encodeExpression(valueRef, typeName, isArray) {
             const arr = ${valueRef} ?? [];
             writer.writeInt32(arr.length);
             for (const v of arr) {
-                ${rendered}.encode(writer, v);
+                writer.writeUInt32(v);
             }
         }`;
         }
-        return `${rendered}.encode(writer, ${valueRef})`;
+        return `writer.writeUInt32(${valueRef})`;
     }
     const info = builtInMap[typeName];
     if (isArray) {
@@ -427,11 +427,9 @@ function renderStructure(type, outFile, outDir) {
 }
 
 function renderEnum(type, outFile, outDir) {
-    const imports = collectImports({ ...type, fields: [] }, outFile, outDir);
     const rendered = renderedTypeName(type.name, enumNameSet);
     const lines = [];
     lines.push('// AUTO-GENERATED – DO NOT EDIT');
-    lines.push(renderImports(imports));
     lines.push('');
     if (type.doc) {
         lines.push('/**');
@@ -445,16 +443,6 @@ function renderEnum(type, outFile, outDir) {
     });
     lines.push('}');
     lines.push('');
-    lines.push(`export namespace ${rendered} {`);
-    lines.push(`    export function decode(reader: BufferReader): ${rendered} {`);
-    lines.push(`        return reader.readInt32() as ${rendered};`);
-    lines.push('    }');
-    lines.push('');
-    lines.push(`    export function encode(writer: BufferWriter, value: ${rendered}): void {`);
-    lines.push('        writer.writeInt32(value as any);');
-    lines.push('    }');
-    lines.push('}');
-    lines.push('');
     return lines.join('\n');
 }
 
@@ -464,9 +452,31 @@ function writeFile(filePath, content) {
 }
 
 function generateBinaryDecoders(dataTypes) {
+    // Collect all enum types used across all structures (deduplicate)
+    const allEnumTypes = new Map();
+    for (const dt of dataTypes) {
+        if (dt.kind === 'structure') {
+            for (const f of dt.fields) {
+                if (enumNameSet.has(f.type)) {
+                    const renderedEnum = renderedTypeName(f.type, enumNameSet);
+                    const baseEnumName = renderedEnum.endsWith('Enum') ? renderedEnum.slice(0, -4) : renderedEnum;
+                    const enumFileName = baseEnumName.charAt(0).toLowerCase() + baseEnumName.slice(1);
+                    allEnumTypes.set(renderedEnum, `./types/${enumFileName}`);
+                }
+            }
+        }
+    }
+    
     const lines = [];
     lines.push('// AUTO-GENERATED – DO NOT EDIT');
     lines.push('import { BufferReader } from "../codecs/binary/bufferReader";');
+    
+    // Add enum imports (sorted for consistency)
+    const sortedEnums = Array.from(allEnumTypes.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+    for (const [enumName, enumPath] of sortedEnums) {
+        lines.push(`import { ${enumName} } from "${enumPath}";`);
+    }
+    
     lines.push('');
     lines.push('export class BinaryDecoders {');
     
@@ -482,24 +492,8 @@ function generateBinaryDecoders(dataTypes) {
                 // Abstract type with no fields
                 lines.push(`        return new ${dt.name}();`);
             } else {
-                // Collect all enum types used in this structure
-                const enumTypes = new Set();
-                for (const f of dt.fields) {
-                    if (enumNameSet.has(f.type)) {
-                        const renderedEnum = renderedTypeName(f.type, enumNameSet);
-                        enumTypes.add(renderedEnum);
-                    }
-                }
-                // Import enums at runtime
-                for (const enumType of enumTypes) {
-                    // enumType already has 'Enum' suffix from renderedTypeName
-                    // File name should be the base name without Enum suffix, lowercased
-                    const baseEnumName = enumType.endsWith('Enum') ? enumType.slice(0, -4) : enumType;
-                    const enumFileName = baseEnumName.charAt(0).toLowerCase() + baseEnumName.slice(1);
-                    lines.push(`        const { ${enumType} } = require("./types/${enumFileName}");`);
-                }
-                
                 // Type with fields - construct with decoded values
+                // Note: Enums are not required since type casting is compile-time only
                 const decodeArgs = dt.fields.map(f => `            ${decodeExpression(f.type, f.isArray)}`).join(',\n');
                 lines.push(`        return new ${dt.name}(`);
                 if (decodeArgs) lines.push(decodeArgs);
@@ -533,23 +527,6 @@ function generateBinaryEncoders(dataTypes) {
                 // Abstract type with no fields - nothing to encode
                 lines.push('        // Abstract type - no fields to encode');
             } else {
-                // Collect all enum types used in this structure
-                const enumTypes = new Set();
-                for (const f of dt.fields) {
-                    if (enumNameSet.has(f.type)) {
-                        const renderedEnum = renderedTypeName(f.type, enumNameSet);
-                        enumTypes.add(renderedEnum);
-                    }
-                }
-                // Import enums at runtime
-                for (const enumType of enumTypes) {
-                    // enumType already has 'Enum' suffix from renderedTypeName
-                    // File name should be the base name without Enum suffix, lowercased
-                    const baseEnumName = enumType.endsWith('Enum') ? enumType.slice(0, -4) : enumType;
-                    const enumFileName = baseEnumName.charAt(0).toLowerCase() + baseEnumName.slice(1);
-                    lines.push(`        const { ${enumType} } = require("./types/${enumFileName}");`);
-                }
-                
                 // Type with fields - cast and encode each field
                 lines.push(`        const obj = identifiable as any;`);
                 for (const f of dt.fields) {

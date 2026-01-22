@@ -1,6 +1,4 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../codecs/binary/bufferReader";
-import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
 /**
  * https://reference.opcfoundation.org/v105/Core/docs/Part14/6.3.1/#6.3.1.1.4
@@ -17,14 +15,4 @@ export enum UadpNetworkMessageContentMaskEnum {
     PicoSeconds = 8,
     DataSetClassId = 9,
     PromotedFields = 10,
-}
-
-export namespace UadpNetworkMessageContentMaskEnum {
-    export function decode(reader: BufferReader): UadpNetworkMessageContentMaskEnum {
-        return reader.readInt32() as UadpNetworkMessageContentMaskEnum;
-    }
-
-    export function encode(writer: BufferWriter, value: UadpNetworkMessageContentMaskEnum): void {
-        writer.writeInt32(value as any);
-    }
 }

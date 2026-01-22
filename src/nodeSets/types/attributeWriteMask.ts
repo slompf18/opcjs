@@ -1,6 +1,4 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../codecs/binary/bufferReader";
-import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
 /**
  * https://reference.opcfoundation.org/v105/Core/docs/Part3/8.60
@@ -32,14 +30,4 @@ export enum AttributeWriteMaskEnum {
     RolePermissions = 23,
     AccessRestrictions = 24,
     AccessLevelEx = 25,
-}
-
-export namespace AttributeWriteMaskEnum {
-    export function decode(reader: BufferReader): AttributeWriteMaskEnum {
-        return reader.readInt32() as AttributeWriteMaskEnum;
-    }
-
-    export function encode(writer: BufferWriter, value: AttributeWriteMaskEnum): void {
-        writer.writeInt32(value as any);
-    }
 }

@@ -30,14 +30,13 @@ Convert `schema/Opc.Ua.NodeSet2.Services.xml` into TypeScript types (classes/enu
 
 ### Enums & OptionSets
 - Emit `enum`/`const enum` (configurable) with numeric values, **suffix enum names with `Enum` if the enum names last 4 letters are not already 'enum'**.
-- When encoding an enum, call the enum helper with the value (e.g., `SecurityTokenRequestTypeEnum.encode(writer, value)`); decoding uses the same helper.
+- All enums are UInt32 values.
+- Enums are encoded/decoded directly using `writer.writeUInt32()` and `reader.readUInt32()` - no separate encode/decode functions are generated.
 - For option sets, emit bitflag helpers (e.g., `hasFlag(value, Flag.X)`).
 
 Template:
-```
+```typescript
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../codecs/binary/bufferReader";
-import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
 /**
  * doc
@@ -46,16 +45,6 @@ export enum ConversionLimitEnumEnum {
     NoConversion = 0,
     Limited = 1,
     Unlimited = 2,
-}
-
-export namespace ConversionLimitEnumEnum {
-    export function decode(reader: BufferReader): ConversionLimitEnumEnum {
-        return reader.readInt32() as ConversionLimitEnumEnum;
-    }
-
-    export function encode(writer: BufferWriter, value: ConversionLimitEnumEnum): void {
-        writer.writeInt32(value as any);
-    }
 }
 ```
 
@@ -123,17 +112,17 @@ Generate three files:
 All decoder functions are organized in a static `BinaryDecoders` class:
 ```typescript
 import { BufferReader } from "../codecs/binary/bufferReader";
+import { MessageSecurityModeEnum } from "./types/messageSecurityMode";
+import { SecurityTokenRequestTypeEnum } from "./types/securityTokenRequestType";
 
 export class BinaryDecoders {
     static decodeOpenSecureChannelRequest = (reader: BufferReader) => {
         const { OpenSecureChannelRequest } = require("./types/openSecureChannelRequest");
-        const { SecurityTokenRequestTypeEnum } = require("./types/securityTokenRequestType");
-        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         return new OpenSecureChannelRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
-            SecurityTokenRequestTypeEnum.decode(reader),
-            MessageSecurityModeEnum.decode(reader),
+            reader.readUInt32() as SecurityTokenRequestTypeEnum,
+            reader.readUInt32() as MessageSecurityModeEnum,
             reader.readByteString(),
             reader.readUInt32()
         );
@@ -141,29 +130,31 @@ export class BinaryDecoders {
 }
 ```
 
+**Note**: All enum types used across all structures are imported at the top of the file for TypeScript compile-time type checking, but are not required inline since type casts have no runtime effect.
+
 ### nodeSets/binaryEncoders.ts
 All encoder functions are organized in a static `BinaryEncoders` class with inline encoding logic:
 ```typescript
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IIdentifiable } from "../codecs/iIdentifiable";
-import { NodeId } from "../types/nodeId";
 
 export class BinaryEncoders {
     static encodeOpenSecureChannelRequest = (writer: BufferWriter, identifiable: IIdentifiable) => {
-        const { SecurityTokenRequestTypeEnum } = require("./types/securityTokenRequestType");
-        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeUInt32(obj.ClientProtocolVersion);
-        SecurityTokenRequestTypeEnum.encode(writer, obj.RequestType);
-        MessageSecurityModeEnum.encode(writer, obj.SecurityMode);
+        writer.writeUInt32(obj.RequestType);
+        writer.writeUInt32(obj.SecurityMode);
         writer.writeByteString(obj.ClientNonce);
         writer.writeUInt32(obj.RequestedLifetime);
     };
 }
 ```
 
-**Note**: Individual encoder functions do **not** call `encodeId()`. The type ID is written once in `SchemaCodec.encodeBinary()` before calling the encoder function.
+**Note**: 
+- Individual encoder functions do **not** call `encodeId()`. The type ID is written once in `SchemaCodec.encodeBinary()` before calling the encoder function.
+- Enum values are encoded directly using `writeUInt32()` - no separate enum encode/decode functions or enum imports needed.
+- NodeId is imported for potential use by encoder functions that need to encode NodeId fields.
 
 ### nodeSets/schemaCodec.ts
 The SchemaCodec class imports and uses the static encoder/decoder classes:
@@ -213,7 +204,8 @@ export class SchemaCodec {
 - All encoder and decoder functions are organized as static methods within `BinaryEncoders` and `BinaryDecoders` classes respectively.
 - Encoder functions contain inline encoding logic with all field encoding happening directly in the function body.
 - Decoder functions construct type instances directly with decoded field values.
-- Both encoder and decoder functions use dynamic `require()` to load enum types and avoid circular dependencies.
+- All enum types used in decoders are imported at the top of the file for compile-time type checking (sorted alphabetically and deduplicated).
+- Type casts like `as EnumType` are compile-time only and have no runtime effect.
 - Encoders use `const obj = identifiable as any` to access fields with type safety bypass for dynamic requires.
 - Complex type encoding/decoding uses `BinaryEncoders.encodeTypeName()` / `BinaryDecoders.decodeTypeName()` for recursive calls.
 - Switch cases in schemaCodec.ts must be **sorted by id** (ascending order) for maintainability.

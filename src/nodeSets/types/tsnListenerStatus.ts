@@ -1,6 +1,4 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../codecs/binary/bufferReader";
-import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
 /**
  * https://reference.opcfoundation.org/v105/Core/docs/Part22/5.3.1/#5.3.1.8
@@ -10,14 +8,4 @@ export enum TsnListenerStatusEnum {
     Ready = 1,
     PartialFailed = 2,
     Failed = 3,
-}
-
-export namespace TsnListenerStatusEnum {
-    export function decode(reader: BufferReader): TsnListenerStatusEnum {
-        return reader.readInt32() as TsnListenerStatusEnum;
-    }
-
-    export function encode(writer: BufferWriter, value: TsnListenerStatusEnum): void {
-        writer.writeInt32(value as any);
-    }
 }

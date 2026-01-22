@@ -1,6 +1,4 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../codecs/binary/bufferReader";
-import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
 /**
  * https://reference.opcfoundation.org/v105/Core/docs/Part22/5.3.1/#5.3.1.5
@@ -32,14 +30,4 @@ export enum TsnFailureCodeEnum {
     StreamTransformNotSupported = 23,
     StreamIdTypeNotSupported = 24,
     FeatureNotSupported = 25,
-}
-
-export namespace TsnFailureCodeEnum {
-    export function decode(reader: BufferReader): TsnFailureCodeEnum {
-        return reader.readInt32() as TsnFailureCodeEnum;
-    }
-
-    export function encode(writer: BufferWriter, value: TsnFailureCodeEnum): void {
-        writer.writeInt32(value as any);
-    }
 }

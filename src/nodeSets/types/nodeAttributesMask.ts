@@ -1,6 +1,4 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../codecs/binary/bufferReader";
-import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
 /**
  * NodeAttributesMask
@@ -41,14 +39,4 @@ export enum NodeAttributesMaskEnum {
     Method = 26632548,
     ReferenceType = 26537060,
     View = 26501356,
-}
-
-export namespace NodeAttributesMaskEnum {
-    export function decode(reader: BufferReader): NodeAttributesMaskEnum {
-        return reader.readInt32() as NodeAttributesMaskEnum;
-    }
-
-    export function encode(writer: BufferWriter, value: NodeAttributesMaskEnum): void {
-        writer.writeInt32(value as any);
-    }
 }

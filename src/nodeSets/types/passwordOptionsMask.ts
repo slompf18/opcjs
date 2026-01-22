@@ -1,6 +1,4 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../codecs/binary/bufferReader";
-import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
 /**
  * https://reference.opcfoundation.org/v105/Core/docs/Part18/5.2.2
@@ -15,14 +13,4 @@ export enum PasswordOptionsMaskEnum {
     RequiresLowerCaseCharacters = 6,
     RequiresDigitCharacters = 7,
     RequiresSpecialCharacters = 8,
-}
-
-export namespace PasswordOptionsMaskEnum {
-    export function decode(reader: BufferReader): PasswordOptionsMaskEnum {
-        return reader.readInt32() as PasswordOptionsMaskEnum;
-    }
-
-    export function encode(writer: BufferWriter, value: PasswordOptionsMaskEnum): void {
-        writer.writeInt32(value as any);
-    }
 }

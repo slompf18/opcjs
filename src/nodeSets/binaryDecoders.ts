@@ -1,5 +1,39 @@
 // AUTO-GENERATED – DO NOT EDIT
 import { BufferReader } from "../codecs/binary/bufferReader";
+import { ActionStateEnum } from "./types/actionState";
+import { ApplicationTypeEnum } from "./types/applicationType";
+import { AxisScaleEnumerationEnum } from "./types/axisScaleEnumeration";
+import { BrokerTransportQualityOfServiceEnum } from "./types/brokerTransportQualityOfService";
+import { BrowseDirectionEnum } from "./types/browseDirection";
+import { ConfigurationUpdateTypeEnum } from "./types/configurationUpdateType";
+import { DataChangeTriggerEnum } from "./types/dataChangeTrigger";
+import { DataSetFieldContentMaskEnum } from "./types/dataSetFieldContentMask";
+import { DataSetFieldFlagsEnum } from "./types/dataSetFieldFlags";
+import { DataSetOrderingTypeEnum } from "./types/dataSetOrderingType";
+import { FilterOperatorEnum } from "./types/filterOperator";
+import { HistoryUpdateTypeEnum } from "./types/historyUpdateType";
+import { IdentityCriteriaTypeEnum } from "./types/identityCriteriaType";
+import { JsonDataSetMessageContentMaskEnum } from "./types/jsonDataSetMessageContentMask";
+import { JsonNetworkMessageContentMaskEnum } from "./types/jsonNetworkMessageContentMask";
+import { ManAddrIfSubtypeEnum } from "./types/manAddrIfSubtype";
+import { MessageSecurityModeEnum } from "./types/messageSecurityMode";
+import { MonitoringModeEnum } from "./types/monitoringMode";
+import { NodeClassEnum } from "./types/nodeClass";
+import { OverrideValueHandlingEnum } from "./types/overrideValueHandling";
+import { PerformUpdateTypeEnum } from "./types/performUpdateType";
+import { PermissionTypeEnum } from "./types/permissionType";
+import { PubSubConfigurationRefMaskEnum } from "./types/pubSubConfigurationRefMask";
+import { PubSubStateEnum } from "./types/pubSubState";
+import { SecurityTokenRequestTypeEnum } from "./types/securityTokenRequestType";
+import { ServerStateEnum } from "./types/serverState";
+import { SortOrderTypeEnum } from "./types/sortOrderType";
+import { StructureTypeEnum } from "./types/structureType";
+import { TimestampsToReturnEnum } from "./types/timestampsToReturn";
+import { TrustListValidationOptionsEnum } from "./types/trustListValidationOptions";
+import { UadpDataSetMessageContentMaskEnum } from "./types/uadpDataSetMessageContentMask";
+import { UadpNetworkMessageContentMaskEnum } from "./types/uadpNetworkMessageContentMask";
+import { UserConfigurationMaskEnum } from "./types/userConfigurationMask";
+import { UserTokenTypeEnum } from "./types/userTokenType";
 
 export class BinaryDecoders {
     static decodeEnumeration = (reader: BufferReader) => {
@@ -37,10 +71,9 @@ export class BinaryDecoders {
 
     static decodeEndpointType = (reader: BufferReader) => {
         const { EndpointType } = require("./types/endpointType");
-        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         return new EndpointType(
             reader.readString(),
-            MessageSecurityModeEnum.decode(reader),
+            reader.readUInt32() as MessageSecurityModeEnum,
             reader.readString(),
             reader.readString()
         );
@@ -122,9 +155,8 @@ export class BinaryDecoders {
 
     static decodeIdentityMappingRuleType = (reader: BufferReader) => {
         const { IdentityMappingRuleType } = require("./types/identityMappingRuleType");
-        const { IdentityCriteriaTypeEnum } = require("./types/identityCriteriaType");
         return new IdentityMappingRuleType(
-            IdentityCriteriaTypeEnum.decode(reader),
+            reader.readUInt32() as IdentityCriteriaTypeEnum,
             reader.readString()
         );
     };
@@ -201,21 +233,19 @@ export class BinaryDecoders {
 
     static decodeCertificateGroupDataType = (reader: BufferReader) => {
         const { CertificateGroupDataType } = require("./types/certificateGroupDataType");
-        const { TrustListValidationOptionsEnum } = require("./types/trustListValidationOptions");
         return new CertificateGroupDataType(
             reader.readNodeId(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readBoolean(); } return arr; })(),
-            TrustListValidationOptionsEnum.decode(reader)
+            reader.readUInt32() as TrustListValidationOptionsEnum
         );
     };
 
     static decodeConfigurationUpdateTargetType = (reader: BufferReader) => {
         const { ConfigurationUpdateTargetType } = require("./types/configurationUpdateTargetType");
-        const { ConfigurationUpdateTypeEnum } = require("./types/configurationUpdateType");
         return new ConfigurationUpdateTargetType(
             reader.readString(),
-            ConfigurationUpdateTypeEnum.decode(reader)
+            reader.readUInt32() as ConfigurationUpdateTypeEnum
         );
     };
 
@@ -272,9 +302,8 @@ export class BinaryDecoders {
 
     static decodeSecuritySettingsDataType = (reader: BufferReader) => {
         const { SecuritySettingsDataType } = require("./types/securitySettingsDataType");
-        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         return new SecuritySettingsDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = MessageSecurityModeEnum.decode(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32() as MessageSecurityModeEnum; } return arr; })(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readString()
         );
@@ -282,9 +311,8 @@ export class BinaryDecoders {
 
     static decodeUserTokenSettingsDataType = (reader: BufferReader) => {
         const { UserTokenSettingsDataType } = require("./types/userTokenSettingsDataType");
-        const { UserTokenTypeEnum } = require("./types/userTokenType");
         return new UserTokenSettingsDataType(
-            UserTokenTypeEnum.decode(reader),
+            reader.readUInt32() as UserTokenTypeEnum,
             reader.readString(),
             reader.readString(),
             reader.readString(),
@@ -407,11 +435,10 @@ export class BinaryDecoders {
 
     static decodeFieldMetaData = (reader: BufferReader) => {
         const { FieldMetaData } = require("./types/fieldMetaData");
-        const { DataSetFieldFlagsEnum } = require("./types/dataSetFieldFlags");
         return new FieldMetaData(
             reader.readString(),
             reader.readLocalizedText(),
-            DataSetFieldFlagsEnum.decode(reader),
+            reader.readUInt32() as DataSetFieldFlagsEnum,
             reader.readUInt8(),
             reader.readNodeId(),
             reader.readInt32(),
@@ -517,12 +544,11 @@ export class BinaryDecoders {
 
     static decodeDataSetWriterDataType = (reader: BufferReader) => {
         const { DataSetWriterDataType } = require("./types/dataSetWriterDataType");
-        const { DataSetFieldContentMaskEnum } = require("./types/dataSetFieldContentMask");
         return new DataSetWriterDataType(
             reader.readString(),
             reader.readBoolean(),
             reader.readUInt16(),
-            DataSetFieldContentMaskEnum.decode(reader),
+            reader.readUInt32() as DataSetFieldContentMaskEnum,
             reader.readUInt32(),
             reader.readString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
@@ -543,11 +569,10 @@ export class BinaryDecoders {
 
     static decodePubSubGroupDataType = (reader: BufferReader) => {
         const { PubSubGroupDataType } = require("./types/pubSubGroupDataType");
-        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         return new PubSubGroupDataType(
             reader.readString(),
             reader.readBoolean(),
-            MessageSecurityModeEnum.decode(reader),
+            reader.readUInt32() as MessageSecurityModeEnum,
             reader.readString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })(),
             reader.readUInt32(),
@@ -635,8 +660,6 @@ export class BinaryDecoders {
 
     static decodeDataSetReaderDataType = (reader: BufferReader) => {
         const { DataSetReaderDataType } = require("./types/dataSetReaderDataType");
-        const { DataSetFieldContentMaskEnum } = require("./types/dataSetFieldContentMask");
-        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         return new DataSetReaderDataType(
             reader.readString(),
             reader.readBoolean(),
@@ -644,11 +667,11 @@ export class BinaryDecoders {
             reader.readUInt16(),
             reader.readUInt16(),
             BinaryDecoders.decodeDataSetMetaDataType(reader),
-            DataSetFieldContentMaskEnum.decode(reader),
+            reader.readUInt32() as DataSetFieldContentMaskEnum,
             reader.readFloat64(),
             reader.readUInt32(),
             reader.readString(),
-            MessageSecurityModeEnum.decode(reader),
+            reader.readUInt32() as MessageSecurityModeEnum,
             reader.readString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
@@ -682,14 +705,13 @@ export class BinaryDecoders {
 
     static decodeFieldTargetDataType = (reader: BufferReader) => {
         const { FieldTargetDataType } = require("./types/fieldTargetDataType");
-        const { OverrideValueHandlingEnum } = require("./types/overrideValueHandling");
         return new FieldTargetDataType(
             reader.readGuid(),
             reader.readString(),
             reader.readNodeId(),
             reader.readUInt32(),
             reader.readString(),
-            OverrideValueHandlingEnum.decode(reader),
+            reader.readUInt32() as OverrideValueHandlingEnum,
             reader.readVariant()
         );
     };
@@ -773,12 +795,10 @@ export class BinaryDecoders {
 
     static decodeUadpWriterGroupMessageDataType = (reader: BufferReader) => {
         const { UadpWriterGroupMessageDataType } = require("./types/uadpWriterGroupMessageDataType");
-        const { DataSetOrderingTypeEnum } = require("./types/dataSetOrderingType");
-        const { UadpNetworkMessageContentMaskEnum } = require("./types/uadpNetworkMessageContentMask");
         return new UadpWriterGroupMessageDataType(
             reader.readUInt32(),
-            DataSetOrderingTypeEnum.decode(reader),
-            UadpNetworkMessageContentMaskEnum.decode(reader),
+            reader.readUInt32() as DataSetOrderingTypeEnum,
+            reader.readUInt32() as UadpNetworkMessageContentMaskEnum,
             reader.readFloat64(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readFloat64(); } return arr; })()
         );
@@ -786,9 +806,8 @@ export class BinaryDecoders {
 
     static decodeUadpDataSetWriterMessageDataType = (reader: BufferReader) => {
         const { UadpDataSetWriterMessageDataType } = require("./types/uadpDataSetWriterMessageDataType");
-        const { UadpDataSetMessageContentMaskEnum } = require("./types/uadpDataSetMessageContentMask");
         return new UadpDataSetWriterMessageDataType(
-            UadpDataSetMessageContentMaskEnum.decode(reader),
+            reader.readUInt32() as UadpDataSetMessageContentMaskEnum,
             reader.readUInt16(),
             reader.readUInt16(),
             reader.readUInt16()
@@ -797,15 +816,13 @@ export class BinaryDecoders {
 
     static decodeUadpDataSetReaderMessageDataType = (reader: BufferReader) => {
         const { UadpDataSetReaderMessageDataType } = require("./types/uadpDataSetReaderMessageDataType");
-        const { UadpNetworkMessageContentMaskEnum } = require("./types/uadpNetworkMessageContentMask");
-        const { UadpDataSetMessageContentMaskEnum } = require("./types/uadpDataSetMessageContentMask");
         return new UadpDataSetReaderMessageDataType(
             reader.readUInt32(),
             reader.readUInt16(),
             reader.readUInt16(),
             reader.readGuid(),
-            UadpNetworkMessageContentMaskEnum.decode(reader),
-            UadpDataSetMessageContentMaskEnum.decode(reader),
+            reader.readUInt32() as UadpNetworkMessageContentMaskEnum,
+            reader.readUInt32() as UadpDataSetMessageContentMaskEnum,
             reader.readFloat64(),
             reader.readFloat64(),
             reader.readFloat64()
@@ -814,27 +831,23 @@ export class BinaryDecoders {
 
     static decodeJsonWriterGroupMessageDataType = (reader: BufferReader) => {
         const { JsonWriterGroupMessageDataType } = require("./types/jsonWriterGroupMessageDataType");
-        const { JsonNetworkMessageContentMaskEnum } = require("./types/jsonNetworkMessageContentMask");
         return new JsonWriterGroupMessageDataType(
-            JsonNetworkMessageContentMaskEnum.decode(reader)
+            reader.readUInt32() as JsonNetworkMessageContentMaskEnum
         );
     };
 
     static decodeJsonDataSetWriterMessageDataType = (reader: BufferReader) => {
         const { JsonDataSetWriterMessageDataType } = require("./types/jsonDataSetWriterMessageDataType");
-        const { JsonDataSetMessageContentMaskEnum } = require("./types/jsonDataSetMessageContentMask");
         return new JsonDataSetWriterMessageDataType(
-            JsonDataSetMessageContentMaskEnum.decode(reader)
+            reader.readUInt32() as JsonDataSetMessageContentMaskEnum
         );
     };
 
     static decodeJsonDataSetReaderMessageDataType = (reader: BufferReader) => {
         const { JsonDataSetReaderMessageDataType } = require("./types/jsonDataSetReaderMessageDataType");
-        const { JsonNetworkMessageContentMaskEnum } = require("./types/jsonNetworkMessageContentMask");
-        const { JsonDataSetMessageContentMaskEnum } = require("./types/jsonDataSetMessageContentMask");
         return new JsonDataSetReaderMessageDataType(
-            JsonNetworkMessageContentMaskEnum.decode(reader),
-            JsonDataSetMessageContentMaskEnum.decode(reader)
+            reader.readUInt32() as JsonNetworkMessageContentMaskEnum,
+            reader.readUInt32() as JsonDataSetMessageContentMaskEnum
         );
     };
 
@@ -934,23 +947,21 @@ export class BinaryDecoders {
 
     static decodeBrokerWriterGroupTransportDataType = (reader: BufferReader) => {
         const { BrokerWriterGroupTransportDataType } = require("./types/brokerWriterGroupTransportDataType");
-        const { BrokerTransportQualityOfServiceEnum } = require("./types/brokerTransportQualityOfService");
         return new BrokerWriterGroupTransportDataType(
             reader.readString(),
             reader.readString(),
             reader.readString(),
-            BrokerTransportQualityOfServiceEnum.decode(reader)
+            reader.readUInt32() as BrokerTransportQualityOfServiceEnum
         );
     };
 
     static decodeBrokerDataSetWriterTransportDataType = (reader: BufferReader) => {
         const { BrokerDataSetWriterTransportDataType } = require("./types/brokerDataSetWriterTransportDataType");
-        const { BrokerTransportQualityOfServiceEnum } = require("./types/brokerTransportQualityOfService");
         return new BrokerDataSetWriterTransportDataType(
             reader.readString(),
             reader.readString(),
             reader.readString(),
-            BrokerTransportQualityOfServiceEnum.decode(reader),
+            reader.readUInt32() as BrokerTransportQualityOfServiceEnum,
             reader.readString(),
             reader.readFloat64()
         );
@@ -958,21 +969,19 @@ export class BinaryDecoders {
 
     static decodeBrokerDataSetReaderTransportDataType = (reader: BufferReader) => {
         const { BrokerDataSetReaderTransportDataType } = require("./types/brokerDataSetReaderTransportDataType");
-        const { BrokerTransportQualityOfServiceEnum } = require("./types/brokerTransportQualityOfService");
         return new BrokerDataSetReaderTransportDataType(
             reader.readString(),
             reader.readString(),
             reader.readString(),
-            BrokerTransportQualityOfServiceEnum.decode(reader),
+            reader.readUInt32() as BrokerTransportQualityOfServiceEnum,
             reader.readString()
         );
     };
 
     static decodePubSubConfigurationRefDataType = (reader: BufferReader) => {
         const { PubSubConfigurationRefDataType } = require("./types/pubSubConfigurationRefDataType");
-        const { PubSubConfigurationRefMaskEnum } = require("./types/pubSubConfigurationRefMask");
         return new PubSubConfigurationRefDataType(
-            PubSubConfigurationRefMaskEnum.decode(reader),
+            reader.readUInt32() as PubSubConfigurationRefMaskEnum,
             reader.readUInt16(),
             reader.readUInt16(),
             reader.readUInt16()
@@ -1057,14 +1066,13 @@ export class BinaryDecoders {
 
     static decodeJsonStatusMessage = (reader: BufferReader) => {
         const { JsonStatusMessage } = require("./types/jsonStatusMessage");
-        const { PubSubStateEnum } = require("./types/pubSubState");
         return new JsonStatusMessage(
             reader.readString(),
             reader.readString(),
             reader.readString(),
             reader.readDateTime(),
             reader.readBoolean(),
-            PubSubStateEnum.decode(reader),
+            reader.readUInt32() as PubSubStateEnum,
             reader.readDateTime()
         );
     };
@@ -1124,7 +1132,6 @@ export class BinaryDecoders {
 
     static decodeJsonActionRequestMessage = (reader: BufferReader) => {
         const { JsonActionRequestMessage } = require("./types/jsonActionRequestMessage");
-        const { ActionStateEnum } = require("./types/actionState");
         return new JsonActionRequestMessage(
             reader.readUInt16(),
             reader.readUInt16(),
@@ -1135,14 +1142,13 @@ export class BinaryDecoders {
             reader.readDateTime(),
             reader.readString(),
             reader.readUInt16(),
-            ActionStateEnum.decode(reader),
+            reader.readUInt32() as ActionStateEnum,
             reader.readExtensionObject()
         );
     };
 
     static decodeJsonActionResponseMessage = (reader: BufferReader) => {
         const { JsonActionResponseMessage } = require("./types/jsonActionResponseMessage");
-        const { ActionStateEnum } = require("./types/actionState");
         return new JsonActionResponseMessage(
             reader.readUInt16(),
             reader.readUInt16(),
@@ -1154,7 +1160,7 @@ export class BinaryDecoders {
             reader.readStatusCode(),
             reader.readString(),
             reader.readUInt16(),
-            ActionStateEnum.decode(reader),
+            reader.readUInt32() as ActionStateEnum,
             reader.readExtensionObject()
         );
     };
@@ -1169,10 +1175,9 @@ export class BinaryDecoders {
 
     static decodeUserManagementDataType = (reader: BufferReader) => {
         const { UserManagementDataType } = require("./types/userManagementDataType");
-        const { UserConfigurationMaskEnum } = require("./types/userConfigurationMask");
         return new UserManagementDataType(
             reader.readString(),
-            UserConfigurationMaskEnum.decode(reader),
+            reader.readUInt32() as UserConfigurationMaskEnum,
             reader.readString()
         );
     };
@@ -1189,24 +1194,22 @@ export class BinaryDecoders {
 
     static decodeLldpManagementAddressTxPortType = (reader: BufferReader) => {
         const { LldpManagementAddressTxPortType } = require("./types/lldpManagementAddressTxPortType");
-        const { ManAddrIfSubtypeEnum } = require("./types/manAddrIfSubtype");
         return new LldpManagementAddressTxPortType(
             reader.readUInt32(),
             reader.readString(),
             reader.readBoolean(),
             reader.readUInt32(),
-            ManAddrIfSubtypeEnum.decode(reader),
+            reader.readUInt32() as ManAddrIfSubtypeEnum,
             reader.readUInt32()
         );
     };
 
     static decodeLldpManagementAddressType = (reader: BufferReader) => {
         const { LldpManagementAddressType } = require("./types/lldpManagementAddressType");
-        const { ManAddrIfSubtypeEnum } = require("./types/manAddrIfSubtype");
         return new LldpManagementAddressType(
             reader.readUInt32(),
             reader.readString(),
-            ManAddrIfSubtypeEnum.decode(reader),
+            reader.readUInt32() as ManAddrIfSubtypeEnum,
             reader.readUInt32()
         );
     };
@@ -1285,10 +1288,9 @@ export class BinaryDecoders {
 
     static decodeRolePermissionType = (reader: BufferReader) => {
         const { RolePermissionType } = require("./types/rolePermissionType");
-        const { PermissionTypeEnum } = require("./types/permissionType");
         return new RolePermissionType(
             reader.readNodeId(),
-            PermissionTypeEnum.decode(reader)
+            reader.readUInt32() as PermissionTypeEnum
         );
     };
 
@@ -1312,11 +1314,10 @@ export class BinaryDecoders {
 
     static decodeStructureDefinition = (reader: BufferReader) => {
         const { StructureDefinition } = require("./types/structureDefinition");
-        const { StructureTypeEnum } = require("./types/structureType");
         return new StructureDefinition(
             reader.readNodeId(),
             reader.readNodeId(),
-            StructureTypeEnum.decode(reader),
+            reader.readUInt32() as StructureTypeEnum,
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeStructureField(reader); } return arr; })()
         );
     };
@@ -1330,10 +1331,9 @@ export class BinaryDecoders {
 
     static decodeNode = (reader: BufferReader) => {
         const { Node } = require("./types/node");
-        const { NodeClassEnum } = require("./types/nodeClass");
         return new Node(
             reader.readNodeId(),
-            NodeClassEnum.decode(reader),
+            reader.readUInt32() as NodeClassEnum,
             reader.readQualifiedName(),
             reader.readLocalizedText(),
             reader.readLocalizedText(),
@@ -1473,12 +1473,11 @@ export class BinaryDecoders {
 
     static decodeApplicationDescription = (reader: BufferReader) => {
         const { ApplicationDescription } = require("./types/applicationDescription");
-        const { ApplicationTypeEnum } = require("./types/applicationType");
         return new ApplicationDescription(
             reader.readString(),
             reader.readString(),
             reader.readLocalizedText(),
-            ApplicationTypeEnum.decode(reader),
+            reader.readUInt32() as ApplicationTypeEnum,
             reader.readString(),
             reader.readString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
@@ -1586,10 +1585,9 @@ export class BinaryDecoders {
 
     static decodeUserTokenPolicy = (reader: BufferReader) => {
         const { UserTokenPolicy } = require("./types/userTokenPolicy");
-        const { UserTokenTypeEnum } = require("./types/userTokenType");
         return new UserTokenPolicy(
             reader.readString(),
-            UserTokenTypeEnum.decode(reader),
+            reader.readUInt32() as UserTokenTypeEnum,
             reader.readString(),
             reader.readString(),
             reader.readString()
@@ -1598,12 +1596,11 @@ export class BinaryDecoders {
 
     static decodeEndpointDescription = (reader: BufferReader) => {
         const { EndpointDescription } = require("./types/endpointDescription");
-        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         return new EndpointDescription(
             reader.readString(),
             BinaryDecoders.decodeApplicationDescription(reader),
             reader.readByteString(),
-            MessageSecurityModeEnum.decode(reader),
+            reader.readUInt32() as MessageSecurityModeEnum,
             reader.readString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeUserTokenPolicy(reader); } return arr; })(),
             reader.readString(),
@@ -1631,12 +1628,11 @@ export class BinaryDecoders {
 
     static decodeRegisteredServer = (reader: BufferReader) => {
         const { RegisteredServer } = require("./types/registeredServer");
-        const { ApplicationTypeEnum } = require("./types/applicationType");
         return new RegisteredServer(
             reader.readString(),
             reader.readString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readLocalizedText(); } return arr; })(),
-            ApplicationTypeEnum.decode(reader),
+            reader.readUInt32() as ApplicationTypeEnum,
             reader.readString(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readString(),
@@ -1697,13 +1693,11 @@ export class BinaryDecoders {
 
     static decodeOpenSecureChannelRequest = (reader: BufferReader) => {
         const { OpenSecureChannelRequest } = require("./types/openSecureChannelRequest");
-        const { SecurityTokenRequestTypeEnum } = require("./types/securityTokenRequestType");
-        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         return new OpenSecureChannelRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
-            SecurityTokenRequestTypeEnum.decode(reader),
-            MessageSecurityModeEnum.decode(reader),
+            reader.readUInt32() as SecurityTokenRequestTypeEnum,
+            reader.readUInt32() as MessageSecurityModeEnum,
             reader.readByteString(),
             reader.readUInt32()
         );
@@ -1963,13 +1957,12 @@ export class BinaryDecoders {
 
     static decodeAddNodesItem = (reader: BufferReader) => {
         const { AddNodesItem } = require("./types/addNodesItem");
-        const { NodeClassEnum } = require("./types/nodeClass");
         return new AddNodesItem(
             reader.readExpandedNodeId(),
             reader.readNodeId(),
             reader.readExpandedNodeId(),
             reader.readQualifiedName(),
-            NodeClassEnum.decode(reader),
+            reader.readUInt32() as NodeClassEnum,
             reader.readExtensionObject(),
             reader.readExpandedNodeId()
         );
@@ -2002,14 +1995,13 @@ export class BinaryDecoders {
 
     static decodeAddReferencesItem = (reader: BufferReader) => {
         const { AddReferencesItem } = require("./types/addReferencesItem");
-        const { NodeClassEnum } = require("./types/nodeClass");
         return new AddReferencesItem(
             reader.readNodeId(),
             reader.readNodeId(),
             reader.readBoolean(),
             reader.readString(),
             reader.readExpandedNodeId(),
-            NodeClassEnum.decode(reader)
+            reader.readUInt32() as NodeClassEnum
         );
     };
 
@@ -2094,10 +2086,9 @@ export class BinaryDecoders {
 
     static decodeBrowseDescription = (reader: BufferReader) => {
         const { BrowseDescription } = require("./types/browseDescription");
-        const { BrowseDirectionEnum } = require("./types/browseDirection");
         return new BrowseDescription(
             reader.readNodeId(),
-            BrowseDirectionEnum.decode(reader),
+            reader.readUInt32() as BrowseDirectionEnum,
             reader.readNodeId(),
             reader.readBoolean(),
             reader.readUInt32(),
@@ -2107,14 +2098,13 @@ export class BinaryDecoders {
 
     static decodeReferenceDescription = (reader: BufferReader) => {
         const { ReferenceDescription } = require("./types/referenceDescription");
-        const { NodeClassEnum } = require("./types/nodeClass");
         return new ReferenceDescription(
             reader.readNodeId(),
             reader.readBoolean(),
             reader.readExpandedNodeId(),
             reader.readQualifiedName(),
             reader.readLocalizedText(),
-            NodeClassEnum.decode(reader),
+            reader.readUInt32() as NodeClassEnum,
             reader.readExpandedNodeId()
         );
     };
@@ -2308,9 +2298,8 @@ export class BinaryDecoders {
 
     static decodeContentFilterElement = (reader: BufferReader) => {
         const { ContentFilterElement } = require("./types/contentFilterElement");
-        const { FilterOperatorEnum } = require("./types/filterOperator");
         return new ContentFilterElement(
-            FilterOperatorEnum.decode(reader),
+            reader.readUInt32() as FilterOperatorEnum,
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
         );
     };
@@ -2442,11 +2431,10 @@ export class BinaryDecoders {
 
     static decodeReadRequest = (reader: BufferReader) => {
         const { ReadRequest } = require("./types/readRequest");
-        const { TimestampsToReturnEnum } = require("./types/timestampsToReturn");
         return new ReadRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readFloat64(),
-            TimestampsToReturnEnum.decode(reader),
+            reader.readUInt32() as TimestampsToReturnEnum,
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReadValueId(reader); } return arr; })()
         );
     };
@@ -2503,9 +2491,8 @@ export class BinaryDecoders {
 
     static decodeSortRuleElement = (reader: BufferReader) => {
         const { SortRuleElement } = require("./types/sortRuleElement");
-        const { SortOrderTypeEnum } = require("./types/sortOrderType");
         return new SortRuleElement(
-            SortOrderTypeEnum.decode(reader),
+            reader.readUInt32() as SortOrderTypeEnum,
             BinaryDecoders.decodeSimpleAttributeOperand(reader)
         );
     };
@@ -2563,10 +2550,9 @@ export class BinaryDecoders {
 
     static decodeModificationInfo = (reader: BufferReader) => {
         const { ModificationInfo } = require("./types/modificationInfo");
-        const { HistoryUpdateTypeEnum } = require("./types/historyUpdateType");
         return new ModificationInfo(
             reader.readDateTime(),
-            HistoryUpdateTypeEnum.decode(reader),
+            reader.readUInt32() as HistoryUpdateTypeEnum,
             reader.readString()
         );
     };
@@ -2594,11 +2580,10 @@ export class BinaryDecoders {
 
     static decodeHistoryReadRequest = (reader: BufferReader) => {
         const { HistoryReadRequest } = require("./types/historyReadRequest");
-        const { TimestampsToReturnEnum } = require("./types/timestampsToReturn");
         return new HistoryReadRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readExtensionObject(),
-            TimestampsToReturnEnum.decode(reader),
+            reader.readUInt32() as TimestampsToReturnEnum,
             reader.readBoolean(),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryReadValueId(reader); } return arr; })()
         );
@@ -2647,30 +2632,27 @@ export class BinaryDecoders {
 
     static decodeUpdateDataDetails = (reader: BufferReader) => {
         const { UpdateDataDetails } = require("./types/updateDataDetails");
-        const { PerformUpdateTypeEnum } = require("./types/performUpdateType");
         return new UpdateDataDetails(
             reader.readNodeId(),
-            PerformUpdateTypeEnum.decode(reader),
+            reader.readUInt32() as PerformUpdateTypeEnum,
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDataValue(); } return arr; })()
         );
     };
 
     static decodeUpdateStructureDataDetails = (reader: BufferReader) => {
         const { UpdateStructureDataDetails } = require("./types/updateStructureDataDetails");
-        const { PerformUpdateTypeEnum } = require("./types/performUpdateType");
         return new UpdateStructureDataDetails(
             reader.readNodeId(),
-            PerformUpdateTypeEnum.decode(reader),
+            reader.readUInt32() as PerformUpdateTypeEnum,
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDataValue(); } return arr; })()
         );
     };
 
     static decodeUpdateEventDetails = (reader: BufferReader) => {
         const { UpdateEventDetails } = require("./types/updateEventDetails");
-        const { PerformUpdateTypeEnum } = require("./types/performUpdateType");
         return new UpdateEventDetails(
             reader.readNodeId(),
-            PerformUpdateTypeEnum.decode(reader),
+            reader.readUInt32() as PerformUpdateTypeEnum,
             BinaryDecoders.decodeEventFilter(reader),
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryEventFieldList(reader); } return arr; })()
         );
@@ -2766,9 +2748,8 @@ export class BinaryDecoders {
 
     static decodeDataChangeFilter = (reader: BufferReader) => {
         const { DataChangeFilter } = require("./types/dataChangeFilter");
-        const { DataChangeTriggerEnum } = require("./types/dataChangeTrigger");
         return new DataChangeFilter(
-            DataChangeTriggerEnum.decode(reader),
+            reader.readUInt32() as DataChangeTriggerEnum,
             reader.readUInt32(),
             reader.readFloat64()
         );
@@ -2834,10 +2815,9 @@ export class BinaryDecoders {
 
     static decodeMonitoredItemCreateRequest = (reader: BufferReader) => {
         const { MonitoredItemCreateRequest } = require("./types/monitoredItemCreateRequest");
-        const { MonitoringModeEnum } = require("./types/monitoringMode");
         return new MonitoredItemCreateRequest(
             BinaryDecoders.decodeReadValueId(reader),
-            MonitoringModeEnum.decode(reader),
+            reader.readUInt32() as MonitoringModeEnum,
             BinaryDecoders.decodeMonitoringParameters(reader)
         );
     };
@@ -2855,11 +2835,10 @@ export class BinaryDecoders {
 
     static decodeCreateMonitoredItemsRequest = (reader: BufferReader) => {
         const { CreateMonitoredItemsRequest } = require("./types/createMonitoredItemsRequest");
-        const { TimestampsToReturnEnum } = require("./types/timestampsToReturn");
         return new CreateMonitoredItemsRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
-            TimestampsToReturnEnum.decode(reader),
+            reader.readUInt32() as TimestampsToReturnEnum,
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemCreateRequest(reader); } return arr; })()
         );
     };
@@ -2893,11 +2872,10 @@ export class BinaryDecoders {
 
     static decodeModifyMonitoredItemsRequest = (reader: BufferReader) => {
         const { ModifyMonitoredItemsRequest } = require("./types/modifyMonitoredItemsRequest");
-        const { TimestampsToReturnEnum } = require("./types/timestampsToReturn");
         return new ModifyMonitoredItemsRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
-            TimestampsToReturnEnum.decode(reader),
+            reader.readUInt32() as TimestampsToReturnEnum,
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemModifyRequest(reader); } return arr; })()
         );
     };
@@ -2913,11 +2891,10 @@ export class BinaryDecoders {
 
     static decodeSetMonitoringModeRequest = (reader: BufferReader) => {
         const { SetMonitoringModeRequest } = require("./types/setMonitoringModeRequest");
-        const { MonitoringModeEnum } = require("./types/monitoringMode");
         return new SetMonitoringModeRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
-            MonitoringModeEnum.decode(reader),
+            reader.readUInt32() as MonitoringModeEnum,
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
         );
     };
@@ -3194,11 +3171,10 @@ export class BinaryDecoders {
 
     static decodeRedundantServerDataType = (reader: BufferReader) => {
         const { RedundantServerDataType } = require("./types/redundantServerDataType");
-        const { ServerStateEnum } = require("./types/serverState");
         return new RedundantServerDataType(
             reader.readString(),
             reader.readUInt8(),
-            ServerStateEnum.decode(reader)
+            reader.readUInt32() as ServerStateEnum
         );
     };
 
@@ -3247,11 +3223,10 @@ export class BinaryDecoders {
 
     static decodeServerStatusDataType = (reader: BufferReader) => {
         const { ServerStatusDataType } = require("./types/serverStatusDataType");
-        const { ServerStateEnum } = require("./types/serverState");
         return new ServerStatusDataType(
             reader.readDateTime(),
             reader.readDateTime(),
-            ServerStateEnum.decode(reader),
+            reader.readUInt32() as ServerStateEnum,
             BinaryDecoders.decodeBuildInfo(reader),
             reader.readUInt32(),
             reader.readLocalizedText()
@@ -3309,7 +3284,6 @@ export class BinaryDecoders {
 
     static decodeSessionSecurityDiagnosticsDataType = (reader: BufferReader) => {
         const { SessionSecurityDiagnosticsDataType } = require("./types/sessionSecurityDiagnosticsDataType");
-        const { MessageSecurityModeEnum } = require("./types/messageSecurityMode");
         return new SessionSecurityDiagnosticsDataType(
             reader.readNodeId(),
             reader.readString(),
@@ -3317,7 +3291,7 @@ export class BinaryDecoders {
             reader.readString(),
             reader.readString(),
             reader.readString(),
-            MessageSecurityModeEnum.decode(reader),
+            reader.readUInt32() as MessageSecurityModeEnum,
             reader.readString(),
             reader.readByteString()
         );
@@ -3429,12 +3403,11 @@ export class BinaryDecoders {
 
     static decodeAxisInformation = (reader: BufferReader) => {
         const { AxisInformation } = require("./types/axisInformation");
-        const { AxisScaleEnumerationEnum } = require("./types/axisScaleEnumeration");
         return new AxisInformation(
             BinaryDecoders.decodeEUInformation(reader),
             BinaryDecoders.decodeRange(reader),
             reader.readLocalizedText(),
-            AxisScaleEnumerationEnum.decode(reader),
+            reader.readUInt32() as AxisScaleEnumerationEnum,
             (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readFloat64(); } return arr; })()
         );
     };

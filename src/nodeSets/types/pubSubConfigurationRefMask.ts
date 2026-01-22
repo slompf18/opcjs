@@ -1,6 +1,4 @@
 // AUTO-GENERATED – DO NOT EDIT
-import { BufferReader } from "../../codecs/binary/bufferReader";
-import { BufferWriter } from "../../codecs/binary/bufferWriter";
 
 /**
  * https://reference.opcfoundation.org/v105/Core/docs/Part14/9.1.3/#9.1.3.7.2
@@ -19,14 +17,4 @@ export enum PubSubConfigurationRefMaskEnum {
     ReferenceSubDataset = 10,
     ReferenceSecurityGroup = 11,
     ReferencePushTarget = 12,
-}
-
-export namespace PubSubConfigurationRefMaskEnum {
-    export function decode(reader: BufferReader): PubSubConfigurationRefMaskEnum {
-        return reader.readInt32() as PubSubConfigurationRefMaskEnum;
-    }
-
-    export function encode(writer: BufferWriter, value: PubSubConfigurationRefMaskEnum): void {
-        writer.writeInt32(value as any);
-    }
 }
