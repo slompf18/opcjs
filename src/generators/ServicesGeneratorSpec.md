@@ -25,8 +25,8 @@ Convert `schema/Opc.Ua.NodeSet2.Services.xml` into TypeScript types (classes/enu
   - LocalizedText→`LocalizedText` (class); QualifiedName→`QualifiedName` (class).
   - StatusCode→`StatusCode` (enum - UInt32 values); ExtensionObject→`ExtensionObject` (class).
   - **Variant**: Fields without a `DataType` attribute are mapped to `Variant` (holds any OPC UA value).
-- Arrays: valueRank/isArray → `T[]`.
-- Optional fields: `?` (optionally `| undefined`).
+- Arrays: valueRank/isArray → `T[]`. For array fields, element type is the base type without optional markers (e.g., `string[]` not `string | undefined[]`).
+- Optional fields: `?` (optionally `| undefined`) for non-array fields only.
 
 ### Enums & OptionSets
 - Emit `enum`/`const enum` (configurable) with numeric values, **suffix enum names with `Enum` if the enum names last 4 letters are not already 'enum'**.
@@ -78,7 +78,9 @@ export class OpenSecureChannelRequest implements IIdentifiable {
 }
 ```
 
-**Important**: Types should only have constructor with fields and readonly id. No encode/decode methods on the type classes themselves - encoding/decoding is handled by separate encoder/decoder functions.
+**Important**: 
+- Types should only have constructor with fields and readonly id. No encode/decode methods on the type classes themselves - encoding/decoding is handled by separate encoder/decoder functions.
+- No parameters in the constructor of types can be null or undefined. All constructor parameters are required and non-nullable.
 
 ### Abstract Types
 - Types with `IsAbstract="true"` and no fields are generated as empty placeholder classes.

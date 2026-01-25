@@ -17,7 +17,7 @@ export class SessionDiagnosticsDataType implements IIdentifiable {
         public ClientDescription: ApplicationDescription,
         public ServerUri: string | undefined,
         public EndpointUrl: string | undefined,
-        public LocaleIds: string | undefined[],
+        public LocaleIds: string[],
         public ActualSessionTimeout: Float64,
         public MaxResponseMessageSize: UInt32,
         public ClientConnectionTime: Date,

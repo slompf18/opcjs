@@ -13,7 +13,7 @@ export class SessionSecurityDiagnosticsDataType implements IIdentifiable {
     constructor(
         public SessionId: NodeId,
         public ClientUserIdOfSession: string | undefined,
-        public ClientUserIdHistory: string | undefined[],
+        public ClientUserIdHistory: string[],
         public AuthenticationMechanism: string | undefined,
         public Encoding: string | undefined,
         public TransportProtocol: string | undefined,

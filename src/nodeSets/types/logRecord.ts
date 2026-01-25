@@ -15,12 +15,12 @@ export class LogRecord implements IIdentifiable {
     constructor(
         public Time: Date,
         public Severity: UInt16,
-        public EventType?: NodeId,
-        public SourceNode?: NodeId,
-        public SourceName?: string | undefined,
+        public EventType: NodeId,
+        public SourceNode: NodeId,
+        public SourceName: string | undefined,
         public Message: LocalizedText,
-        public TraceContext?: TraceContextDataType,
-        public AdditionalData?: NameValuePair[]
+        public TraceContext: TraceContextDataType,
+        public AdditionalData: NameValuePair[]
     ) { }
 
     readonly id = 19361

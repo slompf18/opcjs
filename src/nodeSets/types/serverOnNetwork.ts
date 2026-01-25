@@ -12,7 +12,7 @@ export class ServerOnNetwork implements IIdentifiable {
         public RecordId: UInt32,
         public ServerName: string | undefined,
         public DiscoveryUrl: string | undefined,
-        public ServerCapabilities: string | undefined[]
+        public ServerCapabilities: string[]
     ) { }
 
     readonly id = 12189

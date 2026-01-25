@@ -16,7 +16,7 @@ export class ResponseHeader implements IIdentifiable {
         public RequestHandle: UInt32,
         public ServiceResult: StatusCode,
         public ServiceDiagnostics: DiagnosticInfo,
-        public StringTable: string | undefined[],
+        public StringTable: string[],
         public AdditionalHeader: ExtensionObject
     ) { }
 

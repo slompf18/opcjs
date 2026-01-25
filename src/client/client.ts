@@ -1,13 +1,20 @@
 import { SecureChannel } from "../secureChannel/secureChannel";
 import { ChannelFactory } from "../transports/channelFactory";
+import { SessionHandler } from "./sessions/sessionHandler";
+import { ConfigurationClient } from "../configuration/configurationClient";
+import { Session } from "./sessions/session";
 
 export class Client {
 
     private endpointUrl: string;
     private channel?: SecureChannel;
+    private session?: Session;
 
-    constructor(endpointUrl: string) {
-        this.endpointUrl = endpointUrl;
+    getSession(): Session{
+        if(!this.session){
+            throw new Error("No session available");
+        }
+        return this.session;
     }
 
     async connect(): Promise<void> {
@@ -18,8 +25,10 @@ export class Client {
         console.log('Connected to OPC UA server.');
 
         this.channel = new SecureChannel(channel);
-        this.channel.openSecureChannelRequest();
+        await this.channel.openSecureChannelRequest();
 
+        const sessionHandler = new SessionHandler(this.channel, this.configuration);
+        this.session = await sessionHandler.createNewSession();
     }
 
     async disconnect(): Promise<void> {
@@ -28,5 +37,9 @@ export class Client {
         if (this.channel) {
             await this.channel.disconnect();
         }
+    }
+
+    constructor(endpointUrl: string, private configuration: ConfigurationClient) {
+        this.endpointUrl = endpointUrl;
     }
 }

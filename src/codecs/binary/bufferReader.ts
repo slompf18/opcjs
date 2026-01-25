@@ -82,7 +82,7 @@ export class BufferReader {
 
     public readString(): string {
         const bytes = this.readByteString();
-        if (bytes === undefined) {
+        if (bytes === null) {
             return '';
         }
         return new TextDecoder().decode(bytes);
@@ -94,9 +94,9 @@ export class BufferReader {
         return bytes;
     }
 
-    public readByteString(): ByteString | undefined {
+    public readByteString(): ByteString {
         const length = this.readInt32();
-        if (length < 0) return undefined;
+        if (length < 0) return null;
         return this.readBytes(length);
     }
 

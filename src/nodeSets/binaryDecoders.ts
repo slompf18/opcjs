@@ -57,7 +57,7 @@ export class BinaryDecoders {
     static decodeAdditionalParametersType = (reader: BufferReader) => {
         const { AdditionalParametersType } = require("./types/additionalParametersType");
         return new AdditionalParametersType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
         );
     };
 
@@ -208,10 +208,10 @@ export class BinaryDecoders {
         const { TrustListDataType } = require("./types/trustListDataType");
         return new TrustListDataType(
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })()
         );
     };
 
@@ -219,7 +219,7 @@ export class BinaryDecoders {
         const { BaseConfigurationDataType } = require("./types/baseConfigurationDataType");
         return new BaseConfigurationDataType(
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
         );
     };
 
@@ -227,7 +227,7 @@ export class BinaryDecoders {
         const { BaseConfigurationRecordDataType } = require("./types/baseConfigurationRecordDataType");
         return new BaseConfigurationRecordDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
         );
     };
 
@@ -235,8 +235,8 @@ export class BinaryDecoders {
         const { CertificateGroupDataType } = require("./types/certificateGroupDataType");
         return new CertificateGroupDataType(
             reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readBoolean(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readBoolean(); } return arr; })(),
             reader.readUInt32() as TrustListValidationOptionsEnum
         );
     };
@@ -262,12 +262,12 @@ export class BinaryDecoders {
         const { ApplicationConfigurationDataType } = require("./types/applicationConfigurationDataType");
         return new ApplicationConfigurationDataType(
             BinaryDecoders.decodeApplicationIdentityDataType(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeCertificateGroupDataType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeServerEndpointDataType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDataType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSecuritySettingsDataType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeUserTokenSettingsDataType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeAuthorizationServiceConfigurationDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeCertificateGroupDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeServerEndpointDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSecuritySettingsDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeUserTokenSettingsDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeAuthorizationServiceConfigurationDataType(reader); } return arr; })()
         );
     };
 
@@ -275,15 +275,15 @@ export class BinaryDecoders {
         const { ApplicationIdentityDataType } = require("./types/applicationIdentityDataType");
         return new ApplicationIdentityDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readLocalizedText(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeApplicationDescription(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readLocalizedText(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeApplicationDescription(reader); } return arr; })()
         );
     };
 
     static decodeEndpointDataType = (reader: BufferReader) => {
         const { EndpointDataType } = require("./types/endpointDataType");
         return new EndpointDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readString(),
             reader.readUInt16()
         );
@@ -292,19 +292,19 @@ export class BinaryDecoders {
     static decodeServerEndpointDataType = (reader: BufferReader) => {
         const { ServerEndpointDataType } = require("./types/serverEndpointDataType");
         return new ServerEndpointDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
     };
 
     static decodeSecuritySettingsDataType = (reader: BufferReader) => {
         const { SecuritySettingsDataType } = require("./types/securitySettingsDataType");
         return new SecuritySettingsDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32() as MessageSecurityModeEnum; } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32() as MessageSecurityModeEnum; } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readString()
         );
     };
@@ -325,7 +325,7 @@ export class BinaryDecoders {
         const { ServiceCertificateDataType } = require("./types/serviceCertificateDataType");
         return new ServiceCertificateDataType(
             reader.readByteString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })(),
             reader.readDateTime(),
             reader.readDateTime()
         );
@@ -335,7 +335,7 @@ export class BinaryDecoders {
         const { AuthorizationServiceConfigurationDataType } = require("./types/authorizationServiceConfigurationDataType");
         return new AuthorizationServiceConfigurationDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeServiceCertificateDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeServiceCertificateDataType(reader); } return arr; })(),
             reader.readString()
         );
     };
@@ -351,10 +351,10 @@ export class BinaryDecoders {
     static decodeDataTypeSchemaHeader = (reader: BufferReader) => {
         const { DataTypeSchemaHeader } = require("./types/dataTypeSchemaHeader");
         return new DataTypeSchemaHeader(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeStructureDescription(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEnumDescription(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSimpleTypeDescription(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeStructureDescription(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEnumDescription(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSimpleTypeDescription(reader); } return arr; })()
         );
     };
 
@@ -393,7 +393,7 @@ export class BinaryDecoders {
         const { UABinaryFileDataType } = require("./types/uABinaryFileDataType");
         return new UABinaryFileDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
             reader.readVariant()
         );
     };
@@ -427,7 +427,7 @@ export class BinaryDecoders {
         return new DataSetMetaDataType(
             reader.readString(),
             reader.readLocalizedText(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeFieldMetaData(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeFieldMetaData(reader); } return arr; })(),
             reader.readGuid(),
             BinaryDecoders.decodeConfigurationVersionDataType(reader)
         );
@@ -442,10 +442,10 @@ export class BinaryDecoders {
             reader.readUInt8(),
             reader.readNodeId(),
             reader.readInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readUInt32(),
             reader.readGuid(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
         );
     };
 
@@ -461,9 +461,9 @@ export class BinaryDecoders {
         const { PublishedDataSetDataType } = require("./types/publishedDataSetDataType");
         return new PublishedDataSetDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             BinaryDecoders.decodeDataSetMetaDataType(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
             BinaryDecoders.decodePublishedDataSetSourceDataType(reader)
         );
     };
@@ -483,14 +483,14 @@ export class BinaryDecoders {
             reader.readFloat64(),
             reader.readString(),
             reader.readVariant(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readQualifiedName(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readQualifiedName(); } return arr; })()
         );
     };
 
     static decodePublishedDataItemsDataType = (reader: BufferReader) => {
         const { PublishedDataItemsDataType } = require("./types/publishedDataItemsDataType");
         return new PublishedDataItemsDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodePublishedVariableDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodePublishedVariableDataType(reader); } return arr; })()
         );
     };
 
@@ -498,7 +498,7 @@ export class BinaryDecoders {
         const { PublishedEventsDataType } = require("./types/publishedEventsDataType");
         return new PublishedEventsDataType(
             reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSimpleAttributeOperand(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSimpleAttributeOperand(reader); } return arr; })(),
             BinaryDecoders.decodeContentFilter(reader)
         );
     };
@@ -523,7 +523,7 @@ export class BinaryDecoders {
         const { PublishedActionDataType } = require("./types/publishedActionDataType");
         return new PublishedActionDataType(
             BinaryDecoders.decodeDataSetMetaDataType(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeActionTargetDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeActionTargetDataType(reader); } return arr; })()
         );
     };
 
@@ -538,7 +538,7 @@ export class BinaryDecoders {
     static decodePublishedActionMethodDataType = (reader: BufferReader) => {
         const { PublishedActionMethodDataType } = require("./types/publishedActionMethodDataType");
         return new PublishedActionMethodDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeActionMethodDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeActionMethodDataType(reader); } return arr; })()
         );
     };
 
@@ -551,7 +551,7 @@ export class BinaryDecoders {
             reader.readUInt32() as DataSetFieldContentMaskEnum,
             reader.readUInt32(),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
             BinaryDecoders.decodeDataSetWriterTransportDataType(reader),
             BinaryDecoders.decodeDataSetWriterMessageDataType(reader)
         );
@@ -574,9 +574,9 @@ export class BinaryDecoders {
             reader.readBoolean(),
             reader.readUInt32() as MessageSecurityModeEnum,
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })(),
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
         );
     };
 
@@ -587,11 +587,11 @@ export class BinaryDecoders {
             reader.readFloat64(),
             reader.readFloat64(),
             reader.readUInt8(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readString(),
             BinaryDecoders.decodeWriterGroupTransportDataType(reader),
             BinaryDecoders.decodeWriterGroupMessageDataType(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeDataSetWriterDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeDataSetWriterDataType(reader); } return arr; })()
         );
     };
 
@@ -613,10 +613,10 @@ export class BinaryDecoders {
             reader.readVariant(),
             reader.readString(),
             BinaryDecoders.decodeNetworkAddressDataType(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
             BinaryDecoders.decodeConnectionTransportDataType(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeWriterGroupDataType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReaderGroupDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeWriterGroupDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReaderGroupDataType(reader); } return arr; })()
         );
     };
 
@@ -644,7 +644,7 @@ export class BinaryDecoders {
         return new ReaderGroupDataType(
             BinaryDecoders.decodeReaderGroupTransportDataType(reader),
             BinaryDecoders.decodeReaderGroupMessageDataType(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeDataSetReaderDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeDataSetReaderDataType(reader); } return arr; })()
         );
     };
 
@@ -673,8 +673,8 @@ export class BinaryDecoders {
             reader.readString(),
             reader.readUInt32() as MessageSecurityModeEnum,
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
             BinaryDecoders.decodeDataSetReaderTransportDataType(reader),
             BinaryDecoders.decodeDataSetReaderMessageDataType(reader),
             BinaryDecoders.decodeSubscribedDataSetDataType(reader)
@@ -699,7 +699,7 @@ export class BinaryDecoders {
     static decodeTargetVariablesDataType = (reader: BufferReader) => {
         const { TargetVariablesDataType } = require("./types/targetVariablesDataType");
         return new TargetVariablesDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeFieldTargetDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeFieldTargetDataType(reader); } return arr; })()
         );
     };
 
@@ -720,15 +720,15 @@ export class BinaryDecoders {
         const { SubscribedDataSetMirrorDataType } = require("./types/subscribedDataSetMirrorDataType");
         return new SubscribedDataSetMirrorDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeRolePermissionType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeRolePermissionType(reader); } return arr; })()
         );
     };
 
     static decodePubSubConfigurationDataType = (reader: BufferReader) => {
         const { PubSubConfigurationDataType } = require("./types/pubSubConfigurationDataType");
         return new PubSubConfigurationDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodePublishedDataSetDataType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodePubSubConnectionDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodePublishedDataSetDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodePubSubConnectionDataType(reader); } return arr; })(),
             reader.readBoolean()
         );
     };
@@ -744,7 +744,7 @@ export class BinaryDecoders {
         const { StandaloneSubscribedDataSetDataType } = require("./types/standaloneSubscribedDataSetDataType");
         return new StandaloneSubscribedDataSetDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             BinaryDecoders.decodeDataSetMetaDataType(reader),
             BinaryDecoders.decodeSubscribedDataSetDataType(reader)
         );
@@ -754,14 +754,14 @@ export class BinaryDecoders {
         const { SecurityGroupDataType } = require("./types/securityGroupDataType");
         return new SecurityGroupDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readFloat64(),
             reader.readString(),
             reader.readUInt32(),
             reader.readUInt32(),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeRolePermissionType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeRolePermissionType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
         );
     };
 
@@ -769,27 +769,27 @@ export class BinaryDecoders {
         const { PubSubKeyPushTargetDataType } = require("./types/pubSubKeyPushTargetDataType");
         return new PubSubKeyPushTargetDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readString(),
             reader.readString(),
             BinaryDecoders.decodeUserTokenPolicy(reader),
             reader.readUInt16(),
             reader.readFloat64(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
     };
 
     static decodePubSubConfiguration2DataType = (reader: BufferReader) => {
         const { PubSubConfiguration2DataType } = require("./types/pubSubConfiguration2DataType");
         return new PubSubConfiguration2DataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeStandaloneSubscribedDataSetDataType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeDataSetMetaDataType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSecurityGroupDataType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodePubSubKeyPushTargetDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeStandaloneSubscribedDataSetDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeDataSetMetaDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSecurityGroupDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodePubSubKeyPushTargetDataType(reader); } return arr; })(),
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeKeyValuePair(reader); } return arr; })()
         );
     };
 
@@ -800,7 +800,7 @@ export class BinaryDecoders {
             reader.readUInt32() as DataSetOrderingTypeEnum,
             reader.readUInt32() as UadpNetworkMessageContentMaskEnum,
             reader.readFloat64(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readFloat64(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readFloat64(); } return arr; })()
         );
     };
 
@@ -893,7 +893,7 @@ export class BinaryDecoders {
             reader.readUInt32(),
             reader.readUInt32(),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeQosDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeQosDataType(reader); } return arr; })()
         );
     };
 
@@ -910,7 +910,7 @@ export class BinaryDecoders {
         return new DatagramWriterGroupTransport2DataType(
             BinaryDecoders.decodeNetworkAddressDataType(reader),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeTransmitQosDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeTransmitQosDataType(reader); } return arr; })(),
             reader.readUInt32(),
             reader.readString()
         );
@@ -921,7 +921,7 @@ export class BinaryDecoders {
         return new DatagramDataSetReaderTransportDataType(
             BinaryDecoders.decodeNetworkAddressDataType(reader),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReceiveQosDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReceiveQosDataType(reader); } return arr; })(),
             reader.readString()
         );
     };
@@ -930,7 +930,7 @@ export class BinaryDecoders {
         const { DtlsPubSubConnectionDataType } = require("./types/dtlsPubSubConnectionDataType");
         return new DtlsPubSubConnectionDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readBoolean(),
             reader.readNodeId(),
             reader.readBoolean()
@@ -1048,7 +1048,7 @@ export class BinaryDecoders {
             reader.readString(),
             reader.readDateTime(),
             BinaryDecoders.decodeApplicationDescription(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
     };
 
@@ -1060,7 +1060,7 @@ export class BinaryDecoders {
             reader.readString(),
             reader.readDateTime(),
             BinaryDecoders.decodeApplicationDescription(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })()
         );
     };
 
@@ -1097,10 +1097,10 @@ export class BinaryDecoders {
             reader.readUInt16(),
             reader.readString(),
             reader.readDateTime(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeActionTargetDataType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeActionTargetDataType(reader); } return arr; })(),
             BinaryDecoders.decodeDataSetMetaDataType(reader),
             BinaryDecoders.decodeDataSetMetaDataType(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeActionMethodDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeActionMethodDataType(reader); } return arr; })()
         );
     };
 
@@ -1126,7 +1126,7 @@ export class BinaryDecoders {
             reader.readByteString(),
             reader.readString(),
             reader.readFloat64(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
         );
     };
 
@@ -1169,7 +1169,7 @@ export class BinaryDecoders {
         const { AliasNameDataType } = require("./types/aliasNameDataType");
         return new AliasNameDataType(
             reader.readQualifiedName(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExpandedNodeId(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExpandedNodeId(); } return arr; })()
         );
     };
 
@@ -1251,14 +1251,14 @@ export class BinaryDecoders {
             reader.readString(),
             reader.readLocalizedText(),
             BinaryDecoders.decodeTraceContextDataType(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeNameValuePair(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeNameValuePair(reader); } return arr; })()
         );
     };
 
     static decodeLogRecordsDataType = (reader: BufferReader) => {
         const { LogRecordsDataType } = require("./types/logRecordsDataType");
         return new LogRecordsDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeLogRecord(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeLogRecord(reader); } return arr; })()
         );
     };
 
@@ -1306,7 +1306,7 @@ export class BinaryDecoders {
             reader.readLocalizedText(),
             reader.readNodeId(),
             reader.readInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readUInt32(),
             reader.readBoolean()
         );
@@ -1318,14 +1318,14 @@ export class BinaryDecoders {
             reader.readNodeId(),
             reader.readNodeId(),
             reader.readUInt32() as StructureTypeEnum,
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeStructureField(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeStructureField(reader); } return arr; })()
         );
     };
 
     static decodeEnumDefinition = (reader: BufferReader) => {
         const { EnumDefinition } = require("./types/enumDefinition");
         return new EnumDefinition(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEnumField(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEnumField(reader); } return arr; })()
         );
     };
 
@@ -1339,10 +1339,10 @@ export class BinaryDecoders {
             reader.readLocalizedText(),
             reader.readUInt32(),
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeRolePermissionType(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeRolePermissionType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeRolePermissionType(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeRolePermissionType(reader); } return arr; })(),
             reader.readUInt16(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReferenceNode(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReferenceNode(reader); } return arr; })()
         );
     };
 
@@ -1366,7 +1366,7 @@ export class BinaryDecoders {
             reader.readVariant(),
             reader.readNodeId(),
             reader.readInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readUInt8(),
             reader.readUInt8(),
             reader.readFloat64(),
@@ -1381,7 +1381,7 @@ export class BinaryDecoders {
             reader.readVariant(),
             reader.readNodeId(),
             reader.readInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readBoolean()
         );
     };
@@ -1434,7 +1434,7 @@ export class BinaryDecoders {
             reader.readString(),
             reader.readNodeId(),
             reader.readInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readLocalizedText()
         );
     };
@@ -1480,7 +1480,7 @@ export class BinaryDecoders {
             reader.readUInt32() as ApplicationTypeEnum,
             reader.readString(),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
     };
 
@@ -1504,7 +1504,7 @@ export class BinaryDecoders {
             reader.readUInt32(),
             reader.readStatusCode(),
             reader.readDiagnosticInfo(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readExtensionObject()
         );
     };
@@ -1520,9 +1520,9 @@ export class BinaryDecoders {
         const { SessionlessInvokeRequestType } = require("./types/sessionlessInvokeRequestType");
         return new SessionlessInvokeRequestType(
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readUInt32()
         );
     };
@@ -1530,8 +1530,8 @@ export class BinaryDecoders {
     static decodeSessionlessInvokeResponseType = (reader: BufferReader) => {
         const { SessionlessInvokeResponseType } = require("./types/sessionlessInvokeResponseType");
         return new SessionlessInvokeResponseType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readUInt32()
         );
     };
@@ -1541,8 +1541,8 @@ export class BinaryDecoders {
         return new FindServersRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
     };
 
@@ -1550,7 +1550,7 @@ export class BinaryDecoders {
         const { FindServersResponse } = require("./types/findServersResponse");
         return new FindServersResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeApplicationDescription(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeApplicationDescription(reader); } return arr; })()
         );
     };
 
@@ -1560,7 +1560,7 @@ export class BinaryDecoders {
             reader.readUInt32(),
             reader.readString(),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
     };
 
@@ -1570,7 +1570,7 @@ export class BinaryDecoders {
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
     };
 
@@ -1579,7 +1579,7 @@ export class BinaryDecoders {
         return new FindServersOnNetworkResponse(
             BinaryDecoders.decodeResponseHeader(reader),
             reader.readDateTime(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeServerOnNetwork(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeServerOnNetwork(reader); } return arr; })()
         );
     };
 
@@ -1602,7 +1602,7 @@ export class BinaryDecoders {
             reader.readByteString(),
             reader.readUInt32() as MessageSecurityModeEnum,
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeUserTokenPolicy(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeUserTokenPolicy(reader); } return arr; })(),
             reader.readString(),
             reader.readUInt8()
         );
@@ -1613,8 +1613,8 @@ export class BinaryDecoders {
         return new GetEndpointsRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
     };
 
@@ -1622,7 +1622,7 @@ export class BinaryDecoders {
         const { GetEndpointsResponse } = require("./types/getEndpointsResponse");
         return new GetEndpointsResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })()
         );
     };
 
@@ -1631,10 +1631,10 @@ export class BinaryDecoders {
         return new RegisteredServer(
             reader.readString(),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readLocalizedText(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readLocalizedText(); } return arr; })(),
             reader.readUInt32() as ApplicationTypeEnum,
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readString(),
             reader.readBoolean()
         );
@@ -1659,7 +1659,7 @@ export class BinaryDecoders {
         const { MdnsDiscoveryConfiguration } = require("./types/mdnsDiscoveryConfiguration");
         return new MdnsDiscoveryConfiguration(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
     };
 
@@ -1668,7 +1668,7 @@ export class BinaryDecoders {
         return new RegisterServer2Request(
             BinaryDecoders.decodeRequestHeader(reader),
             BinaryDecoders.decodeRegisteredServer(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
         );
     };
 
@@ -1676,8 +1676,8 @@ export class BinaryDecoders {
         const { RegisterServer2Response } = require("./types/registerServer2Response");
         return new RegisterServer2Response(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -1767,8 +1767,8 @@ export class BinaryDecoders {
             reader.readFloat64(),
             reader.readByteString(),
             reader.readByteString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSignedSoftwareCertificate(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointDescription(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSignedSoftwareCertificate(reader); } return arr; })(),
             BinaryDecoders.decodeSignatureData(reader),
             reader.readUInt32()
         );
@@ -1810,8 +1810,8 @@ export class BinaryDecoders {
         return new ActivateSessionRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             BinaryDecoders.decodeSignatureData(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSignedSoftwareCertificate(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSignedSoftwareCertificate(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readExtensionObject(),
             BinaryDecoders.decodeSignatureData(reader)
         );
@@ -1822,8 +1822,8 @@ export class BinaryDecoders {
         return new ActivateSessionResponse(
             BinaryDecoders.decodeResponseHeader(reader),
             reader.readByteString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -1882,7 +1882,7 @@ export class BinaryDecoders {
             reader.readVariant(),
             reader.readNodeId(),
             reader.readInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readUInt8(),
             reader.readUInt8(),
             reader.readFloat64(),
@@ -1911,7 +1911,7 @@ export class BinaryDecoders {
             reader.readVariant(),
             reader.readNodeId(),
             reader.readInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readBoolean()
         );
     };
@@ -1951,7 +1951,7 @@ export class BinaryDecoders {
     static decodeGenericAttributes = (reader: BufferReader) => {
         const { GenericAttributes } = require("./types/genericAttributes");
         return new GenericAttributes(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeGenericAttributeValue(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeGenericAttributeValue(reader); } return arr; })()
         );
     };
 
@@ -1980,7 +1980,7 @@ export class BinaryDecoders {
         const { AddNodesRequest } = require("./types/addNodesRequest");
         return new AddNodesRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeAddNodesItem(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeAddNodesItem(reader); } return arr; })()
         );
     };
 
@@ -1988,8 +1988,8 @@ export class BinaryDecoders {
         const { AddNodesResponse } = require("./types/addNodesResponse");
         return new AddNodesResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeAddNodesResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeAddNodesResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2009,7 +2009,7 @@ export class BinaryDecoders {
         const { AddReferencesRequest } = require("./types/addReferencesRequest");
         return new AddReferencesRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeAddReferencesItem(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeAddReferencesItem(reader); } return arr; })()
         );
     };
 
@@ -2017,8 +2017,8 @@ export class BinaryDecoders {
         const { AddReferencesResponse } = require("./types/addReferencesResponse");
         return new AddReferencesResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2034,7 +2034,7 @@ export class BinaryDecoders {
         const { DeleteNodesRequest } = require("./types/deleteNodesRequest");
         return new DeleteNodesRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeDeleteNodesItem(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeDeleteNodesItem(reader); } return arr; })()
         );
     };
 
@@ -2042,8 +2042,8 @@ export class BinaryDecoders {
         const { DeleteNodesResponse } = require("./types/deleteNodesResponse");
         return new DeleteNodesResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2062,7 +2062,7 @@ export class BinaryDecoders {
         const { DeleteReferencesRequest } = require("./types/deleteReferencesRequest");
         return new DeleteReferencesRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeDeleteReferencesItem(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeDeleteReferencesItem(reader); } return arr; })()
         );
     };
 
@@ -2070,8 +2070,8 @@ export class BinaryDecoders {
         const { DeleteReferencesResponse } = require("./types/deleteReferencesResponse");
         return new DeleteReferencesResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2114,7 +2114,7 @@ export class BinaryDecoders {
         return new BrowseResult(
             reader.readStatusCode(),
             reader.readByteString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReferenceDescription(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReferenceDescription(reader); } return arr; })()
         );
     };
 
@@ -2124,7 +2124,7 @@ export class BinaryDecoders {
             BinaryDecoders.decodeRequestHeader(reader),
             BinaryDecoders.decodeViewDescription(reader),
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowseDescription(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowseDescription(reader); } return arr; })()
         );
     };
 
@@ -2132,8 +2132,8 @@ export class BinaryDecoders {
         const { BrowseResponse } = require("./types/browseResponse");
         return new BrowseResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowseResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowseResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2142,7 +2142,7 @@ export class BinaryDecoders {
         return new BrowseNextRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readBoolean(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })()
         );
     };
 
@@ -2150,8 +2150,8 @@ export class BinaryDecoders {
         const { BrowseNextResponse } = require("./types/browseNextResponse");
         return new BrowseNextResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowseResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowseResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2168,7 +2168,7 @@ export class BinaryDecoders {
     static decodeRelativePath = (reader: BufferReader) => {
         const { RelativePath } = require("./types/relativePath");
         return new RelativePath(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeRelativePathElement(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeRelativePathElement(reader); } return arr; })()
         );
     };
 
@@ -2192,7 +2192,7 @@ export class BinaryDecoders {
         const { BrowsePathResult } = require("./types/browsePathResult");
         return new BrowsePathResult(
             reader.readStatusCode(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowsePathTarget(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowsePathTarget(reader); } return arr; })()
         );
     };
 
@@ -2200,7 +2200,7 @@ export class BinaryDecoders {
         const { TranslateBrowsePathsToNodeIdsRequest } = require("./types/translateBrowsePathsToNodeIdsRequest");
         return new TranslateBrowsePathsToNodeIdsRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowsePath(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowsePath(reader); } return arr; })()
         );
     };
 
@@ -2208,8 +2208,8 @@ export class BinaryDecoders {
         const { TranslateBrowsePathsToNodeIdsResponse } = require("./types/translateBrowsePathsToNodeIdsResponse");
         return new TranslateBrowsePathsToNodeIdsResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowsePathResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeBrowsePathResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2217,7 +2217,7 @@ export class BinaryDecoders {
         const { RegisterNodesRequest } = require("./types/registerNodesRequest");
         return new RegisterNodesRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })()
         );
     };
 
@@ -2225,7 +2225,7 @@ export class BinaryDecoders {
         const { RegisterNodesResponse } = require("./types/registerNodesResponse");
         return new RegisterNodesResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })()
         );
     };
 
@@ -2233,7 +2233,7 @@ export class BinaryDecoders {
         const { UnregisterNodesRequest } = require("./types/unregisterNodesRequest");
         return new UnregisterNodesRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })()
         );
     };
 
@@ -2273,7 +2273,7 @@ export class BinaryDecoders {
         return new NodeTypeDescription(
             reader.readExpandedNodeId(),
             reader.readBoolean(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeQueryDataDescription(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeQueryDataDescription(reader); } return arr; })()
         );
     };
 
@@ -2282,7 +2282,7 @@ export class BinaryDecoders {
         return new QueryDataSet(
             reader.readExpandedNodeId(),
             reader.readExpandedNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
         );
     };
 
@@ -2292,7 +2292,7 @@ export class BinaryDecoders {
             reader.readNodeId(),
             reader.readNodeId(),
             reader.readBoolean(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })()
         );
     };
 
@@ -2300,14 +2300,14 @@ export class BinaryDecoders {
         const { ContentFilterElement } = require("./types/contentFilterElement");
         return new ContentFilterElement(
             reader.readUInt32() as FilterOperatorEnum,
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
         );
     };
 
     static decodeContentFilter = (reader: BufferReader) => {
         const { ContentFilter } = require("./types/contentFilter");
         return new ContentFilter(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeContentFilterElement(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeContentFilterElement(reader); } return arr; })()
         );
     };
 
@@ -2345,7 +2345,7 @@ export class BinaryDecoders {
         const { SimpleAttributeOperand } = require("./types/simpleAttributeOperand");
         return new SimpleAttributeOperand(
             reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readQualifiedName(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readQualifiedName(); } return arr; })(),
             reader.readUInt32(),
             reader.readString()
         );
@@ -2355,16 +2355,16 @@ export class BinaryDecoders {
         const { ContentFilterElementResult } = require("./types/contentFilterElementResult");
         return new ContentFilterElementResult(
             reader.readStatusCode(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
     static decodeContentFilterResult = (reader: BufferReader) => {
         const { ContentFilterResult } = require("./types/contentFilterResult");
         return new ContentFilterResult(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeContentFilterElementResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeContentFilterElementResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2372,8 +2372,8 @@ export class BinaryDecoders {
         const { ParsingResult } = require("./types/parsingResult");
         return new ParsingResult(
             reader.readStatusCode(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2382,7 +2382,7 @@ export class BinaryDecoders {
         return new QueryFirstRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             BinaryDecoders.decodeViewDescription(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeNodeTypeDescription(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeNodeTypeDescription(reader); } return arr; })(),
             BinaryDecoders.decodeContentFilter(reader),
             reader.readUInt32(),
             reader.readUInt32()
@@ -2393,10 +2393,10 @@ export class BinaryDecoders {
         const { QueryFirstResponse } = require("./types/queryFirstResponse");
         return new QueryFirstResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeQueryDataSet(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeQueryDataSet(reader); } return arr; })(),
             reader.readByteString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeParsingResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeParsingResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
             BinaryDecoders.decodeContentFilterResult(reader)
         );
     };
@@ -2414,7 +2414,7 @@ export class BinaryDecoders {
         const { QueryNextResponse } = require("./types/queryNextResponse");
         return new QueryNextResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeQueryDataSet(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeQueryDataSet(reader); } return arr; })(),
             reader.readByteString()
         );
     };
@@ -2435,7 +2435,7 @@ export class BinaryDecoders {
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readFloat64(),
             reader.readUInt32() as TimestampsToReturnEnum,
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReadValueId(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeReadValueId(reader); } return arr; })()
         );
     };
 
@@ -2443,8 +2443,8 @@ export class BinaryDecoders {
         const { ReadResponse } = require("./types/readResponse");
         return new ReadResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDataValue(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDataValue(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2500,7 +2500,7 @@ export class BinaryDecoders {
     static decodeReadEventDetailsSorted = (reader: BufferReader) => {
         const { ReadEventDetailsSorted } = require("./types/readEventDetailsSorted");
         return new ReadEventDetailsSorted(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSortRuleElement(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSortRuleElement(reader); } return arr; })()
         );
     };
 
@@ -2521,7 +2521,7 @@ export class BinaryDecoders {
             reader.readDateTime(),
             reader.readDateTime(),
             reader.readFloat64(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readNodeId(); } return arr; })(),
             BinaryDecoders.decodeAggregateConfiguration(reader)
         );
     };
@@ -2529,7 +2529,7 @@ export class BinaryDecoders {
     static decodeReadAtTimeDetails = (reader: BufferReader) => {
         const { ReadAtTimeDetails } = require("./types/readAtTimeDetails");
         return new ReadAtTimeDetails(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDateTime(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDateTime(); } return arr; })(),
             reader.readBoolean()
         );
     };
@@ -2537,14 +2537,14 @@ export class BinaryDecoders {
     static decodeReadAnnotationDataDetails = (reader: BufferReader) => {
         const { ReadAnnotationDataDetails } = require("./types/readAnnotationDataDetails");
         return new ReadAnnotationDataDetails(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDateTime(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDateTime(); } return arr; })()
         );
     };
 
     static decodeHistoryData = (reader: BufferReader) => {
         const { HistoryData } = require("./types/historyData");
         return new HistoryData(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDataValue(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDataValue(); } return arr; })()
         );
     };
 
@@ -2560,21 +2560,21 @@ export class BinaryDecoders {
     static decodeHistoryModifiedData = (reader: BufferReader) => {
         const { HistoryModifiedData } = require("./types/historyModifiedData");
         return new HistoryModifiedData(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeModificationInfo(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeModificationInfo(reader); } return arr; })()
         );
     };
 
     static decodeHistoryEvent = (reader: BufferReader) => {
         const { HistoryEvent } = require("./types/historyEvent");
         return new HistoryEvent(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryEventFieldList(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryEventFieldList(reader); } return arr; })()
         );
     };
 
     static decodeHistoryModifiedEvent = (reader: BufferReader) => {
         const { HistoryModifiedEvent } = require("./types/historyModifiedEvent");
         return new HistoryModifiedEvent(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeModificationInfo(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeModificationInfo(reader); } return arr; })()
         );
     };
 
@@ -2585,7 +2585,7 @@ export class BinaryDecoders {
             reader.readExtensionObject(),
             reader.readUInt32() as TimestampsToReturnEnum,
             reader.readBoolean(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryReadValueId(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryReadValueId(reader); } return arr; })()
         );
     };
 
@@ -2593,8 +2593,8 @@ export class BinaryDecoders {
         const { HistoryReadResponse } = require("./types/historyReadResponse");
         return new HistoryReadResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryReadResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryReadResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2612,7 +2612,7 @@ export class BinaryDecoders {
         const { WriteRequest } = require("./types/writeRequest");
         return new WriteRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeWriteValue(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeWriteValue(reader); } return arr; })()
         );
     };
 
@@ -2620,8 +2620,8 @@ export class BinaryDecoders {
         const { WriteResponse } = require("./types/writeResponse");
         return new WriteResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2635,7 +2635,7 @@ export class BinaryDecoders {
         return new UpdateDataDetails(
             reader.readNodeId(),
             reader.readUInt32() as PerformUpdateTypeEnum,
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDataValue(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDataValue(); } return arr; })()
         );
     };
 
@@ -2644,7 +2644,7 @@ export class BinaryDecoders {
         return new UpdateStructureDataDetails(
             reader.readNodeId(),
             reader.readUInt32() as PerformUpdateTypeEnum,
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDataValue(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDataValue(); } return arr; })()
         );
     };
 
@@ -2654,7 +2654,7 @@ export class BinaryDecoders {
             reader.readNodeId(),
             reader.readUInt32() as PerformUpdateTypeEnum,
             BinaryDecoders.decodeEventFilter(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryEventFieldList(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryEventFieldList(reader); } return arr; })()
         );
     };
 
@@ -2672,7 +2672,7 @@ export class BinaryDecoders {
         const { DeleteAtTimeDetails } = require("./types/deleteAtTimeDetails");
         return new DeleteAtTimeDetails(
             reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDateTime(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDateTime(); } return arr; })()
         );
     };
 
@@ -2680,7 +2680,7 @@ export class BinaryDecoders {
         const { DeleteEventDetails } = require("./types/deleteEventDetails");
         return new DeleteEventDetails(
             reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readByteString(); } return arr; })()
         );
     };
 
@@ -2688,8 +2688,8 @@ export class BinaryDecoders {
         const { HistoryUpdateResult } = require("./types/historyUpdateResult");
         return new HistoryUpdateResult(
             reader.readStatusCode(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2697,7 +2697,7 @@ export class BinaryDecoders {
         const { HistoryUpdateRequest } = require("./types/historyUpdateRequest");
         return new HistoryUpdateRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
         );
     };
 
@@ -2705,8 +2705,8 @@ export class BinaryDecoders {
         const { HistoryUpdateResponse } = require("./types/historyUpdateResponse");
         return new HistoryUpdateResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryUpdateResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeHistoryUpdateResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2715,7 +2715,7 @@ export class BinaryDecoders {
         return new CallMethodRequest(
             reader.readNodeId(),
             reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
         );
     };
 
@@ -2723,9 +2723,9 @@ export class BinaryDecoders {
         const { CallMethodResult } = require("./types/callMethodResult");
         return new CallMethodResult(
             reader.readStatusCode(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
         );
     };
 
@@ -2733,7 +2733,7 @@ export class BinaryDecoders {
         const { CallRequest } = require("./types/callRequest");
         return new CallRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeCallMethodRequest(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeCallMethodRequest(reader); } return arr; })()
         );
     };
 
@@ -2741,8 +2741,8 @@ export class BinaryDecoders {
         const { CallResponse } = require("./types/callResponse");
         return new CallResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeCallMethodResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeCallMethodResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2758,7 +2758,7 @@ export class BinaryDecoders {
     static decodeEventFilter = (reader: BufferReader) => {
         const { EventFilter } = require("./types/eventFilter");
         return new EventFilter(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSimpleAttributeOperand(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSimpleAttributeOperand(reader); } return arr; })(),
             BinaryDecoders.decodeContentFilter(reader)
         );
     };
@@ -2787,8 +2787,8 @@ export class BinaryDecoders {
     static decodeEventFilterResult = (reader: BufferReader) => {
         const { EventFilterResult } = require("./types/eventFilterResult");
         return new EventFilterResult(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
             BinaryDecoders.decodeContentFilterResult(reader)
         );
     };
@@ -2839,7 +2839,7 @@ export class BinaryDecoders {
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
             reader.readUInt32() as TimestampsToReturnEnum,
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemCreateRequest(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemCreateRequest(reader); } return arr; })()
         );
     };
 
@@ -2847,8 +2847,8 @@ export class BinaryDecoders {
         const { CreateMonitoredItemsResponse } = require("./types/createMonitoredItemsResponse");
         return new CreateMonitoredItemsResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemCreateResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemCreateResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2876,7 +2876,7 @@ export class BinaryDecoders {
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
             reader.readUInt32() as TimestampsToReturnEnum,
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemModifyRequest(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemModifyRequest(reader); } return arr; })()
         );
     };
 
@@ -2884,8 +2884,8 @@ export class BinaryDecoders {
         const { ModifyMonitoredItemsResponse } = require("./types/modifyMonitoredItemsResponse");
         return new ModifyMonitoredItemsResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemModifyResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemModifyResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2895,7 +2895,7 @@ export class BinaryDecoders {
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
             reader.readUInt32() as MonitoringModeEnum,
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
         );
     };
 
@@ -2903,8 +2903,8 @@ export class BinaryDecoders {
         const { SetMonitoringModeResponse } = require("./types/setMonitoringModeResponse");
         return new SetMonitoringModeResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2914,8 +2914,8 @@ export class BinaryDecoders {
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
         );
     };
 
@@ -2923,10 +2923,10 @@ export class BinaryDecoders {
         const { SetTriggeringResponse } = require("./types/setTriggeringResponse");
         return new SetTriggeringResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -2935,7 +2935,7 @@ export class BinaryDecoders {
         return new DeleteMonitoredItemsRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
         );
     };
 
@@ -2943,8 +2943,8 @@ export class BinaryDecoders {
         const { DeleteMonitoredItemsResponse } = require("./types/deleteMonitoredItemsResponse");
         return new DeleteMonitoredItemsResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -3000,7 +3000,7 @@ export class BinaryDecoders {
         return new SetPublishingModeRequest(
             BinaryDecoders.decodeRequestHeader(reader),
             reader.readBoolean(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
         );
     };
 
@@ -3008,8 +3008,8 @@ export class BinaryDecoders {
         const { SetPublishingModeResponse } = require("./types/setPublishingModeResponse");
         return new SetPublishingModeResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -3018,15 +3018,15 @@ export class BinaryDecoders {
         return new NotificationMessage(
             reader.readUInt32(),
             reader.readDateTime(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readExtensionObject(); } return arr; })()
         );
     };
 
     static decodeDataChangeNotification = (reader: BufferReader) => {
         const { DataChangeNotification } = require("./types/dataChangeNotification");
         return new DataChangeNotification(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemNotification(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeMonitoredItemNotification(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -3041,7 +3041,7 @@ export class BinaryDecoders {
     static decodeEventNotificationList = (reader: BufferReader) => {
         const { EventNotificationList } = require("./types/eventNotificationList");
         return new EventNotificationList(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEventFieldList(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEventFieldList(reader); } return arr; })()
         );
     };
 
@@ -3049,14 +3049,14 @@ export class BinaryDecoders {
         const { EventFieldList } = require("./types/eventFieldList");
         return new EventFieldList(
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
         );
     };
 
     static decodeHistoryEventFieldList = (reader: BufferReader) => {
         const { HistoryEventFieldList } = require("./types/historyEventFieldList");
         return new HistoryEventFieldList(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })()
         );
     };
 
@@ -3080,7 +3080,7 @@ export class BinaryDecoders {
         const { PublishRequest } = require("./types/publishRequest");
         return new PublishRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSubscriptionAcknowledgement(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeSubscriptionAcknowledgement(reader); } return arr; })()
         );
     };
 
@@ -3089,11 +3089,11 @@ export class BinaryDecoders {
         return new PublishResponse(
             BinaryDecoders.decodeResponseHeader(reader),
             reader.readUInt32(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readBoolean(),
             BinaryDecoders.decodeNotificationMessage(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -3118,7 +3118,7 @@ export class BinaryDecoders {
         const { TransferResult } = require("./types/transferResult");
         return new TransferResult(
             reader.readStatusCode(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
         );
     };
 
@@ -3126,7 +3126,7 @@ export class BinaryDecoders {
         const { TransferSubscriptionsRequest } = require("./types/transferSubscriptionsRequest");
         return new TransferSubscriptionsRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })(),
             reader.readBoolean()
         );
     };
@@ -3135,8 +3135,8 @@ export class BinaryDecoders {
         const { TransferSubscriptionsResponse } = require("./types/transferSubscriptionsResponse");
         return new TransferSubscriptionsResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeTransferResult(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeTransferResult(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -3144,7 +3144,7 @@ export class BinaryDecoders {
         const { DeleteSubscriptionsRequest } = require("./types/deleteSubscriptionsRequest");
         return new DeleteSubscriptionsRequest(
             BinaryDecoders.decodeRequestHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32(); } return arr; })()
         );
     };
 
@@ -3152,8 +3152,8 @@ export class BinaryDecoders {
         const { DeleteSubscriptionsResponse } = require("./types/deleteSubscriptionsResponse");
         return new DeleteSubscriptionsResponse(
             BinaryDecoders.decodeResponseHeader(reader),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readStatusCode(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readDiagnosticInfo(); } return arr; })()
         );
     };
 
@@ -3181,7 +3181,7 @@ export class BinaryDecoders {
     static decodeEndpointUrlListDataType = (reader: BufferReader) => {
         const { EndpointUrlListDataType } = require("./types/endpointUrlListDataType");
         return new EndpointUrlListDataType(
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })()
         );
     };
 
@@ -3189,7 +3189,7 @@ export class BinaryDecoders {
         const { NetworkGroupDataType } = require("./types/networkGroupDataType");
         return new NetworkGroupDataType(
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointUrlListDataType(reader); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeEndpointUrlListDataType(reader); } return arr; })()
         );
     };
 
@@ -3241,7 +3241,7 @@ export class BinaryDecoders {
             BinaryDecoders.decodeApplicationDescription(reader),
             reader.readString(),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readFloat64(),
             reader.readUInt32(),
             reader.readDateTime(),
@@ -3287,7 +3287,7 @@ export class BinaryDecoders {
         return new SessionSecurityDiagnosticsDataType(
             reader.readNodeId(),
             reader.readString(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readString(); } return arr; })(),
             reader.readString(),
             reader.readString(),
             reader.readString(),
@@ -3408,7 +3408,7 @@ export class BinaryDecoders {
             BinaryDecoders.decodeRange(reader),
             reader.readLocalizedText(),
             reader.readUInt32() as AxisScaleEnumerationEnum,
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readFloat64(); } return arr; })()
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readFloat64(); } return arr; })()
         );
     };
 
@@ -3429,8 +3429,8 @@ export class BinaryDecoders {
             reader.readDateTime(),
             reader.readString(),
             reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeArgument(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeArgument(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeArgument(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeArgument(reader); } return arr; })(),
             reader.readDateTime(),
             BinaryDecoders.decodeStatusResult(reader)
         );
@@ -3445,10 +3445,10 @@ export class BinaryDecoders {
             reader.readDateTime(),
             reader.readString(),
             reader.readNodeId(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeArgument(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeArgument(reader); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })(),
-            (() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeArgument(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = BinaryDecoders.decodeArgument(reader); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })(),
+            (() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readVariant(); } return arr; })(),
             reader.readDateTime(),
             reader.readStatusCode()
         );

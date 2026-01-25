@@ -4,6 +4,7 @@ import { IEncodable } from "../codecs/iEncodable";
 import { ISocket } from "./iSocket";
 import { ITransportChannel } from "./iTransportChannel";
 import { MsgAck } from "./messages/msgAck";
+import { MsgError } from "./messages/msgError";
 import { MsgHeader } from "./messages/msgHeader";
 import { MsgHello } from "./messages/msgHello";
 import { MsgTypeAck, MsgTypeError, MsgTypeHello, MsgTypeReverseHello } from "./messages/msgTypes";
@@ -53,20 +54,21 @@ export class ChannelBase implements ITransportChannel {
     onMessage?: ((data: Uint8Array) => void) | undefined;
 
     private onMessageReceived(data: Uint8Array): void {
-        console.log("Message received from server:", data);
+        //console.log("Message received from server:", data);
         const bufferReader = new BufferReader(data);
         const header = MsgHeader.decode(bufferReader);
 
         switch (header.messageType) {
             case MsgTypeAck:
                 bufferReader.rewind();
-                this.onAck(bufferReader);
+                this.onAckMessage(bufferReader);
                 break;
             case MsgTypeHello:
                 console.error("Unexpected Hello message received from server.");
                 break;
             case MsgTypeError:
-                console.error("Error message received from server.");
+                bufferReader.rewind();
+                this.onErrorMessage(bufferReader);
                 break;
             case MsgTypeReverseHello:
                 console.error("Unexpected ReverseHello message received from server.");
@@ -76,7 +78,7 @@ export class ChannelBase implements ITransportChannel {
         }
     }
 
-    private onAck(bufferReader: BufferReader): void {
+    private onAckMessage(bufferReader: BufferReader): void {
         const msgAck = MsgAck.decode(bufferReader);
 
         // todo: handle ack parameters
@@ -84,6 +86,11 @@ export class ChannelBase implements ITransportChannel {
             this.connectResolve();
             this.connectResolve = undefined;
         }
+    }
+
+    private onErrorMessage(bufferReader: BufferReader): void {
+        const errorMsg = MsgError.decode(bufferReader);
+        console.error("Error message received from server:", errorMsg);
     }
 
     constructor(private socket: ISocket) { }

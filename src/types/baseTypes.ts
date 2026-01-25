@@ -8,4 +8,4 @@ export type Int64 = bigint
 export type UInt64 = bigint
 export type Float32 = number
 export type Float64 = number
-export type ByteString = Uint8Array
+export type ByteString = Uint8Array | null

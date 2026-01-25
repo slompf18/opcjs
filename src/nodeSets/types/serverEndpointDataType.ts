@@ -8,11 +8,11 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class ServerEndpointDataType implements IIdentifiable {
     constructor(
-        public EndpointUrls: string | undefined[],
-        public SecuritySettingNames: string | undefined[],
+        public EndpointUrls: string[],
+        public SecuritySettingNames: string[],
         public TransportProfileUri: string | undefined,
-        public UserTokenSettingNames: string | undefined[],
-        public ReverseConnectUrls: string | undefined[]
+        public UserTokenSettingNames: string[],
+        public ReverseConnectUrls: string[]
     ) { }
 
     readonly id = 15558

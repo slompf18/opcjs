@@ -9,7 +9,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class MdnsDiscoveryConfiguration implements IIdentifiable {
     constructor(
         public MdnsServerName: string | undefined,
-        public ServerCapabilities: string | undefined[]
+        public ServerCapabilities: string[]
     ) { }
 
     readonly id = 12891

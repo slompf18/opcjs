@@ -13,7 +13,7 @@ export class FindServersOnNetworkRequest implements IIdentifiable {
         public RequestHeader: RequestHeader,
         public StartingRecordId: UInt32,
         public MaxRecordsToReturn: UInt32,
-        public ServerCapabilityFilter: string | undefined[]
+        public ServerCapabilityFilter: string[]
     ) { }
 
     readonly id = 12190

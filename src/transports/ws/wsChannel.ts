@@ -71,8 +71,8 @@ export class WsChannel implements ISocket {
             const hexBytes = Array.from(data.slice(0, 32))
                 .map(b => b.toString(16).padStart(2, '0').toUpperCase())
                 .join(' ');
-            console.log("Sending data - first 32 bytes (hex):", hexBytes);
-            console.log("Total size:", data.length, "bytes");
+            // console.log("Sending data - first 32 bytes (hex):", hexBytes);
+            // console.log("Total size:", data.length, "bytes");
 
             this.ws.send(data);
         } else {

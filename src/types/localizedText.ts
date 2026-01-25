@@ -39,6 +39,10 @@ export class LocalizedText {
         }
     }
 
+    public static NewLocalizedText(text:string) : LocalizedText {
+        return new LocalizedText(LocalizedText.MaskText, undefined, text);
+    }
+    
     constructor(
         public EncodingMask: UInt8 = 0,
         public Locale?: string,

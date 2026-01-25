@@ -12,14 +12,14 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class PubSubKeyPushTargetDataType implements IIdentifiable {
     constructor(
         public ApplicationUri: string | undefined,
-        public PushTargetFolder: string | undefined[],
+        public PushTargetFolder: string[],
         public EndpointUrl: string | undefined,
         public SecurityPolicyUri: string | undefined,
         public UserTokenType: UserTokenPolicy,
         public RequestedKeyCount: UInt16,
         public RetryInterval: Float64,
         public PushTargetProperties: KeyValuePair[],
-        public SecurityGroups: string | undefined[]
+        public SecurityGroups: string[]
     ) { }
 
     readonly id = 25270

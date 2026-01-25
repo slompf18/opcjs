@@ -8,7 +8,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class EndpointUrlListDataType implements IIdentifiable {
     constructor(
-        public EndpointUrlList: string | undefined[]
+        public EndpointUrlList: string[]
     ) { }
 
     readonly id = 11943

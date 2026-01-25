@@ -12,7 +12,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class SecurityGroupDataType implements IIdentifiable {
     constructor(
         public Name: string | undefined,
-        public SecurityGroupFolder: string | undefined[],
+        public SecurityGroupFolder: string[],
         public KeyLifetime: Float64,
         public SecurityPolicyUri: string | undefined,
         public MaxFutureKeyCount: UInt32,

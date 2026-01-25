@@ -10,7 +10,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class SecuritySettingsDataType implements IIdentifiable {
     constructor(
         public SecurityModes: MessageSecurityModeEnum[],
-        public SecurityPolicyUris: string | undefined[],
+        public SecurityPolicyUris: string[],
         public CertificateGroupName: string | undefined
     ) { }
 

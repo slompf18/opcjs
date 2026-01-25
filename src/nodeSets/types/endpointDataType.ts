@@ -9,7 +9,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class EndpointDataType implements IIdentifiable {
     constructor(
-        public DiscoveryUrls: string | undefined[],
+        public DiscoveryUrls: string[],
         public NetworkName: string | undefined,
         public Port: UInt16
     ) { }

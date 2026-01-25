@@ -10,7 +10,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class DtlsPubSubConnectionDataType implements IIdentifiable {
     constructor(
         public ClientCipherSuite: string | undefined,
-        public ServerCipherSuites: string | undefined[],
+        public ServerCipherSuites: string[],
         public ZeroRTT: boolean,
         public CertificateGroupId: NodeId,
         public VerifyClientCertificate: boolean

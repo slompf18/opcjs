@@ -20,13 +20,13 @@ export class MsgAsymmetric extends MsgBase {
     static decode(buffer: BufferReader,
         header: MsgHeader,
         headerSecurity: MsgSecurityHeaderAsymmetric,
-        headerLength: number,
         encryptionAlgorithm: IEncryptionAlgorithm) {
 
+        const headerLength = buffer.getPosition();
         buffer.rewind();
-        const decryptedBody = MsgBase.DecryptAndVerify(
+        const decryptedData = MsgBase.DecryptAndVerify(
             buffer.readRemainingBytes(), encryptionAlgorithm, headerLength);
-        buffer = new BufferReader(decryptedBody);
+        buffer = new BufferReader(decryptedData);
         const sequenceHeader = MsgSequenceHeader.decode(buffer);
         const body = buffer.readRemainingBytes();
 

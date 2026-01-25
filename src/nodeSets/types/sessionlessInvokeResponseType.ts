@@ -9,8 +9,8 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class SessionlessInvokeResponseType implements IIdentifiable {
     constructor(
-        public NamespaceUris: string | undefined[],
-        public ServerUris: string | undefined[],
+        public NamespaceUris: string[],
+        public ServerUris: string[],
         public ServiceId: UInt32
     ) { }
 

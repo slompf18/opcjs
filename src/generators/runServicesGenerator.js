@@ -259,8 +259,17 @@ const builtInMap = {
 
 function typeScriptType(typeName, isArray) {
     const info = builtInMap[typeName];
+    if (isArray) {
+        // For arrays, use the base element type without '| undefined'
+        if (info) {
+            // Remove '| undefined' from the tsType for array elements
+            const elementType = info.tsType.replace(/\s*\|\s*undefined/g, '');
+            return `${elementType}[]`;
+        }
+        return `${renderedTypeName(typeName, enumNameSet)}[]`;
+    }
     const base = info ? info.tsType : renderedTypeName(typeName, enumNameSet);
-    return isArray ? `${base}[]` : base;
+    return base;
 }
 
 function decodeExpression(typeName, isArray) {
@@ -268,13 +277,13 @@ function decodeExpression(typeName, isArray) {
     if (enumNameSet.has(typeName)) {
         const call = `reader.readUInt32() as ${rendered}`;
         if (!isArray) return call;
-        return `(() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32() as ${rendered}; } return arr; })()`;
+        return `(() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = reader.readUInt32() as ${rendered}; } return arr; })()`;
     }
     const info = builtInMap[typeName];
     const readExpr = info ? info.decode : `BinaryDecoders.decode${typeName}(reader)`;
     if (!isArray) return readExpr;
     const arrayReadExpr = info ? info.decode : `BinaryDecoders.decode${typeName}(reader)`;
-    return `(() => { const length = reader.readInt32(); if (length < 0) return []; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ${arrayReadExpr}; } return arr; })()`;
+    return `(() => { const length = reader.readInt32(); if (length < 0) return null; const arr = new Array(length); for (let i = 0; i < length; i++) { arr[i] = ${arrayReadExpr}; } return arr; })()`;
 }
 
 function defaultValue(typeName, isArray) {
@@ -311,10 +320,14 @@ function encodeExpression(valueRef, typeName, isArray) {
     if (enumNameSet.has(typeName)) {
         if (isArray) {
             return `{
-            const arr = ${valueRef} ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = ${valueRef};
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         }`;
         }
@@ -323,10 +336,14 @@ function encodeExpression(valueRef, typeName, isArray) {
     const info = builtInMap[typeName];
     if (isArray) {
         return `{
-            const arr = ${valueRef} ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                ${encodeExpression('v', typeName, false)};
+            const arr = ${valueRef};
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    ${encodeExpression('v', typeName, false)};
+                }
             }
         }`;
     }
@@ -410,8 +427,8 @@ function renderStructure(type, outFile, outDir) {
     
     const ctorParams = type.fields.map(f => {
         const tsType = typeScriptType(f.type, f.isArray);
-        const opt = f.isOptional ? '?' : '';
-        return `        public ${f.name}${opt}: ${tsType}`;
+        // No parameters in the constructor of types can be null or undefined
+        return `        public ${f.name}: ${tsType}`;
     }).join(',\n');
     lines.push('    constructor(');
     if (ctorParams) lines.push(ctorParams);

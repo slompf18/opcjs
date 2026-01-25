@@ -14,7 +14,7 @@ export class JsonApplicationDescriptionMessage implements IIdentifiable {
         public PublisherId: string | undefined,
         public Timestamp: Date,
         public Description: ApplicationDescription,
-        public ServerCapabilities: string | undefined[]
+        public ServerCapabilities: string[]
     ) { }
 
     readonly id = 19314

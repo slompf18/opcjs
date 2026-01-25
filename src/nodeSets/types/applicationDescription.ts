@@ -16,7 +16,7 @@ export class ApplicationDescription implements IIdentifiable {
         public ApplicationType: ApplicationTypeEnum,
         public GatewayServerUri: string | undefined,
         public DiscoveryProfileUri: string | undefined,
-        public DiscoveryUrls: string | undefined[]
+        public DiscoveryUrls: string[]
     ) { }
 
     readonly id = 308

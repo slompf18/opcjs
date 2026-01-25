@@ -15,7 +15,7 @@ export class ActivateSessionRequest implements IIdentifiable {
         public RequestHeader: RequestHeader,
         public ClientSignature: SignatureData,
         public ClientSoftwareCertificates: SignedSoftwareCertificate[],
-        public LocaleIds: string | undefined[],
+        public LocaleIds: string[],
         public UserIdentityToken: ExtensionObject,
         public UserTokenSignature: SignatureData
     ) { }

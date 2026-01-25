@@ -11,7 +11,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class StandaloneSubscribedDataSetDataType implements IIdentifiable {
     constructor(
         public Name: string | undefined,
-        public DataSetFolder: string | undefined[],
+        public DataSetFolder: string[],
         public DataSetMetaData: DataSetMetaDataType,
         public SubscribedDataSet: SubscribedDataSetDataType
     ) { }

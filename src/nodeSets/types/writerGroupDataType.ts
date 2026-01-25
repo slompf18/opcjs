@@ -16,7 +16,7 @@ export class WriterGroupDataType implements IIdentifiable {
         public PublishingInterval: Float64,
         public KeepAliveTime: Float64,
         public Priority: UInt8,
-        public LocaleIds: string | undefined[],
+        public LocaleIds: string[],
         public HeaderLayoutUri: string | undefined,
         public TransportSettings: WriterGroupTransportDataType,
         public MessageSettings: WriterGroupMessageDataType,

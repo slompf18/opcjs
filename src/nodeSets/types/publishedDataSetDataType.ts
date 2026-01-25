@@ -12,7 +12,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class PublishedDataSetDataType implements IIdentifiable {
     constructor(
         public Name: string | undefined,
-        public DataSetFolder: string | undefined[],
+        public DataSetFolder: string[],
         public DataSetMetaData: DataSetMetaDataType,
         public ExtensionFields: KeyValuePair[],
         public DataSetSource: PublishedDataSetSourceDataType

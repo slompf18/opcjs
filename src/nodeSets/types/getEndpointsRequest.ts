@@ -11,8 +11,8 @@ export class GetEndpointsRequest implements IIdentifiable {
     constructor(
         public RequestHeader: RequestHeader,
         public EndpointUrl: string | undefined,
-        public LocaleIds: string | undefined[],
-        public ProfileUris: string | undefined[]
+        public LocaleIds: string[],
+        public ProfileUris: string[]
     ) { }
 
     readonly id = 426

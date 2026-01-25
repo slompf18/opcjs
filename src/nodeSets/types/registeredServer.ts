@@ -15,7 +15,7 @@ export class RegisteredServer implements IIdentifiable {
         public ServerNames: LocalizedText[],
         public ServerType: ApplicationTypeEnum,
         public GatewayServerUri: string | undefined,
-        public DiscoveryUrls: string | undefined[],
+        public DiscoveryUrls: string[],
         public SemaphoreFilePath: string | undefined,
         public IsOnline: boolean
     ) { }

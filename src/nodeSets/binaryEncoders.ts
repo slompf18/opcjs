@@ -21,10 +21,14 @@ export class BinaryEncoders {
     static encodeAdditionalParametersType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.Parameters ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.Parameters;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
     };
@@ -146,31 +150,47 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeUInt32(obj.SpecifiedLists);
         {
-            const arr = obj.TrustedCertificates ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
+            const arr = obj.TrustedCertificates;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeByteString(v);
+                }
             }
         };
         {
-            const arr = obj.TrustedCrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
+            const arr = obj.TrustedCrls;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeByteString(v);
+                }
             }
         };
         {
-            const arr = obj.IssuerCertificates ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
+            const arr = obj.IssuerCertificates;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeByteString(v);
+                }
             }
         };
         {
-            const arr = obj.IssuerCrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
+            const arr = obj.IssuerCrls;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeByteString(v);
+                }
             }
         };
     };
@@ -179,10 +199,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeUInt32(obj.ConfigurationVersion);
         {
-            const arr = obj.ConfigurationProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.ConfigurationProperties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
     };
@@ -191,10 +215,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         {
-            const arr = obj.RecordProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.RecordProperties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
     };
@@ -203,17 +231,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         obj.Purpose.encode(writer);
         {
-            const arr = obj.CertificateTypes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.CertificateTypes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         {
-            const arr = obj.IsCertificateAssigned ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeBoolean(v);
+            const arr = obj.IsCertificateAssigned;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeBoolean(v);
+                }
             }
         };
         writer.writeUInt32(obj.ValidationOptions);
@@ -236,45 +272,69 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeApplicationIdentityDataType(writer, obj.ApplicationIdentity);
         {
-            const arr = obj.CertificateGroups ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeCertificateGroupDataType(writer, v);
+            const arr = obj.CertificateGroups;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeCertificateGroupDataType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.ServerEndpoints ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeServerEndpointDataType(writer, v);
+            const arr = obj.ServerEndpoints;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeServerEndpointDataType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.ClientEndpoints ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEndpointDataType(writer, v);
+            const arr = obj.ClientEndpoints;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEndpointDataType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.SecuritySettings ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeSecuritySettingsDataType(writer, v);
+            const arr = obj.SecuritySettings;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeSecuritySettingsDataType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.UserTokenSettings ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeUserTokenSettingsDataType(writer, v);
+            const arr = obj.UserTokenSettings;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeUserTokenSettingsDataType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.AuthorizationServices ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeAuthorizationServiceConfigurationDataType(writer, v);
+            const arr = obj.AuthorizationServices;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeAuthorizationServiceConfigurationDataType(writer, v);
+                }
             }
         };
     };
@@ -283,17 +343,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.ApplicationUri);
         {
-            const arr = obj.ApplicationNames ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.ApplicationNames;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         {
-            const arr = obj.AdditionalServers ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeApplicationDescription(writer, v);
+            const arr = obj.AdditionalServers;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeApplicationDescription(writer, v);
+                }
             }
         };
     };
@@ -301,10 +369,14 @@ export class BinaryEncoders {
     static encodeEndpointDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.DiscoveryUrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.DiscoveryUrls;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeString(obj.NetworkName);
@@ -314,32 +386,48 @@ export class BinaryEncoders {
     static encodeServerEndpointDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.EndpointUrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.EndpointUrls;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         {
-            const arr = obj.SecuritySettingNames ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.SecuritySettingNames;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeString(obj.TransportProfileUri);
         {
-            const arr = obj.UserTokenSettingNames ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.UserTokenSettingNames;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         {
-            const arr = obj.ReverseConnectUrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ReverseConnectUrls;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
     };
@@ -347,17 +435,25 @@ export class BinaryEncoders {
     static encodeSecuritySettingsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.SecurityModes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.SecurityModes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         {
-            const arr = obj.SecurityPolicyUris ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.SecurityPolicyUris;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeString(obj.CertificateGroupName);
@@ -377,10 +473,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeByteString(obj.Certificate);
         {
-            const arr = obj.Issuers ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
+            const arr = obj.Issuers;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeByteString(v);
+                }
             }
         };
         writer.writeDateTime(obj.ValidFrom);
@@ -391,10 +491,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.ServiceUri);
         {
-            const arr = obj.ServiceCertificates ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeServiceCertificateDataType(writer, v);
+            const arr = obj.ServiceCertificates;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeServiceCertificateDataType(writer, v);
+                }
             }
         };
         writer.writeString(obj.IssuerEndpointSettings);
@@ -409,31 +513,47 @@ export class BinaryEncoders {
     static encodeDataTypeSchemaHeader = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.Namespaces ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.Namespaces;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         {
-            const arr = obj.StructureDataTypes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeStructureDescription(writer, v);
+            const arr = obj.StructureDataTypes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeStructureDescription(writer, v);
+                }
             }
         };
         {
-            const arr = obj.EnumDataTypes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEnumDescription(writer, v);
+            const arr = obj.EnumDataTypes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEnumDescription(writer, v);
+                }
             }
         };
         {
-            const arr = obj.SimpleDataTypes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeSimpleTypeDescription(writer, v);
+            const arr = obj.SimpleDataTypes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeSimpleTypeDescription(writer, v);
+                }
             }
         };
     };
@@ -465,10 +585,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.SchemaLocation);
         {
-            const arr = obj.FileHeader ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.FileHeader;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
         obj.Body.encode(writer);
@@ -497,10 +621,14 @@ export class BinaryEncoders {
         writer.writeString(obj.Name);
         obj.Description.encode(writer);
         {
-            const arr = obj.Fields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeFieldMetaData(writer, v);
+            const arr = obj.Fields;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeFieldMetaData(writer, v);
+                }
             }
         };
         writer.writeGuid(obj.DataSetClassId);
@@ -516,19 +644,27 @@ export class BinaryEncoders {
         obj.DataType.encode(writer);
         writer.writeInt32(obj.ValueRank);
         {
-            const arr = obj.ArrayDimensions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.ArrayDimensions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         writer.writeUInt32(obj.MaxStringLength);
         writer.writeGuid(obj.DataSetFieldId);
         {
-            const arr = obj.Properties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.Properties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
     };
@@ -543,18 +679,26 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         {
-            const arr = obj.DataSetFolder ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.DataSetFolder;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         BinaryEncoders.encodeDataSetMetaDataType(writer, obj.DataSetMetaData);
         {
-            const arr = obj.ExtensionFields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.ExtensionFields;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
         BinaryEncoders.encodePublishedDataSetSourceDataType(writer, obj.DataSetSource);
@@ -574,10 +718,14 @@ export class BinaryEncoders {
         writer.writeString(obj.IndexRange);
         obj.SubstituteValue.encode(writer);
         {
-            const arr = obj.MetaDataProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.MetaDataProperties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -585,10 +733,14 @@ export class BinaryEncoders {
     static encodePublishedDataItemsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.PublishedData ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodePublishedVariableDataType(writer, v);
+            const arr = obj.PublishedData;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodePublishedVariableDataType(writer, v);
+                }
             }
         };
     };
@@ -597,10 +749,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         obj.EventNotifier.encode(writer);
         {
-            const arr = obj.SelectedFields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeSimpleAttributeOperand(writer, v);
+            const arr = obj.SelectedFields;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeSimpleAttributeOperand(writer, v);
+                }
             }
         };
         BinaryEncoders.encodeContentFilter(writer, obj.Filter);
@@ -622,10 +778,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeDataSetMetaDataType(writer, obj.RequestDataSetMetaData);
         {
-            const arr = obj.ActionTargets ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeActionTargetDataType(writer, v);
+            const arr = obj.ActionTargets;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeActionTargetDataType(writer, v);
+                }
             }
         };
     };
@@ -639,10 +799,14 @@ export class BinaryEncoders {
     static encodePublishedActionMethodDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.ActionMethods ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeActionMethodDataType(writer, v);
+            const arr = obj.ActionMethods;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeActionMethodDataType(writer, v);
+                }
             }
         };
     };
@@ -656,10 +820,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.KeyFrameCount);
         writer.writeString(obj.DataSetName);
         {
-            const arr = obj.DataSetWriterProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.DataSetWriterProperties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
         BinaryEncoders.encodeDataSetWriterTransportDataType(writer, obj.TransportSettings);
@@ -681,18 +849,26 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.SecurityMode);
         writer.writeString(obj.SecurityGroupId);
         {
-            const arr = obj.SecurityKeyServices ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEndpointDescription(writer, v);
+            const arr = obj.SecurityKeyServices;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEndpointDescription(writer, v);
+                }
             }
         };
         writer.writeUInt32(obj.MaxNetworkMessageSize);
         {
-            const arr = obj.GroupProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.GroupProperties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
     };
@@ -704,20 +880,28 @@ export class BinaryEncoders {
         writer.writeFloat64(obj.KeepAliveTime);
         writer.writeUint8(obj.Priority);
         {
-            const arr = obj.LocaleIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.LocaleIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeString(obj.HeaderLayoutUri);
         BinaryEncoders.encodeWriterGroupTransportDataType(writer, obj.TransportSettings);
         BinaryEncoders.encodeWriterGroupMessageDataType(writer, obj.MessageSettings);
         {
-            const arr = obj.DataSetWriters ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeDataSetWriterDataType(writer, v);
+            const arr = obj.DataSetWriters;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeDataSetWriterDataType(writer, v);
+                }
             }
         };
     };
@@ -738,25 +922,37 @@ export class BinaryEncoders {
         writer.writeString(obj.TransportProfileUri);
         BinaryEncoders.encodeNetworkAddressDataType(writer, obj.Address);
         {
-            const arr = obj.ConnectionProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.ConnectionProperties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
         BinaryEncoders.encodeConnectionTransportDataType(writer, obj.TransportSettings);
         {
-            const arr = obj.WriterGroups ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeWriterGroupDataType(writer, v);
+            const arr = obj.WriterGroups;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeWriterGroupDataType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.ReaderGroups ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeReaderGroupDataType(writer, v);
+            const arr = obj.ReaderGroups;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeReaderGroupDataType(writer, v);
+                }
             }
         };
     };
@@ -780,10 +976,14 @@ export class BinaryEncoders {
         BinaryEncoders.encodeReaderGroupTransportDataType(writer, obj.TransportSettings);
         BinaryEncoders.encodeReaderGroupMessageDataType(writer, obj.MessageSettings);
         {
-            const arr = obj.DataSetReaders ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeDataSetReaderDataType(writer, v);
+            const arr = obj.DataSetReaders;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeDataSetReaderDataType(writer, v);
+                }
             }
         };
     };
@@ -811,17 +1011,25 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.SecurityMode);
         writer.writeString(obj.SecurityGroupId);
         {
-            const arr = obj.SecurityKeyServices ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEndpointDescription(writer, v);
+            const arr = obj.SecurityKeyServices;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEndpointDescription(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DataSetReaderProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.DataSetReaderProperties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
         BinaryEncoders.encodeDataSetReaderTransportDataType(writer, obj.TransportSettings);
@@ -844,10 +1052,14 @@ export class BinaryEncoders {
     static encodeTargetVariablesDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.TargetVariables ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeFieldTargetDataType(writer, v);
+            const arr = obj.TargetVariables;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeFieldTargetDataType(writer, v);
+                }
             }
         };
     };
@@ -867,10 +1079,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.ParentNodeName);
         {
-            const arr = obj.RolePermissions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeRolePermissionType(writer, v);
+            const arr = obj.RolePermissions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeRolePermissionType(writer, v);
+                }
             }
         };
     };
@@ -878,17 +1094,25 @@ export class BinaryEncoders {
     static encodePubSubConfigurationDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.PublishedDataSets ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodePublishedDataSetDataType(writer, v);
+            const arr = obj.PublishedDataSets;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodePublishedDataSetDataType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.Connections ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodePubSubConnectionDataType(writer, v);
+            const arr = obj.Connections;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodePubSubConnectionDataType(writer, v);
+                }
             }
         };
         writer.writeBoolean(obj.Enabled);
@@ -903,10 +1127,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         {
-            const arr = obj.DataSetFolder ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.DataSetFolder;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         BinaryEncoders.encodeDataSetMetaDataType(writer, obj.DataSetMetaData);
@@ -917,10 +1145,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.Name);
         {
-            const arr = obj.SecurityGroupFolder ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.SecurityGroupFolder;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeFloat64(obj.KeyLifetime);
@@ -929,17 +1161,25 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.MaxPastKeyCount);
         writer.writeString(obj.SecurityGroupId);
         {
-            const arr = obj.RolePermissions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeRolePermissionType(writer, v);
+            const arr = obj.RolePermissions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeRolePermissionType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.GroupProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.GroupProperties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
     };
@@ -948,10 +1188,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.ApplicationUri);
         {
-            const arr = obj.PushTargetFolder ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.PushTargetFolder;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeString(obj.EndpointUrl);
@@ -960,17 +1204,25 @@ export class BinaryEncoders {
         writer.writeUInt16(obj.RequestedKeyCount);
         writer.writeFloat64(obj.RetryInterval);
         {
-            const arr = obj.PushTargetProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.PushTargetProperties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
         {
-            const arr = obj.SecurityGroups ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.SecurityGroups;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
     };
@@ -978,46 +1230,70 @@ export class BinaryEncoders {
     static encodePubSubConfiguration2DataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.SubscribedDataSets ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeStandaloneSubscribedDataSetDataType(writer, v);
+            const arr = obj.SubscribedDataSets;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeStandaloneSubscribedDataSetDataType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DataSetClasses ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeDataSetMetaDataType(writer, v);
+            const arr = obj.DataSetClasses;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeDataSetMetaDataType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DefaultSecurityKeyServices ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEndpointDescription(writer, v);
+            const arr = obj.DefaultSecurityKeyServices;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEndpointDescription(writer, v);
+                }
             }
         };
         {
-            const arr = obj.SecurityGroups ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeSecurityGroupDataType(writer, v);
+            const arr = obj.SecurityGroups;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeSecurityGroupDataType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.PubSubKeyPushTargets ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodePubSubKeyPushTargetDataType(writer, v);
+            const arr = obj.PubSubKeyPushTargets;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodePubSubKeyPushTargetDataType(writer, v);
+                }
             }
         };
         writer.writeUInt32(obj.ConfigurationVersion);
         {
-            const arr = obj.ConfigurationProperties ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeKeyValuePair(writer, v);
+            const arr = obj.ConfigurationProperties;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeKeyValuePair(writer, v);
+                }
             }
         };
     };
@@ -1029,10 +1305,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.NetworkMessageContentMask);
         writer.writeFloat64(obj.SamplingOffset);
         {
-            const arr = obj.PublishingOffset ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeFloat64(v);
+            const arr = obj.PublishingOffset;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeFloat64(v);
+                }
             }
         };
     };
@@ -1107,10 +1387,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.DiscoveryMaxMessageSize);
         writer.writeString(obj.QosCategory);
         {
-            const arr = obj.DatagramQos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeQosDataType(writer, v);
+            const arr = obj.DatagramQos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeQosDataType(writer, v);
+                }
             }
         };
     };
@@ -1126,10 +1410,14 @@ export class BinaryEncoders {
         BinaryEncoders.encodeNetworkAddressDataType(writer, obj.Address);
         writer.writeString(obj.QosCategory);
         {
-            const arr = obj.DatagramQos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeTransmitQosDataType(writer, v);
+            const arr = obj.DatagramQos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeTransmitQosDataType(writer, v);
+                }
             }
         };
         writer.writeUInt32(obj.DiscoveryAnnounceRate);
@@ -1141,10 +1429,14 @@ export class BinaryEncoders {
         BinaryEncoders.encodeNetworkAddressDataType(writer, obj.Address);
         writer.writeString(obj.QosCategory);
         {
-            const arr = obj.DatagramQos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeReceiveQosDataType(writer, v);
+            const arr = obj.DatagramQos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeReceiveQosDataType(writer, v);
+                }
             }
         };
         writer.writeString(obj.Topic);
@@ -1154,10 +1446,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.ClientCipherSuite);
         {
-            const arr = obj.ServerCipherSuites ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ServerCipherSuites;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeBoolean(obj.ZeroRTT);
@@ -1258,10 +1554,14 @@ export class BinaryEncoders {
         writer.writeDateTime(obj.Timestamp);
         BinaryEncoders.encodeApplicationDescription(writer, obj.Description);
         {
-            const arr = obj.ServerCapabilities ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ServerCapabilities;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
     };
@@ -1274,10 +1574,14 @@ export class BinaryEncoders {
         writer.writeDateTime(obj.Timestamp);
         BinaryEncoders.encodeApplicationDescription(writer, obj.Description);
         {
-            const arr = obj.Endpoints ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEndpointDescription(writer, v);
+            const arr = obj.Endpoints;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEndpointDescription(writer, v);
+                }
             }
         };
     };
@@ -1311,19 +1615,27 @@ export class BinaryEncoders {
         writer.writeString(obj.DataSetWriterName);
         writer.writeDateTime(obj.Timestamp);
         {
-            const arr = obj.ActionTargets ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeActionTargetDataType(writer, v);
+            const arr = obj.ActionTargets;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeActionTargetDataType(writer, v);
+                }
             }
         };
         BinaryEncoders.encodeDataSetMetaDataType(writer, obj.Request);
         BinaryEncoders.encodeDataSetMetaDataType(writer, obj.Response);
         {
-            const arr = obj.ActionMethods ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeActionMethodDataType(writer, v);
+            const arr = obj.ActionMethods;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeActionMethodDataType(writer, v);
+                }
             }
         };
     };
@@ -1348,10 +1660,14 @@ export class BinaryEncoders {
         writer.writeString(obj.RequestorId);
         writer.writeFloat64(obj.TimeoutHint);
         {
-            const arr = obj.Messages ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.Messages;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -1391,10 +1707,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         obj.AliasName.encode(writer);
         {
-            const arr = obj.ReferencedNodes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.ReferencedNodes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -1463,10 +1783,14 @@ export class BinaryEncoders {
         obj.Message.encode(writer);
         BinaryEncoders.encodeTraceContextDataType(writer, obj.TraceContext);
         {
-            const arr = (obj.AdditionalData ?? []) ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeNameValuePair(writer, v);
+            const arr = (obj.AdditionalData ?? []);
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeNameValuePair(writer, v);
+                }
             }
         };
     };
@@ -1474,10 +1798,14 @@ export class BinaryEncoders {
     static encodeLogRecordsDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.LogRecordArray ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeLogRecord(writer, v);
+            const arr = obj.LogRecordArray;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeLogRecord(writer, v);
+                }
             }
         };
     };
@@ -1517,10 +1845,14 @@ export class BinaryEncoders {
         obj.DataType.encode(writer);
         writer.writeInt32(obj.ValueRank);
         {
-            const arr = obj.ArrayDimensions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.ArrayDimensions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         writer.writeUInt32(obj.MaxStringLength);
@@ -1533,10 +1865,14 @@ export class BinaryEncoders {
         obj.BaseDataType.encode(writer);
         writer.writeUInt32(obj.StructureType);
         {
-            const arr = obj.Fields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeStructureField(writer, v);
+            const arr = obj.Fields;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeStructureField(writer, v);
+                }
             }
         };
     };
@@ -1544,10 +1880,14 @@ export class BinaryEncoders {
     static encodeEnumDefinition = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.Fields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEnumField(writer, v);
+            const arr = obj.Fields;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEnumField(writer, v);
+                }
             }
         };
     };
@@ -1562,25 +1902,37 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.WriteMask);
         writer.writeUInt32(obj.UserWriteMask);
         {
-            const arr = obj.RolePermissions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeRolePermissionType(writer, v);
+            const arr = obj.RolePermissions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeRolePermissionType(writer, v);
+                }
             }
         };
         {
-            const arr = obj.UserRolePermissions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeRolePermissionType(writer, v);
+            const arr = obj.UserRolePermissions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeRolePermissionType(writer, v);
+                }
             }
         };
         writer.writeUInt16(obj.AccessRestrictions);
         {
-            const arr = obj.References ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeReferenceNode(writer, v);
+            const arr = obj.References;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeReferenceNode(writer, v);
+                }
             }
         };
     };
@@ -1601,10 +1953,14 @@ export class BinaryEncoders {
         obj.DataType.encode(writer);
         writer.writeInt32(obj.ValueRank);
         {
-            const arr = obj.ArrayDimensions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.ArrayDimensions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         writer.writeUint8(obj.AccessLevel);
@@ -1620,10 +1976,14 @@ export class BinaryEncoders {
         obj.DataType.encode(writer);
         writer.writeInt32(obj.ValueRank);
         {
-            const arr = obj.ArrayDimensions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.ArrayDimensions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         writer.writeBoolean(obj.IsAbstract);
@@ -1667,10 +2027,14 @@ export class BinaryEncoders {
         obj.DataType.encode(writer);
         writer.writeInt32(obj.ValueRank);
         {
-            const arr = obj.ArrayDimensions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.ArrayDimensions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         obj.Description.encode(writer);
@@ -1709,10 +2073,14 @@ export class BinaryEncoders {
         writer.writeString(obj.GatewayServerUri);
         writer.writeString(obj.DiscoveryProfileUri);
         {
-            const arr = obj.DiscoveryUrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.DiscoveryUrls;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
     };
@@ -1735,10 +2103,14 @@ export class BinaryEncoders {
         writer.writeStatusCode(obj.ServiceResult);
         obj.ServiceDiagnostics.encode(writer);
         {
-            const arr = obj.StringTable ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.StringTable;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         obj.AdditionalHeader.encode(writer);
@@ -1753,24 +2125,36 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeUInt32(obj.UrisVersion);
         {
-            const arr = obj.NamespaceUris ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.NamespaceUris;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         {
-            const arr = obj.ServerUris ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ServerUris;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         {
-            const arr = obj.LocaleIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.LocaleIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeUInt32(obj.ServiceId);
@@ -1779,17 +2163,25 @@ export class BinaryEncoders {
     static encodeSessionlessInvokeResponseType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.NamespaceUris ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.NamespaceUris;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         {
-            const arr = obj.ServerUris ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ServerUris;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeUInt32(obj.ServiceId);
@@ -1800,17 +2192,25 @@ export class BinaryEncoders {
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeString(obj.EndpointUrl);
         {
-            const arr = obj.LocaleIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.LocaleIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         {
-            const arr = obj.ServerUris ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ServerUris;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
     };
@@ -1819,10 +2219,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Servers ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeApplicationDescription(writer, v);
+            const arr = obj.Servers;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeApplicationDescription(writer, v);
+                }
             }
         };
     };
@@ -1833,10 +2237,14 @@ export class BinaryEncoders {
         writer.writeString(obj.ServerName);
         writer.writeString(obj.DiscoveryUrl);
         {
-            const arr = obj.ServerCapabilities ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ServerCapabilities;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
     };
@@ -1847,10 +2255,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.StartingRecordId);
         writer.writeUInt32(obj.MaxRecordsToReturn);
         {
-            const arr = obj.ServerCapabilityFilter ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ServerCapabilityFilter;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
     };
@@ -1860,10 +2272,14 @@ export class BinaryEncoders {
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         writer.writeDateTime(obj.LastCounterResetTime);
         {
-            const arr = obj.Servers ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeServerOnNetwork(writer, v);
+            const arr = obj.Servers;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeServerOnNetwork(writer, v);
+                }
             }
         };
     };
@@ -1885,10 +2301,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.SecurityMode);
         writer.writeString(obj.SecurityPolicyUri);
         {
-            const arr = obj.UserIdentityTokens ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeUserTokenPolicy(writer, v);
+            const arr = obj.UserIdentityTokens;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeUserTokenPolicy(writer, v);
+                }
             }
         };
         writer.writeString(obj.TransportProfileUri);
@@ -1900,17 +2320,25 @@ export class BinaryEncoders {
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeString(obj.EndpointUrl);
         {
-            const arr = obj.LocaleIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.LocaleIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         {
-            const arr = obj.ProfileUris ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ProfileUris;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
     };
@@ -1919,10 +2347,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Endpoints ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEndpointDescription(writer, v);
+            const arr = obj.Endpoints;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEndpointDescription(writer, v);
+                }
             }
         };
     };
@@ -1932,19 +2364,27 @@ export class BinaryEncoders {
         writer.writeString(obj.ServerUri);
         writer.writeString(obj.ProductUri);
         {
-            const arr = obj.ServerNames ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.ServerNames;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         writer.writeUInt32(obj.ServerType);
         writer.writeString(obj.GatewayServerUri);
         {
-            const arr = obj.DiscoveryUrls ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.DiscoveryUrls;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeString(obj.SemaphoreFilePath);
@@ -1966,10 +2406,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.MdnsServerName);
         {
-            const arr = obj.ServerCapabilities ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ServerCapabilities;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
     };
@@ -1979,10 +2423,14 @@ export class BinaryEncoders {
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         BinaryEncoders.encodeRegisteredServer(writer, obj.Server);
         {
-            const arr = obj.DiscoveryConfiguration ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiscoveryConfiguration;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -1991,17 +2439,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.ConfigurationResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.ConfigurationResults;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2076,17 +2532,25 @@ export class BinaryEncoders {
         writer.writeByteString(obj.ServerNonce);
         writer.writeByteString(obj.ServerCertificate);
         {
-            const arr = obj.ServerEndpoints ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEndpointDescription(writer, v);
+            const arr = obj.ServerEndpoints;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEndpointDescription(writer, v);
+                }
             }
         };
         {
-            const arr = obj.ServerSoftwareCertificates ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeSignedSoftwareCertificate(writer, v);
+            const arr = obj.ServerSoftwareCertificates;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeSignedSoftwareCertificate(writer, v);
+                }
             }
         };
         BinaryEncoders.encodeSignatureData(writer, obj.ServerSignature);
@@ -2121,17 +2585,25 @@ export class BinaryEncoders {
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         BinaryEncoders.encodeSignatureData(writer, obj.ClientSignature);
         {
-            const arr = obj.ClientSoftwareCertificates ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeSignedSoftwareCertificate(writer, v);
+            const arr = obj.ClientSoftwareCertificates;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeSignedSoftwareCertificate(writer, v);
+                }
             }
         };
         {
-            const arr = obj.LocaleIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.LocaleIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         obj.UserIdentityToken.encode(writer);
@@ -2143,17 +2615,25 @@ export class BinaryEncoders {
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         writer.writeByteString(obj.ServerNonce);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2201,10 +2681,14 @@ export class BinaryEncoders {
         obj.DataType.encode(writer);
         writer.writeInt32(obj.ValueRank);
         {
-            const arr = obj.ArrayDimensions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.ArrayDimensions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         writer.writeUint8(obj.AccessLevel);
@@ -2230,10 +2714,14 @@ export class BinaryEncoders {
         obj.DataType.encode(writer);
         writer.writeInt32(obj.ValueRank);
         {
-            const arr = obj.ArrayDimensions ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.ArrayDimensions;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         writer.writeBoolean(obj.IsAbstract);
@@ -2266,10 +2754,14 @@ export class BinaryEncoders {
     static encodeGenericAttributes = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.AttributeValues ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeGenericAttributeValue(writer, v);
+            const arr = obj.AttributeValues;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeGenericAttributeValue(writer, v);
+                }
             }
         };
     };
@@ -2295,10 +2787,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.NodesToAdd ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeAddNodesItem(writer, v);
+            const arr = obj.NodesToAdd;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeAddNodesItem(writer, v);
+                }
             }
         };
     };
@@ -2307,17 +2803,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeAddNodesResult(writer, v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeAddNodesResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2336,10 +2840,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.ReferencesToAdd ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeAddReferencesItem(writer, v);
+            const arr = obj.ReferencesToAdd;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeAddReferencesItem(writer, v);
+                }
             }
         };
     };
@@ -2348,17 +2856,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2373,10 +2889,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.NodesToDelete ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeDeleteNodesItem(writer, v);
+            const arr = obj.NodesToDelete;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeDeleteNodesItem(writer, v);
+                }
             }
         };
     };
@@ -2385,17 +2905,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2413,10 +2941,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.ReferencesToDelete ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeDeleteReferencesItem(writer, v);
+            const arr = obj.ReferencesToDelete;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeDeleteReferencesItem(writer, v);
+                }
             }
         };
     };
@@ -2425,17 +2957,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2473,10 +3013,14 @@ export class BinaryEncoders {
         writer.writeStatusCode(obj.StatusCode);
         writer.writeByteString(obj.ContinuationPoint);
         {
-            const arr = obj.References ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeReferenceDescription(writer, v);
+            const arr = obj.References;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeReferenceDescription(writer, v);
+                }
             }
         };
     };
@@ -2487,10 +3031,14 @@ export class BinaryEncoders {
         BinaryEncoders.encodeViewDescription(writer, obj.View);
         writer.writeUInt32(obj.RequestedMaxReferencesPerNode);
         {
-            const arr = obj.NodesToBrowse ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeBrowseDescription(writer, v);
+            const arr = obj.NodesToBrowse;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeBrowseDescription(writer, v);
+                }
             }
         };
     };
@@ -2499,17 +3047,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeBrowseResult(writer, v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeBrowseResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2519,10 +3075,14 @@ export class BinaryEncoders {
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeBoolean(obj.ReleaseContinuationPoints);
         {
-            const arr = obj.ContinuationPoints ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
+            const arr = obj.ContinuationPoints;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeByteString(v);
+                }
             }
         };
     };
@@ -2531,17 +3091,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeBrowseResult(writer, v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeBrowseResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2557,10 +3125,14 @@ export class BinaryEncoders {
     static encodeRelativePath = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.Elements ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeRelativePathElement(writer, v);
+            const arr = obj.Elements;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeRelativePathElement(writer, v);
+                }
             }
         };
     };
@@ -2581,10 +3153,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
-            const arr = obj.Targets ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeBrowsePathTarget(writer, v);
+            const arr = obj.Targets;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeBrowsePathTarget(writer, v);
+                }
             }
         };
     };
@@ -2593,10 +3169,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.BrowsePaths ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeBrowsePath(writer, v);
+            const arr = obj.BrowsePaths;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeBrowsePath(writer, v);
+                }
             }
         };
     };
@@ -2605,17 +3185,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeBrowsePathResult(writer, v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeBrowsePathResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2624,10 +3212,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.NodesToRegister ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.NodesToRegister;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2636,10 +3228,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.RegisteredNodeIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.RegisteredNodeIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2648,10 +3244,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.NodesToUnregister ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.NodesToUnregister;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2686,10 +3286,14 @@ export class BinaryEncoders {
         obj.TypeDefinitionNode.encode(writer);
         writer.writeBoolean(obj.IncludeSubTypes);
         {
-            const arr = obj.DataToReturn ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeQueryDataDescription(writer, v);
+            const arr = obj.DataToReturn;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeQueryDataDescription(writer, v);
+                }
             }
         };
     };
@@ -2699,10 +3303,14 @@ export class BinaryEncoders {
         obj.NodeId.encode(writer);
         obj.TypeDefinitionNode.encode(writer);
         {
-            const arr = obj.Values ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.Values;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2713,10 +3321,14 @@ export class BinaryEncoders {
         obj.ReferenceTypeId.encode(writer);
         writer.writeBoolean(obj.IsForward);
         {
-            const arr = obj.ReferencedNodeIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.ReferencedNodeIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2725,10 +3337,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeUInt32(obj.FilterOperator);
         {
-            const arr = obj.FilterOperands ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.FilterOperands;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2736,10 +3352,14 @@ export class BinaryEncoders {
     static encodeContentFilter = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.Elements ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeContentFilterElement(writer, v);
+            const arr = obj.Elements;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeContentFilterElement(writer, v);
+                }
             }
         };
     };
@@ -2771,10 +3391,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         obj.TypeDefinitionId.encode(writer);
         {
-            const arr = obj.BrowsePath ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.BrowsePath;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         writer.writeUInt32(obj.AttributeId);
@@ -2785,17 +3409,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
-            const arr = obj.OperandStatusCodes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.OperandStatusCodes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.OperandDiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.OperandDiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2803,17 +3435,25 @@ export class BinaryEncoders {
     static encodeContentFilterResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.ElementResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeContentFilterElementResult(writer, v);
+            const arr = obj.ElementResults;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeContentFilterElementResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.ElementDiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.ElementDiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2822,17 +3462,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
-            const arr = obj.DataStatusCodes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.DataStatusCodes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DataDiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DataDiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2842,10 +3490,14 @@ export class BinaryEncoders {
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         BinaryEncoders.encodeViewDescription(writer, obj.View);
         {
-            const arr = obj.NodeTypes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeNodeTypeDescription(writer, v);
+            const arr = obj.NodeTypes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeNodeTypeDescription(writer, v);
+                }
             }
         };
         BinaryEncoders.encodeContentFilter(writer, obj.Filter);
@@ -2857,25 +3509,37 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.QueryDataSets ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeQueryDataSet(writer, v);
+            const arr = obj.QueryDataSets;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeQueryDataSet(writer, v);
+                }
             }
         };
         writer.writeByteString(obj.ContinuationPoint);
         {
-            const arr = obj.ParsingResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeParsingResult(writer, v);
+            const arr = obj.ParsingResults;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeParsingResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         BinaryEncoders.encodeContentFilterResult(writer, obj.FilterResult);
@@ -2892,10 +3556,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.QueryDataSets ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeQueryDataSet(writer, v);
+            const arr = obj.QueryDataSets;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeQueryDataSet(writer, v);
+                }
             }
         };
         writer.writeByteString(obj.RevisedContinuationPoint);
@@ -2915,10 +3583,14 @@ export class BinaryEncoders {
         writer.writeFloat64(obj.MaxAge);
         writer.writeUInt32(obj.TimestampsToReturn);
         {
-            const arr = obj.NodesToRead ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeReadValueId(writer, v);
+            const arr = obj.NodesToRead;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeReadValueId(writer, v);
+                }
             }
         };
     };
@@ -2927,17 +3599,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -2983,10 +3663,14 @@ export class BinaryEncoders {
     static encodeReadEventDetailsSorted = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.SortClause ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeSortRuleElement(writer, v);
+            const arr = obj.SortClause;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeSortRuleElement(writer, v);
+                }
             }
         };
     };
@@ -3006,10 +3690,14 @@ export class BinaryEncoders {
         writer.writeDateTime(obj.EndTime);
         writer.writeFloat64(obj.ProcessingInterval);
         {
-            const arr = obj.AggregateType ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.AggregateType;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         BinaryEncoders.encodeAggregateConfiguration(writer, obj.AggregateConfiguration);
@@ -3018,10 +3706,14 @@ export class BinaryEncoders {
     static encodeReadAtTimeDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.ReqTimes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeDateTime(v);
+            const arr = obj.ReqTimes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeDateTime(v);
+                }
             }
         };
         writer.writeBoolean(obj.UseSimpleBounds);
@@ -3030,10 +3722,14 @@ export class BinaryEncoders {
     static encodeReadAnnotationDataDetails = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.ReqTimes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeDateTime(v);
+            const arr = obj.ReqTimes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeDateTime(v);
+                }
             }
         };
     };
@@ -3041,10 +3737,14 @@ export class BinaryEncoders {
     static encodeHistoryData = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.DataValues ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DataValues;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3059,10 +3759,14 @@ export class BinaryEncoders {
     static encodeHistoryModifiedData = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.ModificationInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeModificationInfo(writer, v);
+            const arr = obj.ModificationInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeModificationInfo(writer, v);
+                }
             }
         };
     };
@@ -3070,10 +3774,14 @@ export class BinaryEncoders {
     static encodeHistoryEvent = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.Events ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeHistoryEventFieldList(writer, v);
+            const arr = obj.Events;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeHistoryEventFieldList(writer, v);
+                }
             }
         };
     };
@@ -3081,10 +3789,14 @@ export class BinaryEncoders {
     static encodeHistoryModifiedEvent = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.ModificationInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeModificationInfo(writer, v);
+            const arr = obj.ModificationInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeModificationInfo(writer, v);
+                }
             }
         };
     };
@@ -3096,10 +3808,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.TimestampsToReturn);
         writer.writeBoolean(obj.ReleaseContinuationPoints);
         {
-            const arr = obj.NodesToRead ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeHistoryReadValueId(writer, v);
+            const arr = obj.NodesToRead;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeHistoryReadValueId(writer, v);
+                }
             }
         };
     };
@@ -3108,17 +3824,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeHistoryReadResult(writer, v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeHistoryReadResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3135,10 +3859,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.NodesToWrite ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeWriteValue(writer, v);
+            const arr = obj.NodesToWrite;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeWriteValue(writer, v);
+                }
             }
         };
     };
@@ -3147,17 +3875,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3171,10 +3907,14 @@ export class BinaryEncoders {
         obj.NodeId.encode(writer);
         writer.writeUInt32(obj.PerformInsertReplace);
         {
-            const arr = obj.UpdateValues ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.UpdateValues;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3184,10 +3924,14 @@ export class BinaryEncoders {
         obj.NodeId.encode(writer);
         writer.writeUInt32(obj.PerformInsertReplace);
         {
-            const arr = obj.UpdateValues ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.UpdateValues;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3198,10 +3942,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.PerformInsertReplace);
         BinaryEncoders.encodeEventFilter(writer, obj.Filter);
         {
-            const arr = obj.EventData ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeHistoryEventFieldList(writer, v);
+            const arr = obj.EventData;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeHistoryEventFieldList(writer, v);
+                }
             }
         };
     };
@@ -3218,10 +3966,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         {
-            const arr = obj.ReqTimes ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeDateTime(v);
+            const arr = obj.ReqTimes;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeDateTime(v);
+                }
             }
         };
     };
@@ -3230,10 +3982,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         obj.NodeId.encode(writer);
         {
-            const arr = obj.EventIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeByteString(v);
+            const arr = obj.EventIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeByteString(v);
+                }
             }
         };
     };
@@ -3242,17 +3998,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
-            const arr = obj.OperationResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.OperationResults;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3261,10 +4025,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.HistoryUpdateDetails ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.HistoryUpdateDetails;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3273,17 +4041,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeHistoryUpdateResult(writer, v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeHistoryUpdateResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3293,10 +4069,14 @@ export class BinaryEncoders {
         obj.ObjectId.encode(writer);
         obj.MethodId.encode(writer);
         {
-            const arr = obj.InputArguments ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.InputArguments;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3305,24 +4085,36 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
-            const arr = obj.InputArgumentResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.InputArgumentResults;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.InputArgumentDiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.InputArgumentDiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         {
-            const arr = obj.OutputArguments ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.OutputArguments;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3331,10 +4123,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.MethodsToCall ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeCallMethodRequest(writer, v);
+            const arr = obj.MethodsToCall;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeCallMethodRequest(writer, v);
+                }
             }
         };
     };
@@ -3343,17 +4139,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeCallMethodResult(writer, v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeCallMethodResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3368,10 +4172,14 @@ export class BinaryEncoders {
     static encodeEventFilter = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.SelectClauses ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeSimpleAttributeOperand(writer, v);
+            const arr = obj.SelectClauses;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeSimpleAttributeOperand(writer, v);
+                }
             }
         };
         BinaryEncoders.encodeContentFilter(writer, obj.WhereClause);
@@ -3397,17 +4205,25 @@ export class BinaryEncoders {
     static encodeEventFilterResult = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.SelectClauseResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.SelectClauseResults;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.SelectClauseDiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.SelectClauseDiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         BinaryEncoders.encodeContentFilterResult(writer, obj.WhereClauseResult);
@@ -3451,10 +4267,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.SubscriptionId);
         writer.writeUInt32(obj.TimestampsToReturn);
         {
-            const arr = obj.ItemsToCreate ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeMonitoredItemCreateRequest(writer, v);
+            const arr = obj.ItemsToCreate;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeMonitoredItemCreateRequest(writer, v);
+                }
             }
         };
     };
@@ -3463,17 +4283,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeMonitoredItemCreateResult(writer, v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeMonitoredItemCreateResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3498,10 +4326,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.SubscriptionId);
         writer.writeUInt32(obj.TimestampsToReturn);
         {
-            const arr = obj.ItemsToModify ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeMonitoredItemModifyRequest(writer, v);
+            const arr = obj.ItemsToModify;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeMonitoredItemModifyRequest(writer, v);
+                }
             }
         };
     };
@@ -3510,17 +4342,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeMonitoredItemModifyResult(writer, v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeMonitoredItemModifyResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3531,10 +4371,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.SubscriptionId);
         writer.writeUInt32(obj.MonitoringMode);
         {
-            const arr = obj.MonitoredItemIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.MonitoredItemIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
     };
@@ -3543,17 +4387,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3564,17 +4416,25 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.SubscriptionId);
         writer.writeUInt32(obj.TriggeringItemId);
         {
-            const arr = obj.LinksToAdd ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.LinksToAdd;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         {
-            const arr = obj.LinksToRemove ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.LinksToRemove;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
     };
@@ -3583,31 +4443,47 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.AddResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.AddResults;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.AddDiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.AddDiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         {
-            const arr = obj.RemoveResults ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.RemoveResults;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.RemoveDiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.RemoveDiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3617,10 +4493,14 @@ export class BinaryEncoders {
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeUInt32(obj.SubscriptionId);
         {
-            const arr = obj.MonitoredItemIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.MonitoredItemIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
     };
@@ -3629,17 +4509,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3688,10 +4576,14 @@ export class BinaryEncoders {
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         writer.writeBoolean(obj.PublishingEnabled);
         {
-            const arr = obj.SubscriptionIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.SubscriptionIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
     };
@@ -3700,17 +4592,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3720,10 +4620,14 @@ export class BinaryEncoders {
         writer.writeUInt32(obj.SequenceNumber);
         writer.writeDateTime(obj.PublishTime);
         {
-            const arr = obj.NotificationData ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.NotificationData;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3731,17 +4635,25 @@ export class BinaryEncoders {
     static encodeDataChangeNotification = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.MonitoredItems ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeMonitoredItemNotification(writer, v);
+            const arr = obj.MonitoredItems;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeMonitoredItemNotification(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3755,10 +4667,14 @@ export class BinaryEncoders {
     static encodeEventNotificationList = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.Events ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEventFieldList(writer, v);
+            const arr = obj.Events;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEventFieldList(writer, v);
+                }
             }
         };
     };
@@ -3767,10 +4683,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeUInt32(obj.ClientHandle);
         {
-            const arr = obj.EventFields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.EventFields;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3778,10 +4698,14 @@ export class BinaryEncoders {
     static encodeHistoryEventFieldList = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.EventFields ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.EventFields;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3802,10 +4726,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.SubscriptionAcknowledgements ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeSubscriptionAcknowledgement(writer, v);
+            const arr = obj.SubscriptionAcknowledgements;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeSubscriptionAcknowledgement(writer, v);
+                }
             }
         };
     };
@@ -3815,26 +4743,38 @@ export class BinaryEncoders {
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         writer.writeUInt32(obj.SubscriptionId);
         {
-            const arr = obj.AvailableSequenceNumbers ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.AvailableSequenceNumbers;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         writer.writeBoolean(obj.MoreNotifications);
         BinaryEncoders.encodeNotificationMessage(writer, obj.NotificationMessage);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3856,10 +4796,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeStatusCode(obj.StatusCode);
         {
-            const arr = obj.AvailableSequenceNumbers ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.AvailableSequenceNumbers;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
     };
@@ -3868,10 +4812,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.SubscriptionIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.SubscriptionIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
         writer.writeBoolean(obj.SendInitialValues);
@@ -3881,17 +4829,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeTransferResult(writer, v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeTransferResult(writer, v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3900,10 +4856,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeRequestHeader(writer, obj.RequestHeader);
         {
-            const arr = obj.SubscriptionIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeUInt32(v);
+            const arr = obj.SubscriptionIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeUInt32(v);
+                }
             }
         };
     };
@@ -3912,17 +4872,25 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         BinaryEncoders.encodeResponseHeader(writer, obj.ResponseHeader);
         {
-            const arr = obj.Results ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeStatusCode(v);
+            const arr = obj.Results;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeStatusCode(v);
+                }
             }
         };
         {
-            const arr = obj.DiagnosticInfos ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.DiagnosticInfos;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
     };
@@ -3947,10 +4915,14 @@ export class BinaryEncoders {
     static encodeEndpointUrlListDataType = (writer: BufferWriter, identifiable: IIdentifiable) => {
         const obj = identifiable as any;
         {
-            const arr = obj.EndpointUrlList ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.EndpointUrlList;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
     };
@@ -3959,10 +4931,14 @@ export class BinaryEncoders {
         const obj = identifiable as any;
         writer.writeString(obj.ServerUri);
         {
-            const arr = obj.NetworkPaths ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeEndpointUrlListDataType(writer, v);
+            const arr = obj.NetworkPaths;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeEndpointUrlListDataType(writer, v);
+                }
             }
         };
     };
@@ -4009,10 +4985,14 @@ export class BinaryEncoders {
         writer.writeString(obj.ServerUri);
         writer.writeString(obj.EndpointUrl);
         {
-            const arr = obj.LocaleIds ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.LocaleIds;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeFloat64(obj.ActualSessionTimeout);
@@ -4059,10 +5039,14 @@ export class BinaryEncoders {
         obj.SessionId.encode(writer);
         writer.writeString(obj.ClientUserIdOfSession);
         {
-            const arr = obj.ClientUserIdHistory ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeString(v);
+            const arr = obj.ClientUserIdHistory;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeString(v);
+                }
             }
         };
         writer.writeString(obj.AuthenticationMechanism);
@@ -4166,10 +5150,14 @@ export class BinaryEncoders {
         obj.Title.encode(writer);
         writer.writeUInt32(obj.AxisScaleType);
         {
-            const arr = obj.AxisSteps ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                writer.writeFloat64(v);
+            const arr = obj.AxisSteps;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    writer.writeFloat64(v);
+                }
             }
         };
     };
@@ -4189,17 +5177,25 @@ export class BinaryEncoders {
         writer.writeString(obj.LastMethodCall);
         obj.LastMethodSessionId.encode(writer);
         {
-            const arr = obj.LastMethodInputArguments ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeArgument(writer, v);
+            const arr = obj.LastMethodInputArguments;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeArgument(writer, v);
+                }
             }
         };
         {
-            const arr = obj.LastMethodOutputArguments ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeArgument(writer, v);
+            const arr = obj.LastMethodOutputArguments;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeArgument(writer, v);
+                }
             }
         };
         writer.writeDateTime(obj.LastMethodCallTime);
@@ -4215,31 +5211,47 @@ export class BinaryEncoders {
         writer.writeString(obj.LastMethodCall);
         obj.LastMethodSessionId.encode(writer);
         {
-            const arr = obj.LastMethodInputArguments ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeArgument(writer, v);
+            const arr = obj.LastMethodInputArguments;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeArgument(writer, v);
+                }
             }
         };
         {
-            const arr = obj.LastMethodOutputArguments ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                BinaryEncoders.encodeArgument(writer, v);
+            const arr = obj.LastMethodOutputArguments;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    BinaryEncoders.encodeArgument(writer, v);
+                }
             }
         };
         {
-            const arr = obj.LastMethodInputValues ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.LastMethodInputValues;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         {
-            const arr = obj.LastMethodOutputValues ?? [];
-            writer.writeInt32(arr.length);
-            for (const v of arr) {
-                v.encode(writer);
+            const arr = obj.LastMethodOutputValues;
+            if (arr === null || arr === undefined) {
+                writer.writeInt32(-1);
+            } else {
+                writer.writeInt32(arr.length);
+                for (const v of arr) {
+                    v.encode(writer);
+                }
             }
         };
         writer.writeDateTime(obj.LastMethodCallTime);

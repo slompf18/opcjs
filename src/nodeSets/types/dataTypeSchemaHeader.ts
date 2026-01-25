@@ -11,7 +11,7 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
  */
 export class DataTypeSchemaHeader implements IIdentifiable {
     constructor(
-        public Namespaces: string | undefined[],
+        public Namespaces: string[],
         public StructureDataTypes: StructureDescription[],
         public EnumDataTypes: EnumDescription[],
         public SimpleDataTypes: SimpleTypeDescription[]

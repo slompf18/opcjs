@@ -2,7 +2,7 @@ import { BufferReader } from "../codecs/binary/bufferReader";
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { ExpandedNodeId } from "./expandedNodeId";
 import { NodeId } from "./nodeId";
-import { UInt8 } from "./baseTypes";
+import { ByteString, UInt8 } from "./baseTypes";
 
 // https://reference.opcfoundation.org/Core/Part6/v105/docs/5.2.2.15
 export class ExtensionObject {
@@ -10,13 +10,17 @@ export class ExtensionObject {
     private static readonly EncodingByteString = 0x01;
     private static readonly EncodingXmlElement = 0x02;
 
+    public static newEmpty(): ExtensionObject {
+        return new ExtensionObject(new ExpandedNodeId(NodeId.NewTwoByte(0)), ExtensionObject.EncodingNone, undefined);
+    }
+
     public static decode(buffer: BufferReader): ExtensionObject {
         const typeId = buffer.readExpandedNodeId();
         const encoding = buffer.readUInt8();
-        let body: Uint8Array | string | undefined;
+        let body: ByteString | string | undefined;
 
         if (encoding === ExtensionObject.EncodingByteString) {
-            body = buffer.readByteString();
+            body = buffer.readByteString() ;
         } else if (encoding === ExtensionObject.EncodingXmlElement) {
             body = buffer.readString();
         }
@@ -38,6 +42,6 @@ export class ExtensionObject {
     constructor(
         public TypeId: ExpandedNodeId = new ExpandedNodeId(NodeId.NewTwoByte(0)),
         public Encoding: UInt8 = ExtensionObject.EncodingNone,
-        public Body?: Uint8Array | string
+        public Body?: ByteString | string
     ) {}
 }

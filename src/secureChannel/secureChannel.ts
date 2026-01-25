@@ -1,7 +1,9 @@
+import { Certificate } from "../certificates/certificate";
 import { BufferReader } from "../codecs/binary/bufferReader";
 import { BufferUtils } from "../codecs/binary/bufferUtils";
 import { BufferWriter } from "../codecs/binary/bufferWriter";
 import { IEncodable } from "../codecs/iEncodable";
+import { IIdentifiable } from "../codecs/iIdentifiable";
 import { SchemaCodec } from "../nodeSets/schemaCodec";
 import { OpenSecureChannelRequest, RequestHeader, SecurityTokenRequestTypeEnum, MessageSecurityModeEnum, OpenSecureChannelResponse, ServiceFault } from "../nodeSets/types";
 import { SecurityPolicyNone } from "../security/securityPolicyNone";
@@ -9,6 +11,7 @@ import { ITransportChannel } from "../transports/iTransportChannel";
 import { UInt32 } from "../types/baseTypes";
 import { ExtensionObject } from "../types/extensionObject";
 import { NodeId } from "../types/nodeId";
+import { ISecureChannel } from "./iSecureChannel";
 import { MsgAsymmetric } from "./messages/msgAsymmetric";
 import { MsgHeader } from "./messages/msgHeader";
 import { MsgSecurityHeaderAsymmetric } from "./messages/msgSecurityHeaderAsymmetric";
@@ -17,7 +20,7 @@ import { MsgSequenceHeader } from "./messages/msgSequenceHeader";
 import { MsgSymmetric } from "./messages/msgSymmetric";
 import { MsgTypeAbort, MsgTypeChunk, MsgTypeCloseFinal, MsgTypeFinal, MsgTypeOpenFinal } from "./messages/msgType";
 
-export class SecureChannel {
+export class SecureChannel implements ISecureChannel {
     private sequenceNumber: number = 0;
     private requestNumber: number = 1;
     private securityPolicy = new SecurityPolicyNone();
@@ -63,20 +66,68 @@ export class SecureChannel {
         const msgBuffer = new BufferWriter();
         msg.encode(msgBuffer, encryptionAlgorithm);
 
-        this.resolvers.set(msg.sequenceHeader.requestId, this.openSecureChannelResponse.bind(this));
+        const promise = new Promise<void>((resolve, reject) => {
+            this.resolvers.set(msg.sequenceHeader.requestId, (response: OpenSecureChannelResponse) => {
+                console.log("OpenSecureChannelResponse received");
+                this.id = response.SecurityToken?.ChannelId as UInt32;
+                this.token = response.SecurityToken?.TokenId as UInt32;
+                resolve();
+            });
 
-        this.channel.send(msgBuffer.getData());
-    }
+            this.channel.send(msgBuffer.getData());
 
-    private openSecureChannelResponse(response: OpenSecureChannelResponse): void {
+        });
 
-        console.log("OpenSecureChannelResponse received");
-        this.id = response.SecurityToken.ChannelId;
-        this.token = response.SecurityToken.TokenId;
+        return promise;
     }
 
     public async disconnect(): Promise<void> {
         this.channel.disconnect();
+    }
+
+    getSecurityPolicy(): string {
+        return this.securityPolicy.getSecurityPolicyUri();
+    }
+
+    getSecurityMode(): MessageSecurityModeEnum {
+        return this.securityPolicy.getSecurityMode();
+    }
+
+    async issueServiceRequest(request: IIdentifiable): Promise<IIdentifiable> {
+        const requestBuffer = new BufferWriter();
+        SchemaCodec.encodeBinary(requestBuffer, request);
+
+        const msg = new MsgSymmetric(
+            new MsgHeader(
+                MsgTypeFinal,
+                0, // will be set while encoding
+                this.id
+            ),
+            new MsgSecurityHeaderSymmetric(
+                this.token
+            ),
+            new MsgSequenceHeader(
+                this.sequenceNumber++,
+                this.requestNumber++
+            ),
+            requestBuffer.getData()
+        )
+
+        const encryptionAlgorithm = this.securityPolicy.getAlgorithmSymmetric(new Certificate(), new Certificate());
+        const msgBuffer = new BufferWriter();
+        msg.encode(msgBuffer, encryptionAlgorithm);
+
+        // todo: use reject on timeout / error
+        const promise = new Promise<IIdentifiable>((resolve, reject) => {
+            // todo: set the promise in the map
+            this.resolvers.set(msg.sequenceHeader.requestId, (requestResponse: IIdentifiable) => {
+                resolve(requestResponse);
+            });
+
+            this.channel.send(msgBuffer.getData());
+        });
+
+        return promise;
     }
 
     private onMessage(data: Uint8Array) {
@@ -86,32 +137,14 @@ export class SecureChannel {
         switch (header.msgType) {
             case MsgTypeOpenFinal:
                 console.log("SecureChannel received OpenFinal message");
-                const headerSecurity = MsgSecurityHeaderAsymmetric.decode(buffer);
-                const headerLength = buffer.getPosition();
-                const msg = MsgAsymmetric.decode(
+                const headerSecurityAsym = MsgSecurityHeaderAsymmetric.decode(buffer);
+                const msgAsym = MsgAsymmetric.decode(
                     buffer,
                     header,
-                    headerSecurity,
-                    headerLength,
+                    headerSecurityAsym,
                     this.securityPolicy.getAlgorithmAsymmetric(new Uint8Array(), new Uint8Array()));
+                this.onReceivedMessage(msgAsym.sequenceHeader.requestId, msgAsym.body);
 
-                const responseBuffer = new BufferReader(msg.body);
-                const response = SchemaCodec.decode(responseBuffer);
-
-                const requestId = msg.sequenceHeader.requestId;
-                if (response instanceof ServiceFault) {
-                    const fault = response as ServiceFault;
-                    console.error("ServiceFault received:", fault);
-                } else {
-                    const resolver = this.resolvers.get(requestId);
-                    if (resolver) {
-                        resolver(response);
-                    } else {
-                        console.warn("No resolver found for requestId:", requestId);
-                    }
-                }
-
-                this.resolvers.delete(msg.sequenceHeader.requestId);
                 break;
             case MsgTypeAbort:
                 console.log("SecureChannel received Abort message");
@@ -121,6 +154,15 @@ export class SecureChannel {
                 break;
             case MsgTypeFinal:
                 console.log("SecureChannel received Final message");
+                const headerSecuritySym = MsgSecurityHeaderSymmetric.decode(buffer);
+                const algo = this.securityPolicy.getAlgorithmSymmetric(new Certificate(), new Certificate())
+                const msgSym = MsgSymmetric.decode(
+                    buffer,
+                    header,
+                    headerSecuritySym,
+                    algo
+                    );
+                this.onReceivedMessage(msgSym.sequenceHeader.requestId, msgSym.body);
                 break;
             case MsgTypeCloseFinal:
                 console.log("SecureChannel received CloseFinal message");
@@ -134,20 +176,23 @@ export class SecureChannel {
 
     }
 
-    private send(request: IEncodable) {
-        const buffer = new BufferWriter();
-        request.encode(buffer);
+    private onReceivedMessage(requestId: number, data: Uint8Array): void {
+        const responseBuffer = new BufferReader(data);
+        const response = SchemaCodec.decode(responseBuffer);
 
-        const msg = new MsgSymmetric(
-            new MsgHeader(
-                MsgTypeOpenFinal,
-                0,// will be set while encoding
-                this.id
-            ),
-            new MsgSecurityHeaderSymmetric(0),
-            new MsgSequenceHeader(0, 0),
-            buffer.getData()
-        )
+        if (response instanceof ServiceFault) {
+            const fault = response as ServiceFault;
+            console.error("ServiceFault received:", fault);
+        } else {
+            const resolver = this.resolvers.get(requestId);
+            if (resolver) {
+                resolver(response);
+            } else {
+                console.warn("No resolver found for requestId:", requestId);
+            }
+        }
+
+        this.resolvers.delete(requestId);
     }
 
     constructor(private channel: ITransportChannel) {

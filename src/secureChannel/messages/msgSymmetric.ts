@@ -19,17 +19,22 @@ export class MsgSymmetric extends MsgBase {
     static decode(
         buffer: BufferReader,
         header: MsgHeader,
+        securityHeader: MsgSecurityHeaderSymmetric,
         encryptionAlgorithm: IEncryptionAlgorithm) {
 
-        const securityHeader = MsgSecurityHeaderSymmetric.decode(buffer);
         const headerLength = buffer.getPosition();
-        const sequenceHeader = MsgSequenceHeader.decode(buffer);
 
-        const body = MsgBase.DecryptAndVerify(
+        buffer.rewind();
+        const decryptedData = MsgBase.DecryptAndVerify(
             buffer.readRemainingBytes(),
             encryptionAlgorithm, 
             headerLength
         );
+        
+        buffer = new BufferReader(decryptedData);
+        const sequenceHeader = MsgSequenceHeader.decode(buffer);
+        const body = buffer.readRemainingBytes();
+
         return new MsgSymmetric(header, securityHeader, sequenceHeader, body);
     }
 

@@ -11,8 +11,8 @@ export class FindServersRequest implements IIdentifiable {
     constructor(
         public RequestHeader: RequestHeader,
         public EndpointUrl: string | undefined,
-        public LocaleIds: string | undefined[],
-        public ServerUris: string | undefined[]
+        public LocaleIds: string[],
+        public ServerUris: string[]
     ) { }
 
     readonly id = 420
