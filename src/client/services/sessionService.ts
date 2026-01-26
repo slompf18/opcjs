@@ -4,13 +4,14 @@ import { ISecureChannel } from "../../secureChannel/iSecureChannel";
 import { LocalizedText } from "../../types/localizedText";
 import { NodeId } from "../../types/nodeId";
 import { ExtensionObject } from "../../types/extensionObject";
+import { ServiceBase } from "./serviceBase";
 
-export class SessionService{
+export class SessionService extends ServiceBase{
     async createSession(): Promise<{sessionId:number, authToken: NodeId}> {
         console.log("Creating session...");
 
         const request = new CreateSessionRequest(
-            this.createRequestHeader(NodeId.NewTwoByte(0)),
+            this.createRequestHeader(),
             new ApplicationDescription(
                 this.configuration.applicationUri,
                 this.configuration.productUri,
@@ -48,7 +49,7 @@ export class SessionService{
 
     async activateSession(authToken: NodeId): Promise<void> {
         const request = new ActivateSessionRequest(
-            this.createRequestHeader(authToken),
+            this.createRequestHeader(),
             new SignatureData(
                 this.secureChannel.getSecurityPolicy(),
                 new Uint8Array()
@@ -66,18 +67,11 @@ export class SessionService{
         console.log("Session activated.");
     }
 
-    private createRequestHeader(authtoken: NodeId): RequestHeader {
-        return new RequestHeader(
-            authtoken,
-            new Date(),
-            0, // will be set by secure channel
-            0,
-            '',
-            60000,
-            ExtensionObject.newEmpty()
-        );
+    recreate(authToken:NodeId):SessionService{
+        return new SessionService(authToken, this.secureChannel, this.configuration)
     }
 
-    constructor(private secureChannel: ISecureChannel, private configuration: Configuration) {
+    constructor(authToken:NodeId, secureChannel: ISecureChannel, private configuration: Configuration) {
+        super(authToken, secureChannel)
     }
 }

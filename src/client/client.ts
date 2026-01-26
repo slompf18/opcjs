@@ -3,6 +3,10 @@ import { ChannelFactory } from "../transports/channelFactory";
 import { SessionHandler } from "./sessions/sessionHandler";
 import { ConfigurationClient } from "../configuration/configurationClient";
 import { Session } from "./sessions/session";
+import { Id } from "./id";
+import { AttributeService } from "./services/attributeService";
+import { ISecureChannel } from "../secureChannel/iSecureChannel";
+import { ReadValueResult } from "./readValueResult";
 
 export class Client {
 
@@ -37,6 +41,12 @@ export class Client {
         if (this.channel) {
             await this.channel.disconnect();
         }
+    }
+
+    async read(ids: Id[]):Promise<ReadValueResult[]>{
+        const service = new AttributeService(this.getSession().getAuthToken(), this.channel as ISecureChannel);
+        const result = await service.ReadValue(ids.map(i => i.toNodeId()))
+        return result.map(r => new ReadValueResult(r.value, r.status))
     }
 
     constructor(endpointUrl: string, private configuration: ConfigurationClient) {

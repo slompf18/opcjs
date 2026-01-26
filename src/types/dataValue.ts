@@ -28,11 +28,13 @@ export class DataValue {
         let serverPicoSeconds: UInt16 | undefined;
 
         if (DataValue.Has(encodingMask, DataValue.MaskValue)) {
-            buffer.readVariant();
+            value = buffer.readVariant();
         }
 
         if (DataValue.Has(encodingMask, DataValue.MaskStatusCode)) {
             status = buffer.readStatusCode();
+        }else{
+            status = StatusCode.OK;
         }
 
         if (DataValue.Has(encodingMask, DataValue.MaskSourceTimestamp)) {
