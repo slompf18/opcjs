@@ -10,68 +10,68 @@ import { XmlElement } from "../../types/xmlElement";
 import { DiagnosticInfo } from "../../types/diagnosticInfo";
 import { DataValue } from "../../types/dataValue";
 import { Variant } from "../../types/variant";
-import { TypeId } from "../../types/typeId";
 
 export class BufferReader {
-    private buffer: Buffer;
+    private buffer: Uint8Array;
+    private view: DataView;
     private position: number = 0;
 
     public readInt8(): number {
-        const value = this.buffer.readInt8(this.position);
+        const value = this.view.getInt8(this.position);
         this.position += 1;
         return value;
     }
 
     public readUInt8(): UInt8 {
-        const value = this.buffer.readUInt8(this.position) as UInt8;
+        const value = this.view.getUint8(this.position) as UInt8;
         this.position += 1;
         return value;
     }
 
     public readInt16(): Int16 {
-        const value = this.buffer.readInt16LE(this.position) as Int16;
+        const value = this.view.getInt16(this.position, true) as Int16;
         this.position += 2;
         return value;
     }
 
     public readUInt16(): UInt16 {
-        const value = this.buffer.readUInt16LE(this.position) as UInt16;
+        const value = this.view.getUint16(this.position, true) as UInt16;
         this.position += 2;
         return value;
     }
 
     public readInt32(): Int32 {
-        const value = this.buffer.readInt32LE(this.position) as Int32;
+        const value = this.view.getInt32(this.position, true) as Int32;
         this.position += 4;
         return value;
     }
 
     public readUInt32(): UInt32 {
-        const value = this.buffer.readUInt32LE(this.position);
+        const value = this.view.getUint32(this.position, true);
         this.position += 4;
         return value;
     }
 
     public readInt64(): Int64 {
-        const value = this.buffer.readBigInt64LE(this.position) as Int64;
+        const value = this.view.getBigInt64(this.position, true) as Int64;
         this.position += 8;
         return value;
     }
 
     public readUInt64(): UInt64 {
-        const value = this.buffer.readBigUInt64LE(this.position) as UInt64;
+        const value = this.view.getBigUint64(this.position, true) as UInt64;
         this.position += 8;
         return value;
     }
 
     public readFloat32(): Float32 {
-        const value = this.buffer.readFloatLE(this.position) as Float32;
+        const value = this.view.getFloat32(this.position, true) as Float32;
         this.position += 4;
         return value;
     }
 
     public readFloat64(): Float64 {
-        const value = this.buffer.readDoubleLE(this.position) as Float64;
+        const value = this.view.getFloat64(this.position, true) as Float64;
         this.position += 8;
         return value;
     }
@@ -107,7 +107,7 @@ export class BufferReader {
     }
 
     public readDateTime(): Date {
-        const value = this.buffer.readBigInt64LE(this.position)
+        const value = this.view.getBigInt64(this.position, true)
         this.position += 8
         return new Date(Number(value - BigInt(116444736000000000)) / 1e4)
     }
@@ -167,6 +167,7 @@ export class BufferReader {
     }
 
     constructor(data: Uint8Array) {
-        this.buffer = Buffer.from(data);
+        this.buffer = data;
+        this.view = new DataView(data.buffer, data.byteOffset, data.byteLength);
     }
 }

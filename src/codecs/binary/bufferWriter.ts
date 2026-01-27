@@ -10,70 +10,70 @@ import { XmlElement } from "../../types/xmlElement";
 import { DiagnosticInfo } from "../../types/diagnosticInfo";
 import { DataValue } from "../../types/dataValue";
 import { Variant } from "../../types/variant";
-import { write } from "node:fs";
 
 export class BufferWriter {
-    private buffer: Buffer;
+    private buffer: Uint8Array;
+    private view: DataView;
     private position: number = 0;
     private readonly initialSize: number = 512; // Start with 512 bytes
     private readonly growthFactor: number = 2;
 
     public writeInt8(value: number): void {
         this.ensureCapacity(1);
-        this.buffer.writeInt8(value, this.position);
+        this.view.setInt8(this.position, value);
         this.position += 1;
     }
 
     public writeUint8(value: UInt8): void {
         this.ensureCapacity(1);
-        this.buffer.writeUInt8(value, this.position);
+        this.view.setUint8(this.position, value);
         this.position += 1;
     }
 
     public writeUInt16(value: UInt16): void {
         this.ensureCapacity(2);
-        this.buffer.writeUInt16LE(value, this.position);
+        this.view.setUint16(this.position, value, true);
         this.position += 2;
     }
 
     public writeInt16(value: Int16): void {
         this.ensureCapacity(2);
-        this.buffer.writeInt16LE(value, this.position);
+        this.view.setInt16(this.position, value, true);
         this.position += 2;
     }
 
     public writeInt32(value: number): void {
         this.ensureCapacity(4);
-        this.buffer.writeInt32LE(value, this.position);
+        this.view.setInt32(this.position, value, true);
         this.position += 4;
     }
 
     public writeUInt32(value: UInt32): void {
         this.ensureCapacity(4);
-        this.buffer.writeUInt32LE(value, this.position);
+        this.view.setUint32(this.position, value, true);
         this.position += 4;
     }
 
     public writeUInt32At(value: UInt32, position: number): void {
         this.ensureCapacity(Math.max(0, position + 4 - this.position));
-        this.buffer.writeUInt32LE(value, position);
+        this.view.setUint32(position, value, true);
     }
 
     public writeInt64(value: Int64): void {
         this.ensureCapacity(8);
-        this.buffer.writeBigInt64LE(BigInt(value), this.position);
+        this.view.setBigInt64(this.position, BigInt(value), true);
         this.position += 8;
     }
 
     public writeUInt64(value: UInt64): void {
         this.ensureCapacity(8);
-        this.buffer.writeBigUInt64LE(BigInt(value), this.position);
+        this.view.setBigUint64(this.position, BigInt(value), true);
         this.position += 8;
     }
 
     public writeFloat(value: Float32): void {
         this.ensureCapacity(4);
-        this.buffer.writeFloatLE(value, this.position);
+        this.view.setFloat32(this.position, value, true);
         this.position += 4;
     }
 
@@ -83,7 +83,7 @@ export class BufferWriter {
 
     public writeDouble(value: Float64): void {
         this.ensureCapacity(8);
-        this.buffer.writeDoubleLE(value, this.position);
+        this.view.setFloat64(this.position, value, true);
         this.position += 8;
     }
 
@@ -120,7 +120,7 @@ export class BufferWriter {
         
         // Shift existing content to the right
         if (position < this.position) {
-            this.buffer.copy(this.buffer, position + insertLength, position, this.position);
+            this.buffer.copyWithin(position + insertLength, position, this.position);
         }
         
         // Insert the new bytes
@@ -147,7 +147,7 @@ export class BufferWriter {
         this.ensureCapacity(8);
         const ticks =
             BigInt(value.getTime()) * BigInt(1e4) + BigInt(116444736000000000);
-        this.buffer.writeBigInt64LE(ticks, this.position);
+        this.view.setBigInt64(this.position, ticks, true);
         this.position += 8;
     }
 
@@ -196,9 +196,10 @@ export class BufferWriter {
         if (requiredSize > this.buffer.length) {
             // Grow buffer by doubling or to required size, whichever is larger
             const newSize = Math.max(this.buffer.length * this.growthFactor, requiredSize);
-            const newBuffer = Buffer.allocUnsafe(newSize);
-            this.buffer.copy(newBuffer, 0, 0, this.position);
+            const newBuffer = new Uint8Array(newSize);
+            newBuffer.set(this.buffer.subarray(0, this.position), 0);
             this.buffer = newBuffer;
+            this.view = new DataView(newBuffer.buffer, newBuffer.byteOffset, newBuffer.byteLength);
             console.log(`BufferWriter: resized buffer to ${newSize} bytes`);
         }
     }
@@ -215,6 +216,7 @@ export class BufferWriter {
 
     constructor(initialSize?: number) {
         this.initialSize = initialSize || this.initialSize;
-        this.buffer = Buffer.allocUnsafe(this.initialSize);
+        this.buffer = new Uint8Array(this.initialSize);
+        this.view = new DataView(this.buffer.buffer, this.buffer.byteOffset, this.buffer.byteLength);
     }
 }

@@ -6,7 +6,7 @@ export interface ITransportChannel {
     // getSendBufferSize(): number;
     // getRecvBufferSize(): number;
     // getCancelFunc(): () => void;
-    connect(endpointUrl: string): void;
+    connect(endpointUrl: string): Promise<boolean>;
     disconnect(): void;
     send(data: Uint8Array): Promise<void>;
     onMessage?: (data: Uint8Array) => void

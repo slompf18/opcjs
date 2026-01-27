@@ -26,10 +26,16 @@ export class Client {
     }
 
     async connect(): Promise<void> {
-        console.log(`Connecting to OPC UA server at ${this.endpointUrl}...`);
-        ChannelFactory.createChannel(this.endpointUrl);
         const channel = ChannelFactory.createChannel(this.endpointUrl);
-        await channel.connect(this.endpointUrl);
+        let connected = false;
+        while (!connected){
+            console.log(`Connecting to OPC UA server at ${this.endpointUrl}...`);
+            connected = await channel.connect(this.endpointUrl);
+            if(!connected){
+                console.log("Connection failed, retrying in 2 seconds...");
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+        }
         console.log('Connected to OPC UA server.');
 
         this.channel = new SecureChannel(channel);

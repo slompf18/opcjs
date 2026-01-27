@@ -22,7 +22,8 @@ export class WsChannel implements ISocket {
                 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
             }
 
-            this.ws = new WebSocket(endpointUrl);
+            // OPC UA WebSocket connections must use the 'opcua+uacp' subprotocol for binary encoding
+            this.ws = new WebSocket(endpointUrl, 'opcua+uacp');
             this.ws.binaryType = "arraybuffer";
 
             this.ws.onopen = () => {

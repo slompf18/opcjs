@@ -1,6 +1,5 @@
 import { BufferReader } from "../codecs/binary/bufferReader";
 import { BufferWriter } from "../codecs/binary/bufferWriter";
-import { IEncodable } from "../codecs/iEncodable";
 import { ISocket } from "./iSocket";
 import { ITransportChannel } from "./iTransportChannel";
 import { MsgAck } from "./messages/msgAck";
@@ -12,10 +11,10 @@ import { MsgTypeAck, MsgTypeError, MsgTypeHello, MsgTypeReverseHello } from "./m
 export class ChannelBase implements ITransportChannel {
     private DefaultReceiveBufferSize = 0xffff
     private DefaultSendBufferSize = 0xffff
-    private connectResolve?: () => void;
+    private connectResolve?: (success:boolean) => void;
 
-    public async connect(endpointUrl: string): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
+    public async connect(endpointUrl: string): Promise<boolean> {
+        return new Promise<boolean>(async (resolve, reject) => {
             await this.socket.connect(endpointUrl);
             this.socket.onMessage = (data: ArrayBuffer) => this.onMessageReceived(new Uint8Array(data));
             this.socket.onError = (error: string) => this.onError(error);
@@ -83,7 +82,7 @@ export class ChannelBase implements ITransportChannel {
 
         // todo: handle ack parameters
         if (this.connectResolve) {
-            this.connectResolve();
+            this.connectResolve(true);
             this.connectResolve = undefined;
         }
     }
@@ -91,6 +90,10 @@ export class ChannelBase implements ITransportChannel {
     private onErrorMessage(bufferReader: BufferReader): void {
         const errorMsg = MsgError.decode(bufferReader);
         console.error("Error message received from server:", errorMsg);
+        if (this.connectResolve) {
+            this.connectResolve(false);
+            this.connectResolve = undefined;
+        }
     }
 
     constructor(private socket: ISocket) { }
