@@ -383,8 +383,12 @@ export class SchemaCodec {
         }
     }
 
-    public static decode(reader: BufferReader): unknown {
+    public static decodeBinary(reader: BufferReader): unknown {
         const eid = reader.readExpandedNodeId();
+        return SchemaCodec.decodeBinaryWithNodeId(reader, eid);
+    }
+
+    public static decodeBinaryWithNodeId(reader: BufferReader, eid: ExpandedNodeId): unknown {
         const id = eid.NodeId.Identifier as number;
         switch (id) {
             case 121: return BinaryDecoders.decodeDataTypeDefinition(reader);

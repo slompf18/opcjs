@@ -178,7 +178,7 @@ export class SecureChannel implements ISecureChannel {
 
     private onReceivedMessage(requestId: number, data: Uint8Array): void {
         const responseBuffer = new BufferReader(data);
-        const response = SchemaCodec.decode(responseBuffer);
+        const response = SchemaCodec.decodeBinary(responseBuffer);
 
         if (response instanceof ServiceFault) {
             const fault = response as ServiceFault;

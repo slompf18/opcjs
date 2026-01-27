@@ -7,12 +7,16 @@ import { Id } from "./id";
 import { AttributeService } from "./services/attributeService";
 import { ISecureChannel } from "../secureChannel/iSecureChannel";
 import { ReadValueResult } from "./readValueResult";
+import { SubscriptionHandler } from "./subscriptionHandler";
+import { SubscriptionService } from "./services/subscriptionService";
+import { MonitoredItemService } from "./services/monitoredItemService";
 
 export class Client {
 
     private endpointUrl: string;
     private channel?: SecureChannel;
     private session?: Session;
+    private subscriptionHandler?:SubscriptionHandler;
 
     getSession(): Session{
         if(!this.session){
@@ -33,6 +37,10 @@ export class Client {
 
         const sessionHandler = new SessionHandler(this.channel, this.configuration);
         this.session = await sessionHandler.createNewSession();
+        this.subscriptionHandler = new SubscriptionHandler(
+            new SubscriptionService(this.session.getAuthToken(), this.channel),
+            new MonitoredItemService(this.session.getAuthToken(), this.channel)
+        )
     }
 
     async disconnect(): Promise<void> {
@@ -47,6 +55,10 @@ export class Client {
         const service = new AttributeService(this.getSession().getAuthToken(), this.channel as ISecureChannel);
         const result = await service.ReadValue(ids.map(i => i.toNodeId()))
         return result.map(r => new ReadValueResult(r.value, r.status))
+    }
+
+    async subscribe(ids: Id[], callback: (data: {id:Id, value:unknown}[]) => void){
+        this.subscriptionHandler?.subscribe(ids, callback)
     }
 
     constructor(endpointUrl: string, private configuration: ConfigurationClient) {

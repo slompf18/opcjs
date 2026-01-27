@@ -9,5 +9,9 @@ export class Id {
         return this.nodeId
     }
 
+    toString(){
+        return `${this.nodeId.Namespace}:${this.nodeId.Identifier}`
+    }
+
     constructor(private nodeId: NodeId) { }
 }
