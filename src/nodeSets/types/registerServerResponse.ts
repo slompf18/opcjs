@@ -12,5 +12,5 @@ export class RegisterServerResponse implements IIdentifiable {
         public ResponseHeader: ResponseHeader
     ) { }
 
-    readonly id = 438
+    getId(): number { return 438; }
 }

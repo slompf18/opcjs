@@ -13,5 +13,5 @@ export class SemanticChangeStructureDataType implements IIdentifiable {
         public AffectedType: NodeId
     ) { }
 
-    readonly id = 897
+    getId(): number { return 897; }
 }

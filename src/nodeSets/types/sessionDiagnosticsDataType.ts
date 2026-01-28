@@ -57,5 +57,5 @@ export class SessionDiagnosticsDataType implements IIdentifiable {
         public UnregisterNodesCount: ServiceCounterDataType
     ) { }
 
-    readonly id = 865
+    getId(): number { return 865; }
 }

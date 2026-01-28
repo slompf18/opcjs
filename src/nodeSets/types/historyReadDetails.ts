@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class HistoryReadDetails implements IIdentifiable {
     constructor() { }
 
-    readonly id = 641
+    getId(): number { return 641; }
 }

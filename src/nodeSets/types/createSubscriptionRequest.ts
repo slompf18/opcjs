@@ -19,5 +19,5 @@ export class CreateSubscriptionRequest implements IIdentifiable {
         public Priority: UInt8
     ) { }
 
-    readonly id = 785
+    getId(): number { return 785; }
 }

@@ -11,5 +11,5 @@ export class ObjectTypeNode implements IIdentifiable {
         public IsAbstract: boolean
     ) { }
 
-    readonly id = 264
+    getId(): number { return 264; }
 }

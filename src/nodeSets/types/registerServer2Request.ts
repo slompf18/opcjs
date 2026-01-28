@@ -16,5 +16,5 @@ export class RegisterServer2Request implements IIdentifiable {
         public DiscoveryConfiguration: ExtensionObject[]
     ) { }
 
-    readonly id = 12193
+    getId(): number { return 12193; }
 }

@@ -14,5 +14,5 @@ export class UserManagementDataType implements IIdentifiable {
         public Description: string | undefined
     ) { }
 
-    readonly id = 24281
+    getId(): number { return 24281; }
 }

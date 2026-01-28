@@ -14,5 +14,5 @@ export class AddNodesResult implements IIdentifiable {
         public AddedNodeId: NodeId
     ) { }
 
-    readonly id = 483
+    getId(): number { return 483; }
 }

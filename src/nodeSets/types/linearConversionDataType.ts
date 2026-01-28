@@ -15,5 +15,5 @@ export class LinearConversionDataType implements IIdentifiable {
         public FinalAddend: Float32
     ) { }
 
-    readonly id = 32435
+    getId(): number { return 32435; }
 }

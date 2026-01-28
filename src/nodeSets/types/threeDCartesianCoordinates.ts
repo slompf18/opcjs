@@ -14,5 +14,5 @@ export class ThreeDCartesianCoordinates implements IIdentifiable {
         public Z: Float64
     ) { }
 
-    readonly id = 18810
+    getId(): number { return 18810; }
 }

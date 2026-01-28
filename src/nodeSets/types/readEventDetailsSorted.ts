@@ -12,5 +12,5 @@ export class ReadEventDetailsSorted implements IIdentifiable {
         public SortClause: SortRuleElement[]
     ) { }
 
-    readonly id = 18649
+    getId(): number { return 18649; }
 }

@@ -12,5 +12,5 @@ export class ElementOperand implements IIdentifiable {
         public Index: UInt32
     ) { }
 
-    readonly id = 592
+    getId(): number { return 592; }
 }

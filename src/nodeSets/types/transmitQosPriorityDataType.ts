@@ -11,5 +11,5 @@ export class TransmitQosPriorityDataType implements IIdentifiable {
         public PriorityLabel: string | undefined
     ) { }
 
-    readonly id = 23605
+    getId(): number { return 23605; }
 }

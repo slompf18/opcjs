@@ -13,5 +13,5 @@ export class TraceContextDataType implements IIdentifiable {
         public ParentIdentifier: string | undefined
     ) { }
 
-    readonly id = 19747
+    getId(): number { return 19747; }
 }

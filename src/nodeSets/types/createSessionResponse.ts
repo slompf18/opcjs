@@ -26,5 +26,5 @@ export class CreateSessionResponse implements IIdentifiable {
         public MaxRequestMessageSize: UInt32
     ) { }
 
-    readonly id = 462
+    getId(): number { return 462; }
 }

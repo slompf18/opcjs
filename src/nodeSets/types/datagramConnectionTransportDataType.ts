@@ -12,5 +12,5 @@ export class DatagramConnectionTransportDataType implements IIdentifiable {
         public DiscoveryAddress: NetworkAddressDataType
     ) { }
 
-    readonly id = 17467
+    getId(): number { return 17467; }
 }

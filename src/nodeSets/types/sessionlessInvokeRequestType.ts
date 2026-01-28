@@ -16,5 +16,5 @@ export class SessionlessInvokeRequestType implements IIdentifiable {
         public ServiceId: UInt32
     ) { }
 
-    readonly id = 15901
+    getId(): number { return 15901; }
 }

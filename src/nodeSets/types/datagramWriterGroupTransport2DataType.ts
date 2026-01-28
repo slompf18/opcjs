@@ -18,5 +18,5 @@ export class DatagramWriterGroupTransport2DataType implements IIdentifiable {
         public Topic: string | undefined
     ) { }
 
-    readonly id = 23613
+    getId(): number { return 23613; }
 }

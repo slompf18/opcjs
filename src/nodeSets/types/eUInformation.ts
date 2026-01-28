@@ -16,5 +16,5 @@ export class EUInformation implements IIdentifiable {
         public Description: LocalizedText
     ) { }
 
-    readonly id = 887
+    getId(): number { return 887; }
 }

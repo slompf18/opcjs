@@ -18,5 +18,5 @@ export class LldpManagementAddressTxPortType implements IIdentifiable {
         public IfId: UInt32
     ) { }
 
-    readonly id = 18953
+    getId(): number { return 18953; }
 }

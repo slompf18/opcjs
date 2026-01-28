@@ -19,5 +19,5 @@ export class ModifySubscriptionRequest implements IIdentifiable {
         public Priority: UInt8
     ) { }
 
-    readonly id = 791
+    getId(): number { return 791; }
 }

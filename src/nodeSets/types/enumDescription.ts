@@ -14,5 +14,5 @@ export class EnumDescription implements IIdentifiable {
         public BuiltInType: UInt8
     ) { }
 
-    readonly id = 15488
+    getId(): number { return 15488; }
 }

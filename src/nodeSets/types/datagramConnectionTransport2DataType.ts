@@ -16,5 +16,5 @@ export class DatagramConnectionTransport2DataType implements IIdentifiable {
         public DatagramQos: QosDataType[]
     ) { }
 
-    readonly id = 23612
+    getId(): number { return 23612; }
 }

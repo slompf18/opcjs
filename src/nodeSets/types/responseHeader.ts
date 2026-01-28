@@ -20,5 +20,5 @@ export class ResponseHeader implements IIdentifiable {
         public AdditionalHeader: ExtensionObject
     ) { }
 
-    readonly id = 392
+    getId(): number { return 392; }
 }

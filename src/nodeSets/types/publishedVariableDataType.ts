@@ -22,5 +22,5 @@ export class PublishedVariableDataType implements IIdentifiable {
         public MetaDataProperties: QualifiedName[]
     ) { }
 
-    readonly id = 14273
+    getId(): number { return 14273; }
 }

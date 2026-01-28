@@ -13,5 +13,5 @@ export class ServiceCounterDataType implements IIdentifiable {
         public ErrorCount: UInt32
     ) { }
 
-    readonly id = 871
+    getId(): number { return 871; }
 }

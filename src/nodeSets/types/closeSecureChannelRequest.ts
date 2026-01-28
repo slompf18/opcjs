@@ -12,5 +12,5 @@ export class CloseSecureChannelRequest implements IIdentifiable {
         public RequestHeader: RequestHeader
     ) { }
 
-    readonly id = 450
+    getId(): number { return 450; }
 }

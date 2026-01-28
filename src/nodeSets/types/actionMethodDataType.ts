@@ -13,5 +13,5 @@ export class ActionMethodDataType implements IIdentifiable {
         public MethodId: NodeId
     ) { }
 
-    readonly id = 18597
+    getId(): number { return 18597; }
 }

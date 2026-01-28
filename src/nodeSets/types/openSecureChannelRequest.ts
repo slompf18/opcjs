@@ -20,5 +20,5 @@ export class OpenSecureChannelRequest implements IIdentifiable {
         public RequestedLifetime: UInt32
     ) { }
 
-    readonly id = 444
+    getId(): number { return 444; }
 }

@@ -13,5 +13,5 @@ export class IssuedIdentityToken implements IIdentifiable {
         public EncryptionAlgorithm: string | undefined
     ) { }
 
-    readonly id = 938
+    getId(): number { return 938; }
 }

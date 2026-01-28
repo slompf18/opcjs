@@ -1,3 +1,3 @@
 export interface IIdentifiable {
-  readonly id: number;
+  getId(): number;
 }

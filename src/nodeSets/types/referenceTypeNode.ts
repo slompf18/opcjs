@@ -14,5 +14,5 @@ export class ReferenceTypeNode implements IIdentifiable {
         public InverseName: LocalizedText
     ) { }
 
-    readonly id = 273
+    getId(): number { return 273; }
 }

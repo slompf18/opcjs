@@ -16,5 +16,5 @@ export class TrustListDataType implements IIdentifiable {
         public IssuerCrls: ByteString[]
     ) { }
 
-    readonly id = 12554
+    getId(): number { return 12554; }
 }

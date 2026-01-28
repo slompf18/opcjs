@@ -13,15 +13,15 @@ export class ChannelBase implements ITransportChannel {
     private DefaultSendBufferSize = 0xffff
     private connectResolve?: (success:boolean) => void;
 
-    public async connect(endpointUrl: string): Promise<boolean> {
+    public async connect(): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
-            await this.socket.connect(endpointUrl);
+            await this.socket.connect(this.endpointUrl);
             this.socket.onMessage = (data: ArrayBuffer) => this.onMessageReceived(new Uint8Array(data));
             this.socket.onError = (error: string) => this.onError(error);
             this.socket.onClose = () => this.onClose();
 
             this.connectResolve = resolve;
-            const msg = new MsgHello(0, this.DefaultReceiveBufferSize, this.DefaultSendBufferSize, 0, 0, endpointUrl);
+            const msg = new MsgHello(0, this.DefaultReceiveBufferSize, this.DefaultSendBufferSize, 0, 0, this.endpointUrl);
 
             const bufferWriter = new BufferWriter();
             msg.encode(bufferWriter);
@@ -51,6 +51,9 @@ export class ChannelBase implements ITransportChannel {
     }
 
     onMessage?: ((data: Uint8Array) => void) | undefined;
+    getEndpointUrl(): string {
+        return this.endpointUrl;
+    }
 
     private onMessageReceived(data: Uint8Array): void {
         //console.log("Message received from server:", data);
@@ -96,5 +99,5 @@ export class ChannelBase implements ITransportChannel {
         }
     }
 
-    constructor(private socket: ISocket) { }
+    constructor(private endpointUrl: string, private socket: ISocket) { }
 }

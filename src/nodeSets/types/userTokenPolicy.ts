@@ -16,5 +16,5 @@ export class UserTokenPolicy implements IIdentifiable {
         public SecurityPolicyUri: string | undefined
     ) { }
 
-    readonly id = 304
+    getId(): number { return 304; }
 }

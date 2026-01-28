@@ -10,6 +10,7 @@ import { ReadValueResult } from "./readValueResult";
 import { SubscriptionHandler } from "./subscriptionHandler";
 import { SubscriptionService } from "./services/subscriptionService";
 import { MonitoredItemService } from "./services/monitoredItemService";
+import { UserIdentity } from "./userIdentity";
 
 export class Client {
 
@@ -30,7 +31,7 @@ export class Client {
         let connected = false;
         while (!connected){
             console.log(`Connecting to OPC UA server at ${this.endpointUrl}...`);
-            connected = await channel.connect(this.endpointUrl);
+            connected = await channel.connect();
             if(!connected){
                 console.log("Connection failed, retrying in 2 seconds...");
                 await new Promise(resolve => setTimeout(resolve, 2000));
@@ -42,7 +43,7 @@ export class Client {
         await this.channel.openSecureChannelRequest();
 
         const sessionHandler = new SessionHandler(this.channel, this.configuration);
-        this.session = await sessionHandler.createNewSession();
+        this.session = await sessionHandler.createNewSession(this.identity);
         this.subscriptionHandler = new SubscriptionHandler(
             new SubscriptionService(this.session.getAuthToken(), this.channel),
             new MonitoredItemService(this.session.getAuthToken(), this.channel)
@@ -67,7 +68,7 @@ export class Client {
         this.subscriptionHandler?.subscribe(ids, callback)
     }
 
-    constructor(endpointUrl: string, private configuration: ConfigurationClient) {
+    constructor(endpointUrl: string, private configuration: ConfigurationClient, private identity: UserIdentity) {
         this.endpointUrl = endpointUrl;
     }
 }

@@ -11,5 +11,5 @@ export class ReadAnnotationDataDetails implements IIdentifiable {
         public ReqTimes: Date[]
     ) { }
 
-    readonly id = 23497
+    getId(): number { return 23497; }
 }

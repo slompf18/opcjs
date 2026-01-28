@@ -14,5 +14,5 @@ export class DataChangeNotification implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 809
+    getId(): number { return 809; }
 }

@@ -14,5 +14,5 @@ export class ThreeDFrame implements IIdentifiable {
         public Orientation: ThreeDOrientation
     ) { }
 
-    readonly id = 18814
+    getId(): number { return 18814; }
 }

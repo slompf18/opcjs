@@ -13,5 +13,5 @@ export class NetworkGroupDataType implements IIdentifiable {
         public NetworkPaths: EndpointUrlListDataType[]
     ) { }
 
-    readonly id = 11944
+    getId(): number { return 11944; }
 }

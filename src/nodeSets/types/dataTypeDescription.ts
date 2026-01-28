@@ -14,5 +14,5 @@ export class DataTypeDescription implements IIdentifiable {
         public Name: QualifiedName
     ) { }
 
-    readonly id = 14525
+    getId(): number { return 14525; }
 }

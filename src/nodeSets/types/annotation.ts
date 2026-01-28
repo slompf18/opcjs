@@ -13,5 +13,5 @@ export class Annotation implements IIdentifiable {
         public AnnotationTime: Date
     ) { }
 
-    readonly id = 891
+    getId(): number { return 891; }
 }

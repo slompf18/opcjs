@@ -16,5 +16,5 @@ export class WriteResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 674
+    getId(): number { return 674; }
 }

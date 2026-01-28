@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class Orientation implements IIdentifiable {
     constructor() { }
 
-    readonly id = 18811
+    getId(): number { return 18811; }
 }

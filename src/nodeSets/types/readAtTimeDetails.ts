@@ -12,5 +12,5 @@ export class ReadAtTimeDetails implements IIdentifiable {
         public UseSimpleBounds: boolean
     ) { }
 
-    readonly id = 653
+    getId(): number { return 653; }
 }

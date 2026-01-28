@@ -12,5 +12,5 @@ export class PublishedActionMethodDataType implements IIdentifiable {
         public ActionMethods: ActionMethodDataType[]
     ) { }
 
-    readonly id = 18793
+    getId(): number { return 18793; }
 }

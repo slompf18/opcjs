@@ -13,5 +13,5 @@ export class XVType implements IIdentifiable {
         public Value: Float32
     ) { }
 
-    readonly id = 12080
+    getId(): number { return 12080; }
 }

@@ -15,5 +15,5 @@ export class CallMethodRequest implements IIdentifiable {
         public InputArguments: Variant[]
     ) { }
 
-    readonly id = 704
+    getId(): number { return 704; }
 }

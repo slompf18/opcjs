@@ -16,5 +16,5 @@ export class DeleteReferencesResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 507
+    getId(): number { return 507; }
 }

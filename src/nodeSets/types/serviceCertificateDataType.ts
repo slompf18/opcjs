@@ -15,5 +15,5 @@ export class ServiceCertificateDataType implements IIdentifiable {
         public ValidTo: Date
     ) { }
 
-    readonly id = 23724
+    getId(): number { return 23724; }
 }

@@ -19,5 +19,5 @@ export class BrowseDescription implements IIdentifiable {
         public ResultMask: UInt32
     ) { }
 
-    readonly id = 514
+    getId(): number { return 514; }
 }

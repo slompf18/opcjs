@@ -14,5 +14,5 @@ export class DeleteReferencesRequest implements IIdentifiable {
         public ReferencesToDelete: DeleteReferencesItem[]
     ) { }
 
-    readonly id = 504
+    getId(): number { return 504; }
 }

@@ -20,5 +20,5 @@ export class AxisInformation implements IIdentifiable {
         public AxisSteps: Float64[]
     ) { }
 
-    readonly id = 12079
+    getId(): number { return 12079; }
 }

@@ -15,5 +15,5 @@ export class DataChangeFilter implements IIdentifiable {
         public DeadbandValue: Float64
     ) { }
 
-    readonly id = 722
+    getId(): number { return 722; }
 }

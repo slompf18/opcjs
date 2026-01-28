@@ -12,5 +12,5 @@ export class LiteralOperand implements IIdentifiable {
         public Value: Variant
     ) { }
 
-    readonly id = 595
+    getId(): number { return 595; }
 }

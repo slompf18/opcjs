@@ -18,5 +18,5 @@ export class UadpWriterGroupMessageDataType implements IIdentifiable {
         public PublishingOffset: Float64[]
     ) { }
 
-    readonly id = 15645
+    getId(): number { return 15645; }
 }

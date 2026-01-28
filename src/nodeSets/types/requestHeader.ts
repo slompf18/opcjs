@@ -20,5 +20,5 @@ export class RequestHeader implements IIdentifiable {
         public AdditionalHeader: ExtensionObject
     ) { }
 
-    readonly id = 389
+    getId(): number { return 389; }
 }

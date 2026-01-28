@@ -14,5 +14,5 @@ export class UnregisterNodesRequest implements IIdentifiable {
         public NodesToUnregister: NodeId[]
     ) { }
 
-    readonly id = 564
+    getId(): number { return 564; }
 }

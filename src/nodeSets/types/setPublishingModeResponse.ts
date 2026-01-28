@@ -16,5 +16,5 @@ export class SetPublishingModeResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 800
+    getId(): number { return 800; }
 }

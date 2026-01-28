@@ -16,5 +16,5 @@ export class DtlsPubSubConnectionDataType implements IIdentifiable {
         public VerifyClientCertificate: boolean
     ) { }
 
-    readonly id = 18794
+    getId(): number { return 18794; }
 }

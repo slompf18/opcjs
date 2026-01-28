@@ -14,5 +14,5 @@ export class ContentFilterResult implements IIdentifiable {
         public ElementDiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 607
+    getId(): number { return 607; }
 }

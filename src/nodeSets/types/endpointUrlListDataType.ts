@@ -11,5 +11,5 @@ export class EndpointUrlListDataType implements IIdentifiable {
         public EndpointUrlList: string[]
     ) { }
 
-    readonly id = 11943
+    getId(): number { return 11943; }
 }

@@ -15,5 +15,5 @@ export class RedundantServerDataType implements IIdentifiable {
         public ServerState: ServerStateEnum
     ) { }
 
-    readonly id = 853
+    getId(): number { return 853; }
 }

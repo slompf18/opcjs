@@ -14,5 +14,5 @@ export class RegisterServerRequest implements IIdentifiable {
         public Server: RegisteredServer
     ) { }
 
-    readonly id = 435
+    getId(): number { return 435; }
 }

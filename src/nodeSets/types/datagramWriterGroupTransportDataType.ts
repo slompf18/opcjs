@@ -13,5 +13,5 @@ export class DatagramWriterGroupTransportDataType implements IIdentifiable {
         public MessageRepeatDelay: Float64
     ) { }
 
-    readonly id = 15532
+    getId(): number { return 15532; }
 }

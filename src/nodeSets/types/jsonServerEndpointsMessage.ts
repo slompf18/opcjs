@@ -18,5 +18,5 @@ export class JsonServerEndpointsMessage implements IIdentifiable {
         public Endpoints: EndpointDescription[]
     ) { }
 
-    readonly id = 19315
+    getId(): number { return 19315; }
 }

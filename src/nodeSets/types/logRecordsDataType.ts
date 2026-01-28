@@ -12,5 +12,5 @@ export class LogRecordsDataType implements IIdentifiable {
         public LogRecordArray: LogRecord[]
     ) { }
 
-    readonly id = 19745
+    getId(): number { return 19745; }
 }

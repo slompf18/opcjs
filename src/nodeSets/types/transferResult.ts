@@ -14,5 +14,5 @@ export class TransferResult implements IIdentifiable {
         public AvailableSequenceNumbers: UInt32[]
     ) { }
 
-    readonly id = 836
+    getId(): number { return 836; }
 }

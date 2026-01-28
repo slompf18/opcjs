@@ -21,5 +21,5 @@ export class QueryFirstRequest implements IIdentifiable {
         public MaxReferencesToReturn: UInt32
     ) { }
 
-    readonly id = 613
+    getId(): number { return 613; }
 }

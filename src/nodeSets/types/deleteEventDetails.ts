@@ -14,5 +14,5 @@ export class DeleteEventDetails implements IIdentifiable {
         public EventIds: ByteString[]
     ) { }
 
-    readonly id = 692
+    getId(): number { return 692; }
 }

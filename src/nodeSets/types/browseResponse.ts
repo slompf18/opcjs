@@ -16,5 +16,5 @@ export class BrowseResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 528
+    getId(): number { return 528; }
 }

@@ -12,5 +12,5 @@ export class JsonWriterGroupMessageDataType implements IIdentifiable {
         public NetworkMessageContentMask: JsonNetworkMessageContentMaskEnum
     ) { }
 
-    readonly id = 15657
+    getId(): number { return 15657; }
 }

@@ -13,5 +13,5 @@ export class BaseConfigurationRecordDataType implements IIdentifiable {
         public RecordProperties: KeyValuePair[]
     ) { }
 
-    readonly id = 15435
+    getId(): number { return 15435; }
 }

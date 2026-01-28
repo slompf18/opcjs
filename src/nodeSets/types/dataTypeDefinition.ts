@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class DataTypeDefinition implements IIdentifiable {
     constructor() { }
 
-    readonly id = 97
+    getId(): number { return 97; }
 }

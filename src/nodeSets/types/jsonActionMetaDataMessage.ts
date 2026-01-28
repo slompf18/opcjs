@@ -24,5 +24,5 @@ export class JsonActionMetaDataMessage implements IIdentifiable {
         public ActionMethods: ActionMethodDataType[]
     ) { }
 
-    readonly id = 19318
+    getId(): number { return 19318; }
 }

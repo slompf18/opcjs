@@ -20,5 +20,5 @@ export class EndpointConfiguration implements IIdentifiable {
         public SecurityTokenLifetime: Int32
     ) { }
 
-    readonly id = 331
+    getId(): number { return 331; }
 }

@@ -22,5 +22,5 @@ export class SessionSecurityDiagnosticsDataType implements IIdentifiable {
         public ClientCertificate: ByteString
     ) { }
 
-    readonly id = 868
+    getId(): number { return 868; }
 }

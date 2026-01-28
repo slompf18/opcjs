@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class QosDataType implements IIdentifiable {
     constructor() { }
 
-    readonly id = 23603
+    getId(): number { return 23603; }
 }

@@ -22,5 +22,5 @@ export class VariableNode implements IIdentifiable {
         public AccessLevelEx: UInt32
     ) { }
 
-    readonly id = 267
+    getId(): number { return 267; }
 }

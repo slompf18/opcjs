@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class Union implements IIdentifiable {
     constructor() { }
 
-    readonly id = 12756
+    getId(): number { return 12756; }
 }

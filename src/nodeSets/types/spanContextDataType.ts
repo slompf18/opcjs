@@ -14,5 +14,5 @@ export class SpanContextDataType implements IIdentifiable {
         public SpanId: UInt64
     ) { }
 
-    readonly id = 19746
+    getId(): number { return 19746; }
 }

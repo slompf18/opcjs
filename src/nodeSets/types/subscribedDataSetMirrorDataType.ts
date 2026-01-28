@@ -13,5 +13,5 @@ export class SubscribedDataSetMirrorDataType implements IIdentifiable {
         public RolePermissions: RolePermissionType[]
     ) { }
 
-    readonly id = 15635
+    getId(): number { return 15635; }
 }

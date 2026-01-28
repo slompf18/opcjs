@@ -12,5 +12,5 @@ export class ServiceFault implements IIdentifiable {
         public ResponseHeader: ResponseHeader
     ) { }
 
-    readonly id = 395
+    getId(): number { return 395; }
 }

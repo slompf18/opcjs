@@ -14,5 +14,5 @@ export class EventFilter implements IIdentifiable {
         public WhereClause: ContentFilter
     ) { }
 
-    readonly id = 725
+    getId(): number { return 725; }
 }

@@ -19,5 +19,5 @@ export class HistoryReadRequest implements IIdentifiable {
         public NodesToRead: HistoryReadValueId[]
     ) { }
 
-    readonly id = 662
+    getId(): number { return 662; }
 }

@@ -16,5 +16,5 @@ export class UadpDataSetWriterMessageDataType implements IIdentifiable {
         public DataSetOffset: UInt16
     ) { }
 
-    readonly id = 15652
+    getId(): number { return 15652; }
 }

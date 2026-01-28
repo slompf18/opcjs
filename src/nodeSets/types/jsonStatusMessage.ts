@@ -18,5 +18,5 @@ export class JsonStatusMessage implements IIdentifiable {
         public NextReportTime: Date
     ) { }
 
-    readonly id = 19316
+    getId(): number { return 19316; }
 }

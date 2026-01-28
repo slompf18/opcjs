@@ -16,5 +16,5 @@ export class BrokerDataSetReaderTransportDataType implements IIdentifiable {
         public MetaDataQueueName: string | undefined
     ) { }
 
-    readonly id = 15670
+    getId(): number { return 15670; }
 }

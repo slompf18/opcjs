@@ -15,5 +15,5 @@ export class BrokerWriterGroupTransportDataType implements IIdentifiable {
         public RequestedDeliveryGuarantee: BrokerTransportQualityOfServiceEnum
     ) { }
 
-    readonly id = 15667
+    getId(): number { return 15667; }
 }

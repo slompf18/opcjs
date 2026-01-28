@@ -14,5 +14,5 @@ export class CallRequest implements IIdentifiable {
         public MethodsToCall: CallMethodRequest[]
     ) { }
 
-    readonly id = 710
+    getId(): number { return 710; }
 }

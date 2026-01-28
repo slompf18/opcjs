@@ -13,5 +13,5 @@ export class DeleteNodesItem implements IIdentifiable {
         public DeleteTargetReferences: boolean
     ) { }
 
-    readonly id = 382
+    getId(): number { return 382; }
 }

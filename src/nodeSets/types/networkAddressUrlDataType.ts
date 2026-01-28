@@ -11,5 +11,5 @@ export class NetworkAddressUrlDataType implements IIdentifiable {
         public Url: string | undefined
     ) { }
 
-    readonly id = 15510
+    getId(): number { return 15510; }
 }

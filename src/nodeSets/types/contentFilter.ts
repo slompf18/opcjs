@@ -12,5 +12,5 @@ export class ContentFilter implements IIdentifiable {
         public Elements: ContentFilterElement[]
     ) { }
 
-    readonly id = 586
+    getId(): number { return 586; }
 }

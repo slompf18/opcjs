@@ -25,5 +25,5 @@ export class JsonDataSetMessage implements IIdentifiable {
         public Payload: ExtensionObject
     ) { }
 
-    readonly id = 19312
+    getId(): number { return 19312; }
 }

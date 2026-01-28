@@ -12,5 +12,5 @@ export class HistoryModifiedEvent implements IIdentifiable {
         public ModificationInfos: ModificationInfo[]
     ) { }
 
-    readonly id = 32824
+    getId(): number { return 32824; }
 }

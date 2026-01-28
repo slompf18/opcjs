@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class SubscribedDataSetDataType implements IIdentifiable {
     constructor() { }
 
-    readonly id = 15630
+    getId(): number { return 15630; }
 }

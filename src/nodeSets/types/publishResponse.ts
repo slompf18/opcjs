@@ -22,5 +22,5 @@ export class PublishResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 827
+    getId(): number { return 827; }
 }

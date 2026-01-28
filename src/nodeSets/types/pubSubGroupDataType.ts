@@ -21,5 +21,5 @@ export class PubSubGroupDataType implements IIdentifiable {
         public GroupProperties: KeyValuePair[]
     ) { }
 
-    readonly id = 15609
+    getId(): number { return 15609; }
 }

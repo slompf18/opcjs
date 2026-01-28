@@ -16,5 +16,5 @@ export class PublishedEventsDataType implements IIdentifiable {
         public Filter: ContentFilter
     ) { }
 
-    readonly id = 15582
+    getId(): number { return 15582; }
 }

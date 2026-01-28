@@ -23,5 +23,5 @@ export class UadpDataSetReaderMessageDataType implements IIdentifiable {
         public ProcessingOffset: Float64
     ) { }
 
-    readonly id = 15653
+    getId(): number { return 15653; }
 }

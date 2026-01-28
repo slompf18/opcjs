@@ -18,5 +18,5 @@ export class QuantityDimension implements IIdentifiable {
         public DimensionlessExponent: number
     ) { }
 
-    readonly id = 32438
+    getId(): number { return 32438; }
 }

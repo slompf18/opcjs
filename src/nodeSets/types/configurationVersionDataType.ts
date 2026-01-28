@@ -13,5 +13,5 @@ export class ConfigurationVersionDataType implements IIdentifiable {
         public MinorVersion: UInt32
     ) { }
 
-    readonly id = 14593
+    getId(): number { return 14593; }
 }

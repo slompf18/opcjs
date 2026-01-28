@@ -12,5 +12,5 @@ export class ObjectNode implements IIdentifiable {
         public EventNotifier: UInt8
     ) { }
 
-    readonly id = 261
+    getId(): number { return 261; }
 }

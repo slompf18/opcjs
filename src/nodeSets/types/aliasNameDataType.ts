@@ -14,5 +14,5 @@ export class AliasNameDataType implements IIdentifiable {
         public ReferencedNodes: ExpandedNodeId[]
     ) { }
 
-    readonly id = 23468
+    getId(): number { return 23468; }
 }

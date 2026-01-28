@@ -20,5 +20,5 @@ export class ServerStatusDataType implements IIdentifiable {
         public ShutdownReason: LocalizedText
     ) { }
 
-    readonly id = 862
+    getId(): number { return 862; }
 }

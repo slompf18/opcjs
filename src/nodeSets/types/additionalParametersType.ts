@@ -12,5 +12,5 @@ export class AdditionalParametersType implements IIdentifiable {
         public Parameters: KeyValuePair[]
     ) { }
 
-    readonly id = 16313
+    getId(): number { return 16313; }
 }

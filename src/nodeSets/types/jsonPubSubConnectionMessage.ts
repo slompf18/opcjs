@@ -16,5 +16,5 @@ export class JsonPubSubConnectionMessage implements IIdentifiable {
         public Connection: PubSubConnectionDataType
     ) { }
 
-    readonly id = 19317
+    getId(): number { return 19317; }
 }

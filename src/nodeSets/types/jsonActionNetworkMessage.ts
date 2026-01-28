@@ -21,5 +21,5 @@ export class JsonActionNetworkMessage implements IIdentifiable {
         public Messages: ExtensionObject[]
     ) { }
 
-    readonly id = 19320
+    getId(): number { return 19320; }
 }

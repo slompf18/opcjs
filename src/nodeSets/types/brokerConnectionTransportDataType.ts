@@ -12,5 +12,5 @@ export class BrokerConnectionTransportDataType implements IIdentifiable {
         public AuthenticationProfileUri: string | undefined
     ) { }
 
-    readonly id = 15007
+    getId(): number { return 15007; }
 }

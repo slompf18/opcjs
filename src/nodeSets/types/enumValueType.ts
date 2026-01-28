@@ -15,5 +15,5 @@ export class EnumValueType implements IIdentifiable {
         public Description: LocalizedText
     ) { }
 
-    readonly id = 7594
+    getId(): number { return 7594; }
 }

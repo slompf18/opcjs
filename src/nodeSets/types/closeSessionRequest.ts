@@ -13,5 +13,5 @@ export class CloseSessionRequest implements IIdentifiable {
         public DeleteSubscriptions: boolean
     ) { }
 
-    readonly id = 471
+    getId(): number { return 471; }
 }

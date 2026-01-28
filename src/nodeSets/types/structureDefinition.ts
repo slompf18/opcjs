@@ -17,5 +17,5 @@ export class StructureDefinition implements IIdentifiable {
         public Fields: StructureField[]
     ) { }
 
-    readonly id = 99
+    getId(): number { return 99; }
 }

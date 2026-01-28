@@ -16,5 +16,5 @@ export class FindServersOnNetworkRequest implements IIdentifiable {
         public ServerCapabilityFilter: string[]
     ) { }
 
-    readonly id = 12190
+    getId(): number { return 12190; }
 }

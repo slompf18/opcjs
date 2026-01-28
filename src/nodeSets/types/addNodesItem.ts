@@ -22,5 +22,5 @@ export class AddNodesItem implements IIdentifiable {
         public TypeDefinition: ExpandedNodeId
     ) { }
 
-    readonly id = 376
+    getId(): number { return 376; }
 }

@@ -17,5 +17,5 @@ export class BitFieldDefinition implements IIdentifiable {
         public EndingBitPosition: UInt32
     ) { }
 
-    readonly id = 32421
+    getId(): number { return 32421; }
 }

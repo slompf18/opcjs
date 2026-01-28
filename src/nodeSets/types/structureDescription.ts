@@ -12,5 +12,5 @@ export class StructureDescription implements IIdentifiable {
         public StructureDefinition: StructureDefinition
     ) { }
 
-    readonly id = 15487
+    getId(): number { return 15487; }
 }

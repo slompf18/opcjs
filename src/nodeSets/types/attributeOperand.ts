@@ -18,5 +18,5 @@ export class AttributeOperand implements IIdentifiable {
         public IndexRange: string | undefined
     ) { }
 
-    readonly id = 598
+    getId(): number { return 598; }
 }

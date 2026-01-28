@@ -16,5 +16,5 @@ export class UpdateDataDetails implements IIdentifiable {
         public UpdateValues: DataValue[]
     ) { }
 
-    readonly id = 680
+    getId(): number { return 680; }
 }

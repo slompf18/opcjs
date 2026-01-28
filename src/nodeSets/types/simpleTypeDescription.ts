@@ -14,5 +14,5 @@ export class SimpleTypeDescription implements IIdentifiable {
         public BuiltInType: UInt8
     ) { }
 
-    readonly id = 15005
+    getId(): number { return 15005; }
 }

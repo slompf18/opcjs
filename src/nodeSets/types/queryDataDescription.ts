@@ -15,5 +15,5 @@ export class QueryDataDescription implements IIdentifiable {
         public IndexRange: string | undefined
     ) { }
 
-    readonly id = 570
+    getId(): number { return 570; }
 }

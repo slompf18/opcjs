@@ -14,5 +14,5 @@ export class TranslateBrowsePathsToNodeIdsRequest implements IIdentifiable {
         public BrowsePaths: BrowsePath[]
     ) { }
 
-    readonly id = 552
+    getId(): number { return 552; }
 }

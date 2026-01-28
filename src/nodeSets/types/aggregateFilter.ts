@@ -17,5 +17,5 @@ export class AggregateFilter implements IIdentifiable {
         public AggregateConfiguration: AggregateConfiguration
     ) { }
 
-    readonly id = 728
+    getId(): number { return 728; }
 }

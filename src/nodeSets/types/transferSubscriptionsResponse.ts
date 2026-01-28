@@ -16,5 +16,5 @@ export class TransferSubscriptionsResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 842
+    getId(): number { return 842; }
 }

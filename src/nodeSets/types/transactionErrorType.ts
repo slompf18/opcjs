@@ -16,5 +16,5 @@ export class TransactionErrorType implements IIdentifiable {
         public Message: LocalizedText
     ) { }
 
-    readonly id = 32285
+    getId(): number { return 32285; }
 }

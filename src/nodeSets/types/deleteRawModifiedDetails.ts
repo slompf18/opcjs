@@ -15,5 +15,5 @@ export class DeleteRawModifiedDetails implements IIdentifiable {
         public EndTime: Date
     ) { }
 
-    readonly id = 686
+    getId(): number { return 686; }
 }

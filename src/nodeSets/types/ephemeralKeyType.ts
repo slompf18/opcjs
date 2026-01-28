@@ -13,5 +13,5 @@ export class EphemeralKeyType implements IIdentifiable {
         public Signature: ByteString
     ) { }
 
-    readonly id = 17548
+    getId(): number { return 17548; }
 }

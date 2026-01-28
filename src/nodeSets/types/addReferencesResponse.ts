@@ -16,5 +16,5 @@ export class AddReferencesResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 495
+    getId(): number { return 495; }
 }

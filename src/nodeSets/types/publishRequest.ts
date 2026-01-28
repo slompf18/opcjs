@@ -14,5 +14,5 @@ export class PublishRequest implements IIdentifiable {
         public SubscriptionAcknowledgements: SubscriptionAcknowledgement[]
     ) { }
 
-    readonly id = 824
+    getId(): number { return 824; }
 }

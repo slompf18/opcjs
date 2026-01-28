@@ -16,5 +16,5 @@ export class ReaderGroupDataType implements IIdentifiable {
         public DataSetReaders: DataSetReaderDataType[]
     ) { }
 
-    readonly id = 15520
+    getId(): number { return 15520; }
 }

@@ -17,5 +17,5 @@ export class DeleteReferencesItem implements IIdentifiable {
         public DeleteBidirectional: boolean
     ) { }
 
-    readonly id = 385
+    getId(): number { return 385; }
 }

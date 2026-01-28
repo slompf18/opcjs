@@ -12,5 +12,5 @@ export class CloseSecureChannelResponse implements IIdentifiable {
         public ResponseHeader: ResponseHeader
     ) { }
 
-    readonly id = 453
+    getId(): number { return 453; }
 }

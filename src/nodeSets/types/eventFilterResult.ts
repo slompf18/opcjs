@@ -16,5 +16,5 @@ export class EventFilterResult implements IIdentifiable {
         public WhereClauseResult: ContentFilterResult
     ) { }
 
-    readonly id = 734
+    getId(): number { return 734; }
 }

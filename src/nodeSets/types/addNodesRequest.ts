@@ -14,5 +14,5 @@ export class AddNodesRequest implements IIdentifiable {
         public NodesToAdd: AddNodesItem[]
     ) { }
 
-    readonly id = 486
+    getId(): number { return 486; }
 }

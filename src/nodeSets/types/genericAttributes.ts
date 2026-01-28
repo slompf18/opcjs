@@ -12,5 +12,5 @@ export class GenericAttributes implements IIdentifiable {
         public AttributeValues: GenericAttributeValue[]
     ) { }
 
-    readonly id = 17607
+    getId(): number { return 17607; }
 }

@@ -13,5 +13,5 @@ export class ConfigurationUpdateTargetType implements IIdentifiable {
         public UpdateType: ConfigurationUpdateTypeEnum
     ) { }
 
-    readonly id = 15538
+    getId(): number { return 15538; }
 }

@@ -14,5 +14,5 @@ export class MonitoredItemModifyRequest implements IIdentifiable {
         public RequestedParameters: MonitoringParameters
     ) { }
 
-    readonly id = 755
+    getId(): number { return 755; }
 }

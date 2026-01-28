@@ -11,5 +11,5 @@ export class EnumField implements IIdentifiable {
         public Name: string | undefined
     ) { }
 
-    readonly id = 102
+    getId(): number { return 102; }
 }

@@ -12,5 +12,5 @@ export class UnregisterNodesResponse implements IIdentifiable {
         public ResponseHeader: ResponseHeader
     ) { }
 
-    readonly id = 567
+    getId(): number { return 567; }
 }

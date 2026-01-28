@@ -20,5 +20,5 @@ export class RegisteredServer implements IIdentifiable {
         public IsOnline: boolean
     ) { }
 
-    readonly id = 432
+    getId(): number { return 432; }
 }

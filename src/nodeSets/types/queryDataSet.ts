@@ -15,5 +15,5 @@ export class QueryDataSet implements IIdentifiable {
         public Values: Variant[]
     ) { }
 
-    readonly id = 577
+    getId(): number { return 577; }
 }

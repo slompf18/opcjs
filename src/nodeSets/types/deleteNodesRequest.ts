@@ -14,5 +14,5 @@ export class DeleteNodesRequest implements IIdentifiable {
         public NodesToDelete: DeleteNodesItem[]
     ) { }
 
-    readonly id = 498
+    getId(): number { return 498; }
 }

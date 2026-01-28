@@ -14,5 +14,5 @@ export class RegisterNodesResponse implements IIdentifiable {
         public RegisteredNodeIds: NodeId[]
     ) { }
 
-    readonly id = 561
+    getId(): number { return 561; }
 }

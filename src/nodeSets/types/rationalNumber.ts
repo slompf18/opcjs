@@ -13,5 +13,5 @@ export class RationalNumber implements IIdentifiable {
         public Denominator: UInt32
     ) { }
 
-    readonly id = 18806
+    getId(): number { return 18806; }
 }

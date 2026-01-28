@@ -17,5 +17,5 @@ export class DataTypeSchemaHeader implements IIdentifiable {
         public SimpleDataTypes: SimpleTypeDescription[]
     ) { }
 
-    readonly id = 15534
+    getId(): number { return 15534; }
 }

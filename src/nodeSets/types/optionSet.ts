@@ -13,5 +13,5 @@ export class OptionSet implements IIdentifiable {
         public ValidBits: ByteString
     ) { }
 
-    readonly id = 12755
+    getId(): number { return 12755; }
 }

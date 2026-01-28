@@ -14,5 +14,5 @@ export class EventFieldList implements IIdentifiable {
         public EventFields: Variant[]
     ) { }
 
-    readonly id = 917
+    getId(): number { return 917; }
 }

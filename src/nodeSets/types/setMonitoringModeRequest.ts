@@ -17,5 +17,5 @@ export class SetMonitoringModeRequest implements IIdentifiable {
         public MonitoredItemIds: UInt32[]
     ) { }
 
-    readonly id = 767
+    getId(): number { return 767; }
 }

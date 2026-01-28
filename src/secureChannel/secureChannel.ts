@@ -93,6 +93,10 @@ export class SecureChannel implements ISecureChannel {
         return this.securityPolicy.getSecurityMode();
     }
 
+    getEndpointUrl(): string {
+        return this.channel.getEndpointUrl();
+    }
+
     async issueServiceRequest(request: IIdentifiable): Promise<IIdentifiable> {
         const requestBuffer = new BufferWriter();
         SchemaCodec.encodeBinary(requestBuffer, request);

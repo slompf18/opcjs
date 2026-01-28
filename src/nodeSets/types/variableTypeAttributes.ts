@@ -18,5 +18,5 @@ export class VariableTypeAttributes implements IIdentifiable {
         public IsAbstract: boolean
     ) { }
 
-    readonly id = 364
+    getId(): number { return 364; }
 }

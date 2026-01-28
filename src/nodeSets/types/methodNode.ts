@@ -12,5 +12,5 @@ export class MethodNode implements IIdentifiable {
         public UserExecutable: boolean
     ) { }
 
-    readonly id = 276
+    getId(): number { return 276; }
 }

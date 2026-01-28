@@ -12,5 +12,5 @@ export class EventNotificationList implements IIdentifiable {
         public Events: EventFieldList[]
     ) { }
 
-    readonly id = 914
+    getId(): number { return 914; }
 }

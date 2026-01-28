@@ -15,5 +15,5 @@ export class EndpointType implements IIdentifiable {
         public TransportProfileUri: string | undefined
     ) { }
 
-    readonly id = 15528
+    getId(): number { return 15528; }
 }

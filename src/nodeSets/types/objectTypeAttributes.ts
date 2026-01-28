@@ -11,5 +11,5 @@ export class ObjectTypeAttributes implements IIdentifiable {
         public IsAbstract: boolean
     ) { }
 
-    readonly id = 361
+    getId(): number { return 361; }
 }

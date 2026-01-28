@@ -17,5 +17,5 @@ export class JsonApplicationDescriptionMessage implements IIdentifiable {
         public ServerCapabilities: string[]
     ) { }
 
-    readonly id = 19314
+    getId(): number { return 19314; }
 }

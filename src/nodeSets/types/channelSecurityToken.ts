@@ -15,5 +15,5 @@ export class ChannelSecurityToken implements IIdentifiable {
         public RevisedLifetime: UInt32
     ) { }
 
-    readonly id = 441
+    getId(): number { return 441; }
 }

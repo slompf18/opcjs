@@ -12,5 +12,5 @@ export class HistoryEvent implements IIdentifiable {
         public Events: HistoryEventFieldList[]
     ) { }
 
-    readonly id = 659
+    getId(): number { return 659; }
 }

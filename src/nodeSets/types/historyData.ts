@@ -12,5 +12,5 @@ export class HistoryData implements IIdentifiable {
         public DataValues: DataValue[]
     ) { }
 
-    readonly id = 656
+    getId(): number { return 656; }
 }

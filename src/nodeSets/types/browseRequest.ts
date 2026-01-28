@@ -18,5 +18,5 @@ export class BrowseRequest implements IIdentifiable {
         public NodesToBrowse: BrowseDescription[]
     ) { }
 
-    readonly id = 525
+    getId(): number { return 525; }
 }

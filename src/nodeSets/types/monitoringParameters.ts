@@ -17,5 +17,5 @@ export class MonitoringParameters implements IIdentifiable {
         public DiscardOldest: boolean
     ) { }
 
-    readonly id = 740
+    getId(): number { return 740; }
 }

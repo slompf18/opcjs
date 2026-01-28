@@ -14,5 +14,5 @@ export class AddReferencesRequest implements IIdentifiable {
         public ReferencesToAdd: AddReferencesItem[]
     ) { }
 
-    readonly id = 492
+    getId(): number { return 492; }
 }

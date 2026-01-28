@@ -2563,6 +2563,7 @@ export class BinaryEncoders {
     };
 
     static encodeUserNameIdentityToken = (writer: BufferWriter, identifiable: IIdentifiable) => {
+        BinaryEncoders.encodeUserIdentityToken(writer, identifiable);
         const obj = identifiable as any;
         writer.writeString(obj.UserName);
         writer.writeByteString(obj.Password);

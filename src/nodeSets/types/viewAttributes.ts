@@ -13,5 +13,5 @@ export class ViewAttributes implements IIdentifiable {
         public EventNotifier: UInt8
     ) { }
 
-    readonly id = 373
+    getId(): number { return 373; }
 }

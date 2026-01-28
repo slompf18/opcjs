@@ -12,5 +12,5 @@ export class ObjectAttributes implements IIdentifiable {
         public EventNotifier: UInt8
     ) { }
 
-    readonly id = 352
+    getId(): number { return 352; }
 }

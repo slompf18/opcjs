@@ -16,5 +16,5 @@ export class ModifySubscriptionResponse implements IIdentifiable {
         public RevisedMaxKeepAliveCount: UInt32
     ) { }
 
-    readonly id = 794
+    getId(): number { return 794; }
 }

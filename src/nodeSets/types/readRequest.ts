@@ -18,5 +18,5 @@ export class ReadRequest implements IIdentifiable {
         public NodesToRead: ReadValueId[]
     ) { }
 
-    readonly id = 629
+    getId(): number { return 629; }
 }

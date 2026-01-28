@@ -14,5 +14,5 @@ export class EndpointDataType implements IIdentifiable {
         public Port: UInt16
     ) { }
 
-    readonly id = 15557
+    getId(): number { return 15557; }
 }

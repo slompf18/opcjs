@@ -12,5 +12,5 @@ export class JsonDataSetWriterMessageDataType implements IIdentifiable {
         public DataSetMessageContentMask: JsonDataSetMessageContentMaskEnum
     ) { }
 
-    readonly id = 15664
+    getId(): number { return 15664; }
 }

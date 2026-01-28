@@ -11,5 +11,5 @@ export class PublishedDataSetCustomSourceDataType implements IIdentifiable {
         public CyclicDataSet: boolean
     ) { }
 
-    readonly id = 25269
+    getId(): number { return 25269; }
 }

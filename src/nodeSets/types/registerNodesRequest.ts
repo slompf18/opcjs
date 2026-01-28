@@ -14,5 +14,5 @@ export class RegisterNodesRequest implements IIdentifiable {
         public NodesToRegister: NodeId[]
     ) { }
 
-    readonly id = 558
+    getId(): number { return 558; }
 }

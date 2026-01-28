@@ -13,5 +13,5 @@ export class DecimalDataType implements IIdentifiable {
         public Value: ByteString
     ) { }
 
-    readonly id = 17861
+    getId(): number { return 17861; }
 }

@@ -16,5 +16,5 @@ export class StandaloneSubscribedDataSetDataType implements IIdentifiable {
         public SubscribedDataSet: SubscribedDataSetDataType
     ) { }
 
-    readonly id = 23600
+    getId(): number { return 23600; }
 }

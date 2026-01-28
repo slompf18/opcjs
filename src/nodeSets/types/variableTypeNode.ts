@@ -18,5 +18,5 @@ export class VariableTypeNode implements IIdentifiable {
         public IsAbstract: boolean
     ) { }
 
-    readonly id = 270
+    getId(): number { return 270; }
 }

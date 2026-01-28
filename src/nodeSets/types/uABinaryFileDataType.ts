@@ -15,5 +15,5 @@ export class UABinaryFileDataType implements IIdentifiable {
         public Body: Variant
     ) { }
 
-    readonly id = 15006
+    getId(): number { return 15006; }
 }

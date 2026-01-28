@@ -25,5 +25,5 @@ export class PubSubConnectionDataType implements IIdentifiable {
         public ReaderGroups: ReaderGroupDataType[]
     ) { }
 
-    readonly id = 15617
+    getId(): number { return 15617; }
 }

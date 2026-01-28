@@ -16,5 +16,5 @@ export class BrowseResult implements IIdentifiable {
         public References: ReferenceDescription[]
     ) { }
 
-    readonly id = 522
+    getId(): number { return 522; }
 }

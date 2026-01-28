@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class FilterOperand implements IIdentifiable {
     constructor() { }
 
-    readonly id = 589
+    getId(): number { return 589; }
 }

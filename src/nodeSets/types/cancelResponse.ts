@@ -14,5 +14,5 @@ export class CancelResponse implements IIdentifiable {
         public CancelCount: UInt32
     ) { }
 
-    readonly id = 480
+    getId(): number { return 480; }
 }

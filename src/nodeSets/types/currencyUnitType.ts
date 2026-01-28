@@ -16,5 +16,5 @@ export class CurrencyUnitType implements IIdentifiable {
         public Currency: LocalizedText
     ) { }
 
-    readonly id = 23498
+    getId(): number { return 23498; }
 }

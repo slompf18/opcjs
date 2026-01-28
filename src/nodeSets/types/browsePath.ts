@@ -14,5 +14,5 @@ export class BrowsePath implements IIdentifiable {
         public RelativePath: RelativePath
     ) { }
 
-    readonly id = 543
+    getId(): number { return 543; }
 }

@@ -23,5 +23,5 @@ export class LogRecord implements IIdentifiable {
         public AdditionalData: NameValuePair[]
     ) { }
 
-    readonly id = 19361
+    getId(): number { return 19361; }
 }

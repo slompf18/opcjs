@@ -12,5 +12,5 @@ export class TargetVariablesDataType implements IIdentifiable {
         public TargetVariables: FieldTargetDataType[]
     ) { }
 
-    readonly id = 15631
+    getId(): number { return 15631; }
 }

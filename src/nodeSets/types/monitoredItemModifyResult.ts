@@ -17,5 +17,5 @@ export class MonitoredItemModifyResult implements IIdentifiable {
         public FilterResult: ExtensionObject
     ) { }
 
-    readonly id = 758
+    getId(): number { return 758; }
 }

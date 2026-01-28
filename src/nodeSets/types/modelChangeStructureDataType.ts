@@ -15,5 +15,5 @@ export class ModelChangeStructureDataType implements IIdentifiable {
         public Verb: UInt8
     ) { }
 
-    readonly id = 877
+    getId(): number { return 877; }
 }

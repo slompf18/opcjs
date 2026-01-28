@@ -13,5 +13,5 @@ export class NameValuePair implements IIdentifiable {
         public Value: Variant
     ) { }
 
-    readonly id = 19748
+    getId(): number { return 19748; }
 }

@@ -17,5 +17,5 @@ export class SetTriggeringRequest implements IIdentifiable {
         public LinksToRemove: UInt32[]
     ) { }
 
-    readonly id = 773
+    getId(): number { return 773; }
 }

@@ -14,5 +14,5 @@ export class AuthorizationServiceConfigurationDataType implements IIdentifiable 
         public IssuerEndpointSettings: string | undefined
     ) { }
 
-    readonly id = 23744
+    getId(): number { return 23744; }
 }

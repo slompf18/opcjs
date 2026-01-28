@@ -18,5 +18,5 @@ export class ActivateSessionResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 468
+    getId(): number { return 468; }
 }

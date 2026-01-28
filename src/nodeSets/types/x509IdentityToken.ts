@@ -12,5 +12,5 @@ export class X509IdentityToken implements IIdentifiable {
         public CertificateData: ByteString
     ) { }
 
-    readonly id = 325
+    getId(): number { return 325; }
 }

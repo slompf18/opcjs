@@ -20,5 +20,5 @@ export class JsonDataSetMetaDataMessage implements IIdentifiable {
         public MetaData: DataSetMetaDataType
     ) { }
 
-    readonly id = 19313
+    getId(): number { return 19313; }
 }

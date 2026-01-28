@@ -19,5 +19,5 @@ export class AddReferencesItem implements IIdentifiable {
         public TargetNodeClass: NodeClassEnum
     ) { }
 
-    readonly id = 379
+    getId(): number { return 379; }
 }

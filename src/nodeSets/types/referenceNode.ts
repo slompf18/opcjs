@@ -15,5 +15,5 @@ export class ReferenceNode implements IIdentifiable {
         public TargetId: ExpandedNodeId
     ) { }
 
-    readonly id = 285
+    getId(): number { return 285; }
 }

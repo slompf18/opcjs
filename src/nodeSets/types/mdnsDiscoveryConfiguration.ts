@@ -12,5 +12,5 @@ export class MdnsDiscoveryConfiguration implements IIdentifiable {
         public ServerCapabilities: string[]
     ) { }
 
-    readonly id = 12891
+    getId(): number { return 12891; }
 }

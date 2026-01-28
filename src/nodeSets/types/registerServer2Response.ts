@@ -16,5 +16,5 @@ export class RegisterServer2Response implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 12194
+    getId(): number { return 12194; }
 }

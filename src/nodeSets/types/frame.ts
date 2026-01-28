@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class Frame implements IIdentifiable {
     constructor() { }
 
-    readonly id = 18813
+    getId(): number { return 18813; }
 }

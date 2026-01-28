@@ -23,5 +23,5 @@ export class ServerDiagnosticsSummaryDataType implements IIdentifiable {
         public RejectedRequestsCount: UInt32
     ) { }
 
-    readonly id = 859
+    getId(): number { return 859; }
 }

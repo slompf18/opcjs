@@ -14,5 +14,5 @@ export class StatusResult implements IIdentifiable {
         public DiagnosticInfo: DiagnosticInfo
     ) { }
 
-    readonly id = 299
+    getId(): number { return 299; }
 }

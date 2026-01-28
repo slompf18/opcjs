@@ -37,5 +37,5 @@ export class DataSetReaderDataType implements IIdentifiable {
         public SubscribedDataSet: SubscribedDataSetDataType
     ) { }
 
-    readonly id = 15623
+    getId(): number { return 15623; }
 }

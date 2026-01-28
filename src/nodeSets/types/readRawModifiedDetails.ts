@@ -16,5 +16,5 @@ export class ReadRawModifiedDetails implements IIdentifiable {
         public ReturnBounds: boolean
     ) { }
 
-    readonly id = 647
+    getId(): number { return 647; }
 }

@@ -17,5 +17,5 @@ export class OpenSecureChannelResponse implements IIdentifiable {
         public ServerNonce: ByteString
     ) { }
 
-    readonly id = 447
+    getId(): number { return 447; }
 }

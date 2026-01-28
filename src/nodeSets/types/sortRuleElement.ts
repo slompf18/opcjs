@@ -14,5 +14,5 @@ export class SortRuleElement implements IIdentifiable {
         public EventField: SimpleAttributeOperand
     ) { }
 
-    readonly id = 18648
+    getId(): number { return 18648; }
 }

@@ -16,5 +16,5 @@ export class CertificateGroupDataType implements IIdentifiable {
         public ValidationOptions: TrustListValidationOptionsEnum
     ) { }
 
-    readonly id = 15436
+    getId(): number { return 15436; }
 }

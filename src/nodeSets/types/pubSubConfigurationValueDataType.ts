@@ -15,5 +15,5 @@ export class PubSubConfigurationValueDataType implements IIdentifiable {
         public Identifier: Variant
     ) { }
 
-    readonly id = 25520
+    getId(): number { return 25520; }
 }

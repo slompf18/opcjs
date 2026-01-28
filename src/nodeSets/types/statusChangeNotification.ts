@@ -14,5 +14,5 @@ export class StatusChangeNotification implements IIdentifiable {
         public DiagnosticInfo: DiagnosticInfo
     ) { }
 
-    readonly id = 818
+    getId(): number { return 818; }
 }

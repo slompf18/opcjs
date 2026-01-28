@@ -14,5 +14,5 @@ export class ReferenceTypeAttributes implements IIdentifiable {
         public InverseName: LocalizedText
     ) { }
 
-    readonly id = 367
+    getId(): number { return 367; }
 }

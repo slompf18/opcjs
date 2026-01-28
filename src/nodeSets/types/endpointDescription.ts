@@ -22,5 +22,5 @@ export class EndpointDescription implements IIdentifiable {
         public SecurityLevel: UInt8
     ) { }
 
-    readonly id = 312
+    getId(): number { return 312; }
 }

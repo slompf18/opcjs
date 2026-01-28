@@ -13,5 +13,5 @@ export class AnnotationDataType implements IIdentifiable {
         public Uri: string | undefined
     ) { }
 
-    readonly id = 32434
+    getId(): number { return 32434; }
 }

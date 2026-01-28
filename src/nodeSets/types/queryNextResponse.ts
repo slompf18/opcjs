@@ -16,5 +16,5 @@ export class QueryNextResponse implements IIdentifiable {
         public RevisedContinuationPoint: ByteString
     ) { }
 
-    readonly id = 622
+    getId(): number { return 622; }
 }

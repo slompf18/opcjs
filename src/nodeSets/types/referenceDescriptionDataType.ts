@@ -16,5 +16,5 @@ export class ReferenceDescriptionDataType implements IIdentifiable {
         public TargetNode: ExpandedNodeId
     ) { }
 
-    readonly id = 32659
+    getId(): number { return 32659; }
 }

@@ -16,5 +16,5 @@ export class DeleteNodesResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 501
+    getId(): number { return 501; }
 }

@@ -16,5 +16,5 @@ export class HistoryReadResult implements IIdentifiable {
         public HistoryData: ExtensionObject
     ) { }
 
-    readonly id = 638
+    getId(): number { return 638; }
 }

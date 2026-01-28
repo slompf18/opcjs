@@ -22,5 +22,5 @@ export class PubSubKeyPushTargetDataType implements IIdentifiable {
         public SecurityGroups: string[]
     ) { }
 
-    readonly id = 25270
+    getId(): number { return 25270; }
 }

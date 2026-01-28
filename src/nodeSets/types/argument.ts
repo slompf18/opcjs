@@ -18,5 +18,5 @@ export class Argument implements IIdentifiable {
         public Description: LocalizedText
     ) { }
 
-    readonly id = 296
+    getId(): number { return 296; }
 }

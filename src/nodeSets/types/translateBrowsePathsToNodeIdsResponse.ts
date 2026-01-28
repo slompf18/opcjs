@@ -16,5 +16,5 @@ export class TranslateBrowsePathsToNodeIdsResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 555
+    getId(): number { return 555; }
 }

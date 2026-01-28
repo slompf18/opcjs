@@ -16,5 +16,5 @@ export class HistoryUpdateResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 701
+    getId(): number { return 701; }
 }

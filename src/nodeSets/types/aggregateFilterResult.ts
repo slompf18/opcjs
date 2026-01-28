@@ -15,5 +15,5 @@ export class AggregateFilterResult implements IIdentifiable {
         public RevisedAggregateConfiguration: AggregateConfiguration
     ) { }
 
-    readonly id = 737
+    getId(): number { return 737; }
 }

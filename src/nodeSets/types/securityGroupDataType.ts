@@ -22,5 +22,5 @@ export class SecurityGroupDataType implements IIdentifiable {
         public GroupProperties: KeyValuePair[]
     ) { }
 
-    readonly id = 23601
+    getId(): number { return 23601; }
 }

@@ -15,5 +15,5 @@ export class ParsingResult implements IIdentifiable {
         public DataDiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 610
+    getId(): number { return 610; }
 }

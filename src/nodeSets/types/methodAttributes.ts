@@ -12,5 +12,5 @@ export class MethodAttributes implements IIdentifiable {
         public UserExecutable: boolean
     ) { }
 
-    readonly id = 358
+    getId(): number { return 358; }
 }

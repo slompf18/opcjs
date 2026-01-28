@@ -15,5 +15,5 @@ export class SetPublishingModeRequest implements IIdentifiable {
         public SubscriptionIds: UInt32[]
     ) { }
 
-    readonly id = 797
+    getId(): number { return 797; }
 }

@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class WriterGroupMessageDataType implements IIdentifiable {
     constructor() { }
 
-    readonly id = 15616
+    getId(): number { return 15616; }
 }

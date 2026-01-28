@@ -14,5 +14,5 @@ export class ThreeDVector implements IIdentifiable {
         public Z: Float64
     ) { }
 
-    readonly id = 18808
+    getId(): number { return 18808; }
 }

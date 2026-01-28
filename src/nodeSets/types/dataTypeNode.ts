@@ -13,5 +13,5 @@ export class DataTypeNode implements IIdentifiable {
         public DataTypeDefinition: ExtensionObject
     ) { }
 
-    readonly id = 282
+    getId(): number { return 282; }
 }

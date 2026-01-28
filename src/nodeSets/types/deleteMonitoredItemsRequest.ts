@@ -15,5 +15,5 @@ export class DeleteMonitoredItemsRequest implements IIdentifiable {
         public MonitoredItemIds: UInt32[]
     ) { }
 
-    readonly id = 779
+    getId(): number { return 779; }
 }

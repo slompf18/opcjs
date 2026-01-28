@@ -14,5 +14,5 @@ export class ContentFilterElement implements IIdentifiable {
         public FilterOperands: ExtensionObject[]
     ) { }
 
-    readonly id = 583
+    getId(): number { return 583; }
 }

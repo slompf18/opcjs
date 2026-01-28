@@ -16,5 +16,5 @@ export class DeleteSubscriptionsResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 848
+    getId(): number { return 848; }
 }

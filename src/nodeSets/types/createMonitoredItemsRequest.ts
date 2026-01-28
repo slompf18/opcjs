@@ -18,5 +18,5 @@ export class CreateMonitoredItemsRequest implements IIdentifiable {
         public ItemsToCreate: MonitoredItemCreateRequest[]
     ) { }
 
-    readonly id = 749
+    getId(): number { return 749; }
 }

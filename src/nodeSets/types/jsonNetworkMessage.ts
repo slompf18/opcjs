@@ -17,5 +17,5 @@ export class JsonNetworkMessage implements IIdentifiable {
         public Messages: ExtensionObject
     ) { }
 
-    readonly id = 19311
+    getId(): number { return 19311; }
 }

@@ -22,5 +22,5 @@ export class ReferenceDescription implements IIdentifiable {
         public TypeDefinition: ExpandedNodeId
     ) { }
 
-    readonly id = 518
+    getId(): number { return 518; }
 }

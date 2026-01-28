@@ -13,5 +13,5 @@ export class DeleteAtTimeDetails implements IIdentifiable {
         public ReqTimes: Date[]
     ) { }
 
-    readonly id = 689
+    getId(): number { return 689; }
 }

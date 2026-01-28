@@ -14,5 +14,5 @@ export class MonitoredItemNotification implements IIdentifiable {
         public Value: DataValue
     ) { }
 
-    readonly id = 806
+    getId(): number { return 806; }
 }

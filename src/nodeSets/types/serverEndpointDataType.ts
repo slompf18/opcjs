@@ -15,5 +15,5 @@ export class ServerEndpointDataType implements IIdentifiable {
         public ReverseConnectUrls: string[]
     ) { }
 
-    readonly id = 15558
+    getId(): number { return 15558; }
 }

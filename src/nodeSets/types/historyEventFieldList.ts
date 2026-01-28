@@ -12,5 +12,5 @@ export class HistoryEventFieldList implements IIdentifiable {
         public EventFields: Variant[]
     ) { }
 
-    readonly id = 920
+    getId(): number { return 920; }
 }

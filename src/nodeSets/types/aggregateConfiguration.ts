@@ -16,5 +16,5 @@ export class AggregateConfiguration implements IIdentifiable {
         public UseSlopedExtrapolation: boolean
     ) { }
 
-    readonly id = 948
+    getId(): number { return 948; }
 }

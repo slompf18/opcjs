@@ -24,5 +24,5 @@ export class ApplicationConfigurationDataType implements IIdentifiable {
         public AuthorizationServices: AuthorizationServiceConfigurationDataType[]
     ) { }
 
-    readonly id = 23743
+    getId(): number { return 23743; }
 }

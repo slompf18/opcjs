@@ -16,5 +16,5 @@ export class AddNodesResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 489
+    getId(): number { return 489; }
 }

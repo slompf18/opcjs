@@ -13,5 +13,5 @@ export class IdentityMappingRuleType implements IIdentifiable {
         public Criteria: string | undefined
     ) { }
 
-    readonly id = 15634
+    getId(): number { return 15634; }
 }

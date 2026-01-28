@@ -19,5 +19,5 @@ export class DataSetMetaDataType implements IIdentifiable {
         public ConfigurationVersion: ConfigurationVersionDataType
     ) { }
 
-    readonly id = 14523
+    getId(): number { return 14523; }
 }

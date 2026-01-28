@@ -13,5 +13,5 @@ export class PortableNodeId implements IIdentifiable {
         public Identifier: NodeId
     ) { }
 
-    readonly id = 24106
+    getId(): number { return 24106; }
 }

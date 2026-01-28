@@ -14,5 +14,5 @@ export class RepublishResponse implements IIdentifiable {
         public NotificationMessage: NotificationMessage
     ) { }
 
-    readonly id = 833
+    getId(): number { return 833; }
 }

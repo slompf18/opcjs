@@ -16,5 +16,5 @@ export class DeleteMonitoredItemsResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 782
+    getId(): number { return 782; }
 }

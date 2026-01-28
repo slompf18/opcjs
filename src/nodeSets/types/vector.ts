@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class Vector implements IIdentifiable {
     constructor() { }
 
-    readonly id = 18807
+    getId(): number { return 18807; }
 }

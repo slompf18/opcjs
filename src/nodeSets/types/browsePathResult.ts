@@ -14,5 +14,5 @@ export class BrowsePathResult implements IIdentifiable {
         public Targets: BrowsePathTarget[]
     ) { }
 
-    readonly id = 549
+    getId(): number { return 549; }
 }

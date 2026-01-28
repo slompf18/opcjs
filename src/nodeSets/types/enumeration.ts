@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class Enumeration implements IIdentifiable {
     constructor() { }
 
-    readonly id = 29
+    getId(): number { return 29; }
 }

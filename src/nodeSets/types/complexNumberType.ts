@@ -13,5 +13,5 @@ export class ComplexNumberType implements IIdentifiable {
         public Imaginary: Float32
     ) { }
 
-    readonly id = 12171
+    getId(): number { return 12171; }
 }

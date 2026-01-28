@@ -13,5 +13,5 @@ export class SignedSoftwareCertificate implements IIdentifiable {
         public Signature: ByteString
     ) { }
 
-    readonly id = 344
+    getId(): number { return 344; }
 }

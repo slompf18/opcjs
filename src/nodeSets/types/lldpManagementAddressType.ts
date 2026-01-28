@@ -16,5 +16,5 @@ export class LldpManagementAddressType implements IIdentifiable {
         public IfId: UInt32
     ) { }
 
-    readonly id = 18954
+    getId(): number { return 18954; }
 }

@@ -15,5 +15,5 @@ export class NotificationMessage implements IIdentifiable {
         public NotificationData: ExtensionObject[]
     ) { }
 
-    readonly id = 803
+    getId(): number { return 803; }
 }

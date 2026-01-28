@@ -14,5 +14,5 @@ export class CancelRequest implements IIdentifiable {
         public RequestHandle: UInt32
     ) { }
 
-    readonly id = 477
+    getId(): number { return 477; }
 }

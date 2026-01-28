@@ -14,5 +14,5 @@ export class BrowsePathTarget implements IIdentifiable {
         public RemainingPathIndex: UInt32
     ) { }
 
-    readonly id = 546
+    getId(): number { return 546; }
 }

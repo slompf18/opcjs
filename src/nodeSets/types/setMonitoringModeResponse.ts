@@ -16,5 +16,5 @@ export class SetMonitoringModeResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 770
+    getId(): number { return 770; }
 }

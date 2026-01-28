@@ -18,5 +18,5 @@ export class ReadProcessedDetails implements IIdentifiable {
         public AggregateConfiguration: AggregateConfiguration
     ) { }
 
-    readonly id = 650
+    getId(): number { return 650; }
 }

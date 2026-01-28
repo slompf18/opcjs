@@ -14,5 +14,5 @@ export class HistoryUpdateRequest implements IIdentifiable {
         public HistoryUpdateDetails: ExtensionObject[]
     ) { }
 
-    readonly id = 698
+    getId(): number { return 698; }
 }

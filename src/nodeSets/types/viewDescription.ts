@@ -15,5 +15,5 @@ export class ViewDescription implements IIdentifiable {
         public ViewVersion: UInt32
     ) { }
 
-    readonly id = 511
+    getId(): number { return 511; }
 }

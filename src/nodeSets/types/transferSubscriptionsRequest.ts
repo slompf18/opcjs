@@ -15,5 +15,5 @@ export class TransferSubscriptionsRequest implements IIdentifiable {
         public SendInitialValues: boolean
     ) { }
 
-    readonly id = 839
+    getId(): number { return 839; }
 }

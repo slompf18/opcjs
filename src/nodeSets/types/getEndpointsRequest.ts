@@ -15,5 +15,5 @@ export class GetEndpointsRequest implements IIdentifiable {
         public ProfileUris: string[]
     ) { }
 
-    readonly id = 426
+    getId(): number { return 426; }
 }

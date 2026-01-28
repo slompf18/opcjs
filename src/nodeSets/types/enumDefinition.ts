@@ -12,5 +12,5 @@ export class EnumDefinition implements IIdentifiable {
         public Fields: EnumField[]
     ) { }
 
-    readonly id = 100
+    getId(): number { return 100; }
 }

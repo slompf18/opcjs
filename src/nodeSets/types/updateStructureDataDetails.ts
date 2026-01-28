@@ -16,5 +16,5 @@ export class UpdateStructureDataDetails implements IIdentifiable {
         public UpdateValues: DataValue[]
     ) { }
 
-    readonly id = 11295
+    getId(): number { return 11295; }
 }

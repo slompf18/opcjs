@@ -15,5 +15,5 @@ export class ServerOnNetwork implements IIdentifiable {
         public ServerCapabilities: string[]
     ) { }
 
-    readonly id = 12189
+    getId(): number { return 12189; }
 }

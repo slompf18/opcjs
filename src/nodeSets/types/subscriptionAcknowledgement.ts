@@ -13,5 +13,5 @@ export class SubscriptionAcknowledgement implements IIdentifiable {
         public SequenceNumber: UInt32
     ) { }
 
-    readonly id = 821
+    getId(): number { return 821; }
 }

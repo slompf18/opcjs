@@ -15,5 +15,5 @@ export class PriorityMappingEntryType implements IIdentifiable {
         public PriorityValue_DSCP: UInt32
     ) { }
 
-    readonly id = 25220
+    getId(): number { return 25220; }
 }

@@ -20,5 +20,5 @@ export class StructureField implements IIdentifiable {
         public IsOptional: boolean
     ) { }
 
-    readonly id = 101
+    getId(): number { return 101; }
 }

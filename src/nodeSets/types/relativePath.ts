@@ -12,5 +12,5 @@ export class RelativePath implements IIdentifiable {
         public Elements: RelativePathElement[]
     ) { }
 
-    readonly id = 540
+    getId(): number { return 540; }
 }

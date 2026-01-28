@@ -11,5 +11,5 @@ export class DataTypeAttributes implements IIdentifiable {
         public IsAbstract: boolean
     ) { }
 
-    readonly id = 370
+    getId(): number { return 370; }
 }

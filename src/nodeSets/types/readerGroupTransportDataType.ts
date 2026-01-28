@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class ReaderGroupTransportDataType implements IIdentifiable {
     constructor() { }
 
-    readonly id = 15621
+    getId(): number { return 15621; }
 }

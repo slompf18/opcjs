@@ -16,5 +16,5 @@ export class ReadEventDetails implements IIdentifiable {
         public Filter: EventFilter
     ) { }
 
-    readonly id = 644
+    getId(): number { return 644; }
 }

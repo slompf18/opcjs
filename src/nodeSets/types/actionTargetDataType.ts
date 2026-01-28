@@ -15,5 +15,5 @@ export class ActionTargetDataType implements IIdentifiable {
         public Description: LocalizedText
     ) { }
 
-    readonly id = 18593
+    getId(): number { return 18593; }
 }

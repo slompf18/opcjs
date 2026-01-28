@@ -16,5 +16,5 @@ export class RelativePathElement implements IIdentifiable {
         public TargetName: QualifiedName
     ) { }
 
-    readonly id = 537
+    getId(): number { return 537; }
 }

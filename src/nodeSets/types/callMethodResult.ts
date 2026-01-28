@@ -17,5 +17,5 @@ export class CallMethodResult implements IIdentifiable {
         public OutputArguments: Variant[]
     ) { }
 
-    readonly id = 707
+    getId(): number { return 707; }
 }

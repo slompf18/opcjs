@@ -18,5 +18,5 @@ export class PublishedDataSetDataType implements IIdentifiable {
         public DataSetSource: PublishedDataSetSourceDataType
     ) { }
 
-    readonly id = 15578
+    getId(): number { return 15578; }
 }

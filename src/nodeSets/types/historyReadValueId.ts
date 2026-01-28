@@ -17,5 +17,5 @@ export class HistoryReadValueId implements IIdentifiable {
         public ContinuationPoint: ByteString
     ) { }
 
-    readonly id = 635
+    getId(): number { return 635; }
 }

@@ -12,5 +12,5 @@ export class CloseSessionResponse implements IIdentifiable {
         public ResponseHeader: ResponseHeader
     ) { }
 
-    readonly id = 474
+    getId(): number { return 474; }
 }

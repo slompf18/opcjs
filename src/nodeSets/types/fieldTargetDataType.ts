@@ -22,5 +22,5 @@ export class FieldTargetDataType implements IIdentifiable {
         public OverrideValue: Variant
     ) { }
 
-    readonly id = 14744
+    getId(): number { return 14744; }
 }

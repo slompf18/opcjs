@@ -43,5 +43,5 @@ export class SubscriptionDiagnosticsDataType implements IIdentifiable {
         public EventQueueOverflowCount: UInt32
     ) { }
 
-    readonly id = 874
+    getId(): number { return 874; }
 }

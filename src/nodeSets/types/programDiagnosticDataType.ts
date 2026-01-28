@@ -23,5 +23,5 @@ export class ProgramDiagnosticDataType implements IIdentifiable {
         public LastMethodReturnStatus: StatusResult
     ) { }
 
-    readonly id = 894
+    getId(): number { return 894; }
 }

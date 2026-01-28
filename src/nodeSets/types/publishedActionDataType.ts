@@ -14,5 +14,5 @@ export class PublishedActionDataType implements IIdentifiable {
         public ActionTargets: ActionTargetDataType[]
     ) { }
 
-    readonly id = 18594
+    getId(): number { return 18594; }
 }

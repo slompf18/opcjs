@@ -15,5 +15,5 @@ export class RepublishRequest implements IIdentifiable {
         public RetransmitSequenceNumber: UInt32
     ) { }
 
-    readonly id = 830
+    getId(): number { return 830; }
 }

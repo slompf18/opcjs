@@ -13,5 +13,5 @@ export class DoubleComplexNumberType implements IIdentifiable {
         public Imaginary: Float64
     ) { }
 
-    readonly id = 12172
+    getId(): number { return 12172; }
 }

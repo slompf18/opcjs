@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class CartesianCoordinates implements IIdentifiable {
     constructor() { }
 
-    readonly id = 18809
+    getId(): number { return 18809; }
 }

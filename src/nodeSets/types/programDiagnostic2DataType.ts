@@ -26,5 +26,5 @@ export class ProgramDiagnostic2DataType implements IIdentifiable {
         public LastMethodReturnStatus: StatusCode
     ) { }
 
-    readonly id = 24033
+    getId(): number { return 24033; }
 }

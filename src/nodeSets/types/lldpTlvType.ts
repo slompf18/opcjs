@@ -13,5 +13,5 @@ export class LldpTlvType implements IIdentifiable {
         public TlvInfo: ByteString
     ) { }
 
-    readonly id = 18955
+    getId(): number { return 18955; }
 }

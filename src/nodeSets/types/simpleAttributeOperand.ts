@@ -17,5 +17,5 @@ export class SimpleAttributeOperand implements IIdentifiable {
         public IndexRange: string | undefined
     ) { }
 
-    readonly id = 601
+    getId(): number { return 601; }
 }

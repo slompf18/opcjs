@@ -14,5 +14,5 @@ export class BaseConfigurationDataType implements IIdentifiable {
         public ConfigurationProperties: KeyValuePair[]
     ) { }
 
-    readonly id = 15434
+    getId(): number { return 15434; }
 }

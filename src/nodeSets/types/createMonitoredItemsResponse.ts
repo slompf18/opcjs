@@ -16,5 +16,5 @@ export class CreateMonitoredItemsResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 752
+    getId(): number { return 752; }
 }

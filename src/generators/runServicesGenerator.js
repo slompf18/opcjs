@@ -418,7 +418,7 @@ function renderStructure(type, outFile, outDir) {
         lines.push('');
         // Add readonly id field if we have it
         if (type.id !== undefined) {
-            lines.push(`    readonly id = ${type.id}`);
+            lines.push(`    getId(): number { return ${type.id}; }`);
         }
         lines.push('}');
         lines.push('');
@@ -436,7 +436,7 @@ function renderStructure(type, outFile, outDir) {
     lines.push('');
     // Add readonly id field if we have it
     if (type.id !== undefined) {
-        lines.push(`    readonly id = ${type.id}`);
+        lines.push(`    getId(): number { return ${type.id}; }`);
     }
     lines.push('}');
     lines.push('');

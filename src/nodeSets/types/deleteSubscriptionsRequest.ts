@@ -14,5 +14,5 @@ export class DeleteSubscriptionsRequest implements IIdentifiable {
         public SubscriptionIds: UInt32[]
     ) { }
 
-    readonly id = 845
+    getId(): number { return 845; }
 }

@@ -14,5 +14,5 @@ export class KeyValuePair implements IIdentifiable {
         public Value: Variant
     ) { }
 
-    readonly id = 14533
+    getId(): number { return 14533; }
 }

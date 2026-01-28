@@ -19,5 +19,5 @@ export class ApplicationDescription implements IIdentifiable {
         public DiscoveryUrls: string[]
     ) { }
 
-    readonly id = 308
+    getId(): number { return 308; }
 }

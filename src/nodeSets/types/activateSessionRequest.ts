@@ -20,5 +20,5 @@ export class ActivateSessionRequest implements IIdentifiable {
         public UserTokenSignature: SignatureData
     ) { }
 
-    readonly id = 465
+    getId(): number { return 465; }
 }

@@ -15,5 +15,5 @@ export class FindServersRequest implements IIdentifiable {
         public ServerUris: string[]
     ) { }
 
-    readonly id = 420
+    getId(): number { return 420; }
 }

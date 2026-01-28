@@ -17,5 +17,5 @@ export class ReadValueId implements IIdentifiable {
         public DataEncoding: QualifiedName
     ) { }
 
-    readonly id = 626
+    getId(): number { return 626; }
 }

@@ -15,5 +15,5 @@ export class NodeReference implements IIdentifiable {
         public ReferencedNodeIds: NodeId[]
     ) { }
 
-    readonly id = 580
+    getId(): number { return 580; }
 }

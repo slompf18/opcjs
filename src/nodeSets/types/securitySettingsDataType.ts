@@ -14,5 +14,5 @@ export class SecuritySettingsDataType implements IIdentifiable {
         public CertificateGroupName: string | undefined
     ) { }
 
-    readonly id = 15559
+    getId(): number { return 15559; }
 }

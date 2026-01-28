@@ -22,5 +22,5 @@ export class QueryFirstResponse implements IIdentifiable {
         public FilterResult: ContentFilterResult
     ) { }
 
-    readonly id = 616
+    getId(): number { return 616; }
 }

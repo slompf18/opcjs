@@ -21,5 +21,5 @@ export class VariableAttributes implements IIdentifiable {
         public Historizing: boolean
     ) { }
 
-    readonly id = 355
+    getId(): number { return 355; }
 }

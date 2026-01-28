@@ -24,5 +24,5 @@ export class PubSubConfiguration2DataType implements IIdentifiable {
         public ConfigurationProperties: KeyValuePair[]
     ) { }
 
-    readonly id = 23602
+    getId(): number { return 23602; }
 }

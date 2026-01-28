@@ -14,5 +14,5 @@ export class ModificationInfo implements IIdentifiable {
         public UserName: string | undefined
     ) { }
 
-    readonly id = 11216
+    getId(): number { return 11216; }
 }

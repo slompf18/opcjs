@@ -14,5 +14,5 @@ export class ThreeDOrientation implements IIdentifiable {
         public C: Float64
     ) { }
 
-    readonly id = 18812
+    getId(): number { return 18812; }
 }

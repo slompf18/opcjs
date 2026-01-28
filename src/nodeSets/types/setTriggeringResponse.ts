@@ -18,5 +18,5 @@ export class SetTriggeringResponse implements IIdentifiable {
         public RemoveDiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 776
+    getId(): number { return 776; }
 }

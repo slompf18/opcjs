@@ -12,5 +12,5 @@ export class PublishedDataItemsDataType implements IIdentifiable {
         public PublishedData: PublishedVariableDataType[]
     ) { }
 
-    readonly id = 15581
+    getId(): number { return 15581; }
 }

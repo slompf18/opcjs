@@ -15,5 +15,5 @@ export class BrowseNextRequest implements IIdentifiable {
         public ContinuationPoints: ByteString[]
     ) { }
 
-    readonly id = 531
+    getId(): number { return 531; }
 }

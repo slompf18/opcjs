@@ -14,5 +14,5 @@ export class GenericAttributeValue implements IIdentifiable {
         public Value: Variant
     ) { }
 
-    readonly id = 17606
+    getId(): number { return 17606; }
 }

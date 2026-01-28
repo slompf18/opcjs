@@ -17,5 +17,5 @@ export class NodeAttributes implements IIdentifiable {
         public UserWriteMask: UInt32
     ) { }
 
-    readonly id = 349
+    getId(): number { return 349; }
 }

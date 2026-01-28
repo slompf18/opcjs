@@ -13,5 +13,5 @@ export class SignatureData implements IIdentifiable {
         public Signature: ByteString
     ) { }
 
-    readonly id = 456
+    getId(): number { return 456; }
 }

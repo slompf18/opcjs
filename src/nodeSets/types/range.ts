@@ -13,5 +13,5 @@ export class Range implements IIdentifiable {
         public High: Float64
     ) { }
 
-    readonly id = 884
+    getId(): number { return 884; }
 }

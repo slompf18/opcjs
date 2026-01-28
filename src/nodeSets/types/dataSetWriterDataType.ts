@@ -24,5 +24,5 @@ export class DataSetWriterDataType implements IIdentifiable {
         public MessageSettings: DataSetWriterMessageDataType
     ) { }
 
-    readonly id = 15597
+    getId(): number { return 15597; }
 }

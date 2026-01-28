@@ -18,5 +18,5 @@ export class BrokerDataSetWriterTransportDataType implements IIdentifiable {
         public MetaDataUpdateTime: Float64
     ) { }
 
-    readonly id = 15669
+    getId(): number { return 15669; }
 }

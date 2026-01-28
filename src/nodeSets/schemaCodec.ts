@@ -15,8 +15,13 @@ export class SchemaCodec {
     }
 
     public static encodeBinary(writer: BufferWriter, obj: IIdentifiable): void {
-        const id = obj.id;
+        const id = obj.getId();
         SchemaCodec.encodeId(writer, id);
+        SchemaCodec.encodeBinaryWithoutId(writer, obj);
+    }
+
+    public static encodeBinaryWithoutId(writer: BufferWriter, obj: IIdentifiable): void {
+        const id = obj.getId();
         switch (id) {
             case 29: BinaryEncoders.encodeEnumeration(writer, obj); break;
             case 96: BinaryEncoders.encodeRolePermissionType(writer, obj); break;
@@ -385,10 +390,10 @@ export class SchemaCodec {
 
     public static decodeBinary(reader: BufferReader): unknown {
         const eid = reader.readExpandedNodeId();
-        return SchemaCodec.decodeBinaryWithNodeId(reader, eid);
+        return SchemaCodec.decodeBinaryWithId(reader, eid); // to advance the reader
     }
 
-    public static decodeBinaryWithNodeId(reader: BufferReader, eid: ExpandedNodeId): unknown {
+    public static decodeBinaryWithId(reader: BufferReader, eid: ExpandedNodeId): unknown {
         const id = eid.NodeId.Identifier as number;
         switch (id) {
             case 121: return BinaryDecoders.decodeDataTypeDefinition(reader);

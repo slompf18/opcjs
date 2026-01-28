@@ -15,5 +15,5 @@ export class FindServersOnNetworkResponse implements IIdentifiable {
         public Servers: ServerOnNetwork[]
     ) { }
 
-    readonly id = 12191
+    getId(): number { return 12191; }
 }

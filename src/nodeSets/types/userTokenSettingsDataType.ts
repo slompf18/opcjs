@@ -17,5 +17,5 @@ export class UserTokenSettingsDataType implements IIdentifiable {
         public AuthorizationServiceName: string | undefined
     ) { }
 
-    readonly id = 15560
+    getId(): number { return 15560; }
 }

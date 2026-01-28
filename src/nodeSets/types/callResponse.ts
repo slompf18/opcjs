@@ -16,5 +16,5 @@ export class CallResponse implements IIdentifiable {
         public DiagnosticInfos: DiagnosticInfo[]
     ) { }
 
-    readonly id = 713
+    getId(): number { return 713; }
 }

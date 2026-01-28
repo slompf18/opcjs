@@ -13,5 +13,5 @@ export class TimeZoneDataType implements IIdentifiable {
         public DaylightSavingInOffset: boolean
     ) { }
 
-    readonly id = 8912
+    getId(): number { return 8912; }
 }

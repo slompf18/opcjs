@@ -14,5 +14,5 @@ export class GetEndpointsResponse implements IIdentifiable {
         public Endpoints: EndpointDescription[]
     ) { }
 
-    readonly id = 429
+    getId(): number { return 429; }
 }

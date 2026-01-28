@@ -11,5 +11,5 @@ export class UserIdentityToken implements IIdentifiable {
         public PolicyId: string | undefined
     ) { }
 
-    readonly id = 316
+    getId(): number { return 316; }
 }

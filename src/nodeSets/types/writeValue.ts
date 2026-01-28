@@ -17,5 +17,5 @@ export class WriteValue implements IIdentifiable {
         public Value: DataValue
     ) { }
 
-    readonly id = 668
+    getId(): number { return 668; }
 }

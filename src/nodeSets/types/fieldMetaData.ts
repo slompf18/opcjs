@@ -26,5 +26,5 @@ export class FieldMetaData implements IIdentifiable {
         public Properties: KeyValuePair[]
     ) { }
 
-    readonly id = 14524
+    getId(): number { return 14524; }
 }

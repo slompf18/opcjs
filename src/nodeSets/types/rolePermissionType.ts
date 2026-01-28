@@ -14,5 +14,5 @@ export class RolePermissionType implements IIdentifiable {
         public Permissions: PermissionTypeEnum
     ) { }
 
-    readonly id = 96
+    getId(): number { return 96; }
 }

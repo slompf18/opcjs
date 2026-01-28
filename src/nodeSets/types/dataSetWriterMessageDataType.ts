@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class DataSetWriterMessageDataType implements IIdentifiable {
     constructor() { }
 
-    readonly id = 15605
+    getId(): number { return 15605; }
 }

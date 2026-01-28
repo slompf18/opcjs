@@ -13,5 +13,5 @@ export class ViewNode implements IIdentifiable {
         public EventNotifier: UInt8
     ) { }
 
-    readonly id = 279
+    getId(): number { return 279; }
 }

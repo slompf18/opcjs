@@ -14,5 +14,5 @@ export class WriteRequest implements IIdentifiable {
         public NodesToWrite: WriteValue[]
     ) { }
 
-    readonly id = 671
+    getId(): number { return 671; }
 }

@@ -4,6 +4,7 @@ import { ExpandedNodeId } from "./expandedNodeId";
 import { NodeId } from "./nodeId";
 import { ByteString, UInt8 } from "./baseTypes";
 import { SchemaCodec } from "../nodeSets/schemaCodec";
+import { IIdentifiable } from "../codecs/iIdentifiable";
 
 // https://reference.opcfoundation.org/Core/Part6/v105/docs/5.2.2.15
 export class ExtensionObject {
@@ -13,6 +14,14 @@ export class ExtensionObject {
 
     public static newEmpty(): ExtensionObject {
         return new ExtensionObject(new ExpandedNodeId(NodeId.NewTwoByte(0)), ExtensionObject.EncodingNone, undefined);
+    }
+
+    public static newFrom(obj: IIdentifiable): ExtensionObject {
+        const typeId = new ExpandedNodeId(NodeId.NewTwoByte(obj.getId()));
+        const buffer = new BufferWriter();
+        SchemaCodec.encodeBinaryWithoutId(buffer, obj);
+        const body = buffer.getData();
+        return new ExtensionObject(typeId, ExtensionObject.EncodingByteString, body);
     }
 
     public static decode(buffer: BufferReader): ExtensionObject {
@@ -33,7 +42,7 @@ export class ExtensionObject {
         switch (this.Encoding) {
             case ExtensionObject.EncodingByteString:
                 const buffer = new BufferReader(this.Body as Uint8Array)
-                return SchemaCodec.decodeBinaryWithNodeId(buffer, this.TypeId);
+                return SchemaCodec.decodeBinaryWithId(buffer, this.TypeId);
             case ExtensionObject.EncodingXmlElement:
                 throw new Error('Encoding of extension objects via XML is not implemented.')
             default:

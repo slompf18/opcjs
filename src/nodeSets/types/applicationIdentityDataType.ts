@@ -15,5 +15,5 @@ export class ApplicationIdentityDataType implements IIdentifiable {
         public AdditionalServers: ApplicationDescription[]
     ) { }
 
-    readonly id = 15556
+    getId(): number { return 15556; }
 }

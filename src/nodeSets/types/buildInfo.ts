@@ -16,5 +16,5 @@ export class BuildInfo implements IIdentifiable {
         public BuildDate: Date
     ) { }
 
-    readonly id = 338
+    getId(): number { return 338; }
 }

@@ -12,5 +12,5 @@ export class PortableQualifiedName implements IIdentifiable {
         public Name: string | undefined
     ) { }
 
-    readonly id = 24105
+    getId(): number { return 24105; }
 }

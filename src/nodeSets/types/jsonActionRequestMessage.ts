@@ -25,5 +25,5 @@ export class JsonActionRequestMessage implements IIdentifiable {
         public Payload: ExtensionObject
     ) { }
 
-    readonly id = 19321
+    getId(): number { return 19321; }
 }

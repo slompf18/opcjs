@@ -11,5 +11,5 @@ export class StandaloneSubscribedDataSetRefDataType implements IIdentifiable {
         public DataSetName: string | undefined
     ) { }
 
-    readonly id = 23599
+    getId(): number { return 23599; }
 }

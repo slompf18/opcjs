@@ -15,5 +15,5 @@ export class SamplingIntervalDiagnosticsDataType implements IIdentifiable {
         public DisabledMonitoredItemCount: UInt32
     ) { }
 
-    readonly id = 856
+    getId(): number { return 856; }
 }

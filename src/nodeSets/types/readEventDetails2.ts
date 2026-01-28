@@ -11,5 +11,5 @@ export class ReadEventDetails2 implements IIdentifiable {
         public ReadModified: boolean
     ) { }
 
-    readonly id = 32799
+    getId(): number { return 32799; }
 }

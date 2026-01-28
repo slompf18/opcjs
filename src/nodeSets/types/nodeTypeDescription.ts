@@ -15,5 +15,5 @@ export class NodeTypeDescription implements IIdentifiable {
         public DataToReturn: QueryDataDescription[]
     ) { }
 
-    readonly id = 573
+    getId(): number { return 573; }
 }

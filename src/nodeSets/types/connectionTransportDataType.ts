@@ -9,5 +9,5 @@ import { IIdentifiable } from "../../codecs/iIdentifiable";
 export class ConnectionTransportDataType implements IIdentifiable {
     constructor() { }
 
-    readonly id = 15618
+    getId(): number { return 15618; }
 }

@@ -16,5 +16,5 @@ export class PubSubConfigurationRefDataType implements IIdentifiable {
         public GroupIndex: UInt16
     ) { }
 
-    readonly id = 25519
+    getId(): number { return 25519; }
 }

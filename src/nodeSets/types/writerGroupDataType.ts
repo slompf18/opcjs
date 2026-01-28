@@ -23,5 +23,5 @@ export class WriterGroupDataType implements IIdentifiable {
         public DataSetWriters: DataSetWriterDataType[]
     ) { }
 
-    readonly id = 15480
+    getId(): number { return 15480; }
 }

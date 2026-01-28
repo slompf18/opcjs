@@ -14,5 +14,5 @@ export class FindServersResponse implements IIdentifiable {
         public Servers: ApplicationDescription[]
     ) { }
 
-    readonly id = 423
+    getId(): number { return 423; }
 }

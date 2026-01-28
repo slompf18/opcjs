@@ -16,5 +16,5 @@ export class DatagramDataSetReaderTransportDataType implements IIdentifiable {
         public Topic: string | undefined
     ) { }
 
-    readonly id = 23614
+    getId(): number { return 23614; }
 }
