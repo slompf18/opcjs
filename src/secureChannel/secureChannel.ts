@@ -27,6 +27,7 @@ export class SecureChannel implements ISecureChannel {
     private resolvers: Map<UInt32, Function> = new Map();
     private id: UInt32 = 0;
     private token: UInt32 = 0;
+    private chunkBuffers: Uint8Array[] = [];
 
     public async openSecureChannelRequest(): Promise<void> {
         const request = new OpenSecureChannelRequest(
@@ -155,6 +156,15 @@ export class SecureChannel implements ISecureChannel {
                 break;
             case MsgTypeChunk:
                 console.log("SecureChannel received Chunk message");
+                const headerSecuritySymChunk = MsgSecurityHeaderSymmetric.decode(buffer);
+                const algoChunk = this.securityPolicy.getAlgorithmSymmetric(new Certificate(), new Certificate())
+                const msgSymChunk = MsgSymmetric.decode(
+                    buffer,
+                    header,
+                    headerSecuritySymChunk,
+                    algoChunk
+                    );
+                this.chunkBuffers.push(msgSymChunk.body);
                 break;
             case MsgTypeFinal:
                 console.log("SecureChannel received Final message");
@@ -166,7 +176,22 @@ export class SecureChannel implements ISecureChannel {
                     headerSecuritySym,
                     algo
                     );
-                this.onReceivedMessage(msgSym.sequenceHeader.requestId, msgSym.body);
+                // Concatenate all chunks plus final message body
+                let finalBody: Uint8Array;
+                if (this.chunkBuffers.length > 0) {
+                    const totalLength = this.chunkBuffers.reduce((sum, chunk) => sum + chunk.length, 0) + msgSym.body.length;
+                    finalBody = new Uint8Array(totalLength);
+                    let offset = 0;
+                    for (const chunk of this.chunkBuffers) {
+                        finalBody.set(chunk, offset);
+                        offset += chunk.length;
+                    }
+                    finalBody.set(msgSym.body, offset);
+                    this.chunkBuffers = []; // Clear chunks
+                } else {
+                    finalBody = msgSym.body;
+                }
+                this.onReceivedMessage(msgSym.sequenceHeader.requestId, finalBody);
                 break;
             case MsgTypeCloseFinal:
                 console.log("SecureChannel received CloseFinal message");

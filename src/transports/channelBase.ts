@@ -11,7 +11,7 @@ import { MsgTypeAck, MsgTypeError, MsgTypeHello, MsgTypeReverseHello } from "./m
 export class ChannelBase implements ITransportChannel {
     private DefaultReceiveBufferSize = 0xffff
     private DefaultSendBufferSize = 0xffff
-    private connectResolve?: (success:boolean) => void;
+    private connectResolve?: (success: boolean) => void;
 
     public async connect(): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
@@ -57,26 +57,35 @@ export class ChannelBase implements ITransportChannel {
 
     private onMessageReceived(data: Uint8Array): void {
         //console.log("Message received from server:", data);
-        const bufferReader = new BufferReader(data);
-        const header = MsgHeader.decode(bufferReader);
+        while (data.length > 0) {
+            const bufferReader = new BufferReader(data);
+            const header = MsgHeader.decode(bufferReader);
 
-        switch (header.messageType) {
-            case MsgTypeAck:
-                bufferReader.rewind();
-                this.onAckMessage(bufferReader);
-                break;
-            case MsgTypeHello:
-                console.error("Unexpected Hello message received from server.");
-                break;
-            case MsgTypeError:
-                bufferReader.rewind();
-                this.onErrorMessage(bufferReader);
-                break;
-            case MsgTypeReverseHello:
-                console.error("Unexpected ReverseHello message received from server.");
-                break;
-            default:
-                this.onMessage?.(data);
+            switch (header.messageType) {
+                case MsgTypeAck:
+                    bufferReader.rewind();
+                    this.onAckMessage(bufferReader);
+                    data = data.subarray(header.messageSize);
+                    break;
+                case MsgTypeHello:
+                    console.error("Unexpected Hello message received from server.");
+                    data = data.subarray(header.messageSize);
+                    break;
+                case MsgTypeError:
+                    bufferReader.rewind();
+                    this.onErrorMessage(bufferReader);
+                    data = data.subarray(header.messageSize);
+                    break;
+                case MsgTypeReverseHello:
+                    console.error("Unexpected ReverseHello message received from server.");
+                    data = data.subarray(header.messageSize);
+                    break;
+                default:
+                    // split data into messages
+                    const messageData = data.subarray(0, header.messageSize);
+                    data = data.subarray(header.messageSize);
+                    this.onMessage?.(messageData);
+            }
         }
     }
 

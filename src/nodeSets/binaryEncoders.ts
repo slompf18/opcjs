@@ -2576,6 +2576,7 @@ export class BinaryEncoders {
     };
 
     static encodeIssuedIdentityToken = (writer: BufferWriter, identifiable: IIdentifiable) => {
+        BinaryEncoders.encodeUserIdentityToken(writer, identifiable);
         const obj = identifiable as any;
         writer.writeByteString(obj.TokenData);
         writer.writeString(obj.EncryptionAlgorithm);
