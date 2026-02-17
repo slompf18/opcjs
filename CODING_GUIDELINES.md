@@ -18,6 +18,99 @@
 10. [Error Handling](#error-handling)
 11. [Async/Await](#asyncawait)
 12. [Testing](#testing)
+13. [Linting and Type Checking](#linting-and-type-checking)
+
+---
+
+## Linting and Type Checking
+
+### Zero Linting Errors Required
+
+**All code must pass linting and type checking without errors before committing.**
+
+```bash
+# TypeScript compiler - must pass with no errors
+npx tsc --noEmit
+
+# ESLint (if configured) - must pass with no errors
+npx eslint src/**/*.ts
+```
+
+### TypeScript Strict Mode
+
+**Requirement**: All code must compile under TypeScript strict mode:
+- `strict: true` in tsconfig.json
+- No implicit `any` types
+- All parameters must have explicit types when TypeScript cannot infer them
+
+```typescript
+// ❌ Bad: Implicit 'any' type
+const filtered = items.filter(item => item.isActive);
+
+// ✅ Good: Explicit type annotation
+const filtered = items.filter((item: Item) => item.isActive);
+
+// ✅ Also good: Type is inferred from context
+const items: Item[] = [];
+const filtered = items.filter(item => item.isActive); // 'item' inferred as Item
+```
+
+### Common Linting Issues
+
+**Implicit any in arrow functions:**
+```typescript
+// ❌ Bad
+dataModel.types.filter(t => t.category === 'enumeration');
+
+// ✅ Good
+import { ParsedType } from './types/DataModel';
+dataModel.types.filter((t: ParsedType) => t.category === 'enumeration');
+```
+
+**Unused variables:**
+```typescript
+// ❌ Bad: Unused parameter
+function process(data: Data, _unused: string) {
+  return data.value;
+}
+
+// ✅ Good: Remove unused parameter
+function process(data: Data) {
+  return data.value;
+}
+
+// ✅ Good: Prefix with underscore if required by interface
+function process(data: Data, _context: string) { // Required by interface signature
+  return data.value;
+}
+```
+
+**No-unsafe-any warnings:**
+```typescript
+// ❌ Bad: Using 'any' unnecessarily
+function parseValue(input: any): string {
+  return input.toString();
+}
+
+// ✅ Good: Use unknown and type guard
+function parseValue(input: unknown): string {
+  if (typeof input === 'string') {
+    return input;
+  }
+  if (typeof input === 'number') {
+    return input.toString();
+  }
+  throw new Error('Invalid input type');
+}
+```
+
+### Pre-commit Checklist
+
+- [ ] `npx tsc --noEmit` passes with no errors
+- [ ] ESLint (if configured) passes with no errors
+- [ ] No `@ts-ignore` or `@ts-expect-error` comments without explanation
+- [ ] All function parameters have explicit types when needed
+- [ ] No implicit `any` types
 
 ---
 

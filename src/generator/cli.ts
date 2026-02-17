@@ -12,6 +12,7 @@ import { Command } from 'commander';
 import { readFileSync } from 'fs';
 import { resolve, basename } from 'path';
 import { parseNodeSet } from '../parser/index.js';
+import { ParsedType } from '../parser/types/DataModel.js';
 import { generateTypeScript } from './TypeScriptGenerator.js';
 import { writeFile, generateFileHeader } from './FileWriter.js';
 
@@ -70,9 +71,9 @@ program.action((input: string) => {
       console.log(`✅ Parsed ${dataModel.types.length} types`);
 
       // Count by category
-      const enums = dataModel.types.filter(t => t.category === 'enumeration');
-      const structs = dataModel.types.filter(t => t.category === 'structure');
-      const abstract = dataModel.types.filter(t => t.category === 'abstract');
+      const enums = dataModel.types.filter((t: ParsedType) => t.category === 'enumeration');
+      const structs = dataModel.types.filter((t: ParsedType) => t.category === 'structure');
+      const abstract = dataModel.types.filter((t: ParsedType) => t.category === 'abstract');
       console.log(`   - Enumerations: ${enums.length}`);
       console.log(`   - Structures: ${structs.length}`);
       console.log(`   - Abstract: ${abstract.length}`);
