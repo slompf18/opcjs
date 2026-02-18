@@ -1,0 +1,304 @@
+{
+  "version": "1.0.0",
+  "opcUaVersion": "1.05",
+  "description": "OPC UA Builtin Types Catalog - Part 6 Table 1 (TypeScript)",
+  "builtinTypes": [
+    {
+      "opcUaName": "Boolean",
+      "nodeId": "i=1",
+      "numericId": 1,
+      "category": "primitive",
+      "description": "Boolean logic value",
+      "typescriptType": "boolean",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 1
+      }
+    },
+    {
+      "opcUaName": "SByte",
+      "nodeId": "i=2",
+      "numericId": 2,
+      "category": "primitive",
+      "description": "Signed 8-bit integer",
+      "typescriptType": "number",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 1
+      }
+    },
+    {
+      "opcUaName": "Byte",
+      "nodeId": "i=3",
+      "numericId": 3,
+      "category": "primitive",
+      "description": "Unsigned 8-bit integer",
+      "typescriptType": "number",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 1
+      }
+    },
+    {
+      "opcUaName": "Int16",
+      "nodeId": "i=4",
+      "numericId": 4,
+      "category": "primitive",
+      "description": "Signed 16-bit integer",
+      "typescriptType": "number",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 2
+      }
+    },
+    {
+      "opcUaName": "UInt16",
+      "nodeId": "i=5",
+      "numericId": 5,
+      "category": "primitive",
+      "description": "Unsigned 16-bit integer",
+      "typescriptType": "number",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 2
+      }
+    },
+    {
+      "opcUaName": "Int32",
+      "nodeId": "i=6",
+      "numericId": 6,
+      "category": "primitive",
+      "description": "Signed 32-bit integer",
+      "typescriptType": "number",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 4
+      }
+    },
+    {
+      "opcUaName": "UInt32",
+      "nodeId": "i=7",
+      "numericId": 7,
+      "category": "primitive",
+      "description": "Unsigned 32-bit integer",
+      "typescriptType": "number",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 4
+      }
+    },
+    {
+      "opcUaName": "Int64",
+      "nodeId": "i=8",
+      "numericId": 8,
+      "category": "primitive",
+      "description": "Signed 64-bit integer",
+      "typescriptType": "bigint",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 8
+      }
+    },
+    {
+      "opcUaName": "UInt64",
+      "nodeId": "i=9",
+      "numericId": 9,
+      "category": "primitive",
+      "description": "Unsigned 64-bit integer",
+      "typescriptType": "bigint",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 8
+      }
+    },
+    {
+      "opcUaName": "Float",
+      "nodeId": "i=10",
+      "numericId": 10,
+      "category": "primitive",
+      "description": "IEEE 754 single precision (32-bit) floating point",
+      "typescriptType": "number",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 4
+      }
+    },
+    {
+      "opcUaName": "Double",
+      "nodeId": "i=11",
+      "numericId": 11,
+      "category": "primitive",
+      "description": "IEEE 754 double precision (64-bit) floating point",
+      "typescriptType": "number",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 8
+      }
+    },
+    {
+      "opcUaName": "String",
+      "nodeId": "i=12",
+      "numericId": 12,
+      "category": "string",
+      "description": "UTF-8 encoded string",
+      "typescriptType": "string",
+      "encoding": {
+        "fixedSize": false,
+        "lengthPrefixed": true
+      }
+    },
+    {
+      "opcUaName": "DateTime",
+      "nodeId": "i=13",
+      "numericId": 13,
+      "category": "complex",
+      "description": "64-bit signed integer representing 100-nanosecond intervals since January 1, 1601 UTC",
+      "typescriptType": "Date",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 8
+      }
+    },
+    {
+      "opcUaName": "Guid",
+      "nodeId": "i=14",
+      "numericId": 14,
+      "category": "complex",
+      "description": "128-bit globally unique identifier",
+      "typescriptType": "string",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 16
+      }
+    },
+    {
+      "opcUaName": "ByteString",
+      "nodeId": "i=15",
+      "numericId": 15,
+      "category": "string",
+      "description": "Sequence of bytes",
+      "typescriptType": "Uint8Array",
+      "encoding": {
+        "fixedSize": false,
+        "lengthPrefixed": true
+      }
+    },
+    {
+      "opcUaName": "XmlElement",
+      "nodeId": "i=16",
+      "numericId": 16,
+      "category": "string",
+      "description": "UTF-8 encoded XML fragment",
+      "typescriptType": "string",
+      "encoding": {
+        "fixedSize": false,
+        "lengthPrefixed": true
+      }
+    },
+    {
+      "opcUaName": "NodeId",
+      "nodeId": "i=17",
+      "numericId": 17,
+      "category": "complex",
+      "description": "Node identifier (namespace index + identifier type + value)",
+      "typescriptType": "NodeId",
+      "encoding": {
+        "fixedSize": false,
+        "identifierTypes": ["numeric", "string", "guid", "bytestring"]
+      }
+    },
+    {
+      "opcUaName": "ExpandedNodeId",
+      "nodeId": "i=18",
+      "numericId": 18,
+      "category": "complex",
+      "description": "NodeId with optional namespace URI and server index",
+      "typescriptType": "ExpandedNodeId",
+      "encoding": {
+        "fixedSize": false
+      }
+    },
+    {
+      "opcUaName": "StatusCode",
+      "nodeId": "i=19",
+      "numericId": 19,
+      "category": "complex",
+      "description": "32-bit status/error code with predefined constants",
+      "typescriptType": "StatusCode",
+      "encoding": {
+        "fixedSize": true,
+        "sizeBytes": 4
+      }
+    },
+    {
+      "opcUaName": "QualifiedName",
+      "nodeId": "i=20",
+      "numericId": 20,
+      "category": "complex",
+      "description": "Namespace index + name string",
+      "typescriptType": "QualifiedName",
+      "encoding": {
+        "fixedSize": false
+      }
+    },
+    {
+      "opcUaName": "LocalizedText",
+      "nodeId": "i=21",
+      "numericId": 21,
+      "category": "complex",
+      "description": "Locale + text string",
+      "typescriptType": "LocalizedText",
+      "encoding": {
+        "fixedSize": false
+      }
+    },
+    {
+      "opcUaName": "ExtensionObject",
+      "nodeId": "i=22",
+      "numericId": 22,
+      "category": "variant",
+      "description": "Container for encoded complex structures",
+      "typescriptType": "ExtensionObject",
+      "encoding": {
+        "fixedSize": false
+      },
+      "priority": "P3"
+    },
+    {
+      "opcUaName": "DataValue",
+      "nodeId": "i=23",
+      "numericId": 23,
+      "category": "variant",
+      "description": "Value + status + timestamps",
+      "typescriptType": "DataValue",
+      "encoding": {
+        "fixedSize": false
+      },
+      "priority": "P3"
+    },
+    {
+      "opcUaName": "Variant",
+      "nodeId": "i=24",
+      "numericId": 24,
+      "category": "variant",
+      "description": "Union of any OPC UA type with runtime type information",
+      "typescriptType": "Variant",
+      "encoding": {
+        "fixedSize": false
+      },
+      "priority": "P3"
+    },
+    {
+      "opcUaName": "DiagnosticInfo",
+      "nodeId": "i=25",
+      "numericId": 25,
+      "category": "complex",
+      "description": "Detailed diagnostic information with recursive inner info",
+      "typescriptType": "DiagnosticInfo",
+      "encoding": {
+        "fixedSize": false
+      },
+      "priority": "P2"
+    }
+  ]
+}

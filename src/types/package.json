@@ -1,0 +1,57 @@
+{
+  "name": "@opcua/types",
+  "version": "0.1.0",
+  "description": "OPC UA builtin types and complex types for TypeScript",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./catalog": {
+      "types": "./dist/catalog.d.ts",
+      "import": "./dist/catalog.js",
+      "require": "./dist/catalog.cjs"
+    },
+    "./primitives": {
+      "types": "./dist/primitives.d.ts",
+      "import": "./dist/primitives.js",
+      "require": "./dist/primitives.cjs"
+    },
+    "./nodeid": {
+      "types": "./dist/nodeid.d.ts",
+      "import": "./dist/nodeid.js",
+      "require": "./dist/nodeid.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "data/builtin-types-catalog.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
+  },
+  "keywords": [
+    "opcua",
+    "opc-ua",
+    "types",
+    "builtin-types",
+    "nodeid"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3",
+    "vitest": "^2.0.0"
+  }
+}
