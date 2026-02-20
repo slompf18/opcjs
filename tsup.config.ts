@@ -3,7 +3,8 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   entry: {
     index: 'src/index.ts',
-    'generator/cli': 'src/generator/cli.ts',
+    // TODO: Re-enable when parser is implemented
+    // 'generator/cli': 'src/generator/cli.ts',
   },
   format: ['cjs', 'esm'],
   dts: true,

@@ -1,10 +1,8 @@
 /**
- * OPC UA JavaScript Client
+ * OPC UA JavaScript Codec Library
+ * 
+ * Provides encoding/decoding for OPC UA builtin types across Binary, XML, and JSON formats.
  */
-export { Client } from './client/client';
-export { Id } from './client/id';
-export { UserIdentity } from './client/userIdentity';
-export { IssuerToken } from './client/issuerToken';
-export { IssuerConfiguration } from './client/issuerConfiguration';
-export { ReadValueResult } from './client/readValueResult';
-export { ConfigurationClient } from './configuration/configurationClient';
+
+// Export codec functionality
+export * from './codec/index';
