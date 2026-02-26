@@ -20,6 +20,11 @@
     "README.md",
     "LICENSE"
   ],
+  "workspaces": [
+    "packages/base",
+    "packages/generator",
+    "packages/client"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

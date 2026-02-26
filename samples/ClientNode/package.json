@@ -1,0 +1,32 @@
+{
+  "name": "opcua-client-node",
+  "version": "1.0.0",
+  "description": "OPC UA Client Node.js Application with TypeScript",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:build": "npm run build && npm start",
+    "dev": "tsx watch index.ts",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "opcua",
+    "client",
+    "nodejs",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@opcua/client": "file:../../packages/client",
+    "open": "^11.0.0",
+    "openid-client": "^6.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
