@@ -1,23 +1,21 @@
-import { BufferReader } from "../../codecs/binary/bufferReader";
-import { BufferWriter } from "../../codecs/binary/bufferWriter";
-import { IEncodable } from "../../codecs/iEncodable";
-import { UInt32 } from "../../types/baseTypes"
+import { IReader } from "../../codecs/interfaces/iReader";
+import { IWriter } from "../../codecs/interfaces/iWriter";
 import { MsgHeader } from "./msgHeader";
-import { MsgTypeAck, MsgTypeHello } from "./msgTypes";
+import { MsgTypeAck } from "./msgTypes";
 
 // https://reference.opcfoundation.org/Core/Part6/v105/docs/7.1.2.4
-export class MsgAck implements IEncodable {
+export class MsgAck {
     public header: MsgHeader = new MsgHeader(MsgTypeAck, 0);
 
     constructor(
-        public ProtocolVersion: UInt32,
-        public ReceiveBufferSize: UInt32,
-        public SendBufferSize: UInt32,
-        public MaxMessageSize: UInt32,
-        public MaxChunkCount: UInt32) {
+        public ProtocolVersion: number,
+        public ReceiveBufferSize: number,
+        public SendBufferSize: number,
+        public MaxMessageSize: number,
+        public MaxChunkCount: number) {
     }
 
-    static decode(buffer: BufferReader): MsgAck {
+    static decode(buffer: IReader): MsgAck {
         const msg = new MsgAck(0, 0, 0, 0, 0);
         msg.header = MsgHeader.decode(buffer);
         msg.ProtocolVersion = buffer.readUInt32();
@@ -28,7 +26,7 @@ export class MsgAck implements IEncodable {
         return msg;
     }
 
-    encode(buffer: BufferWriter) {
+    encode(buffer: IWriter) {
         this.header.encode(buffer);
         buffer.writeUInt32(this.ProtocolVersion);
         buffer.writeUInt32(this.ReceiveBufferSize);

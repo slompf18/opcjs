@@ -18,7 +18,6 @@ export class WsChannel implements ISocket {
             // In Node.js, allow self-signed certificates for development
             // This has no effect in browsers (browsers use their own certificate validation)
             if (isNodeJS && endpointUrl.startsWith('wss://')) {
-                // @ts-ignore - Node.js specific
                 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
             }
 

@@ -1,17 +1,16 @@
-import { UInt32 } from "../types/baseTypes";
 import { IEncryptionAlgorithm } from "./iEncryptionAlgorithm";
 
 export class EncryptionAlgorithmUnauthenticated implements IEncryptionAlgorithm {
     constructor(
-        private cipherBlockSize: UInt32,
-        private plainTextBlockSize: UInt32,
+        private cipherBlockSize: number,
+        private plainTextBlockSize: number,
         private hasPadding: boolean,
         private encrypt: (cleartext: Uint8Array) => Uint8Array,
         private decrypt: (ciphertext: Uint8Array) => Uint8Array,
         private calculateSignature: (message: Uint8Array) => Uint8Array,
         private verifySignature: (message: Uint8Array, signature: Uint8Array) => boolean,
-        private signatureLength: UInt32,
-        private remoteSignatureLength: UInt32,
+        private signatureLength: number,
+        private remoteSignatureLength: number,
         private signatureUri: string
     ) { }
 
@@ -19,7 +18,7 @@ export class EncryptionAlgorithmUnauthenticated implements IEncryptionAlgorithm 
         return false;
     }
 
-    GetMaxPayload(maxCipherTextSize: UInt32): UInt32 {
+    GetMaxPayload(maxCipherTextSize: number): number {
         const maxCipherBlocks = maxCipherTextSize / this.cipherBlockSize
         const maxPlainTextSize = maxCipherBlocks * this.plainTextBlockSize
         const maxPayloadSize = maxPlainTextSize - this.signatureLength - 1
@@ -27,7 +26,7 @@ export class EncryptionAlgorithmUnauthenticated implements IEncryptionAlgorithm 
         return maxPayloadSize
     }
 
-    GetEncryptedSize(dataSize: UInt32): UInt32 {
+    GetEncryptedSize(dataSize: number): number {
         const size = dataSize + this.signatureLength
         const blockCount = size / this.plainTextBlockSize
         const encryptedLength = blockCount * this.cipherBlockSize
@@ -39,7 +38,7 @@ export class EncryptionAlgorithmUnauthenticated implements IEncryptionAlgorithm 
         return this.hasPadding;
     }
     
-    GetPadding(bytesToWrite: UInt32): Uint8Array {
+    GetPadding(bytesToWrite: number): Uint8Array {
         const plaintextBlockSize = this.plainTextBlockSize
         const signatureSize = this.GetSignatureLength()
         const extraPadding = this.remoteSignatureLength > 256
@@ -75,7 +74,7 @@ export class EncryptionAlgorithmUnauthenticated implements IEncryptionAlgorithm 
     VerifySignature(message: Uint8Array, signature: Uint8Array): boolean {
         return this.verifySignature(message, signature);
     }
-    GetSignatureLength(): UInt32 {
+    GetSignatureLength(): number {
         return this.signatureLength;
     }
     SignatureUri(): string {

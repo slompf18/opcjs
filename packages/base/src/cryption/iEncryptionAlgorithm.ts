@@ -1,12 +1,10 @@
-import { UInt32 } from "../types/baseTypes";
-
 export interface IEncryptionAlgorithm {
     IsAuthenticated(): boolean
-    GetMaxPayload(maxCipherTextSize: UInt32): UInt32
+    GetMaxPayload(maxCipherTextSize: number): number
 
-    GetEncryptedSize(dataSize: UInt32): UInt32
+    GetEncryptedSize(dataSize: number): number
 
-    GetPadding(bytesToWrite: UInt32): Uint8Array
+    GetPadding(bytesToWrite: number): Uint8Array
 
     HasPadding(): boolean
     
@@ -25,7 +23,7 @@ export interface IEncryptionAlgorithm {
     VerifySignature(message: Uint8Array, signature: Uint8Array): boolean
 
     // GetSignatureLength returns the length in bytes for outgoing signatures.
-    GetSignatureLength(): UInt32
+    GetSignatureLength(): number
 
     // SignatureURI returns the URI for the signature algorithm as defined
     // by the OPC-UA profiles in Part 7

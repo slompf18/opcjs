@@ -102,7 +102,7 @@ export class XmlWriter implements IWriter {
         this.writeText(value.toString());
     }
 
-    writeString(value: string | undefined): void {
+    writeString(value: string | null): void {
         this.writeText(value ?? '');
     }
 

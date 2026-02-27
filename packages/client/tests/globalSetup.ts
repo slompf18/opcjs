@@ -64,7 +64,7 @@ export async function setup(): Promise<void> {
         serverProcess.stdout!.on('data', (chunk: Buffer) => {
             const text = chunk.toString();
             // Forward all server stdout, prefixed so it is easy to identify.
-            process.stdout.write(prefixLines(text, '[RefServer] '));
+            //process.stdout.write(prefixLines(text, '[RefServer] '));
             if (!started && text.includes('Server started.')) {
                 started = true;
                 clearTimeout(startupTimeout);
@@ -74,7 +74,7 @@ export async function setup(): Promise<void> {
 
         serverProcess.stderr!.on('data', (chunk: Buffer) => {
             // Forward server stderr prefixed so it is easy to identify.
-            process.stderr.write(prefixLines(chunk.toString(), '[RefServer] '));
+            //process.stderr.write(prefixLines(chunk.toString(), '[RefServer] '));
         });
 
         serverProcess.on('error', (err) => {

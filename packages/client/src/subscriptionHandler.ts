@@ -36,33 +36,33 @@ export class SubscriptionHandler {
     private async publish(acknowledgeSequenceNumbers: number[]) {
         const acknowledgements = []
         for (let i = 0; i < acknowledgeSequenceNumbers.length; i++) {
-            const acknowledgement = new SubscriptionAcknowledgement(
-                this.entries[i].subscriptionId,
-                acknowledgeSequenceNumbers[i]);
+            const acknowledgement = new SubscriptionAcknowledgement();
+            acknowledgement.subscriptionId = this.entries[i].subscriptionId;
+            acknowledgement.sequenceNumber = acknowledgeSequenceNumbers[i];
             acknowledgements.push(acknowledgement);
         }
         const response = await this.subscriptionService.publish(acknowledgements);
 
-        const messagesToAcknowledge = response.NotificationMessage.SequenceNumber
+        const messagesToAcknowledge = response.notificationMessage.sequenceNumber
         // todo: evaluatin status codes
-        const notificationDatas = response.NotificationMessage.NotificationData
+        const notificationDatas = response.notificationMessage.notificationData
 
         for (let notificationData of notificationDatas) {
-            const decodedData = notificationData.decodeBody();
-            const typeNodeId = notificationData.TypeId.NodeId;
-            if (typeNodeId.Namespace === 0 && typeNodeId.Identifier === 811) {
+            const decodedData = notificationData.data;
+            const typeNodeId = notificationData.typeId;
+            if (typeNodeId.namespace === 0 && typeNodeId.identifier === 811) {
                 const dataChangeNotification = decodedData as DataChangeNotification;
-                for (let item of dataChangeNotification.MonitoredItems) {
-                    const clientHandle = item.ClientHandle;
-                    const value = item.Value;
+                for (let item of dataChangeNotification.monitoredItems) {
+                    const clientHandle = item.clientHandle;
+                    const value = item.value;
                     const entry = this.entries.find(e => e.handle == clientHandle);
                     entry?.callback([{
                         id: entry.id,
-                        value: value.Value?.Value
+                        value: value.value?.value
                     }]);
                 }
             } else {
-                console.log(`The change notification data type ${typeNodeId.Namespace}:${typeNodeId.Identifier} is not supported.`)
+                console.log(`The change notification data type ${typeNodeId.namespace}:${typeNodeId.identifier} is not supported.`)
             }
         }
 

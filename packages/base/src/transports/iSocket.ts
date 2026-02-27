@@ -1,5 +1,3 @@
-import { IEncodable } from "../codecs/iEncodable"
-
 export interface ISocket {
     connect(endpointUrl: string): Promise<void>
     send(msg: Uint8Array): Promise<void>
