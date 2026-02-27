@@ -108,8 +108,10 @@ const VariantMask = {
  * @see FR-010 - String values as length-prefixed UTF-8
  */
 export class BinaryWriter implements IWriter {
-  private buffer: Buffer;
+  private buffer: Uint8Array;
+  private view: DataView;
   private position: number;
+    private readonly growthFactor: number = 2;
 
   public getData(): Uint8Array {
     return this.buffer.subarray(0, this.position);
@@ -159,25 +161,28 @@ export class BinaryWriter implements IWriter {
     if (!Number.isInteger(value) || value < 0 || value > 4294967295) {
       throw new CodecError(`UInt32 value ${value} out of range [0, 4294967295]`);
     }
-    this.buffer.writeUInt32LE(value, offset);
+    this.view.setUint32(offset, value, true);
   }
 
   /**
    * Ensure buffer has enough capacity, growing if necessary.
    */
-  private ensureCapacity(additionalBytes: number): void {
-    const required = this.position + additionalBytes;
-    if (required > this.buffer.length) {
-      const newSize = Math.max(required, this.buffer.length * 2);
-      const newBuffer = Buffer.allocUnsafe(newSize);
-      this.buffer.copy(newBuffer, 0, 0, this.position);
-      this.buffer = newBuffer;
+    private ensureCapacity(additionalBytes: number): void {
+        const requiredSize = this.position + additionalBytes;
+        if (requiredSize > this.buffer.length) {
+            // Grow buffer by doubling or to required size, whichever is larger
+            const newSize = Math.max(this.buffer.length * this.growthFactor, requiredSize);
+            const newBuffer = new Uint8Array(newSize);
+            newBuffer.set(this.buffer.subarray(0, this.position), 0);
+            this.buffer = newBuffer;
+            this.view = new DataView(newBuffer.buffer, newBuffer.byteOffset, newBuffer.byteLength);
+            console.log(`BufferWriter: resized buffer to ${newSize} bytes`);
+        }
     }
-  }
 
   writeBoolean(value: boolean): void {
     this.ensureCapacity(1);
-    this.buffer.writeUInt8(value ? 1 : 0, this.position);
+    this.view.setUint8(this.position, value ? 1 : 0);
     this.position += 1;
   }
 
@@ -186,7 +191,7 @@ export class BinaryWriter implements IWriter {
       throw new CodecError(`Byte value ${value} out of range [0, 255]`);
     }
     this.ensureCapacity(1);
-    this.buffer.writeUInt8(value, this.position);
+    this.view.setUint8(this.position, value);
     this.position += 1;
   }
 
@@ -195,7 +200,7 @@ export class BinaryWriter implements IWriter {
       throw new CodecError(`SByte value ${value} out of range [-128, 127]`);
     }
     this.ensureCapacity(1);
-    this.buffer.writeInt8(value, this.position);
+    this.view.setInt8(this.position, value);
     this.position += 1;
   }
 
@@ -204,7 +209,7 @@ export class BinaryWriter implements IWriter {
       throw new CodecError(`Int16 value ${value} out of range [-32768, 32767]`);
     }
     this.ensureCapacity(2);
-    this.buffer.writeInt16LE(value, this.position);
+    this.view.setInt16(this.position, value, true);
     this.position += 2;
   }
 
@@ -213,7 +218,7 @@ export class BinaryWriter implements IWriter {
       throw new CodecError(`UInt16 value ${value} out of range [0, 65535]`);
     }
     this.ensureCapacity(2);
-    this.buffer.writeUInt16LE(value, this.position);
+    this.view.setUint16(this.position, value, true);
     this.position += 2;
   }
 
@@ -222,7 +227,7 @@ export class BinaryWriter implements IWriter {
       throw new CodecError(`Int32 value ${value} out of range [-2147483648, 2147483647]`);
     }
     this.ensureCapacity(4);
-    this.buffer.writeInt32LE(value, this.position);
+    this.view.setInt32(this.position, value, true);
     this.position += 4;
   }
 
@@ -231,31 +236,31 @@ export class BinaryWriter implements IWriter {
       throw new CodecError(`UInt32 value ${value} out of range [0, 4294967295]`);
     }
     this.ensureCapacity(4);
-    this.buffer.writeUInt32LE(value, this.position);
+    this.view.setUint32(this.position, value, true);
     this.position += 4;
   }
 
   writeInt64(value: bigint): void {
     this.ensureCapacity(8);
-    this.buffer.writeBigInt64LE(value, this.position);
+    this.view.setBigInt64(this.position, value, true);
     this.position += 8;
   }
 
   writeUInt64(value: bigint): void {
     this.ensureCapacity(8);
-    this.buffer.writeBigUInt64LE(value, this.position);
+    this.view.setBigUint64(this.position, value, true);
     this.position += 8;
   }
 
   writeFloat(value: number): void {
     this.ensureCapacity(4);
-    this.buffer.writeFloatLE(value, this.position);
+    this.view.setFloat32(this.position, value, true);
     this.position += 4;
   }
 
   writeDouble(value: number): void {
     this.ensureCapacity(8);
-    this.buffer.writeDoubleLE(value, this.position);
+    this.view.setFloat64(this.position, value, true);
     this.position += 8;
   }
 
@@ -300,20 +305,20 @@ export class BinaryWriter implements IWriter {
 
     // Data1 (UInt32, bytes 0-3)
     const data1 = parseInt(hex.substr(0, 8), 16);
-    this.buffer.writeUInt32LE(data1, this.position);
+    this.view.setUint32(this.position, data1, true);
 
     // Data2 (UInt16, bytes 4-5)
     const data2 = parseInt(hex.substr(8, 4), 16);
-    this.buffer.writeUInt16LE(data2, this.position + 4);
+    this.view.setUint16(this.position + 4, data2, true);
 
     // Data3 (UInt16, bytes 6-7)
     const data3 = parseInt(hex.substr(12, 4), 16);
-    this.buffer.writeUInt16LE(data3, this.position + 6);
+    this.view.setUint16(this.position + 6, data3, true);
 
     // Data4 (Byte[8], bytes 8-15)
     for (let i = 0; i < 8; i++) {
       const byte = parseInt(hex.substr(16 + i * 2, 2), 16);
-      this.buffer.writeUInt8(byte, this.position + 8 + i);
+      this.view.setUint8(this.position + 8 + i, byte);
     }
 
     this.position += 16;
@@ -523,20 +528,24 @@ export class BinaryWriter implements IWriter {
       case ExtensionObjectEncoding.None:
         break;
       case ExtensionObjectEncoding.Binary:
-        if (!value.data) {
-          throw new CodecError('ExtensionObject with Binary encoding must have data');
-        }
+        {
+          if (!value.data) {
+            throw new CodecError('ExtensionObject with Binary encoding must have data');
+          }
 
-        const binaryData = encoder.encodeWithoutId(value.data, 'binary') as Uint8Array;
-        this.writeByteString(binaryData);
-        break;
-      case ExtensionObjectEncoding.Xml:
-        if (!value.data) {
-          throw new CodecError('ExtensionObject with Xml encoding must have data');
+          const binaryData = encoder.encodeWithoutId(value.data, 'binary') as Uint8Array;
+          this.writeByteString(binaryData);
+          break;
         }
-        const xmlString = encoder.encodeWithoutId(value.data, 'xml') as string;
-        this.writeXmlElement(xmlString);
-        break;
+      case ExtensionObjectEncoding.Xml:
+        {
+          if (!value.data) {
+            throw new CodecError('ExtensionObject with Xml encoding must have data');
+          }
+          const xmlString = encoder.encodeWithoutId(value.data, 'xml') as string;
+          this.writeXmlElement(xmlString);
+          break;
+        }
       default:
         throw new CodecError(`Invalid ExtensionObject encoding: ${value.encoding}`);
     }
@@ -689,7 +698,9 @@ export class BinaryWriter implements IWriter {
   }
 
   constructor(initialSize: number = 1024) {
-    this.buffer = Buffer.allocUnsafe(initialSize);
+    const data = Buffer.allocUnsafe(initialSize);
+    this.buffer = data
+    this.view = new DataView(data.buffer, data.byteOffset, data.byteLength);
     this.position = 0;
   }
 }
