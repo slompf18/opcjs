@@ -1,7 +1,7 @@
 {
-  "name": "@opcua/generator",
+  "name": "@opc/generator",
   "version": "0.1.0",
-  "description": "OPC UA TypeScript code generator",
+  "description": "A nodes generator for OPC UA.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -24,11 +24,9 @@
   },
   "keywords": [
     "opcua",
-    "opc-ua",
-    "generator",
-    "typescript"
+    "opc-ua"
   ],
-  "author": "",
+  "author": "slompf18",
   "license": "MIT",
   "dependencies": {
     "@opcua/base": "*",

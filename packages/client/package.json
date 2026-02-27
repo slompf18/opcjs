@@ -1,7 +1,7 @@
 {
-  "name": "@opcua/client",
+  "name": "@opc/client",
   "version": "0.1.0",
-  "description": "OPC UA client library for TypeScript",
+  "description": "A client for OPC UA communication.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -27,7 +27,7 @@
     "opc-ua",
     "client"
   ],
-  "author": "",
+  "author": "slompf18",
   "license": "MIT",
   "dependencies": {
     "@opcua/base": "*"
