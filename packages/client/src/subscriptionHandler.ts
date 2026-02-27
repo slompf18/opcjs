@@ -1,4 +1,4 @@
-import { DataChangeNotification, SubscriptionAcknowledgement } from "@opcua/base";
+import { DataChangeNotification, SubscriptionAcknowledgement } from "opcjs-base";
 import { Id } from "./id";
 import { MonitoredItemService } from "./services/monitoredItemService";
 import { SubscriptionService } from "./services/subscriptionService";

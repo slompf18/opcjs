@@ -15,9 +15,9 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@opcua/base": ["./src/index.ts"]
+      "opcjs-base": ["./src/index.ts"] // needed for imported schema
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "../client/tests"]
+  "exclude": ["node_modules", "dist"]
 }

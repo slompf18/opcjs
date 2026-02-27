@@ -1,4 +1,7 @@
-import { CreateSubscriptionRequest, CreateSubscriptionResponse, ISecureChannel, NodeId, PublishRequest, PublishResponse, SubscriptionAcknowledgement } from "@opcua/base";
+import {
+    CreateSubscriptionRequest, CreateSubscriptionResponse, ISecureChannel, NodeId, PublishRequest,
+    PublishResponse, SubscriptionAcknowledgement
+} from "opcjs-base";
 import { ServiceBase } from "./serviceBase";
 
 // https://reference.opcfoundation.org/Core/Part4/v105/docs/5.14

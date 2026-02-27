@@ -1,4 +1,4 @@
-import { EndpointDescription, IssuedIdentityToken, NodeId, UserTokenTypeEnum } from "@opcua/base";
+import { EndpointDescription, IssuedIdentityToken, NodeId, UserTokenTypeEnum } from "opcjs-base";
 import { IssuerConfiguration } from "../issuerConfiguration";
 import { SessionService } from "../services/sessionService";
 import { UserIdentity } from "../userIdentity";

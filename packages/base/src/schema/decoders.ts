@@ -10,7 +10,7 @@
  * Any changes made to this file will be lost when regenerated.
  */
 
-import { type IReader, Decoder } from '@opcua/base';
+import { type IReader, Decoder } from 'opcjs-base';
 import {
     ActionStateEnum,
     ApplicationTypeEnum,

@@ -36,7 +36,7 @@ program
   .option('--node-ids <path>', 'Path to NodeIds.csv (defaults to NodeIds.csv next to the input file)')
   .option(
     '--base-types-prefix <prefix>',
-    'Use relative imports for @opcua/base types instead of the barrel import. ' +
+    'Use relative imports for opcjs-base types instead of the barrel import. ' +
     'Pass the relative path prefix to the base types directory (e.g. "../types"). ' +
     'Use this when generating code that lives inside the base package itself to avoid circular dependencies.'
   );
@@ -154,9 +154,9 @@ program.action((input: string) => {
         const allBaseTypes = ['IOpcType', ...generatedCode.baseTypeImports];
         const valueTypes = allBaseTypes.filter(n => !primitiveTypeAliases.has(n));
         const typeOnlyTypes = allBaseTypes.filter(n => primitiveTypeAliases.has(n));
-        const valueImport = `import {\n    ${valueTypes.join(',\n    ')}\n} from '@opcua/base';\n`;
+        const valueImport = `import {\n    ${valueTypes.join(',\n    ')}\n} from 'opcjs-base';\n`;
         const typeImport = typeOnlyTypes.length > 0
-          ? `import type { ${typeOnlyTypes.join(', ')} } from '@opcua/base';\n`
+          ? `import type { ${typeOnlyTypes.join(', ')} } from 'opcjs-base';\n`
           : '';
         opcTypeImport = valueImport + typeImport;
       }
@@ -180,7 +180,7 @@ export abstract class Structure implements IOpcType {
       console.log(`💾 Writing binary decoders to: ${decodersPath}`);
 
       const decoderImports: string[] = [
-        `import { type IReader, Decoder } from '@opcua/base';`,
+        `import { type IReader, Decoder } from 'opcjs-base';`,
       ];
       if (generatedCode.decoderEnumImports.length > 0) {
         decoderImports.push(
@@ -200,7 +200,7 @@ export abstract class Structure implements IOpcType {
       console.log(`💾 Writing binary encoders to: ${encodersPath}`);
 
       const encoderImports: string[] = [
-        `import { IWriter, Encoder } from '@opcua/base';`,
+        `import { IWriter, Encoder } from 'opcjs-base';`,
       ];
       if (generatedCode.encoderEnumImports.length > 0) {
         encoderImports.push(
@@ -220,7 +220,7 @@ export abstract class Structure implements IOpcType {
       console.log(`💾 Writing decoder registrations to: ${decoderRegsPath}`);
 
       const decoderRegsImports: string[] = [
-        `import { type IReader, Decoder, BinaryReader } from '@opcua/base';`,
+        `import { type IReader, Decoder, BinaryReader } from 'opcjs-base';`,
       ];
       if (generatedCode.decoderRegistrationImports.length > 0) {
         decoderRegsImports.push(
@@ -235,7 +235,7 @@ export abstract class Structure implements IOpcType {
       console.log(`💾 Writing encoder registrations to: ${encoderRegsPath}`);
 
       const encoderRegsImports: string[] = [
-        `import { Encoder } from '@opcua/base';`,
+        `import { Encoder } from 'opcjs-base';`,
       ];
       if (generatedCode.encoderRegistrationImports.length > 0) {
         encoderRegsImports.push(

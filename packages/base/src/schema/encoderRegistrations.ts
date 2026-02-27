@@ -10,7 +10,7 @@
  * Any changes made to this file will be lost when regenerated.
  */
 
-import { Encoder } from '@opcua/base';
+import { Encoder } from 'opcjs-base';
 import {
     encodeUnion,
     encodeKeyValuePair,

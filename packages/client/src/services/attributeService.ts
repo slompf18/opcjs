@@ -1,4 +1,4 @@
-import { ISecureChannel, NodeId, QualifiedName, ReadRequest, ReadResponse, ReadValueId, TimestampsToReturnEnum } from "@opcua/base";
+import { ISecureChannel, NodeId, QualifiedName, ReadRequest, ReadResponse, ReadValueId, TimestampsToReturnEnum } from "opcjs-base";
 import { AttrIdValue } from "./attributeServiceAttributes";
 import { ServiceBase } from "./serviceBase";
 

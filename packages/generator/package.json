@@ -29,7 +29,7 @@
   "author": "slompf18",
   "license": "MIT",
   "dependencies": {
-    "@opcua/base": "*",
+    "opcjs-base": "*",
     "commander": "^12.1.0",
     "fast-xml-parser": "^5.4.1"
   },

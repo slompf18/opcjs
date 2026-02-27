@@ -9,9 +9,6 @@
  */
 
 import { NodeId } from './nodeId.js';
-import { XmlElement } from './xmlElement.js';
-import { ExpandedNodeId } from './expandedNodeId.js';
-import { BinaryWriter } from '../codecs/binary/binaryWriter.js';
 import { IOpcType } from './iOpcType.js';
 import { ExtensionObjectEncoding } from './extensionObjectEncoding.js';
 

@@ -10,7 +10,7 @@
  * Any changes made to this file will be lost when regenerated.
  */
 
-import { type IReader, Decoder, BinaryReader } from '@opcua/base';
+import { type IReader, Decoder, BinaryReader } from 'opcjs-base';
 import {
     decodeUnion,
     decodeKeyValuePair,

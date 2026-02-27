@@ -16,7 +16,7 @@ import { ParsedType } from '../types/DataModel.js';
 /**
  * Maps the numeric part of a built-in OPC UA node id (i=N) to its TypeScript
  * type name.  Types like `NodeId`, `StatusCode`, etc. are class names exported
- * from `@opcua/base`; primitive numbers/booleans/strings stay as native types.
+ * from `opcjs-base`; primitive numbers/booleans/strings stay as native types.
  */
 const BUILTIN_TS_TYPE: Record<number, string> = {
     1:  'boolean',          // Boolean

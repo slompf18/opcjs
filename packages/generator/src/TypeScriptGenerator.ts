@@ -27,7 +27,7 @@ export interface GeneratedCode {
   types: string;
   /** Enum type names (safe names) referenced in struct fields – needed as imports */
   enumImports: string[];
-  /** Complex base-type names from \`@opcua/base\` referenced in struct fields */
+  /** Complex base-type names from \`opcjs-base\` referenced in struct fields */
   baseTypeImports: string[];  /** TypeScript code for binary decoder functions */
   decoders: string;
   /** Structure type names that must be imported from types file in decoders.ts */
@@ -122,7 +122,7 @@ export function generateTypeScript(
     types.filter((t) => t.category === 'enumeration').map((t) => t.nodeId)
   );
 
-  // Complex base types from @opcua/base that can appear as field types
+  // Complex base types from opcjs-base that can appear as field types
   const BASE_COMPLEX_TYPES = new Set([
     'UaString', 'UaByteString',
     'XmlElement', 'NodeId', 'ExpandedNodeId',

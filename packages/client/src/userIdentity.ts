@@ -1,7 +1,7 @@
-import { IssuedIdentityToken, UserIdentityToken, UserNameIdentityToken, UserTokenTypeEnum } from "@opcua/base";
+import { IssuedIdentityToken, UserIdentityToken, UserNameIdentityToken, UserTokenTypeEnum } from "opcjs-base";
 import { IssuerConfiguration } from "./issuerConfiguration";
 import { IssuerToken } from "./issuerToken";
-import { AnonymousIdentityToken } from "@opcua/base";
+import { AnonymousIdentityToken } from "opcjs-base";
 
 export class UserIdentity {
     private userIdentityToken?: UserIdentityToken;

@@ -1,5 +1,5 @@
 import { ConfigurationClient } from "../configurationClient";
-import { ISecureChannel, NodeId } from "@opcua/base";
+import { ISecureChannel, NodeId } from "opcjs-base";
 import { SessionService } from "../services/sessionService";
 import { UserIdentity } from "../userIdentity";
 import { Session } from "./session";

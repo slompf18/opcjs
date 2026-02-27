@@ -1,7 +1,7 @@
-import { SecureChannel } from "@opcua/base";
-import { ChannelFactory } from "@opcua/base";
+import { SecureChannel } from "opcjs-base";
+import { ChannelFactory } from "opcjs-base";
 import { SessionHandler } from "./sessions/sessionHandler";
-import { ISecureChannel } from "@opcua/base";
+import { ISecureChannel } from "opcjs-base";
 import { Session } from "./sessions/session";
 import { Id } from "./id";
 import { AttributeService } from "./services/attributeService";

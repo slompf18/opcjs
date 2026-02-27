@@ -10,7 +10,7 @@
  * Any changes made to this file will be lost when regenerated.
  */
 
-import { IWriter, Encoder } from '@opcua/base';
+import { IWriter, Encoder } from 'opcjs-base';
 import {
     ActionStateEnum,
     ApplicationTypeEnum,

@@ -1,4 +1,4 @@
-import { ExtensionObject, ISecureChannel, NodeId, RequestHeader } from "@opcua/base";
+import { ExtensionObject, ISecureChannel, NodeId, RequestHeader } from "opcjs-base";
 
 export abstract class ServiceBase{
 

@@ -1,4 +1,7 @@
-import { CreateMonitoredItemsRequest, CreateMonitoredItemsResponse, ExtensionObject, ISecureChannel, MonitoredItemCreateRequest, MonitoringParameters, NodeId, QualifiedName, ReadValueId, TimestampsToReturnEnum } from "@opcua/base";
+import { 
+    CreateMonitoredItemsRequest, CreateMonitoredItemsResponse, 
+    ExtensionObject, ISecureChannel, MonitoredItemCreateRequest, MonitoringParameters, 
+    NodeId, QualifiedName, ReadValueId, TimestampsToReturnEnum } from "opcjs-base";
 import { AttrIdValue } from "./attributeServiceAttributes";
 import { ServiceBase } from "./serviceBase";
 

@@ -1,5 +1,5 @@
 /**
- * @opcua/base - OPC UA base package
+ * @opcjs-base - OPC UA base package
  *
  * Exports builtin types and codec APIs.
  */

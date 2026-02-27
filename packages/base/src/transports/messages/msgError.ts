@@ -1,5 +1,7 @@
-import { IReader, UaString } from "@opcua/base";
+
+import { IReader } from "../../codecs/interfaces/iReader";
 import { IWriter } from "../../codecs/interfaces/iWriter";
+import { UaString } from "../../types/primitives";
 import { MsgHeader } from "./msgHeader";
 import { MsgTypeError } from "./msgTypes";
 

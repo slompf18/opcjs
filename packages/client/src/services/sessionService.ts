@@ -1,4 +1,8 @@
-import { ActivateSessionRequest, ApplicationDescription, ApplicationTypeEnum, Configuration, CreateSessionRequest, CreateSessionResponse, EndpointDescription, ExtensionObject, ISecureChannel, LocalizedText, NodeId, SignatureData, SignedSoftwareCertificate, UserIdentityToken } from "@opcua/base";
+import {
+    ActivateSessionRequest, ApplicationDescription, ApplicationTypeEnum,
+    Configuration, CreateSessionRequest, CreateSessionResponse, EndpointDescription, ExtensionObject,
+    ISecureChannel, LocalizedText, NodeId, SignatureData, SignedSoftwareCertificate, UserIdentityToken
+} from "opcjs-base";
 import { ServiceBase } from "./serviceBase";
 
 export class SessionService extends ServiceBase {

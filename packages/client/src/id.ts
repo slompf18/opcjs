@@ -1,4 +1,4 @@
-import { NodeId } from "@opcua/base";
+import { NodeId } from "opcjs-base";
 
 export class Id {
     static newId(namespace: number, identifier: string) {
