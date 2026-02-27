@@ -1,6 +1,6 @@
 import { 
     CreateMonitoredItemsRequest, CreateMonitoredItemsResponse, 
-    ExtensionObject, ISecureChannel, MonitoredItemCreateRequest, MonitoringParameters, 
+    ExtensionObject, ISecureChannel, MonitoredItemCreateRequest, MonitoringModeEnum, MonitoringParameters, 
     NodeId, QualifiedName, ReadValueId, TimestampsToReturnEnum } from "opcjs-base";
 import { AttrIdValue } from "./attributeServiceAttributes";
 import { ServiceBase } from "./serviceBase";
@@ -24,6 +24,7 @@ export class MonitoredItemService extends ServiceBase {
 
             const monitoredItemCreateRequest = new MonitoredItemCreateRequest();
             monitoredItemCreateRequest.itemToMonitor = readValueId;
+            monitoredItemCreateRequest.monitoringMode = MonitoringModeEnum.Reporting;
             monitoredItemCreateRequest.requestedParameters = monitoringParameters;
             return monitoredItemCreateRequest;            
         });

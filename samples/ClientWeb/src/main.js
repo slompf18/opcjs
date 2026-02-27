@@ -1,4 +1,4 @@
-import { ConfigurationClient, Client, UserIdentity } from 'opcjs-client';
+import { ConfigurationClient, Client, UserIdentity, Id } from 'opcjs-client';
 
 async function run() {
   console.log('Creating OPC UA Client...');
@@ -14,12 +14,14 @@ async function run() {
     console.log(r.status, r.value)
   }
 
+  client.subscribe([Id.newId(2, 'Scalar_Simulation_Double')], (datas) => {
+    for (let data of datas) {
+      console.log('Subscription value received: ', data.id.toString(), data.value);
+      document.querySelector('#currentValue').innerHTML = `${data.value}`;
+    }
+  })
 
-  document.querySelector('#app').innerHTML = `
-  <div>
-    hello
-  </div>
-`
+
 }
 
 run()

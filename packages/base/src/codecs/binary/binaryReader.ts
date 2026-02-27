@@ -426,13 +426,13 @@ export class BinaryReader implements IReader {
       case ExtensionObjectEncoding.None: { break; }
       case ExtensionObjectEncoding.Binary: {
         const reader = new BinaryReader(this.readByteString() as Uint8Array);
-        data = decoder.decodeWithTypeId(typeId.identifier as number, reader);// todo: we need to handle the node id. use different decoders for different namesapces and support other node id types
+        data = decoder.decodeWithEncodingId(typeId.identifier as number, reader);// todo: we need to handle the node id. use different decoders for different namesapces and support other node id types
 
         break;
       }
       case ExtensionObjectEncoding.Xml: {
         const reader = new XmlReader(this.readString() as string);
-        data = decoder.decodeWithTypeId(typeId.identifier as number, reader);// todo: we need to handle the node id. use different decoders for different namesapces and support other node id types
+        data = decoder.decodeWithEncodingId(typeId.identifier as number, reader);// todo: we need to handle the node id. use different decoders for different namesapces and support other node id types
 
         break;
       }

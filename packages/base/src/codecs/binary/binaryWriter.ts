@@ -111,7 +111,7 @@ export class BinaryWriter implements IWriter {
   private buffer: Uint8Array;
   private view: DataView;
   private position: number;
-    private readonly growthFactor: number = 2;
+  private readonly growthFactor: number = 2;
 
   public getData(): Uint8Array {
     return this.buffer.subarray(0, this.position);
@@ -167,18 +167,18 @@ export class BinaryWriter implements IWriter {
   /**
    * Ensure buffer has enough capacity, growing if necessary.
    */
-    private ensureCapacity(additionalBytes: number): void {
-        const requiredSize = this.position + additionalBytes;
-        if (requiredSize > this.buffer.length) {
-            // Grow buffer by doubling or to required size, whichever is larger
-            const newSize = Math.max(this.buffer.length * this.growthFactor, requiredSize);
-            const newBuffer = new Uint8Array(newSize);
-            newBuffer.set(this.buffer.subarray(0, this.position), 0);
-            this.buffer = newBuffer;
-            this.view = new DataView(newBuffer.buffer, newBuffer.byteOffset, newBuffer.byteLength);
-            console.log(`BufferWriter: resized buffer to ${newSize} bytes`);
-        }
+  private ensureCapacity(additionalBytes: number): void {
+    const requiredSize = this.position + additionalBytes;
+    if (requiredSize > this.buffer.length) {
+      // Grow buffer by doubling or to required size, whichever is larger
+      const newSize = Math.max(this.buffer.length * this.growthFactor, requiredSize);
+      const newBuffer = new Uint8Array(newSize);
+      newBuffer.set(this.buffer.subarray(0, this.position), 0);
+      this.buffer = newBuffer;
+      this.view = new DataView(newBuffer.buffer, newBuffer.byteOffset, newBuffer.byteLength);
+      console.log(`BufferWriter: resized buffer to ${newSize} bytes`);
     }
+  }
 
   writeBoolean(value: boolean): void {
     this.ensureCapacity(1);
@@ -263,28 +263,12 @@ export class BinaryWriter implements IWriter {
     this.view.setFloat64(this.position, value, true);
     this.position += 8;
   }
-
-  writeString(value: UaString): void {
-    if (value == null) {
-      this.writeInt32(-1);
-      return;
+  public writeString(value: UaString): void {
+    let encoded = undefined
+    if (value && value !== '') {
+      encoded = new TextEncoder().encode(value);
     }
-
-    const utf8Bytes = Buffer.from(value, 'utf8');
-    const length = utf8Bytes.length;
-
-    // FR-019: Reject String length > 16,777,216 bytes
-    if (length > 16777216) {
-      throw new CodecError(
-        `String length ${length} exceeds maximum allowed length of 16,777,216 bytes`,
-        { format: 'Binary', suggestedAction: 'Reduce string length' }
-      );
-    }
-
-    this.writeInt32(length);
-    this.ensureCapacity(length);
-    utf8Bytes.copy(this.buffer, this.position);
-    this.position += length;
+    this.writeByteString(encoded);
   }
 
   writeDateTime(value: Date): void {
@@ -324,15 +308,15 @@ export class BinaryWriter implements IWriter {
     this.position += 16;
   }
 
-  writeByteString(value: Uint8Array | null | undefined): void {
-    if (value == null) {
+  public writeByteString(value: Uint8Array | null | undefined): void {
+    if (!value) {
       this.writeInt32(-1);
       return;
     }
 
-    const length = value.length;
-
     // FR-019: Reject ByteString length > 16,777,216 bytes
+
+    const length = value.length;
     if (length > 16777216) {
       throw new CodecError(
         `ByteString length ${length} exceeds maximum allowed length of 16,777,216 bytes`,
@@ -340,16 +324,8 @@ export class BinaryWriter implements IWriter {
       );
     }
 
-    this.writeInt32(length);
-    this.ensureCapacity(length);
-
-    if (Buffer.isBuffer(value)) {
-      value.copy(this.buffer, this.position);
-    } else {
-      this.buffer.set(value, this.position);
-    }
-
-    this.position += length;
+    this.writeInt32(value.length);
+    this.writeBytes(value);
   }
 
   writeXmlElement(value: string): void {
@@ -433,10 +409,7 @@ export class BinaryWriter implements IWriter {
         this.writeByte(NodeIdEncodingByte.ByteString);
         this.writeUInt16(value.namespace);
         const ident = value.identifier;
-        const buf = ident instanceof Uint8Array && !(ident instanceof Buffer)
-          ? Buffer.from(ident)
-          : ident as Buffer;
-        this.writeByteString(buf);
+        this.writeByteString(ident as Uint8Array);
         break;
       }
 
@@ -698,7 +671,7 @@ export class BinaryWriter implements IWriter {
   }
 
   constructor(initialSize: number = 1024) {
-    const data = Buffer.allocUnsafe(initialSize);
+    const data = new Uint8Array(initialSize);
     this.buffer = data
     this.view = new DataView(data.buffer, data.byteOffset, data.byteLength);
     this.position = 0;

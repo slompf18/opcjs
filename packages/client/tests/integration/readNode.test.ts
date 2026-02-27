@@ -32,19 +32,19 @@ describe('readNode', () => {
     });
 
     it('subscribe', async () => {
-        // const endpointUrl = 'wss://add8470387ec:62542/Test/ReferenceServer/';
-        // const configuration = ConfigurationClient.getSimple('MyNodeOPCUAClient', 'eos');
-        // const client = new Client(endpointUrl, configuration, UserIdentity.newAnonymous());
+        const endpointUrl = 'wss://add8470387ec:62542/Test/ReferenceServer/';
+        const configuration = ConfigurationClient.getSimple('MyNodeOPCUAClient', 'eos');
+        const client = new Client(endpointUrl, configuration, UserIdentity.newAnonymous());
 
-        // await client.connect();
-        // console.log('Connected successfully!');
+        await client.connect();
+        console.log('Connected successfully!');
 
-        // const receivedData = await new Promise((resolve) => {
-        //     client.subscribe([Id.newId(2, 'Scalar_Simulation_Double')], (datas) => {
-        //         resolve(datas)
-        //     })
-        // });
+        const receivedData = await new Promise((resolve) => {
+            client.subscribe([Id.newId(2, 'Scalar_Simulation_Double')], (datas) => {
+                resolve(datas)
+            })
+        });
 
-        // console.log('Received data:', receivedData);
+        console.log('Received data:', receivedData);
     });
 });

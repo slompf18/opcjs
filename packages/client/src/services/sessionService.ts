@@ -45,14 +45,20 @@ export class SessionService extends ServiceBase {
         }
 
         const endpoint = 'opc.' + this.secureChannel.getEndpointUrl();
+        const endpointUrl = new URL(endpoint);
         const securityMode = this.secureChannel.getSecurityMode();
         const securityPolicyUri = this.secureChannel.getSecurityPolicy(); // todo: does not work with localhost. Not sure why.
 
         const serverEndpoint = castedResponse
             ?.serverEndpoints
-            ?.find(ep => ep.endpointUrl === endpoint
-                && ep.securityMode === securityMode
-                && ep.securityPolicyUri === securityPolicyUri);
+            ?.find(currentEndpoint => {
+                const currentEndpointUrl = new URL(currentEndpoint.endpointUrl as string);
+
+                return currentEndpointUrl.protocol === endpointUrl.protocol
+                && currentEndpointUrl.pathname === endpointUrl.pathname
+                && currentEndpointUrl.port === endpointUrl.port
+                && currentEndpoint.securityMode === securityMode
+                && currentEndpoint.securityPolicyUri === securityPolicyUri});
 
         if (!serverEndpoint) {
             throw new Error(`Server endpoint ${endpoint} not found in CreateSessionResponse`);
