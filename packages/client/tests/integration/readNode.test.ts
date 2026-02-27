@@ -10,7 +10,6 @@ import { Client } from '../../src/client.js';
 import { ConfigurationClient } from '../../src/configurationClient.js';
 import { Id } from '../../src/id.js';
 import { UserIdentity } from '../../src/userIdentity.js';
-import { Console } from 'console';
 
 describe('readNode', () => {
     it('readNode', async () => {

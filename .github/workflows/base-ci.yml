@@ -25,8 +25,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: packages/client
+        working-directory: packages/base
+
+      - name: Verify
+        run: npm run verify
+        working-directory: packages/base
 
       - name: Build
         run: npm run build
-        working-directory: packages/client
+        working-directory: packages/base
