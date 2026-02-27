@@ -1,5 +1,5 @@
 {
-  "name": "@opcjs/base",
+  "name": "opsjs-base",
   "version": "0.1.0",
   "description": "Base functionalities for OPC UA.",
   "type": "module",
