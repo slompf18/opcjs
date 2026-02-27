@@ -1,0 +1,33 @@
+# This workflow publishes the package to npm when a release is created
+name: Publish to npm
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: packages/base
+
+      - name: Publish to npm
+        run: npm publish --access public
+        working-directory: packages/base
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Post-publish clean up
+        run: npm logout
+        working-directory: packages/base
