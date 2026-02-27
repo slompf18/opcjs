@@ -10,6 +10,7 @@ export type { IWriter } from './codecs/interfaces/iWriter.js';
 export {Encoder} from './codecs/encoder.js';
 export {Decoder} from './codecs/decoder.js';
 export { BinaryReader } from './codecs/binary/binaryReader.js';
+export { BinaryWriter } from './codecs/binary/binaryWriter.js';
 export { DataValue } from './types/dataValue.js';
 export { DiagnosticInfo } from './types/diagnosticInfo.js';
 export { ExpandedNodeId } from './types/expandedNodeId.js';

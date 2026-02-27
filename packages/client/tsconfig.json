@@ -14,8 +14,7 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@opcua/base": ["../base/src/index.ts"],
-      "@opcua/client": ["./src/index.ts"]
+      "@opcua/opcjs-base": ["../base/src/index.ts"]
     }
   },
   "include": ["src/**/*"],

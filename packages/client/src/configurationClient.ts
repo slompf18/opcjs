@@ -1,5 +1,4 @@
-import { BinaryReader, Configuration, Decoder, Encoder, registerBinaryDecoders, registerEncoders, registerTypeDecoders } from "@opcua/base";
-import { BinaryWriter } from "../../base/src/codecs/binary/binaryWriter";
+import { BinaryReader, BinaryWriter, Configuration, Decoder, Encoder, registerBinaryDecoders, registerEncoders, registerTypeDecoders } from "@opcua/base";
 
 export class ConfigurationClient extends Configuration {
     public static getSimple(name:string, company:string): 

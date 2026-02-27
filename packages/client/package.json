@@ -1,6 +1,6 @@
 {
   "name": "opcjs-client",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A client for OPC UA communication.",
   "repository": {
     "type": "git",
@@ -36,7 +36,7 @@
   "author": "slompf18",
   "license": "MIT",
   "dependencies": {
-    "@opcua/base": "*"
+    "@opcua/opcjs-base": "*"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

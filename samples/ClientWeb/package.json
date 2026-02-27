@@ -1,0 +1,11 @@
+{
+  "name": "opcua-webapp",
+  "version": "1.0.0",
+  "description": "OPC UA Web Application",
+  "scripts": {
+    "run": "live-server --port=8080 --open=index.html"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  }
+}
