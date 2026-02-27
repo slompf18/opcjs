@@ -1,5 +1,5 @@
 # This workflow publishes the package to npm when a release is created
-name: Publish to npm
+name: Base Build
 
 on:  
   workflow_dispatch:
@@ -11,7 +11,7 @@ on:
       - '**'
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -29,8 +29,4 @@ jobs:
 
       - name: Build
         run: npm run build
-        working-directory: packages/base
-
-      - name: Test
-        run: npm run test
         working-directory: packages/base

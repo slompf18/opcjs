@@ -1,0 +1,36 @@
+# This workflow publishes the package to npm when a release is created
+name: Client Build & Test
+
+on:  
+  workflow_dispatch:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  buildAndTest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: packages/base
+
+      - name: Build
+        run: npm run build
+        working-directory: packages/base
+
+      - name: Test
+        run: npm run test
+        working-directory: packages/base
