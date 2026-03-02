@@ -1,5 +1,4 @@
-import { DataChangeNotification, SubscriptionAcknowledgement } from "opcjs-base";
-import { Id } from "./id";
+import { DataChangeNotification, NodeId, SubscriptionAcknowledgement } from "opcjs-base";
 import { MonitoredItemService } from "./services/monitoredItemService";
 import { SubscriptionService } from "./services/subscriptionService";
 import { SubscriptionHandlerEntry } from "./subscriptionHandlerEntry";
@@ -8,7 +7,7 @@ export class SubscriptionHandler {
     private entries = new Array<SubscriptionHandlerEntry>()
     private nextHandle = 0
 
-    async subscribe(ids: Id[], callback: (data: { id: Id, value: unknown }[]) => void) {
+    async subscribe(ids: NodeId[], callback: (data: { id: NodeId, value: unknown }[]) => void) {
         if (this.entries.length > 0) {
             throw new Error('Subscribing more than once is not implemented');
         }
@@ -24,7 +23,7 @@ export class SubscriptionHandler {
             );
             this.entries.push(entry)
             const item = {
-                id: id.toNodeId(),
+                id: id,
                 handle: entry.handle
             }
             items.push(item)

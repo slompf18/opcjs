@@ -1,9 +1,8 @@
-import { SecureChannel } from "opcjs-base";
+import { NodeId, SecureChannel } from "opcjs-base";
 import { ChannelFactory } from "opcjs-base";
 import { SessionHandler } from "./sessions/sessionHandler";
 import { ISecureChannel } from "opcjs-base";
 import { Session } from "./sessions/session";
-import { Id } from "./id";
 import { AttributeService } from "./services/attributeService";
 import { ReadValueResult } from "./readValueResult";
 import { SubscriptionHandler } from "./subscriptionHandler";
@@ -58,13 +57,13 @@ export class Client {
         }
     }
 
-    async read(ids: Id[]):Promise<ReadValueResult[]>{
+    async read(ids: NodeId[]):Promise<ReadValueResult[]>{
         const service = new AttributeService(this.getSession().getAuthToken(), this.channel as ISecureChannel);
-        const result = await service.ReadValue(ids.map(i => i.toNodeId()))
+        const result = await service.ReadValue(ids);
         return result.map(r => new ReadValueResult(r.value, r.status))
     }
 
-    async subscribe(ids: Id[], callback: (data: {id:Id, value:unknown}[]) => void){
+    async subscribe(ids: NodeId[], callback: (data: {id:NodeId, value:unknown}[]) => void){
         this.subscriptionHandler?.subscribe(ids, callback)
     }
 

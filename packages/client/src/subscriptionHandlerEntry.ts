@@ -1,10 +1,10 @@
-import { Id } from "./id";
+import { NodeId } from "opcjs-base";
 
 export class SubscriptionHandlerEntry{
     constructor(
         public subscriptionId:number,
         public handle: number, 
-        public id:Id, 
-        public callback: (data: { id: Id, value: unknown }[]) => void
+        public id:NodeId, 
+        public callback: (data: { id: NodeId, value: unknown }[]) => void
     ){}
 }
