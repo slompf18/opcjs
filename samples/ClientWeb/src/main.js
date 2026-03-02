@@ -1,4 +1,4 @@
-import { ConfigurationClient, Client, UserIdentity, Id } from 'opcjs-client';
+import { ConfigurationClient, Client, UserIdentity, NodeId } from 'opcjs-client';
 
 async function run() {
   console.log('Creating OPC UA Client...');
@@ -9,12 +9,13 @@ async function run() {
   await client.connect();
   console.log('Connected successfully!');
 
-  const results = await client.read([Id.newId(2, 'Scalar_Simulation_Double')])
+  const id = NodeId.newString(2, 'Scalar_Simulation_Double');
+  const results = await client.read([id])
   for (let r of results) {
     console.log(r.status, r.value)
   }
 
-  client.subscribe([Id.newId(2, 'Scalar_Simulation_Double')], (datas) => {
+  client.subscribe([id], (datas) => {
     for (let data of datas) {
       console.log('Subscription value received: ', data.id.toString(), data.value);
       document.querySelector('#currentValue').innerHTML = `${data.value}`;

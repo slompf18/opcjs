@@ -20,7 +20,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@opcua/client": "file:../../packages/client",
+    "opcjs-base": "file:../../packages/base",
+    "opcjs-client": "file:../../packages/client",
     "open": "^11.0.0",
     "openid-client": "^6.8.1"
   },

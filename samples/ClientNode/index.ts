@@ -1,6 +1,7 @@
 
 
-import { Client, ConfigurationClient, Id, UserIdentity } from '@opcua/client';
+import { Client, ConfigurationClient, UserIdentity } from 'opcjs-client';
+import { NodeId } from 'opcjs-base';
 
 const endpointUrl = 'wss://add8470387ec:62542/Test/ReferenceServer/';
 
@@ -33,8 +34,8 @@ async function main(): Promise<void> {
   try {
     await client.connect();
     console.log('Connected successfully!');
-
-    const results = await client.read([Id.newId(2, 'Scalar_Simulation_Double')])
+    const id = NodeId.newString(2, 'Scalar_Simulation_Double');
+    const results = await client.read([id])
     for (let r of results) {
       console.log(r.status, r.value)
     }
