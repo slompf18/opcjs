@@ -13,7 +13,7 @@ import { DataValue } from '../../types/dataValue.js';
 import { Variant } from '../../types/variant.js';
 import { DiagnosticInfo } from '../../types/diagnosticInfo.js';
 import { Encoder } from '../encoder.js';
-import { UaString } from '../../types/primitives.js';
+import { XmlElement } from '../../types/xmlElement.js';
 
 /**
  * IWriter defines the low-level encoding operations for all OPC UA built-in types.
@@ -107,7 +107,7 @@ export interface IWriter {
    * Binary: Int32 length prefix + UTF-8 bytes
    * @param value The string value; null or undefined is encoded as length -1 (OPC UA null)
    */
-  writeString(value: UaString): void;
+  writeString(value: string | null): void;
 
   /**
    * Encode a DateTime value.
@@ -135,7 +135,7 @@ export interface IWriter {
    * Binary: Int32 length prefix + UTF-8 encoded XML
    * @param value The XML string (undefined encoded as length -1)
    */
-  writeXmlElement(value: string): void;
+  writeXmlElement(value: XmlElement): void;
 
   /**
    * Encode an array with Int32 length prefix.

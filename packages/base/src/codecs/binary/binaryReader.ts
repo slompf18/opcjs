@@ -18,7 +18,6 @@ import type { IReader } from '../interfaces/iReader.js';
 import type { IOpcType } from '../../types/iOpcType.js';
 import { Decoder } from '../decoder.js';
 import { XmlReader } from '../xml/xmlReader.js';
-import { UaString } from '../../types/primitives.js';
 
 /**
  * OPC UA DateTime epoch: January 1, 1601 00:00:00 UTC
@@ -180,7 +179,7 @@ export class BinaryReader implements IReader {
     return value;
   }
 
-  readString(): UaString {
+  readString(): string | null {
     const length = this.readInt32();
 
     if (length === -1) {

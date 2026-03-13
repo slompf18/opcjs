@@ -16,6 +16,8 @@ import {
   WebSocketWritableStream,
   SecureChannelChunkReader,
   SecureChannelChunkWriter,
+  CallMethodRequest,
+  Variant
 } from "opcjs-base";
 import { SessionHandler } from "./sessions/sessionHandler";
 import { Session } from "./sessions/session";
@@ -27,13 +29,17 @@ import { MonitoredItemService } from "./services/monitoredItemService";
 import { UserIdentity } from "./userIdentity";
 import { ConfigurationClient } from "./configurationClient";
 import { ILogger } from "opcjs-base";
+import { MethodService } from "./services/methodService";
+import { CallMethodResult } from "./callMethodResult";
+import { UaPrimitive } from "../../base/src/types/primitives";
 
 export class Client {
   private endpointUrl: string;
   private attributeService?: AttributeService;
+  private methodService?: MethodService;
   private session?: Session;
   private subscriptionHandler?: SubscriptionHandler;
-  private logger:ILogger;
+  private logger: ILogger;
 
   getSession(): Session {
     if (!this.session) {
@@ -43,8 +49,8 @@ export class Client {
   }
 
   async connect(): Promise<void> {
-    
-    const wsOptions = { endpoint:this.endpointUrl }
+
+    const wsOptions = { endpoint: this.endpointUrl }
     const ws = new WebSocketFascade(wsOptions);
     const webSocketReadableStream = new WebSocketReadableStream(ws, 1000);
     const webSocketWritableStream = new WebSocketWritableStream(ws);
@@ -103,9 +109,10 @@ export class Client {
     const sessionHandler = new SessionHandler(sc, this.configuration);
     this.session = await sessionHandler.createNewSession(this.identity);
     this.logger.debug("Session created.");
-    
+
     this.logger.debug("Initializing services...");
     this.attributeService = new AttributeService(this.session.getAuthToken(), sc);
+    this.methodService = new MethodService(this.session.getAuthToken(), sc);
     this.subscriptionHandler = new SubscriptionHandler(
       new SubscriptionService(this.session.getAuthToken(), sc),
       new MonitoredItemService(this.session.getAuthToken(), sc),
@@ -123,6 +130,29 @@ export class Client {
   async read(ids: NodeId[]): Promise<ReadValueResult[]> {
     const result = await this.attributeService?.ReadValue(ids);
     return result?.map((r) => new ReadValueResult(r.value, r.status)) || [];
+  }
+
+  /**
+   * Method for calling a single method on the server.
+   * @param objectId - NodeId of the Object that owns the method.
+   * @param methodId - NodeId of the Method to invoke.
+   * @param inputArguments - Input argument Variants (default: empty).
+   * @returns The CallMethodResult for the invoked method.
+   */
+  async callMethod(
+    objectId: NodeId,
+    methodId: NodeId,
+    inputArguments: UaPrimitive[] = []
+  ): Promise<CallMethodResult> {
+    const request = new CallMethodRequest();
+    request.objectId = objectId;
+    request.methodId = methodId;
+    request.inputArguments = inputArguments.map(arg => Variant.newFrom(arg));
+
+    const responses = await this.methodService!.call([request]);
+    const response = responses[0];
+
+    return new CallMethodResult(response.value, response.status);
   }
 
   async subscribe(

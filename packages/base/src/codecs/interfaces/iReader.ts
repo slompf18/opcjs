@@ -13,7 +13,6 @@ import { DataValue } from '../../types/dataValue.js';
 import { Variant } from '../../types/variant.js';
 import { DiagnosticInfo } from '../../types/diagnosticInfo.js';
 import { Decoder } from '../decoder.js';
-import { UaString } from '../../types/primitives.js';
 
 /**
  * IReader defines the low-level decoding operations for all OPC UA built-in types.
@@ -106,7 +105,7 @@ export interface IReader {
    * Binary: Int32 length prefix + UTF-8 bytes (-1 indicates null)
    * @returns The string value, or null if the length prefix is -1 (OPC UA null)
    */
-  readString(): UaString;
+  readString(): string | null;
 
   /**
    * Decode a DateTime value.

@@ -7,43 +7,41 @@
  * @module primitives
  */
 
+export type UaBoolean = boolean;
 /**
  * OPC UA Builtin Type Numeric IDs
  * 
  * These correspond to the NodeId numeric identifiers defined in OPC UA Part 6, Table 1.
  */
-export const BuiltinTypeId = {
-  Boolean: 1,
-  SByte: 2,
-  Byte: 3,
-  Int16: 4,
-  UInt16: 5,
-  Int32: 6,
-  UInt32: 7,
-  Int64: 8,
-  UInt64: 9,
-  Float: 10,
-  Double: 11,
-  String: 12,
-  DateTime: 13,
-  Guid: 14,
-  ByteString: 15,
-  XmlElement: 16,
-  NodeId: 17,
-  ExpandedNodeId: 18,
-  StatusCode: 19,
-  QualifiedName: 20,
-  LocalizedText: 21,
-  ExtensionObject: 22,
-  DataValue: 23,
-  Variant: 24,
-  DiagnosticInfo: 25,
-} as const;
+export type UaSbyte = {value: number; readonly type: 'sbyte' };
+export const uaSbyte = (value: number): UaSbyte => ({ value, type: 'sbyte' });
 
-/**
- * Type representing any builtin type ID
- */
-export type BuiltinTypeIdValue = typeof BuiltinTypeId[keyof typeof BuiltinTypeId];
+export type UaByte = {value: number; readonly type: 'byte' };
+export const uaByte = (value: number): UaByte => ({ value, type: 'byte' });
+
+export type UaInt16 = {value: number; readonly type: 'int16' };
+export const uaInt16 = (value: number): UaInt16 => ({ value, type: 'int16' });
+
+export type UaUint16 = {value: number; readonly type: 'uint16' };
+export const uaUint16 = (value: number): UaUint16 => ({ value, type: 'uint16' });
+
+export type UaInt32 = {value: number; readonly type: 'int32' };
+export const uaInt32 = (value: number): UaInt32 => ({ value, type: 'int32' });
+
+export type UaUint32 = {value: number; readonly type: 'uint32' };
+export const uaUint32 = (value: number): UaUint32 => ({ value, type: 'uint32' });
+
+export type UaInt64 = {value: bigint; readonly type: 'int64' };
+export const uaInt64 = (value: bigint): UaInt64 => ({ value, type: 'int64' });
+
+export type UaUint64 = {value: bigint; readonly type: 'uint64' };
+export const uaUint64 = (value: bigint): UaUint64 => ({ value, type: 'uint64' });
+
+export type UaFloat = {value: number; readonly type: 'float' };
+export const uaFloat = (value: number): UaFloat => ({ value, type: 'float' });
+
+export type UaDouble = {value: number; readonly type: 'double' };
+export const uaDouble = (value: number): UaDouble => ({ value, type: 'double' });
 
 /**
  * OPC UA String primitive type.
@@ -54,6 +52,11 @@ export type BuiltinTypeIdValue = typeof BuiltinTypeId[keyof typeof BuiltinTypeId
  * from an empty string.
  */
 export type UaString = string | null;
+
+export type UaDateTime = Date
+
+export type UaGuid = {value: string; readonly type: 'guid' };
+export const uaGuid = (value: string): UaGuid => ({ value, type: 'guid' });
 
 /**
  * OPC UA ByteString primitive type.
@@ -66,112 +69,22 @@ export type UaString = string | null;
 export type UaByteString = Uint8Array | null;
 
 /**
- * Primitive type mappings: OPC UA type → TypeScript type
- * 
- * Primitives use native TypeScript types directly:
- * - Boolean → boolean
- * - All numeric types → number (TypeScript doesn't distinguish integer types)
- * - String → string
- * - DateTime → Date
- * - Guid → string (UUID format)
+ * Union of all OPC UA primitive types accepted by {@link Variant.newFrom}.
  */
-export type PrimitiveTypeMap = {
-  [BuiltinTypeId.Boolean]: boolean;
-  [BuiltinTypeId.SByte]: number;
-  [BuiltinTypeId.Byte]: number;
-  [BuiltinTypeId.Int16]: number;
-  [BuiltinTypeId.UInt16]: number;
-  [BuiltinTypeId.Int32]: number;
-  [BuiltinTypeId.UInt32]: number;
-  [BuiltinTypeId.Int64]: bigint;
-  [BuiltinTypeId.UInt64]: bigint;
-  [BuiltinTypeId.Float]: number;
-  [BuiltinTypeId.Double]: number;
-  [BuiltinTypeId.String]: UaString;
-  [BuiltinTypeId.DateTime]: Date;
-  [BuiltinTypeId.Guid]: string;
-  [BuiltinTypeId.ByteString]: UaByteString;
-};
+export type UaPrimitive =
+  | UaBoolean
+  | UaSbyte
+  | UaByte
+  | UaInt16
+  | UaUint16
+  | UaInt32
+  | UaUint32
+  | UaInt64
+  | UaUint64
+  | UaFloat
+  | UaDouble
+  | UaString
+  | UaDateTime
+  | UaGuid
+  | UaByteString;
 
-/**
- * Get the TypeScript type name for a primitive builtin type
- * 
- * @param typeId - The numeric builtin type ID
- * @returns The TypeScript type name as a string, or undefined if not a primitive
- * 
- * @example
- * ```typescript
- * getPrimitiveTypeName(1);  // "boolean"
- * getPrimitiveTypeName(6); // "number"
- * getPrimitiveTypeName(12); // "string"
- * getPrimitiveTypeName(17); // undefined (NodeId is complex, not primitive)
- * ```
- */
-export function getPrimitiveTypeName(typeId: number): string | undefined {
-  const primitiveMap: Record<number, string> = {
-    [BuiltinTypeId.Boolean]: 'boolean',
-    [BuiltinTypeId.SByte]: 'number',
-    [BuiltinTypeId.Byte]: 'number',
-    [BuiltinTypeId.Int16]: 'number',
-    [BuiltinTypeId.UInt16]: 'number',
-    [BuiltinTypeId.Int32]: 'number',
-    [BuiltinTypeId.UInt32]: 'number',
-    [BuiltinTypeId.Int64]: 'bigint',
-    [BuiltinTypeId.UInt64]: 'bigint',
-    [BuiltinTypeId.Float]: 'number',
-    [BuiltinTypeId.ByteString]: 'Uint8Array | null',
-    [BuiltinTypeId.Double]: 'number',
-    [BuiltinTypeId.String]: 'string | null',
-    [BuiltinTypeId.DateTime]: 'Date',
-    [BuiltinTypeId.Guid]: 'string',
-  };
-  
-  return primitiveMap[typeId];
-}
-
-/**
- * Check if a builtin type ID represents a primitive type
- * 
- * @param typeId - The numeric builtin type ID
- * @returns true if the type is primitive, false otherwise
- * 
- * @example
- * ```typescript
- * isPrimitive(1);  // true (Boolean)
- * isPrimitive(17); // false (NodeId is complex)
- * ```
- */
-export function isPrimitive(typeId: number): boolean {
-  return getPrimitiveTypeName(typeId) !== undefined;
-}
-
-/**
- * OPC UA type names
- */
-export const OpcUaTypeName = {
-  Boolean: 'Boolean',
-  SByte: 'SByte',
-  Byte: 'Byte',
-  Int16: 'Int16',
-  UInt16: 'UInt16',
-  Int32: 'Int32',
-  UInt32: 'UInt32',
-  Int64: 'Int64',
-  UInt64: 'UInt64',
-  Float: 'Float',
-  Double: 'Double',
-  String: 'String',
-  DateTime: 'DateTime',
-  Guid: 'Guid',
-  ByteString: 'ByteString',
-  XmlElement: 'XmlElement',
-  NodeId: 'NodeId',
-  ExpandedNodeId: 'ExpandedNodeId',
-  StatusCode: 'StatusCode',
-  QualifiedName: 'QualifiedName',
-  LocalizedText: 'LocalizedText',
-  ExtensionObject: 'ExtensionObject',
-  DataValue: 'DataValue',
-  Variant: 'Variant',
-  DiagnosticInfo: 'DiagnosticInfo',
-} as const;

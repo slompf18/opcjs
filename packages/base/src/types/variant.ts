@@ -16,6 +16,7 @@ import type { ExtensionObject } from './extensionObject.js';
 import type { DataValue } from './dataValue.js';
 import type { DiagnosticInfo } from './diagnosticInfo.js';
 import { StatusCode } from './statusCode.js';
+import type { UaPrimitive} from './primitives.js';
 
 /**
  * Enumeration of variant types based on BuiltinType NodeIds.
@@ -53,6 +54,7 @@ export enum VariantType {
  * Type union representing all possible variant values.
  */
 export type VariantValue =
+  | null
   | undefined
   | boolean
   | number
@@ -64,7 +66,6 @@ export type VariantValue =
   | ExpandedNodeId
   | QualifiedName
   | LocalizedText
-  | Uint8Array
   | XmlElement
   | ExtensionObject
   | DataValue
@@ -209,6 +210,84 @@ export class Variant {
     // For simple comparison, convert to string representation
     // A full implementation would need type-specific comparison logic
     return JSON.stringify(this.value) === JSON.stringify(other.value);
+  }
+
+  /**
+   * Lookup table mapping UA primitive type discriminants to VariantType enum values.
+   */
+  private static readonly primitiveTagMap = {
+    sbyte:  VariantType.SByte,
+    byte:   VariantType.Byte,
+    int16:  VariantType.Int16,
+    uint16: VariantType.UInt16,
+    int32:  VariantType.Int32,
+    uint32: VariantType.UInt32,
+    int64:  VariantType.Int64,
+    uint64: VariantType.UInt64,
+    float:  VariantType.Float,
+    double: VariantType.Double,
+    string: VariantType.String,
+    guid:   VariantType.Guid,
+    bytestring: VariantType.ByteString,
+  } as const satisfies Record<string, VariantType>;
+
+  /**
+   * Creates a Variant from a typed OPC UA primitive value.
+   *
+   * Uses the `.type` discriminant on tagged primitives to determine the
+   * VariantType exactly — no heuristic inference based on value ranges.
+   *
+   * | Input type       | VariantType  |
+   * |------------------|--------------|
+   * | `UaBoolean`      | Boolean      |
+   * | `UaSbyte`        | SByte        |
+   * | `UaByte`         | Byte         |
+   * | `UaInt16`        | Int16        |
+   * | `UaUint16`       | UInt16       |
+   * | `UaInt32`        | Int32        |
+   * | `UaUint32`       | UInt32       |
+   * | `UaInt64`        | Int64        |
+   * | `UaUint64`       | UInt64       |
+   * | `UaFloat`        | Float        |
+   * | `UaDouble`       | Double       |
+   * | `UaString`       | String       |
+   * | `UaDateTime`     | DateTime     |
+   * | `UaGuid`         | Guid         |
+   * | `UaByteString`   | ByteString   |
+   *
+   * @param value - A typed OPC UA primitive value.
+   * @returns A new Variant wrapping the inner value with the correct VariantType.
+   */
+  public static newFrom<T extends UaPrimitive>(value: T): Variant {
+    if (value === null || value === undefined) {
+      return Variant.createNull();
+    }
+    // UaBoolean = boolean
+    if (typeof value === 'boolean') {
+      return new Variant(VariantType.Boolean, value);
+    }
+    if (typeof value === 'string'){
+      return new Variant(VariantType.String, value);
+    }
+    if (value instanceof Uint8Array){
+      return new Variant(VariantType.ByteString, value);
+    }
+    // UaDateTime = Date
+    if (value instanceof Date) {
+      return new Variant(VariantType.DateTime, value);
+    }
+    // Tagged union types: UaSbyte | UaByte | UaInt16 | UaUint16 | UaInt32 | UaUint32
+    //                   | UaInt64 | UaUint64 | UaFloat | UaDouble | UaString | UaGuid
+    if (typeof value === 'object' && 'type' in value) {
+      const tagged = value as { type: keyof typeof Variant.primitiveTagMap; value: VariantValue };
+      const variantType = Variant.primitiveTagMap[tagged.type];
+      if (variantType !== undefined) {
+        return new Variant(variantType, tagged.value);
+      }
+    }
+    throw new Error(
+      `newFrom: unhandled UaPrimitive value: ${JSON.stringify(value)}`
+    );
   }
 
   /**

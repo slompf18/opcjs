@@ -16,7 +16,7 @@ import { Variant, VariantType } from '../../types/variant.js';
 import { DiagnosticInfo } from '../../types/diagnosticInfo.js';
 import { IWriter } from '../interfaces/iWriter.js';
 import { Encoder } from '../encoder.js';
-import { UaString } from '../../types/primitives.js';
+import { XmlElement } from '../../types/xmlElement.js';
 
 /**
  * OPC UA DateTime epoch: January 1, 1601 00:00:00 UTC
@@ -263,7 +263,7 @@ export class BinaryWriter implements IWriter {
     this.view.setFloat64(this.position, value, true);
     this.position += 8;
   }
-  public writeString(value: UaString): void {
+  public writeString(value: string | null): void {
     let encoded = undefined
     if (value && value !== '') {
       encoded = new TextEncoder().encode(value);
@@ -328,9 +328,9 @@ export class BinaryWriter implements IWriter {
     this.writeBytes(value);
   }
 
-  writeXmlElement(value: string): void {
+  writeXmlElement(value: XmlElement | string): void {
     // XmlElement is encoded as string in binary format
-    this.writeString(value);
+    this.writeString(value.toString());
   }
 
   /**

@@ -20,24 +20,42 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 let serverProcess: ChildProcess | null = null;
 
-function prefixLines(text: string, prefix: string): string {
+const serverLogging = process.env.OPCUA_SERVER_LOGGING === '1';
+
+function now(): string {
+    const d = new Date();
+    const p2 = (n: number) => String(n).padStart(2, '0');
+    const p3 = (n: number) => String(n).padStart(3, '0');
+    return `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())} ` +
+        `${p2(d.getHours())}:${p2(d.getMinutes())}:${p2(d.getSeconds())}.${p3(d.getMilliseconds())}`;
+}
+
+function log(level: string, component: string, msg: string): void {
+    if (serverLogging) {
+        process.stdout.write(`${now()} [${level}] [${component}] ${msg}\n`);
+    }
+}
+
+function prefixLines(text: string, level: string, component: string): string {
+    const ts = now();
     return text
         .split('\n')
         .map((line, i, arr) =>
             // Skip the empty string produced by a trailing newline.
-            i === arr.length - 1 && line === '' ? '' : `${prefix}${line}`
+            i === arr.length - 1 && line === '' ? '' : `${ts} [${level}] [${component}] ${line}`
         )
         .join('\n');
 }
 
 export async function setup(): Promise<void> {
     if (process.env.OPCUA_EXTERNAL_SERVER === '1') {
-        console.warn('[globalSetup] OPCUA_EXTERNAL_SERVER=1 – skipping server start. Tests requiring a server will fail if none is running.');
+        console.log('[globalSetup] OPCUA_EXTERNAL_SERVER=1 – skipping server start. Tests requiring a server will fail if none is running.');
         return;
     }
 
     const serverDir = path.resolve(__dirname, 'bin/uaNetRefServer');
 
+    log('DEBUG', 'globalSetup', 'Killing any leftover RefServer process...');
     // Kill any leftover server process from a previous (interrupted) run.
     await new Promise<void>((resolve) => {
         const killer = spawn('pkill', ['-9', '-f', 'RefServer.dll'], { stdio: 'ignore' });
@@ -47,6 +65,7 @@ export async function setup(): Promise<void> {
     // Give the OS a moment to release the port.
     await new Promise<void>((resolve) => setTimeout(resolve, 500));
 
+    log('DEBUG', 'globalSetup', 'Starting RefServer...');
     await new Promise<void>((resolve, reject) => {
         let started = false;
 
@@ -63,18 +82,21 @@ export async function setup(): Promise<void> {
 
         serverProcess.stdout!.on('data', (chunk: Buffer) => {
             const text = chunk.toString();
-            // Forward all server stdout, prefixed so it is easy to identify.
-            //process.stdout.write(prefixLines(text, '[RefServer] '));
+            if (serverLogging) {
+                process.stderr.write(prefixLines(text, 'DEBUG', 'RefServer'));
+            }
             if (!started && text.includes('Server started.')) {
                 started = true;
                 clearTimeout(startupTimeout);
+                log('DEBUG', 'globalSetup', 'RefServer is ready.');
                 resolve();
             }
         });
 
         serverProcess.stderr!.on('data', (chunk: Buffer) => {
-            // Forward server stderr prefixed so it is easy to identify.
-            //process.stderr.write(prefixLines(chunk.toString(), '[RefServer] '));
+            if (serverLogging) {
+                process.stderr.write(prefixLines(chunk.toString(), 'WARN', 'RefServer'));
+            }
         });
 
         serverProcess.on('error', (err) => {
@@ -100,11 +122,13 @@ export async function teardown(): Promise<void> {
     }
 
     if (serverProcess) {
+        log('DEBUG', 'globalSetup', 'Stopping RefServer...');
         const proc = serverProcess;
         serverProcess = null;
         await new Promise<void>((resolve) => {
             proc.on('exit', () => resolve());
             proc.kill('SIGKILL');
         });
+        log('DEBUG', 'globalSetup', 'RefServer stopped.');
     }
 }
