@@ -8,7 +8,7 @@
  */
 
 import { TypeCategory } from './types/DataModel.js';
-import { UADataType, Reference, normalizeToArray } from './XmlParser.js';
+import { UADataType, normalizeToArray } from './XmlParser.js';
 
 /**
  * NodeIds for base OPC UA types

@@ -4,23 +4,25 @@
  * This file was automatically generated from OPC UA NodeSet2 XML.
  * 
  * Source: Opc.Ua.NodeSet2.Services.xml
- * Generated: 2026-02-27T12:42:09.143Z
+ * Generated: 2026-03-16T04:16:36.493Z
  * Generator: @opcua/nodeset-generator
  * 
  * Any changes made to this file will be lost when regenerated.
  */
 
-import type { IOpcType } from '../types/iOpcType.js';
-import type { DataValue } from '../types/dataValue.js';
-import type { DiagnosticInfo } from '../types/diagnosticInfo.js';
-import type { ExpandedNodeId } from '../types/expandedNodeId.js';
-import type { ExtensionObject } from '../types/extensionObject.js';
-import type { LocalizedText } from '../types/localizedText.js';
-import type { NodeId } from '../types/nodeId.js';
-import type { QualifiedName } from '../types/qualifiedName.js';
-import type { StatusCode } from '../types/statusCode.js';
-import type { UaByteString, UaString } from '../types/primitives.js';
-import type { Variant } from '../types/variant.js';
+import {
+    IOpcType,
+    DataValue,
+    DiagnosticInfo,
+    ExpandedNodeId,
+    ExtensionObject,
+    LocalizedText,
+    NodeId,
+    QualifiedName,
+    StatusCode,
+    Variant
+} from 'opcjs-base';
+import type { UaByteString, UaString } from 'opcjs-base';
 import {
     ActionStateEnum,
     ApplicationTypeEnum,

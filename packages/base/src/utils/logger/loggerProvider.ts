@@ -1,5 +1,4 @@
 // logger.ts
-/* eslint-disable no-console */
 
 import { ILogger } from "./iLogger";
 import { ILoggerFactory } from "./iLoggerFactory";

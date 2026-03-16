@@ -28,9 +28,5 @@ jobs:
         working-directory: packages/base
 
       - name: Verify
-        run: npm run verify
-        working-directory: packages/base
-
-      - name: Build
-        run: npm run build
+        run: npm run prepublish
         working-directory: packages/base

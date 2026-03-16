@@ -5,14 +5,14 @@ import { IWriter } from "./interfaces/iWriter";
 
 export class Encoder {
 
-    private encoders: Map<number, (encoder: IWriter, value: any) => void> = new Map();
+    private encoders: Map<number, (encoder: IWriter, value: unknown) => void> = new Map();
     private writerFactories: Map<string, () => IWriter> = new Map();
 
     public registerWriterFactory(writerId: string, factory: () => IWriter) {
         this.writerFactories.set(writerId, factory);
     }
 
-    public registerType<T>(typeId: number, encoder: (encoder: IWriter, value: any) => void): void {
+    public registerType(typeId: number, encoder: (encoder: IWriter, value: unknown) => void): void {
         this.encoders.set(typeId, encoder);
     }
 

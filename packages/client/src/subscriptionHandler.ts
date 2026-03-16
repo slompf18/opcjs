@@ -14,7 +14,7 @@ export class SubscriptionHandler {
 
         const subscriptionId = await this.subscriptionService.createSubscription()
         const items = []
-        for (let id of ids) {
+        for (const id of ids) {
             const entry = new SubscriptionHandlerEntry(
                 subscriptionId,
                 this.nextHandle++,
@@ -46,12 +46,12 @@ export class SubscriptionHandler {
         // todo: evaluatin status codes
         const notificationDatas = response.notificationMessage.notificationData
 
-        for (let notificationData of notificationDatas) {
+        for (const notificationData of notificationDatas) {
             const decodedData = notificationData.data;
             const typeNodeId = notificationData.typeId;
             if (typeNodeId.namespace === 0 && typeNodeId.identifier === 811) {
                 const dataChangeNotification = decodedData as DataChangeNotification;
-                for (let item of dataChangeNotification.monitoredItems) {
+                for (const item of dataChangeNotification.monitoredItems) {
                     const clientHandle = item.clientHandle;
                     const value = item.value;
                     const entry = this.entries.find(e => e.handle == clientHandle);

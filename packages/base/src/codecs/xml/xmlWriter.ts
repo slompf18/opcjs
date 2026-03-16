@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * @fileoverview XML encoder class implementation for OPC UA types
  * @module codec/xml/codecs/encoder
@@ -12,6 +13,7 @@ import { NodeId } from "../../types/nodeId";
 import { QualifiedName } from "../../types/qualifiedName";
 import { StatusCode } from "../../types/statusCode";
 import { Variant } from "../../types/variant";
+import { XmlElement } from "../../types/xmlElement";
 import { CodecError } from "../codecError";
 import { IWriter } from "../interfaces/iWriter";
 
@@ -121,7 +123,7 @@ export class XmlWriter implements IWriter {
         this.writeText(value === undefined ? '' : value.toString('base64'));
     }
 
-    writeXmlElement(value: string | undefined): void {
+    writeXmlElement(value: XmlElement | string): void {
         // XmlElement is raw XML — written directly without escaping
         this.xml += value ?? '';
     }

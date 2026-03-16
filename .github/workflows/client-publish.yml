@@ -27,7 +27,7 @@ jobs:
         working-directory: packages/client
 
       - name: Build
-        run: npm run build
+        run: npm run prepublish
         working-directory: packages/client
 
       - name: Publish to npm

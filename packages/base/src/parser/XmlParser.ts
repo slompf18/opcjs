@@ -93,9 +93,9 @@ export function parseNodeSetXml(xmlContent: string): ParsedXML {
     return parsed;
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(`Failed to parse XML: ${error.message}`);
+      throw new Error(`Failed to parse XML: ${error.message}`, { cause: error });
     }
-    throw new Error('Failed to parse XML: Unknown error');
+    throw new Error('Failed to parse XML: Unknown error', { cause: error });
   }
 }
 

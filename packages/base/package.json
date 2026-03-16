@@ -26,9 +26,10 @@
     "lint": "npx eslint ./src",
     "verify": "npx tsc --noEmit",
     "build": "tsup",
-    "check": "npm run lint && npm run verify",
+    "prepublish": "npm run lint && npm run verify && npm run build",
     "dev": "tsup --watch",
-    "test": "vitest"
+    "test": "vitest",
+    "generate": "node ../generator/dist/cli.js ../../../ext/UA-NodeSet/Schema/Opc.Ua.NodeSet2.Services.xml -o src/schema"
   },
   "keywords": [
     "opcua",

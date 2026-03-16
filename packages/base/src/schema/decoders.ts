@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT
  * 
  * This file was automatically generated from OPC UA NodeSet2 XML.
  * 
  * Source: Opc.Ua.NodeSet2.Services.xml
- * Generated: 2026-02-27T12:42:09.143Z
+ * Generated: 2026-03-16T04:16:36.493Z
  * Generator: @opcua/nodeset-generator
  * 
  * Any changes made to this file will be lost when regenerated.

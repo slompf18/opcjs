@@ -1,0 +1,16 @@
+#!/bin/sh
+# Run prepublish checks for all packages before pushing.
+# This ensures lint, type-check, and build pass in every workspace that defines the script.
+
+echo "Running prepublish checks before push..."
+
+npm run prepublish --workspaces --if-present
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "pre-push: prepublish checks failed. Push aborted."
+  exit 1
+fi
+
+echo "pre-push: all checks passed."

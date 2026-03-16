@@ -8,14 +8,14 @@ export function isNodeLike(): boolean {
   // Works in browsers and Node. Avoids reference errors.
   return (
     typeof process !== "undefined" &&
-    typeof (process as any).versions !== "undefined" &&
-    typeof (process as any).versions.node !== "undefined"
+    typeof (process as { versions?: { node?: string } }).versions !== "undefined" &&
+    typeof (process as { versions?: { node?: string } }).versions?.node !== "undefined"
   );
 }
 
 export function supportsAnsiColors(): boolean {
   // Basic heuristic for Node TTY
-  return isNodeLike() && !!(process as any).stdout?.isTTY;
+  return isNodeLike() && !!(process as { stdout?: { isTTY?: boolean } }).stdout?.isTTY;
 }
 
 function pad2(n: number): string {
@@ -80,7 +80,7 @@ export class ConsoleSink implements ISink {
     }
   }
 }
-function consoleMethod(level: LevelName): (...data: any[]) => void {
+function consoleMethod(level: LevelName): (...data: unknown[]) => void {
   switch (level) {
     case "TRACE":
       return console.debug?.bind(console) ?? console.log.bind(console);

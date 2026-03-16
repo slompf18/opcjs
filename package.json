@@ -26,6 +26,7 @@
     "packages/client"
   ],
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks",
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest",

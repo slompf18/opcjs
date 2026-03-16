@@ -16,6 +16,8 @@ export interface GeneratedEncoderRegistrations {
     code: string;
     /** Encoder function names that must be imported from the encoders file. */
     encoderFunctionImports: string[];
+    /** Type names that must be imported from the types file for value casts. */
+    typeImports: string[];
 }
 
 // ── Main entry point ──────────────────────────────────────────────────────────
@@ -36,13 +38,15 @@ export function generateEncoderRegistrations(types: ParsedType[]): GeneratedEnco
     );
 
     const encoderFunctionImports: string[] = [];
+    const typeImports: string[] = [];
     const registerTypeLines: string[] = [];
 
     for (const type of structTypes) {
         const funcName = `encode${type.safeName}`;
         encoderFunctionImports.push(funcName);
+        typeImports.push(type.safeName);
 
-        registerTypeLines.push(`    encoder.registerType(${type.typeId}, (w, v) => ${funcName}(w, v, encoder));`);
+        registerTypeLines.push(`    encoder.registerType(${type.typeId}, (w, v) => ${funcName}(w, v as ${type.safeName}, encoder));`);
     }
 
     // ── Emit code ────────────────────────────────────────────────────────────
@@ -58,5 +62,6 @@ export function generateEncoderRegistrations(types: ParsedType[]): GeneratedEnco
     return {
         code: lines.join('\n'),
         encoderFunctionImports,
+        typeImports,
     };
 }

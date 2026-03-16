@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ICertificate } from "../certificates/iCertificate";
 import { EncryptionAlgorithmUnauthenticated } from "../cryption/encryptionAlgorithmUnauthenticated";
 import { IEncryptionAlgorithm } from "../cryption/iEncryptionAlgorithm";

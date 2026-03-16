@@ -193,7 +193,7 @@ export abstract class Structure implements IOpcType {
         );
       }
       const decoderImportsBlock = decoderImports.join('\n') + '\n\n';
-      writeFile(decodersPath, header + decoderImportsBlock + generatedCode.decoders + '\n');
+      writeFile(decodersPath, '/* eslint-disable @typescript-eslint/no-unused-vars */\n' + header + decoderImportsBlock + generatedCode.decoders + '\n');
 
       // Write binary encoders file
       const encodersPath = resolve(outputDir, 'encoders.ts');
@@ -213,7 +213,7 @@ export abstract class Structure implements IOpcType {
         );
       }
       const encoderImportsBlock = encoderImports.join('\n') + '\n\n';
-      writeFile(encodersPath, header + encoderImportsBlock + generatedCode.encoders + '\n');
+      writeFile(encodersPath, '/* eslint-disable @typescript-eslint/no-unused-vars */\n' + header + encoderImportsBlock + generatedCode.encoders + '\n');
 
       // Write decoder registrations file
       const decoderRegsPath = resolve(outputDir, 'decoderRegistrations.ts');
@@ -228,7 +228,7 @@ export abstract class Structure implements IOpcType {
         );
       }
       const decoderRegsImportsBlock = decoderRegsImports.join('\n') + '\n\n';
-      writeFile(decoderRegsPath, header + decoderRegsImportsBlock + generatedCode.decoderRegistrations + '\n');
+      writeFile(decoderRegsPath, '/* eslint-disable @typescript-eslint/no-unused-vars */\n' + header + decoderRegsImportsBlock + generatedCode.decoderRegistrations + '\n');
 
       // Write encoder registrations file
       const encoderRegsPath = resolve(outputDir, 'encoderRegistrations.ts');
@@ -237,6 +237,11 @@ export abstract class Structure implements IOpcType {
       const encoderRegsImports: string[] = [
         `import { Encoder } from 'opcjs-base';`,
       ];
+      if (generatedCode.encoderRegistrationTypeImports.length > 0) {
+        encoderRegsImports.push(
+          `import {\n    ${generatedCode.encoderRegistrationTypeImports.join(',\n    ')}\n} from './types.js';`,
+        );
+      }
       if (generatedCode.encoderRegistrationImports.length > 0) {
         encoderRegsImports.push(
           `import {\n    ${generatedCode.encoderRegistrationImports.join(',\n    ')}\n} from './encoders.js';`,

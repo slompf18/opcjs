@@ -93,9 +93,9 @@ export function extractAllTypes(types: UADataType[]): ParsedType[] {
     } catch (error) {
       const typeName = type['@_BrowseName'] || 'unknown';
       if (error instanceof Error) {
-        throw new Error(`Failed to extract type ${typeName}: ${error.message}`);
+        throw new Error(`Failed to extract type ${typeName}: ${error.message}`, { cause: error });
       }
-      throw new Error(`Failed to extract type ${typeName}: Unknown error`);
+      throw new Error(`Failed to extract type ${typeName}: Unknown error`, { cause: error });
     }
   }
   

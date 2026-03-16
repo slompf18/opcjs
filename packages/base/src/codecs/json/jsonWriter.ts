@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * @fileoverview JSON encoder class implementation for OPC UA types
  * @module codec/json/codecs/encoder
@@ -12,6 +13,7 @@ import { NodeId } from "../../types/nodeId";
 import { QualifiedName } from "../../types/qualifiedName";
 import { StatusCode } from "../../types/statusCode";
 import { Variant } from "../../types/variant";
+import { XmlElement } from "../../types/xmlElement";
 import { CodecError } from "../codecError";
 import { IWriter } from "../interfaces/iWriter";
 
@@ -122,7 +124,7 @@ export class JsonWriter implements IWriter {
         this.setValue(value === undefined ? undefined : Buffer.from(value).toString('base64'));
     }
 
-    writeXmlElement(value: string): void {
+    writeXmlElement(value: XmlElement | string): void {
         this.setValue(value);
     }
 

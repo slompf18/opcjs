@@ -33,12 +33,8 @@ jobs:
         working-directory: packages/client
 
       - name: Verify
-        run: npm run verify
+        run: npm run prepublish
         working-directory: packages/base
-
-      - name: Build
-        run: npm run build
-        working-directory: packages/client
 
       # - name: Test
       #   run: npm run test -- --run

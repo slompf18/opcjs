@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
 import { Client } from '../../src/client.js';
 import { ConfigurationClient } from '../../src/configurationClient.js';
 import { UserIdentity } from '../../src/userIdentity.js';
-import { NodeId, uaFloat, uaInt32, uaUint32 } from 'opcjs-base';
+import { NodeId, uaFloat, uaUint32 } from 'opcjs-base';
 
 describe('callMethod', () => {
     it('call', async () => {

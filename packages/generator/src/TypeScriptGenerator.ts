@@ -47,7 +47,10 @@ export interface GeneratedCode {
   /** TypeScript code for encoder registration function */
   encoderRegistrations: string;
   /** Encoder function names imported from encoders.ts in encoderRegistrations.ts */
-  encoderRegistrationImports: string[];}
+  encoderRegistrationImports: string[];
+  /** Type names imported from types.ts in encoderRegistrations.ts */
+  encoderRegistrationTypeImports: string[];
+}
 
 /**
  * Options for TypeScript code generation
@@ -222,5 +225,6 @@ export function generateTypeScript(
     decoderRegistrationImports: decoderRegistrationsResult.decoderFunctionImports,
     encoderRegistrations: encoderRegistrationsResult.code,
     encoderRegistrationImports: encoderRegistrationsResult.encoderFunctionImports,
+    encoderRegistrationTypeImports: encoderRegistrationsResult.typeImports,
   };
 }

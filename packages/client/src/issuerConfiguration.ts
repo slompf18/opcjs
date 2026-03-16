@@ -1,5 +1,15 @@
+interface IssuerEndpointUrl {
+    'ua.resourceId': string;
+    'ua.authorityUrl': string;
+    'ua.authorityProfileUri': string;
+    'ua.tokenEndpoint': string;
+    'ua.authorizationEndpoint': string;
+    'ua.requestTypes': string[];
+    'ua.scopes': string[];
+}
+
 export class IssuerConfiguration{
-    public static newFrom(issuerEndpointUrl: any): IssuerConfiguration {
+    public static newFrom(issuerEndpointUrl: IssuerEndpointUrl): IssuerConfiguration {
         return new IssuerConfiguration(
             issuerEndpointUrl['ua.resourceId'],
             issuerEndpointUrl['ua.authorityUrl'],

@@ -15,7 +15,7 @@ export class Decoder {
         this.encodingIdMap.set(encodingId, { writerId, typeId });
     }
 
-    public registerType<T>(typeId: number, decoder: (decoder: IReader) => unknown): void {
+    public registerType(typeId: number, decoder: (decoder: IReader) => unknown): void {
         this.decoders.set(typeId, decoder);
     }
 
