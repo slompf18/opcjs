@@ -2,6 +2,7 @@
 name: Client Build And Publish
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
 
