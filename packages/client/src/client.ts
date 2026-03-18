@@ -17,7 +17,11 @@ import {
   SecureChannelChunkReader,
   SecureChannelChunkWriter,
   CallMethodRequest,
-  Variant
+  Variant,
+  BrowseDescription,
+  BrowseDirectionEnum,
+  BrowseResultMaskEnum,
+  ReferenceDescription,
 } from "opcjs-base";
 import { SessionHandler } from "./sessions/sessionHandler";
 import { Session } from "./sessions/session";
@@ -31,12 +35,15 @@ import { ConfigurationClient } from "./configurationClient";
 import { ILogger } from "opcjs-base";
 import { MethodService } from "./services/methodService";
 import { CallMethodResult } from "./callMethodResult";
+import { BrowseService } from "./services/browseService";
+import { BrowseNodeResult } from "./browseNodeResult";
 import { UaPrimitive } from "../../base/src/types/primitives";
 
 export class Client {
   private endpointUrl: string;
   private attributeService?: AttributeService;
   private methodService?: MethodService;
+  private browseService?: BrowseService;
   private session?: Session;
   private subscriptionHandler?: SubscriptionHandler;
   private logger: ILogger;
@@ -112,6 +119,7 @@ export class Client {
     this.logger.debug("Initializing services...");
     this.attributeService = new AttributeService(this.session.getAuthToken(), sc);
     this.methodService = new MethodService(this.session.getAuthToken(), sc);
+    this.browseService = new BrowseService(this.session.getAuthToken(), sc);
     this.subscriptionHandler = new SubscriptionHandler(
       new SubscriptionService(this.session.getAuthToken(), sc),
       new MonitoredItemService(this.session.getAuthToken(), sc),
@@ -152,6 +160,74 @@ export class Client {
     const response = responses[0];
 
     return new CallMethodResult(response.value, response.status);
+  }
+
+  async browse(
+    nodeId: NodeId,
+    recursive: boolean = false,
+  ): Promise<BrowseNodeResult[]> {
+    const visited = new Set<string>();
+    return this.browseRecursive(nodeId, recursive, visited);
+  }
+
+  private async browseRecursive(
+    nodeId: NodeId,
+    recursive: boolean,
+    visited: Set<string>,
+  ): Promise<BrowseNodeResult[]> {
+    const nodeKey = `${nodeId.namespace}:${nodeId.identifier}`;
+    if (visited.has(nodeKey)) {
+      return [];
+    }
+    visited.add(nodeKey);
+
+    const description = new BrowseDescription();
+    description.nodeId = nodeId;
+    description.browseDirection = BrowseDirectionEnum.Forward;
+    description.referenceTypeId = NodeId.newNumeric(0, 33); // HierarchicalReferences
+    description.includeSubtypes = true;
+    description.nodeClassMask = 0; // all node classes
+    description.resultMask = BrowseResultMaskEnum.All;
+
+    const browseResults = await this.browseService!.browse([description]);
+    const browseResult = browseResults[0];
+    const allReferences = [...(browseResult.references ?? [])];
+
+    let continuationPoint = browseResult.continuationPoint;
+    while (continuationPoint && continuationPoint.byteLength > 0) {
+      const nextResults = await this.browseService!
+        .browseNext([continuationPoint], false);
+      const nextResult = nextResults[0];
+      allReferences.push(...(nextResult.references ?? []));
+      continuationPoint = nextResult.continuationPoint;
+    }
+
+    const results = allReferences.map((ref: ReferenceDescription) =>
+      new BrowseNodeResult(
+        ref.referenceTypeId,
+        ref.isForward,
+        ref.nodeId,
+        ref.browseName,
+        ref.displayName,
+        ref.nodeClass,
+        ref.typeDefinition,
+      )
+    );
+
+    if (recursive) {
+      for (const ref of allReferences) {
+        const childNodeId = NodeId.newNumeric(
+          ref.nodeId.namespace,
+          ref.nodeId.identifier as number,
+        );
+        const childResults = await this.browseRecursive(
+          childNodeId, true, visited,
+        );
+        results.push(...childResults);
+      }
+    }
+
+    return results;
   }
 
   async subscribe(
