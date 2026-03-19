@@ -8,7 +8,7 @@
  */
 
 import type { NodeId } from './nodeId.js';
-import type { ExpandedNodeId } from './expandedNodeId.js';
+import { ExpandedNodeId } from './expandedNodeId.js';
 import type { LocalizedText } from './localizedText.js';
 import type { QualifiedName } from './qualifiedName.js';
 import type { XmlElement } from './xmlElement.js';
@@ -18,6 +18,15 @@ import type { DiagnosticInfo } from './diagnosticInfo.js';
 import { StatusCode } from './statusCode.js';
 import type { UaPrimitive } from './primitives.js';
 import { BuiltInType } from './builtinType.js';
+
+// Node IDs need a concrete import (not type-only) so instanceof works at runtime.
+import { NodeId as NodeIdClass } from './nodeId.js';
+import { QualifiedName as QualifiedNameClass } from './qualifiedName.js';
+import { LocalizedText as LocalizedTextClass } from './localizedText.js';
+import { XmlElement as XmlElementClass } from './xmlElement.js';
+import { ExtensionObject as ExtensionObjectClass } from './extensionObject.js';
+import { DataValue as DataValueClass } from './dataValue.js';
+import { DiagnosticInfo as DiagnosticInfoClass } from './diagnosticInfo.js';
 
 /**
  * Type union representing all possible variant values.
@@ -178,18 +187,34 @@ export class Variant {
   }
 
   /**
-   * Creates a Variant from a typed OPC UA primitive value.
+   * Union of all OPC UA built-in types accepted by {@link Variant.newFrom}.
    *
-   * Uses the `.type` discriminant on tagged primitives to determine the
-   * VariantType exactly — no heuristic inference based on value ranges.
-   *
-   * @param value - A typed OPC UA primitive value.
-   * @returns A new Variant wrapping the inner value with the correct VariantType.
+   * Includes both the tagged numeric primitives from `UaPrimitive` (which carry
+   * a `BuiltInType` discriminant so the exact numeric encoding is known) and the
+   * class-based built-in types that are identified unambiguously at runtime via
+   * `instanceof`.
    */
-  public static newFrom<T extends UaPrimitive>(value: T): Variant {
+  public static newFrom(
+    value:
+      | UaPrimitive
+      | NodeId
+      | ExpandedNodeId
+      | QualifiedName
+      | LocalizedText
+      | XmlElement
+      | ExtensionObject
+      | DataValue
+      | DiagnosticInfo
+      | Variant
+      | null
+      | undefined,
+  ): Variant {
     if (value === null || value === undefined) {
       return Variant.newNull();
     }
+
+    // --- Scalar JS types -------------------------------------------------
+
     // UaBoolean = boolean
     if (typeof value === 'boolean') {
       return new Variant(BuiltInType.Boolean, value);
@@ -204,14 +229,49 @@ export class Variant {
     if (value instanceof Date) {
       return new Variant(BuiltInType.DateTime, value);
     }
-    // Tagged union types: UaSbyte | UaByte | UaInt16 | UaUint16 | UaInt32 | UaUint32
-    //                   | UaInt64 | UaUint64 | UaFloat | UaDouble | UaGuid
+
+    // --- Class-based OPC UA built-in types --------------------------------
+    // ExpandedNodeId MUST be checked before NodeId because it extends NodeId.
+    if (value instanceof ExpandedNodeId) {
+      return new Variant(BuiltInType.ExpandedNodeId, value);
+    }
+    if (value instanceof NodeIdClass) {
+      return new Variant(BuiltInType.NodeId, value);
+    }
+    if (value instanceof QualifiedNameClass) {
+      return new Variant(BuiltInType.QualifiedName, value);
+    }
+    if (value instanceof LocalizedTextClass) {
+      return new Variant(BuiltInType.LocalizedText, value);
+    }
+    if (value instanceof XmlElementClass) {
+      return new Variant(BuiltInType.XmlElement, value);
+    }
+    if (value instanceof ExtensionObjectClass) {
+      return new Variant(BuiltInType.ExtensionObject, value);
+    }
+    if (value instanceof DataValueClass) {
+      return new Variant(BuiltInType.DataValue, value);
+    }
+    if (value instanceof DiagnosticInfoClass) {
+      return new Variant(BuiltInType.DiagnosticInfo, value);
+    }
+    if (value instanceof Variant) {
+      return new Variant(BuiltInType.Variant, value);
+    }
+
+    // --- Tagged numeric / guid primitives --------------------------------
+    // These carry an explicit `type: BuiltInType` discriminant.
+    // This check must come AFTER all instanceof checks to avoid incorrectly
+    // matching NodeId (which has a `type: NodeIdType` property of a different
+    // enum, with overlapping numeric values).
     if (typeof value === 'object' && 'type' in value) {
       const tagged = value as { type: BuiltInType; value: VariantValue };
       return new Variant(tagged.type, tagged.value);
     }
+
     throw new Error(
-      `newFrom: unhandled UaPrimitive value: ${JSON.stringify(value)}`
+      `newFrom: unhandled value: ${JSON.stringify(value)}`,
     );
   }
 
