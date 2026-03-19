@@ -1,13 +1,19 @@
 import {
   BrowseDescription, BrowseNextRequest, BrowseNextResponse,
   BrowseRequest, BrowseResponse, BrowseResult,
-  ISecureChannel, NodeId, UaByteString, ViewDescription
+  getLogger, ISecureChannel, NodeId, StatusCode, StatusCodeToString, UaByteString, ViewDescription,
 } from "opcjs-base";
 import { ServiceBase } from "./serviceBase";
 
 // https://reference.opcfoundation.org/Core/Part4/v105/docs/5.9
 export class BrowseService extends ServiceBase {
+  private logger = getLogger("services.BrowseService");
 
+  /**
+   * Browses one or more Nodes and returns their References (OPC UA Part 4, Section 5.9.2).
+   * @param nodesToBrowse - Array of BrowseDescriptions specifying nodes and filter criteria.
+   * @returns Array of BrowseResult, one per requested node.
+   */
   async browse(nodesToBrowse: BrowseDescription[]): Promise<BrowseResult[]> {
     const view = new ViewDescription();
     view.viewId = NodeId.newNumeric(0, 0);
@@ -20,11 +26,24 @@ export class BrowseService extends ServiceBase {
     request.requestedMaxReferencesPerNode = 0;
     request.nodesToBrowse = nodesToBrowse;
 
+    this.logger.debug("Sending BrowseRequest...");
     const response = await this.secureChannel
       .issueServiceRequest(request) as BrowseResponse;
+
+    const serviceResult = response.responseHeader?.serviceResult;
+    if (serviceResult !== undefined && serviceResult !== StatusCode.Good) {
+      throw new Error(`BrowseRequest failed: ${StatusCodeToString(serviceResult)}`);
+    }
+
     return response.results ?? [];
   }
 
+  /**
+   * Continues a Browse operation using continuation points (OPC UA Part 4, Section 5.9.3).
+   * @param continuationPoints - Continuation points returned by a prior Browse or BrowseNext call.
+   * @param releaseContinuationPoints - If true, releases the continuation points without returning results.
+   * @returns Array of BrowseResult, one per continuation point.
+   */
   async browseNext(
     continuationPoints: UaByteString[],
     releaseContinuationPoints: boolean,
@@ -34,8 +53,15 @@ export class BrowseService extends ServiceBase {
     request.releaseContinuationPoints = releaseContinuationPoints;
     request.continuationPoints = continuationPoints;
 
+    this.logger.debug("Sending BrowseNextRequest...");
     const response = await this.secureChannel
       .issueServiceRequest(request) as BrowseNextResponse;
+
+    const serviceResult = response.responseHeader?.serviceResult;
+    if (serviceResult !== undefined && serviceResult !== StatusCode.Good) {
+      throw new Error(`BrowseNextRequest failed: ${StatusCodeToString(serviceResult)}`);
+    }
+
     return response.results ?? [];
   }
 

@@ -146,6 +146,7 @@ export class SecureChannelFacade implements ISecureChannel {
 
         if (response instanceof ServiceFault) {
           this.pending.failAll(
+            // todo: create a human readable error message based on the ServiceFault content
             new Error(`ServiceFault: ${JSON.stringify(response)}`),
           );
         } else {

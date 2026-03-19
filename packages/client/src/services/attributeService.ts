@@ -1,36 +1,55 @@
-import { ISecureChannel, NodeId, QualifiedName, ReadRequest, ReadResponse, ReadValueId, TimestampsToReturnEnum } from "opcjs-base";
+import {
+    getLogger, ISecureChannel, NodeId, QualifiedName, ReadRequest, ReadResponse, ReadValueId,
+    StatusCode, StatusCodeToString, TimestampsToReturnEnum,
+} from "opcjs-base";
 import { AttrIdValue } from "./attributeServiceAttributes";
 import { ServiceBase } from "./serviceBase";
-import { StatusCodeToString } from "../../../base/src/types/statusCode";
 
-// https://reference.opcfoundation.org/Core/Part4/v105/docs/5.11
+// https://reference.opcfoundation.org/Core/Part4/v105/docs/5.10.2
 export class AttributeService extends ServiceBase {
-    async ReadValue(nodeIds: NodeId[]): Promise<{ status: string, value: unknown }[]> {
+    private logger = getLogger("services.AttributeService");
+
+    /**
+     * Reads the Value attribute of one or more Nodes (OPC UA Part 4, Section 5.10.2).
+     * @param nodeIds - NodeIds of the Nodes to read.
+     * @param maxAge - Maximum age of the cached value in milliseconds the server may return. 0 = always current value.
+     * @param timestampsToReturn - Which timestamps to include in results. Default: Source.
+     * @returns Array of results containing value and status string, one per requested NodeId.
+     */
+    async ReadValue(
+        nodeIds: NodeId[],
+        maxAge: number = 0,
+        timestampsToReturn: TimestampsToReturnEnum = TimestampsToReturnEnum.Source,
+    ): Promise<{ status: string, value: unknown }[]> {
         const readValueIds = nodeIds.map(ni => {
             const readValueId = new ReadValueId();
             readValueId.nodeId = ni;
             readValueId.attributeId = AttrIdValue;
             readValueId.indexRange = '';
-            readValueId.dataEncoding = new QualifiedName(0, '');
+            readValueId.dataEncoding = new QualifiedName(0, ''); // empty per OPC UA Part 4 §7.28 — no longer used
             return readValueId;
         });
 
         const request = new ReadRequest();
         request.requestHeader = this.createRequestHeader();
-        request.maxAge = 60000; // one minute
-        request.timestampsToReturn = TimestampsToReturnEnum.Source;
+        request.maxAge = maxAge;
+        request.timestampsToReturn = timestampsToReturn;
         request.nodesToRead = readValueIds;
 
-        console.log("Sending ReadRequest...");
+        this.logger.debug("Sending ReadRequest...");
         const response = await this.secureChannel.issueServiceRequest(request) as ReadResponse;
 
-        const results = new Array<{ status: string, value: unknown }>()
+        const serviceResult = response.responseHeader?.serviceResult;
+        if (serviceResult !== undefined && serviceResult !== StatusCode.Good) {
+            throw new Error(`ReadRequest failed: ${StatusCodeToString(serviceResult)}`);
+        }
+
+        const results = new Array<{ status: string, value: unknown }>();
         for (const dataValue of response.results ?? []) {
-            const result = {
+            results.push({
                 status: StatusCodeToString(dataValue.statusCode),
-                value: dataValue.value as unknown
-            }
-            results.push(result)
+                value: dataValue.value as unknown,
+            });
         }
         return results;
     }

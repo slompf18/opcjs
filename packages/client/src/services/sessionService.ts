@@ -1,13 +1,19 @@
 import {
-    ActivateSessionRequest, ApplicationDescription, ApplicationTypeEnum,
+    ActivateSessionRequest, ActivateSessionResponse, ApplicationDescription, ApplicationTypeEnum,
     Configuration, CreateSessionRequest, CreateSessionResponse, EndpointDescription, ExtensionObject,
     getLogger,
-    ISecureChannel, LocalizedText, NodeId, SignatureData, SignedSoftwareCertificate, UserIdentityToken
+    ISecureChannel, LocalizedText, NodeId, SignatureData, SignedSoftwareCertificate, StatusCode,
+    StatusCodeToString, UserIdentityToken,
 } from "opcjs-base";
 import { ServiceBase } from "./serviceBase";
 
 export class SessionService extends ServiceBase {
     private logger = getLogger("services.SessionService");
+
+    /**
+     * Creates a new session on the server (OPC UA Part 4, Section 5.7.2).
+     * @returns The session ID, authentication token, and selected server endpoint.
+     */
     async createSession(): Promise<{ sessionId: number, authToken: NodeId, endpoint: EndpointDescription }> {
         this.logger.debug("Creating session...");
 
@@ -46,6 +52,11 @@ export class SessionService extends ServiceBase {
             throw new Error("CreateSessionResponse missing SessionId or AuthenticationToken");
         }
 
+        const serviceResult = castedResponse.responseHeader?.serviceResult;
+        if (serviceResult !== undefined && serviceResult !== StatusCode.Good) {
+            throw new Error(`CreateSessionRequest failed: ${StatusCodeToString(serviceResult)}`);
+        }
+
         const endpoint = 'opc.' + this.secureChannel.getEndpointUrl();
         const endpointUrl = new URL(endpoint);
         const securityMode = this.secureChannel.getSecurityMode();
@@ -74,6 +85,10 @@ export class SessionService extends ServiceBase {
         };
     }
 
+    /**
+     * Activates an existing session using the supplied identity token (OPC UA Part 4, Section 5.7.3).
+     * @param identityToken - User identity token (anonymous, username/password, certificate, or issued token).
+     */
     async activateSession(identityToken: UserIdentityToken): Promise<void> {
         const signatureData = new SignatureData();
         signatureData.algorithm = this.secureChannel.getSecurityPolicy();
@@ -88,7 +103,13 @@ export class SessionService extends ServiceBase {
         request.userTokenSignature = signatureData;
 
         this.logger.debug("Sending ActivateSessionRequest...");
-        await this.secureChannel.issueServiceRequest(request);
+        const activateResponse = await this.secureChannel.issueServiceRequest(request) as ActivateSessionResponse;
+
+        const activateResult = activateResponse?.responseHeader?.serviceResult;
+        if (activateResult !== undefined && activateResult !== StatusCode.Good) {
+            throw new Error(`ActivateSessionRequest failed: ${StatusCodeToString(activateResult)}`);
+        }
+
         this.logger.debug("Session activated.");
     }
 

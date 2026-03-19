@@ -22,6 +22,7 @@ import {
   BrowseDirectionEnum,
   BrowseResultMaskEnum,
   ReferenceDescription,
+  UaPrimitive,
 } from "opcjs-base";
 import { SessionHandler } from "./sessions/sessionHandler";
 import { Session } from "./sessions/session";
@@ -37,7 +38,6 @@ import { MethodService } from "./services/methodService";
 import { CallMethodResult } from "./callMethodResult";
 import { BrowseService } from "./services/browseService";
 import { BrowseNodeResult } from "./browseNodeResult";
-import { UaPrimitive } from "../../base/src/types/primitives";
 
 export class Client {
   private endpointUrl: string;

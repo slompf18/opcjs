@@ -1,9 +1,10 @@
-import { DataChangeNotification, NodeId, SubscriptionAcknowledgement } from "opcjs-base";
+import { DataChangeNotification, getLogger, NodeId, SubscriptionAcknowledgement } from "opcjs-base";
 import { MonitoredItemService } from "./services/monitoredItemService";
 import { SubscriptionService } from "./services/subscriptionService";
 import { SubscriptionHandlerEntry } from "./subscriptionHandlerEntry";
 
 export class SubscriptionHandler {
+    private logger = getLogger("SubscriptionHandler");
     private entries = new Array<SubscriptionHandlerEntry>()
     private nextHandle = 0
 
@@ -61,7 +62,7 @@ export class SubscriptionHandler {
                     }]);
                 }
             } else {
-                console.log(`The change notification data type ${typeNodeId.namespace}:${typeNodeId.identifier} is not supported.`)
+                this.logger.warn(`Notification data type ${typeNodeId.namespace}:${typeNodeId.identifier} is not supported.`);
             }
         }
 
