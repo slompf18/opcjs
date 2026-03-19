@@ -36,6 +36,8 @@ env:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    # Do not re-run when the bot pushes the version-bump commit.
+    if: github.actor != 'github-actions[bot]'
 
     steps:
       - name: Checkout
@@ -74,11 +76,7 @@ jobs:
           echo "list=${DIRS[*]}" >> "$GITHUB_OUTPUT"
 
       - name: Install dependencies for all packages
-        run: |
-          for pkg in ${{ steps.packages.outputs.list }}; do
-            echo "=== npm ci: packages/${pkg} ==="
-            npm ci --prefix "packages/${pkg}"
-          done
+        run: npm ci
 
       - name: Prepublish all packages
         run: |
