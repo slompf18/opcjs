@@ -362,3 +362,21 @@ export function StatusCodeGetFlagBits(statusCode?: number): StatusCodeFlagBits {
     LimitConstant: limitBits === 3,
   };
 }
+
+/**
+ * Returns true if the base code of `statusCode` matches the given `expected` StatusCode enum value.
+ * Flag bits (lower 16 bits) are masked off before comparison.
+ *
+ * Examples:
+ *   StatusCodeIs(0x00000000, StatusCode.Good)          → true
+ *   StatusCodeIs(0x00000400, StatusCode.Good)           → true  (flag bits ignored)
+ *   StatusCodeIs(1024,        StatusCode.Good)           → true  (1024 = 0x00000400)
+ *   StatusCodeIs(0x80340000, StatusCode.BadNodeIdUnknown) → true
+ *   StatusCodeIs(0x80340000, StatusCode.Good)            → false
+ *
+ * @param statusCode - The raw status code value to test.
+ * @param expected   - The StatusCode enum member to compare against.
+ */
+export function StatusCodeIs(statusCode: number, expected: StatusCode): boolean {
+  return (statusCode & 0xFFFF0000) === (expected as number);
+}

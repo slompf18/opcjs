@@ -1,0 +1,95 @@
+# Publishes all packages to npm when a GitHub release is created.
+#
+# Triggered by:
+#   - release: [created]  - fired automatically by release.yml, or when a release is created manually.
+#   - workflow_dispatch   - for manual one-off publishes.
+#
+# Package discovery:
+#   All directories under packages/ that have a "prepublish" script are published.
+#   Packages listed in EXCLUDED_PACKAGES are skipped (must match the directory name).
+#
+# npm dist-tag logic:
+#   Prerelease GitHub release  -> --tag <suffix>  (e.g. v0.1.21-alpha -> --tag alpha)
+#   Stable GitHub release      -> no --tag flag   (defaults to 'latest')
+
+name: Publish
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+permissions:
+  contents: read
+  id-token: write   # REQUIRED for trusted publishing
+
+env:
+  EXCLUDED_PACKAGES: generator
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Discover publishable packages
+        id: packages
+        run: |
+          DIRS=()
+          for pkg in packages/*/; do
+            name=$(basename "$pkg")
+            if echo " $EXCLUDED_PACKAGES " | grep -qw "$name"; then
+              echo "Skipping excluded package: $name"
+              continue
+            fi
+            if ! node -e "const p=require('./${pkg}package.json'); process.exit(p.scripts&&p.scripts.prepublish?0:1)" 2>/dev/null; then
+              echo "Skipping package without prepublish script: $name"
+              continue
+            fi
+            DIRS+=("$name")
+            echo "Found publishable package: $name"
+          done
+          echo "list=${DIRS[*]}" >> "$GITHUB_OUTPUT"
+
+      - name: Install and build all packages
+        run: |
+          for pkg in ${{ steps.packages.outputs.list }}; do
+            echo "=== prepublish: packages/${pkg} ==="
+            npm ci --prefix "packages/${pkg}"
+            npm run prepublish --prefix "packages/${pkg}"
+          done
+
+      - name: Determine npm tag
+        id: tag
+        run: |
+          if [[ "${{ github.event.release.prerelease }}" == "true" ]]; then
+            PKG_TAG="${{ github.event.release.tag_name }}"
+            echo "value=${PKG_TAG##*-}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=latest" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish all packages to npm
+        run: |
+          for pkg in ${{ steps.packages.outputs.list }}; do
+            echo "=== publishing: packages/${pkg} ==="
+            if [[ "${{ steps.tag.outputs.value }}" == "latest" ]]; then
+              npm publish --prefix "packages/${pkg}"
+            else
+              npm publish --tag "${{ steps.tag.outputs.value }}" --prefix "packages/${pkg}"
+            fi
+          done
