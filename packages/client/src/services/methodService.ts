@@ -1,5 +1,6 @@
-import { CallMethodRequest, CallRequest, CallResponse, getLogger, ISecureChannel, NodeId, StatusCode, StatusCodeToString, StatusCodeToStringNumber } from "opcjs-base";
-import { ServiceBase } from "./serviceBase";
+import { CallMethodRequest, CallRequest, CallResponse, getLogger, ISecureChannel, NodeId, StatusCode } from 'opcjs-base'
+
+import { ServiceBase } from './serviceBase.js'
 
 // https://reference.opcfoundation.org/Core/Part4/v105/docs/5.11.2
 export class MethodService extends ServiceBase {
@@ -18,10 +19,7 @@ export class MethodService extends ServiceBase {
         this.logger.debug("Sending CallRequest...");
         const response = await this.secureChannel.issueServiceRequest(request) as CallResponse;
 
-        const serviceResult = response.responseHeader?.serviceResult;
-        if (serviceResult !== undefined && serviceResult !== StatusCode.Good) {
-            throw new Error(`CallRequest failed: ${StatusCodeToString(serviceResult)} (${StatusCodeToStringNumber(serviceResult)})`);
-        }
+        this.checkServiceResult(response.responseHeader?.serviceResult, 'CallRequest')
 
         return response.results.map(result => ({
             statusCode: result.statusCode ?? StatusCode.Good,

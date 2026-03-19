@@ -1,5 +1,6 @@
 import {
   NodeId,
+  ISecureChannel,
   TcpConnectionHandler,
   SecureChannelFacade,
   SecureChannelContext,
@@ -23,36 +24,81 @@ import {
   BrowseResultMaskEnum,
   ReferenceDescription,
   UaPrimitive,
-} from "opcjs-base";
-import { SessionHandler } from "./sessions/sessionHandler";
-import { Session } from "./sessions/session";
-import { AttributeService } from "./services/attributeService";
-import { ReadValueResult } from "./readValueResult";
-import { SubscriptionHandler } from "./subscriptionHandler";
-import { SubscriptionService } from "./services/subscriptionService";
-import { MonitoredItemService } from "./services/monitoredItemService";
-import { UserIdentity } from "./userIdentity";
-import { ConfigurationClient } from "./configurationClient";
-import { ILogger } from "opcjs-base";
-import { MethodService } from "./services/methodService";
-import { CallMethodResult } from "./callMethodResult";
-import { BrowseService } from "./services/browseService";
-import { BrowseNodeResult } from "./browseNodeResult";
+  ILogger,
+} from 'opcjs-base'
+
+import { SessionHandler } from './sessions/sessionHandler.js'
+import { Session } from './sessions/session.js'
+import { SessionInvalidError } from './sessions/sessionInvalidError.js'
+import { AttributeService } from './services/attributeService.js'
+import { ReadValueResult } from './readValueResult.js'
+import { SubscriptionHandler } from './subscriptionHandler.js'
+import { SubscriptionService } from './services/subscriptionService.js'
+import { MonitoredItemService } from './services/monitoredItemService.js'
+import { UserIdentity } from './userIdentity.js'
+import { ConfigurationClient } from './configurationClient.js'
+import { MethodService } from './services/methodService.js'
+import { CallMethodResult } from './callMethodResult.js'
+import { BrowseService } from './services/browseService.js'
+import { BrowseNodeResult } from './browseNodeResult.js'
 
 export class Client {
-  private endpointUrl: string;
-  private attributeService?: AttributeService;
-  private methodService?: MethodService;
-  private browseService?: BrowseService;
-  private session?: Session;
-  private subscriptionHandler?: SubscriptionHandler;
-  private logger: ILogger;
+  private endpointUrl: string
+  private attributeService?: AttributeService
+  private methodService?: MethodService
+  private browseService?: BrowseService
+  private session?: Session
+  private subscriptionHandler?: SubscriptionHandler
+  private logger: ILogger
+  // Stored after connect() so that refreshSession() can recreate services.
+  private secureChannel?: ISecureChannel
+  private sessionHandler?: SessionHandler
 
   getSession(): Session {
     if (!this.session) {
-      throw new Error("No session available");
+      throw new Error('No session available')
     }
-    return this.session;
+    return this.session
+  }
+
+  /**
+   * (Re-)initialises all session-scoped services from the current `this.session`.
+   * Called both after the initial `connect()` and after a session refresh.
+   */
+  private initServices(): void {
+    const authToken = this.session!.getAuthToken()
+    const sc = this.secureChannel!
+    this.attributeService = new AttributeService(authToken, sc)
+    this.methodService = new MethodService(authToken, sc)
+    this.browseService = new BrowseService(authToken, sc)
+    this.subscriptionHandler = new SubscriptionHandler(
+      new SubscriptionService(authToken, sc),
+      new MonitoredItemService(authToken, sc),
+    )
+  }
+
+  /**
+   * Executes `fn` and, if it throws a `SessionInvalidError`, creates a fresh
+   * session and retries the operation exactly once.
+   *
+   * This covers the reactive case: a service call reveals that the server has
+   * already dropped the session (e.g. due to timeout). The new session is
+   * established transparently before re-running the original operation.
+   */
+  private async withSessionRefresh<T>(fn: () => Promise<T>): Promise<T> {
+    try {
+      return await fn()
+    } catch (err) {
+      if (!(err instanceof SessionInvalidError)) throw err
+
+      this.logger.info(`Session invalid (${err.statusCode.toString(16)}), refreshing session...`)
+      this.session = await this.sessionHandler!.createNewSession(this.identity)
+      this.initServices()
+      this.logger.info('Session refreshed, retrying operation.')
+
+      // Retry once with the new session.  If it fails again the error propagates.
+      return await fn()
+    }
   }
 
   async connect(): Promise<void> {
@@ -111,19 +157,14 @@ export class Client {
     await sc.openSecureChannel();
     this.logger.debug("Secure channel established.");
 
-    this.logger.debug("Creating session...");
-    const sessionHandler = new SessionHandler(sc, this.configuration);
-    this.session = await sessionHandler.createNewSession(this.identity);
-    this.logger.debug("Session created.");
+    this.logger.debug('Creating session...')
+    this.sessionHandler = new SessionHandler(sc, this.configuration)
+    this.secureChannel = sc
+    this.session = await this.sessionHandler.createNewSession(this.identity)
+    this.logger.debug('Session created.')
 
-    this.logger.debug("Initializing services...");
-    this.attributeService = new AttributeService(this.session.getAuthToken(), sc);
-    this.methodService = new MethodService(this.session.getAuthToken(), sc);
-    this.browseService = new BrowseService(this.session.getAuthToken(), sc);
-    this.subscriptionHandler = new SubscriptionHandler(
-      new SubscriptionService(this.session.getAuthToken(), sc),
-      new MonitoredItemService(this.session.getAuthToken(), sc),
-    );
+    this.logger.debug('Initializing services...')
+    this.initServices()
   }
 
   async disconnect(): Promise<void> {
@@ -135,8 +176,10 @@ export class Client {
   }
 
   async read(ids: NodeId[]): Promise<ReadValueResult[]> {
-    const result = await this.attributeService?.ReadValue(ids);
-    return result?.map((r) => new ReadValueResult(r.value, r.statusCode)) || [];
+    return this.withSessionRefresh(async () => {
+      const result = await this.attributeService?.ReadValue(ids)
+      return result?.map(r => new ReadValueResult(r.value, r.statusCode)) ?? []
+    })
   }
 
   /**
@@ -151,23 +194,26 @@ export class Client {
     methodId: NodeId,
     inputArguments: UaPrimitive[] = []
   ): Promise<CallMethodResult> {
-    const request = new CallMethodRequest();
-    request.objectId = objectId;
-    request.methodId = methodId;
-    request.inputArguments = inputArguments.map(arg => Variant.newFrom(arg));
+    return this.withSessionRefresh(async () => {
+      const request = new CallMethodRequest()
+      request.objectId = objectId
+      request.methodId = methodId
+      request.inputArguments = inputArguments.map(arg => Variant.newFrom(arg))
 
-    const responses = await this.methodService!.call([request]);
-    const response = responses[0];
-
-    return new CallMethodResult(response.value, response.statusCode);
+      const responses = await this.methodService!.call([request])
+      const response = responses[0]
+      return new CallMethodResult(response.value, response.statusCode)
+    })
   }
 
   async browse(
     nodeId: NodeId,
     recursive: boolean = false,
   ): Promise<BrowseNodeResult[]> {
-    const visited = new Set<string>();
-    return this.browseRecursive(nodeId, recursive, visited);
+    return this.withSessionRefresh(() => {
+      const visited = new Set<string>()
+      return this.browseRecursive(nodeId, recursive, visited)
+    })
   }
 
   private async browseRecursive(

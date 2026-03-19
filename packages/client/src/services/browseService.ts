@@ -1,9 +1,10 @@
 import {
   BrowseDescription, BrowseNextRequest, BrowseNextResponse,
   BrowseRequest, BrowseResponse, BrowseResult,
-  getLogger, ISecureChannel, NodeId, StatusCode, StatusCodeToString, UaByteString, ViewDescription,
-} from "opcjs-base";
-import { ServiceBase } from "./serviceBase";
+  getLogger, ISecureChannel, NodeId, UaByteString, ViewDescription,
+} from 'opcjs-base'
+
+import { ServiceBase } from './serviceBase.js'
 
 // https://reference.opcfoundation.org/Core/Part4/v105/docs/5.9
 export class BrowseService extends ServiceBase {
@@ -30,12 +31,9 @@ export class BrowseService extends ServiceBase {
     const response = await this.secureChannel
       .issueServiceRequest(request) as BrowseResponse;
 
-    const serviceResult = response.responseHeader?.serviceResult;
-    if (serviceResult !== undefined && serviceResult !== StatusCode.Good) {
-      throw new Error(`BrowseRequest failed: ${StatusCodeToString(serviceResult)}`);
-    }
+    this.checkServiceResult(response.responseHeader?.serviceResult, 'BrowseRequest')
 
-    return response.results ?? [];
+    return response.results ?? []
   }
 
   /**
@@ -57,12 +55,9 @@ export class BrowseService extends ServiceBase {
     const response = await this.secureChannel
       .issueServiceRequest(request) as BrowseNextResponse;
 
-    const serviceResult = response.responseHeader?.serviceResult;
-    if (serviceResult !== undefined && serviceResult !== StatusCode.Good) {
-      throw new Error(`BrowseNextRequest failed: ${StatusCodeToString(serviceResult)}`);
-    }
+    this.checkServiceResult(response.responseHeader?.serviceResult, 'BrowseNextRequest')
 
-    return response.results ?? [];
+    return response.results ?? []
   }
 
   constructor(authToken: NodeId, secureChannel: ISecureChannel) {

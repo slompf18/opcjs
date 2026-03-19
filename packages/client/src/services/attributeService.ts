@@ -1,9 +1,10 @@
 import {
     getLogger, ISecureChannel, NodeId, QualifiedName, ReadRequest, ReadResponse, ReadValueId,
-    StatusCode, StatusCodeToString, StatusCodeToStringNumber, TimestampsToReturnEnum,
-} from "opcjs-base";
-import { AttrIdValue } from "./attributeServiceAttributes";
-import { ServiceBase } from "./serviceBase";
+    StatusCode, TimestampsToReturnEnum,
+} from 'opcjs-base'
+
+import { AttrIdValue } from './attributeServiceAttributes.js'
+import { ServiceBase } from './serviceBase.js'
 
 // https://reference.opcfoundation.org/Core/Part4/v105/docs/5.10.2
 export class AttributeService extends ServiceBase {
@@ -39,10 +40,7 @@ export class AttributeService extends ServiceBase {
         this.logger.debug("Sending ReadRequest...");
         const response = await this.secureChannel.issueServiceRequest(request) as ReadResponse;
 
-        const serviceResult = response.responseHeader?.serviceResult;
-        if (serviceResult !== undefined && serviceResult !== StatusCode.Good) {
-            throw new Error(`ReadRequest failed: ${StatusCodeToString(serviceResult)} (${StatusCodeToStringNumber(serviceResult)})`);
-        }
+        this.checkServiceResult(response.responseHeader?.serviceResult, 'ReadRequest')
 
         const results = new Array<{ statusCode: number, value: unknown }>();
         for (const dataValue of response.results ?? []) {
