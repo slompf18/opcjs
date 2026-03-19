@@ -1,6 +1,10 @@
 {
   "name": "opcjs-client",
+<<<<<<< HEAD
   "version": "0.1.24-alpha",
+=======
+  "version": "0.1.23-alpha",
+>>>>>>> 351ee53 (chore: bump package versions [skip ci])
   "description": "A client for OPC UA communication.",
   "repository": {
     "type": "git",
