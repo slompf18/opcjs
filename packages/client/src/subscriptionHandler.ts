@@ -1,79 +1,118 @@
-import { DataChangeNotification, getLogger, NodeId, SubscriptionAcknowledgement } from "opcjs-base";
-import { MonitoredItemService } from "./services/monitoredItemService";
-import { SubscriptionService } from "./services/subscriptionService";
-import { SubscriptionHandlerEntry } from "./subscriptionHandlerEntry";
+import {
+    DataChangeNotification,
+    getLogger,
+    NodeId,
+    StatusChangeNotification,
+    SubscriptionAcknowledgement,
+} from 'opcjs-base'
+
+import { MonitoredItemService } from './services/monitoredItemService'
+import { SubscriptionService } from './services/subscriptionService'
+import { SubscriptionHandlerEntry } from './subscriptionHandlerEntry'
+
+// OPC UA Part 4, §5.14 — Subscriptions and Monitored Items
+
+/** Node type IDs for notification payloads (OPC UA Part 4, §7.21) */
+const NODE_ID_DATA_CHANGE_NOTIFICATION = 811
+const NODE_ID_STATUS_CHANGE_NOTIFICATION = 818
 
 export class SubscriptionHandler {
-    private logger = getLogger("SubscriptionHandler");
+    private logger = getLogger('SubscriptionHandler')
     private entries = new Array<SubscriptionHandlerEntry>()
     private nextHandle = 0
+    private isRunning = false
 
-    async subscribe(ids: NodeId[], callback: (data: { id: NodeId, value: unknown }[]) => void) {
+    async subscribe(ids: NodeId[], callback: (data: { id: NodeId; value: unknown }[]) => void) {
         if (this.entries.length > 0) {
-            throw new Error('Subscribing more than once is not implemented');
+            throw new Error('Subscribing more than once is not implemented')
         }
 
         const subscriptionId = await this.subscriptionService.createSubscription()
         const items = []
         for (const id of ids) {
-            const entry = new SubscriptionHandlerEntry(
-                subscriptionId,
-                this.nextHandle++,
-                id,
-                callback
-            );
+            const entry = new SubscriptionHandlerEntry(subscriptionId, this.nextHandle++, id, callback)
             this.entries.push(entry)
-            const item = {
-                id: id,
-                handle: entry.handle
-            }
-            items.push(item)
+            items.push({ id, handle: entry.handle })
         }
         await this.monitoredItemService.createMonitoredItems(subscriptionId, items)
-        this.publish([])
+
+        // Start the publish loop with no pending acknowledgements.
+        this.isRunning = true
+        void this.publishLoop([])
     }
 
-    private async publish(acknowledgeSequenceNumbers: number[]) {
-        const acknowledgements = []
-        for (let i = 0; i < acknowledgeSequenceNumbers.length; i++) {
-            const acknowledgement = new SubscriptionAcknowledgement();
-            acknowledgement.subscriptionId = this.entries[i].subscriptionId;
-            acknowledgement.sequenceNumber = acknowledgeSequenceNumbers[i];
-            acknowledgements.push(acknowledgement);
+    // https://reference.opcfoundation.org/Core/Part4/v105/docs/5.14.5
+    private async publishLoop(pendingAcknowledgements: SubscriptionAcknowledgement[]): Promise<void> {
+        if (!this.isRunning) return
+
+        let response
+        try {
+            response = await this.subscriptionService.publish(pendingAcknowledgements)
+        } catch (err) {
+            this.logger.error(`Publish failed, stopping publish loop: ${err}`)
+            this.isRunning = false
+            return
         }
-        const response = await this.subscriptionService.publish(acknowledgements);
 
-        const messagesToAcknowledge = response.notificationMessage.sequenceNumber
-        // todo: evaluatin status codes
-        const notificationDatas = response.notificationMessage.notificationData
+        const { subscriptionId, availableSequenceNumbers, moreNotifications, notificationMessage } = response
+        const notificationDatas = notificationMessage?.notificationData ?? []
+        const seqNumber = notificationMessage?.sequenceNumber
 
-        for (const notificationData of notificationDatas) {
-            const decodedData = notificationData.data;
-            const typeNodeId = notificationData.typeId;
-            if (typeNodeId.namespace === 0 && typeNodeId.identifier === 811) {
-                const dataChangeNotification = decodedData as DataChangeNotification;
-                for (const item of dataChangeNotification.monitoredItems) {
-                    const clientHandle = item.clientHandle;
-                    const value = item.value;
-                    const entry = this.entries.find(e => e.handle == clientHandle);
-                    entry?.callback([{
-                        id: entry.id,
-                        value: value.value?.value
-                    }]);
-                }
-            } else {
-                this.logger.warn(`Notification data type ${typeNodeId.namespace}:${typeNodeId.identifier} is not supported.`);
+        // Build acknowledgements for the next publish request.
+        // Per spec: only acknowledge sequence numbers that are in availableSequenceNumbers
+        // and only for real notification messages (not keep-alive, which have empty notificationData).
+        const nextAcknowledgements: SubscriptionAcknowledgement[] = []
+        const isKeepAlive = notificationDatas.length === 0
+
+        if (!isKeepAlive && seqNumber !== undefined) {
+            // Acknowledge only if the server still lists this sequence number as available.
+            const isAvailable = !availableSequenceNumbers || availableSequenceNumbers.includes(seqNumber)
+            if (isAvailable) {
+                const ack = new SubscriptionAcknowledgement()
+                ack.subscriptionId = subscriptionId
+                ack.sequenceNumber = seqNumber
+                nextAcknowledgements.push(ack)
             }
         }
 
-        setTimeout(() => {
-            this.publish([messagesToAcknowledge]);
-        }, 500);
+        // Dispatch notifications to registered callbacks.
+        for (const notificationData of notificationDatas) {
+            const decodedData = notificationData.data
+            const typeNodeId = notificationData.typeId
+
+            if (typeNodeId.namespace === 0 && typeNodeId.identifier === NODE_ID_DATA_CHANGE_NOTIFICATION) {
+                const dataChangeNotification = decodedData as DataChangeNotification
+                for (const item of dataChangeNotification.monitoredItems) {
+                    const entry = this.entries.find(e => e.handle === item.clientHandle)
+                    entry?.callback([{ id: entry.id, value: item.value.value?.value }])
+                }
+            } else if (typeNodeId.namespace === 0 && typeNodeId.identifier === NODE_ID_STATUS_CHANGE_NOTIFICATION) {
+                // The server notifies us the subscription state has changed (e.g. expired, closed).
+                const statusChange = decodedData as StatusChangeNotification
+                this.logger.warn(
+                    `Subscription ${subscriptionId} status changed: 0x${statusChange.status?.toString(16).toUpperCase()}`,
+                )
+                this.isRunning = false
+                return
+            } else {
+                this.logger.warn(
+                    `Notification data type ${typeNodeId.namespace}:${typeNodeId.identifier} is not supported.`,
+                )
+            }
+        }
+
+        // Per spec: if moreNotifications is true the server has more queued data — re-publish immediately
+        // without delay so the server's queue drains before its lifetime counter expires.
+        // Otherwise, schedule the next publish after a short yield to avoid a tight synchronous loop.
+        if (moreNotifications) {
+            void this.publishLoop(nextAcknowledgements)
+        } else {
+            setTimeout(() => void this.publishLoop(nextAcknowledgements), 0)
+        }
     }
 
     constructor(
         private subscriptionService: SubscriptionService,
-        private monitoredItemService: MonitoredItemService
-    ) {
-    }
+        private monitoredItemService: MonitoredItemService,
+    ) {}
 }
