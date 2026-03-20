@@ -1,5 +1,6 @@
 import {
     DataChangeNotification,
+    ExpandedNodeId,
     getLogger,
     NodeId,
     StatusChangeNotification,
@@ -78,7 +79,8 @@ export class SubscriptionHandler {
         // Dispatch notifications to registered callbacks.
         for (const notificationData of notificationDatas) {
             const decodedData = notificationData.data
-            const typeNodeId = notificationData.typeId
+            const rawTypeId = notificationData.typeId
+            const typeNodeId = rawTypeId instanceof ExpandedNodeId ? rawTypeId.nodeId : rawTypeId
 
             if (typeNodeId.namespace === 0 && typeNodeId.identifier === NODE_ID_DATA_CHANGE_NOTIFICATION) {
                 const dataChangeNotification = decodedData as DataChangeNotification
