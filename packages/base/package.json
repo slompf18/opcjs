@@ -1,14 +1,6 @@
 {
   "name": "opcjs-base",
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "version": "0.1.24-alpha",
-=======
-  "version": "0.1.23-alpha",
->>>>>>> 351ee53 (chore: bump package versions [skip ci])
-=======
-  "version": "0.1.24-alpha",
->>>>>>> 46b5486 (chore: bump package versions [skip ci])
+  "version": "0.1.25-alpha",
   "description": "Base functionalities for OPC UA.",
   "repository": {
     "type": "git",
