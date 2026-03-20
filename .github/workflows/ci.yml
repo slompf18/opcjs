@@ -2,12 +2,13 @@
 #
 # Steps:
 #   1. Discover all publishable packages (have a "prepublish" script, not in EXCLUDED_PACKAGES).
-#   2. Build (prepublish) all packages.
-#   3. Run unit tests.
-#   4. Compute and bump the next semver for each package:
+#   2. Build each package via "prepublish" (lint + type-check + build + unit tests).
+#      Unit tests run with OPCUA_EXTERNAL_SERVER=1 (embedded in each package's test script)
+#      so no live OPC UA server is needed in CI.
+#   3. Compute and bump the next semver for each package:
 #        main branch:           patch bump, no prerelease suffix.
 #        <channel>/v<M>.<m>:    patch bump with -<channel> suffix.
-#   5. Commit and push the bumped package.json files.
+#   4. Commit and push the bumped package.json files.
 #
 # To publish a release, trigger the Release workflow manually.
 
