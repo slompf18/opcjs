@@ -301,7 +301,9 @@ export function StatusCodeToString(statusCode?: number): string {
     return 'Unknown';
   }
 
-  const baseCode = statusCode & 0xFFFF0000;
+  // >>> 0 converts the signed 32-bit bitwise result to unsigned so values
+  // with bit 31 set (e.g. 0x80AB0000) match their positive enum entries.
+  const baseCode = (statusCode & 0xFFFF0000) >>> 0;
   const name = (Object.entries(StatusCode) as [string, number][])
     .find(([, v]) => v === baseCode)?.[0];
   return name ?? `0x${baseCode.toString(16).toUpperCase().padStart(8, '0')}`;
@@ -378,5 +380,7 @@ export function StatusCodeGetFlagBits(statusCode?: number): StatusCodeFlagBits {
  * @param expected   - The StatusCode enum member to compare against.
  */
 export function StatusCodeIs(statusCode: number, expected: StatusCode): boolean {
-  return (statusCode & 0xFFFF0000) === (expected as number);
+  // >>> 0 converts the signed 32-bit bitwise result to unsigned so values
+  // with bit 31 set (e.g. 0x80AB0000) compare correctly to positive enum values.
+  return ((statusCode & 0xFFFF0000) >>> 0) === (expected as number);
 }
