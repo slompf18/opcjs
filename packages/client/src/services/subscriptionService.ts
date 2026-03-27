@@ -3,20 +3,7 @@ import {
     PublishRequest, PublishResponse, StatusCode, StatusCodeToString, SubscriptionAcknowledgement,
 } from "opcjs-base";
 import { ServiceBase } from "./serviceBase";
-
-/** Options for creating a subscription. All fields are optional; server will revise requested values. */
-export interface CreateSubscriptionOptions {
-    /** Requested publishing interval in milliseconds. Default: 2000. */
-    requestedPublishingInterval?: number;
-    /** Requested lifetime count (number of publishing intervals before subscription times out). Default: 360000. */
-    requestedLifetimeCount?: number;
-    /** Requested max keep-alive count. Default: 60000. */
-    requestedMaxKeepAliveCount?: number;
-    /** Maximum number of notifications per publish response. 0 = no limit. Default: 200. */
-    maxNotificationsPerPublish?: number;
-    /** Subscription priority relative to other subscriptions. Default: 1. */
-    priority?: number;
-}
+import { SubscriptionOptions } from "./subscriptionOptions";
 
 // https://reference.opcfoundation.org/Core/Part4/v105/docs/5.14
 export class SubscriptionService extends ServiceBase {
@@ -28,7 +15,7 @@ export class SubscriptionService extends ServiceBase {
      * @returns The server-assigned subscription ID.
      */
     // https://reference.opcfoundation.org/Core/Part4/v105/docs/5.14.2
-    async createSubscription(options?: CreateSubscriptionOptions): Promise<number> {
+    async createSubscription(options?: SubscriptionOptions): Promise<number> {
         const request = new CreateSubscriptionRequest();
         request.requestHeader = this.createRequestHeader();
         request.requestedPublishingInterval = options?.requestedPublishingInterval ?? 2000;

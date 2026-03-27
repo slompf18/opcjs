@@ -33,7 +33,8 @@ import { SECURITY_POLICY_NONE_URI } from './securityConfiguration.js'
 import { AttributeService } from './services/attributeService.js'
 import { ReadValueResult } from './readValueResult.js'
 import { SubscriptionHandler } from './subscription/subscriptionHandler.js'
-import { CreateSubscriptionOptions, SubscriptionService } from './services/subscriptionService.js'
+import { SubscriptionService } from './services/subscriptionService.js'
+import { SubscriptionOptions } from "./subscription/subscriptionOptions.js"
 import { MonitoredItemService } from './services/monitoredItemService.js'
 import { UserIdentity } from './userIdentity.js'
 import { ConfigurationClient } from './configuration/configurationClient.js'
@@ -456,7 +457,7 @@ export class Client {
   async subscribe(
     ids: NodeId[],
     callback: (data: { id: NodeId; value: unknown }[]) => void,
-    options?: CreateSubscriptionOptions
+    options?: SubscriptionOptions
   ) {
     this.subscriptionHandler?.subscribe(ids, callback, options);
   }
