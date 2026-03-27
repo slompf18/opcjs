@@ -6,6 +6,7 @@ import {
 } from "opcjs-base";
 import { AttrIdValue } from "./attributeServiceAttributes";
 import { ServiceBase } from "./serviceBase";
+import { MonitoringOptions } from "./MonitoringOptions";
 
 // https://reference.opcfoundation.org/Core/Part4/v105/docs/5.13.2
 export class MonitoredItemService extends ServiceBase {
@@ -15,15 +16,14 @@ export class MonitoredItemService extends ServiceBase {
      * Creates monitored items within a subscription (OPC UA Part 4, Section 5.13.2).
      * @param subscriptionId - ID of the subscription to add monitored items to.
      * @param ids - Array of NodeIds and client handles identifying the items to monitor.
-     * @param samplingInterval - Requested sampling interval in milliseconds. -1 = use subscription publishing interval.
-     * @param queueSize - Requested queue size for each monitored item.
+     * @param options - Monitoring options (samplingInterval, queueSize).
      */
     async createMonitoredItems(
         subscriptionId: number,
         ids: { id: NodeId, handle: number }[],
-        samplingInterval: number = 1000,
-        queueSize: number = 100,
+        options: MonitoringOptions = {},
     ): Promise<void> {
+        const { samplingInterval = 1000, queueSize = 100 } = options
         const items = ids.map(ni => {
             const readValueId = new ReadValueId();
             readValueId.nodeId = ni.id;

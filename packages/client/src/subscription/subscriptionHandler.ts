@@ -8,7 +8,8 @@ import {
 } from 'opcjs-base'
 
 import { MonitoredItemService } from '../services/monitoredItemService'
-import { CreateSubscriptionOptions, SubscriptionService } from '../services/subscriptionService'
+import { SubscriptionService } from '../services/subscriptionService'
+import { SubscriptionOptions } from "./subscriptionOptions"
 import { SubscriptionHandlerEntry } from './subscriptionHandlerEntry'
 
 // OPC UA Part 4, §5.14 — Subscriptions and Monitored Items
@@ -31,7 +32,7 @@ export class SubscriptionHandler {
     async subscribe(
         ids: NodeId[], 
         callback: (data: { id: NodeId; value: unknown }[]) => void, 
-        options?: CreateSubscriptionOptions
+        options?: SubscriptionOptions
     ) {
         if (this.entries.length > 0) {
             throw new Error('Subscribing more than once is not implemented')
@@ -44,7 +45,7 @@ export class SubscriptionHandler {
             this.entries.push(entry)
             items.push({ id, handle: entry.handle })
         }
-        await this.monitoredItemService.createMonitoredItems(subscriptionId, items)
+        await this.monitoredItemService.createMonitoredItems(subscriptionId, items, options)
 
         // Start the publish loop with no pending acknowledgements.
         this.isRunning = true
