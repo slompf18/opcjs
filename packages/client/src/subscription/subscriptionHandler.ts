@@ -23,6 +23,8 @@ export class SubscriptionHandler {
     private entries = new Array<SubscriptionHandlerEntry>()
     private nextHandle = 0
     private isRunning = false
+    /** Guards against multiple concurrent publish loops. */
+    private publishInFlight = false
 
     /** Returns true when at least one subscription is active and the publish loop is running. */
     hasActiveSubscription(): boolean {
@@ -56,14 +58,22 @@ export class SubscriptionHandler {
     private async publishLoop(pendingAcknowledgements: SubscriptionAcknowledgement[]): Promise<void> {
         if (!this.isRunning) return
 
+        // Prevent a second publish loop from running concurrently.  This can
+        // happen when routeFrames settles two responses back-to-back and each
+        // continuation attempts to start a new iteration.
+        if (this.publishInFlight) return
+        this.publishInFlight = true
+
         let response
         try {
             response = await this.subscriptionService.publish(pendingAcknowledgements)
         } catch (err) {
             this.logger.error(`Publish failed, stopping publish loop: ${err}`)
             this.isRunning = false
+            this.publishInFlight = false
             return
         }
+        this.publishInFlight = false
 
         const { subscriptionId, availableSequenceNumbers, moreNotifications, notificationMessage } = response
         const notificationDatas = notificationMessage?.notificationData ?? []
