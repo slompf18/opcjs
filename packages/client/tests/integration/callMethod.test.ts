@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
 import { Client } from '../../src/client.js';
 import { ConfigurationClient } from '../../src/configurationClient.js';
 import { UserIdentity } from '../../src/userIdentity.js';
-import { LocalizedText, NodeId, StatusCode, uaFloat, uaUint32 } from 'opcjs-base';
+import { LocalizedText, NodeId, StatusCode, uaDouble, uaFloat, uaUint32 } from 'opcjs-base';
 
 const endpointUrl = 'wss://add8470387ec:62542/Test/ReferenceServer/';
 const methodsObject = NodeId.newString(2, "Methods");
@@ -158,4 +158,42 @@ describe('callMethod', () => {
         expect(output.locale).toBe('en-US');
         expect(output.text).toBe('Hello World');
     })
+
+    it('SumDoubleArray sums an array of doubles passed as a single array argument', async () => {
+        const client = makeClient();
+        await client.connect();
+
+        const result = await client.callMethod(
+            methodsObject,
+            NodeId.newString(2, 'Methods_SumDoubleArray'),
+            [[uaDouble(1.5), uaDouble(2.5), uaDouble(3.0)]]);
+
+        expect(result.statusCode).toBe(StatusCode.Good);
+        expect(result.values.length).toBe(1);
+        expect(result.values[0]).toBeCloseTo(7.0);
+    });
+
+    it('EchoLocalizedTextArray round-trips an array of LocalizedText values', async () => {
+        const client = makeClient();
+        await client.connect();
+
+        const inputs = [
+            new LocalizedText('en-US', 'Hello'),
+            new LocalizedText('de-DE', 'Hallo'),
+        ];
+
+        const result = await client.callMethod(
+            methodsObject,
+            NodeId.newString(2, 'Methods_EchoLocalizedTextArray'),
+            [inputs]);
+
+        expect(result.statusCode).toBe(StatusCode.Good);
+        expect(result.values.length).toBe(1);
+        const output = result.values[0] as LocalizedText[];
+        expect(output).toHaveLength(2);
+        expect(output[0].locale).toBe('en-US');
+        expect(output[0].text).toBe('Hello');
+        expect(output[1].locale).toBe('de-DE');
+        expect(output[1].text).toBe('Hallo');
+    });
 })

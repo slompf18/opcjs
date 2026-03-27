@@ -375,7 +375,7 @@ export class Client {
       const request = new CallMethodRequest()
       request.objectId = objectId
       request.methodId = methodId
-      request.inputArguments = inputArguments.map(arg => Variant.newFrom(arg))
+      request.inputArguments = inputArguments.map(arg => Variant.newFrom(arg as Parameters<typeof Variant.newFrom>[0]))
 
       const responses = await this.methodService!.call([request])
       const response = responses[0]
