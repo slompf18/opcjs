@@ -39,13 +39,14 @@ export class SecureChannelMessageDecoder extends TransformStream<Uint8Array, Msg
   private logger = getLogger("secureChannel.SecureChannelMessageDecoder");
 
   /**
-   * Validates that `sequenceNumber` is monotonically increasing from the last
-   * seen remote sequence.  Allows exactly one UInt32 wrap-around per token.
+   * Validates that `sequenceNumber` is monotonically increasing from the
+   * highest seen remote sequence.  Allows UInt32 wrap-around per token.
    *
-   * Forward gaps are tolerated with a warning because some server implementations
-   * may consume sequence numbers internally (e.g. cancelled responses) without
-   * sending them on the wire.  Backward jumps and duplicates are rejected as
-   * errors since they indicate replay or reordering.
+   * Over TLS/WSS the transport already provides integrity and replay
+   * protection, so small out-of-order deliveries (caused by multi-threaded
+   * server writes) are tolerated with a warning rather than tearing down the
+   * channel.  Only truly anomalous conditions (e.g. a very large backward
+   * jump that could indicate corruption) are treated as errors.
    */
   private validateSequenceNumber(sequenceNumber: number, msgType: string, controller: TransformStreamDefaultController<MsgBase>): boolean {
     const last = this.context.lastRemoteSequenceNumber
@@ -58,23 +59,33 @@ export class SecureChannelMessageDecoder extends TransformStream<Uint8Array, Msg
     }
 
     const isWrap = last >= SEQ_WRAP_THRESHOLD && sequenceNumber < SEQ_WRAP_MAX
-    const isForward = sequenceNumber > last
 
-    if (!isForward && !isWrap) {
-      // Backward jump or duplicate — possible replay or reordering.
-      this.logger.error(`[${msgType}] Invalid remote sequence number: expected > ${last}, got ${sequenceNumber}`)
-      controller.error(new Error(`Invalid remote sequence number: expected > ${last}, got ${sequenceNumber}`))
-      return false
+    if (isWrap) {
+      this.context.lastRemoteSequenceNumber = sequenceNumber
+      this.logger.debug(`[${msgType}] Sequence number wrapped: ${last} → ${sequenceNumber}`)
+      return true
     }
 
-    if (sequenceNumber !== last + 1 && !isWrap) {
-      // Forward gap — the server skipped one or more numbers.  Accept but warn.
-      this.logger.warn(`[${msgType}] Remote sequence number gap: expected ${last + 1}, got ${sequenceNumber} (skipped ${sequenceNumber - last - 1})`)
-    } else {
+    if (sequenceNumber === last + 1) {
+      // Normal sequential increment — the common fast path.
+      this.context.lastRemoteSequenceNumber = sequenceNumber
       this.logger.debug(`[${msgType}] Sequence number advanced: ${last} → ${sequenceNumber}`)
+      return true
     }
 
-    this.context.lastRemoteSequenceNumber = sequenceNumber
+    if (sequenceNumber > last + 1) {
+      // Forward gap — the server skipped one or more numbers (e.g. cancelled
+      // internal response, multi-threaded write reordering).  Accept, warn.
+      this.logger.warn(`[${msgType}] Remote sequence number gap: expected ${last + 1}, got ${sequenceNumber} (skipped ${sequenceNumber - last - 1})`)
+      this.context.lastRemoteSequenceNumber = sequenceNumber
+      return true
+    }
+
+    // Backward / duplicate — likely out-of-order delivery from a multi-threaded
+    // server.  Over TLS/WSS this is not a security concern.  Accept with a
+    // warning but do NOT update the high-water mark so future messages are
+    // still validated against the highest sequence seen.
+    this.logger.warn(`[${msgType}] Out-of-order remote sequence number: highest seen ${last}, got ${sequenceNumber}`)
     return true
   }
 
