@@ -57,6 +57,37 @@ export type VariantValue =
 export type VariantArrayValue = VariantValue[] | VariantValue[][];
 
 /**
+ * Infers the BuiltInType and extracts the raw storable value from a single non-array,
+ * non-null scalar element. For tagged numeric/guid primitives (e.g. `uaDouble`, `uaInt32`)
+ * the wrapper object is unwrapped and only the inner `.value` is returned, matching what
+ * the binary codec expects.
+ *
+ * Must NOT be called with `null`, `undefined`, an array, or a `Variant`.
+ */
+function inferBuiltInType(element: unknown): { type: BuiltInType; rawValue: unknown } {
+  if (typeof element === 'boolean') return { type: BuiltInType.Boolean, rawValue: element }
+  if (typeof element === 'string') return { type: BuiltInType.String, rawValue: element }
+  if (element instanceof Uint8Array) return { type: BuiltInType.ByteString, rawValue: element }
+  if (element instanceof Date) return { type: BuiltInType.DateTime, rawValue: element }
+  // ExpandedNodeId must be checked before NodeId — composition, not inheritance.
+  if (element instanceof ExpandedNodeId) return { type: BuiltInType.ExpandedNodeId, rawValue: element }
+  if (element instanceof NodeIdClass) return { type: BuiltInType.NodeId, rawValue: element }
+  if (element instanceof QualifiedNameClass) return { type: BuiltInType.QualifiedName, rawValue: element }
+  if (element instanceof LocalizedTextClass) return { type: BuiltInType.LocalizedText, rawValue: element }
+  if (element instanceof XmlElementClass) return { type: BuiltInType.XmlElement, rawValue: element }
+  if (element instanceof ExtensionObjectClass) return { type: BuiltInType.ExtensionObject, rawValue: element }
+  if (element instanceof DataValueClass) return { type: BuiltInType.DataValue, rawValue: element }
+  if (element instanceof DiagnosticInfoClass) return { type: BuiltInType.DiagnosticInfo, rawValue: element }
+  // Tagged numeric / guid primitives — carry an explicit BuiltInType discriminant.
+  // Must come AFTER all instanceof checks to avoid matching NodeId's `type: NodeIdType` property.
+  if (typeof element === 'object' && element !== null && 'type' in element) {
+    const tagged = element as { type: BuiltInType; value: unknown }
+    return { type: tagged.type, rawValue: tagged.value }
+  }
+  throw new Error(`newFrom: unhandled array element: ${JSON.stringify(element)}`)
+}
+
+/**
  * Represents an OPC UA Variant value with runtime type information.
  * 
  * A Variant can hold a scalar value, an array, or a multi-dimensional array
@@ -187,12 +218,28 @@ export class Variant {
   }
 
   /**
-   * Union of all OPC UA built-in types accepted by {@link Variant.newFrom}.
+   * Creates a {@link Variant} from any OPC UA built-in scalar value or a
+   * homogeneous array of such values.
    *
-   * Includes both the tagged numeric primitives from `UaPrimitive` (which carry
-   * a `BuiltInType` discriminant so the exact numeric encoding is known) and the
-   * class-based built-in types that are identified unambiguously at runtime via
-   * `instanceof`.
+   * **Scalar usage** — pass any concrete OPC UA type and the BuiltInType is
+   * inferred automatically:
+   * ```ts
+   * Variant.newFrom('hello')              // String
+   * Variant.newFrom(uaDouble(3.14))       // Double
+   * Variant.newFrom(new LocalizedText('en', 'Hi'))
+   * ```
+   *
+   * **Array usage** — pass a plain JS array of a single homogeneous element type:
+   * ```ts
+   * Variant.newFrom([uaDouble(1.0), uaDouble(2.0)])          // Double[]
+   * Variant.newFrom([new LocalizedText('en', 'A'), ...])     // LocalizedText[]
+   * ```
+   *
+   * Throws if the array is empty (element type cannot be inferred), if the
+   * first element is null/undefined, or if elements have mixed types.
+   *
+   * Note: `Variant` itself is excluded from the accepted types intentionally —
+   * callers should work with concrete OPC UA types.
    */
   public static newFrom(
     value:
@@ -205,10 +252,55 @@ export class Variant {
       | ExtensionObject
       | DataValue
       | DiagnosticInfo
-      | Variant
       | null
-      | undefined,
+      | undefined
+      | UaPrimitive[]
+      | NodeId[]
+      | ExpandedNodeId[]
+      | QualifiedName[]
+      | LocalizedText[]
+      | XmlElement[]
+      | ExtensionObject[]
+      | DataValue[]
+      | DiagnosticInfo[],
   ): Variant {
+    
+    // --- Array handling --------------------------------------------------
+    // Must come first so Array.isArray guards prevent fall-through to the
+    // scalar instanceof/typeof checks below.
+    if (Array.isArray(value)) {
+      if (value.length === 0) {
+        throw new Error(
+          'newFrom: cannot create an array Variant from an empty array — the element type cannot be inferred. Use new Variant(type, []) directly.',
+        )
+      }
+
+      const firstElement = value[0]
+      if (firstElement === null || firstElement === undefined) {
+        throw new Error(
+          'newFrom: the first array element must not be null or undefined — the element type cannot be inferred.',
+        )
+      }
+
+      const { type } = inferBuiltInType(firstElement)
+
+      const rawValues = (value as unknown[]).map((el, index) => {
+        // Null/undefined elements are valid for nullable OPC UA types (e.g. String, ByteString).
+        if (el === null || el === undefined) return el
+
+        const { type: elType, rawValue } = inferBuiltInType(el)
+        if (elType !== type) {
+          throw new Error(
+            `newFrom: mixed-type arrays are not supported. Expected ${BuiltInType[type]} but got ${BuiltInType[elType]} at index ${index}.`,
+          )
+        }
+        return rawValue
+      })
+
+      return new Variant(type, rawValues as VariantArrayValue)
+    }
+
+    // --- Null / undefined ------------------------------------------------
     if (value === null || value === undefined) {
       return Variant.newNull();
     }
@@ -254,9 +346,6 @@ export class Variant {
     }
     if (value instanceof DiagnosticInfoClass) {
       return new Variant(BuiltInType.DiagnosticInfo, value);
-    }
-    if (value instanceof Variant) {
-      return new Variant(BuiltInType.Variant, value);
     }
 
     // --- Tagged numeric / guid primitives --------------------------------

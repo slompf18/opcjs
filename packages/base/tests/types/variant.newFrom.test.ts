@@ -291,19 +291,6 @@ describe('Variant.newFrom - DataValue', () => {
 })
 
 // ---------------------------------------------------------------------------
-// Variant  (BuiltInType 24) – nested variant
-// ---------------------------------------------------------------------------
-
-describe('Variant.newFrom - nested Variant', () => {
-  it('wraps an existing Variant as BuiltInType.Variant', () => {
-    const inner = new Variant(BuiltInType.Int32, 7)
-    const outer = Variant.newFrom(inner)
-    expect(outer.type).toBe(BuiltInType.Variant)
-    expect(outer.value).toBe(inner)
-  })
-})
-
-// ---------------------------------------------------------------------------
 // DiagnosticInfo  (BuiltInType 25)
 // ---------------------------------------------------------------------------
 
@@ -326,5 +313,99 @@ describe('Variant.newFrom - error path', () => {
     expect(() =>
       Variant.newFrom(unknown as Parameters<typeof Variant.newFrom>[0]),
     ).toThrow(/unhandled/)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Array variants
+// ---------------------------------------------------------------------------
+
+describe('Variant.newFrom - Double array', () => {
+  it('creates an array Variant with type Double', () => {
+    const arr = [uaDouble(1.5), uaDouble(2.5), uaDouble(3.0)]
+    const v = Variant.newFrom(arr)
+    expect(v.type).toBe(BuiltInType.Double)
+    expect(v.isArray()).toBe(true)
+    expect(v.value).toEqual([1.5, 2.5, 3.0])
+  })
+
+  it('getArrayLength() returns the element count', () => {
+    const v = Variant.newFrom([uaDouble(1.0), uaDouble(2.0)])
+    expect(v.getArrayLength()).toBe(2)
+  })
+})
+
+describe('Variant.newFrom - string array', () => {
+  it('creates an array Variant with type String', () => {
+    const v = Variant.newFrom(['hello', 'world'])
+    expect(v.type).toBe(BuiltInType.String)
+    expect(v.isArray()).toBe(true)
+    expect(v.value).toEqual(['hello', 'world'])
+  })
+
+  it('null element is preserved as-is', () => {
+    const arr: (string | null)[] = ['hello', null, 'world']
+    const v = Variant.newFrom(arr as Parameters<typeof Variant.newFrom>[0])
+    expect(v.type).toBe(BuiltInType.String)
+    expect((v.value as unknown[])[1]).toBeNull()
+  })
+})
+
+describe('Variant.newFrom - boolean array', () => {
+  it('creates an array Variant with type Boolean', () => {
+    const v = Variant.newFrom([true, false, true])
+    expect(v.type).toBe(BuiltInType.Boolean)
+    expect(v.isArray()).toBe(true)
+    expect(v.value).toEqual([true, false, true])
+  })
+})
+
+describe('Variant.newFrom - Int32 array', () => {
+  it('unwraps tagged elements and creates an array Variant with type Int32', () => {
+    const v = Variant.newFrom([uaInt32(10), uaInt32(20), uaInt32(30)])
+    expect(v.type).toBe(BuiltInType.Int32)
+    expect(v.isArray()).toBe(true)
+    expect(v.value).toEqual([10, 20, 30])
+  })
+})
+
+describe('Variant.newFrom - LocalizedText array', () => {
+  it('creates an array Variant with type LocalizedText', () => {
+    const lt1 = new LocalizedText('en', 'Hello')
+    const lt2 = new LocalizedText('de', 'Hallo')
+    const v = Variant.newFrom([lt1, lt2])
+    expect(v.type).toBe(BuiltInType.LocalizedText)
+    expect(v.isArray()).toBe(true)
+    expect((v.value as unknown[])[0]).toBe(lt1)
+    expect((v.value as unknown[])[1]).toBe(lt2)
+  })
+})
+
+describe('Variant.newFrom - NodeId array', () => {
+  it('creates an array Variant with type NodeId', () => {
+    const v = Variant.newFrom([NodeId.newNumeric(0, 1), NodeId.newNumeric(0, 2)])
+    expect(v.type).toBe(BuiltInType.NodeId)
+    expect(v.isArray()).toBe(true)
+    expect(v.getArrayLength()).toBe(2)
+  })
+})
+
+describe('Variant.newFrom - array error paths', () => {
+  it('throws for an empty array', () => {
+    expect(() =>
+      Variant.newFrom([] as Parameters<typeof Variant.newFrom>[0]),
+    ).toThrow(/empty array/)
+  })
+
+  it('throws when the first element is null', () => {
+    expect(() =>
+      Variant.newFrom([null as unknown, 'hello'] as Parameters<typeof Variant.newFrom>[0]),
+    ).toThrow(/first array element/)
+  })
+
+  it('throws for mixed-type arrays', () => {
+    expect(() =>
+      Variant.newFrom([uaDouble(1.0), uaInt32(2)] as Parameters<typeof Variant.newFrom>[0]),
+    ).toThrow(/mixed-type/)
   })
 })
