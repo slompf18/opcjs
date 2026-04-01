@@ -25,7 +25,7 @@
 | ❌ | Session Client Cancel | Not impl | CancelRequest type exists in schema but there is no client-level API |
 | ✅ | Session Client Detect Shutdown | Done | `startKeepAlive()` checks `ServerStatusDataType.state === ServerStateEnum.Shutdown`; subscription `StatusChangeNotification` with `BadShutdown`/`BadServerHalted` triggers `handleServerShutdownDetected()` which debounces and calls `reconnectAndReactivate()` after a 5 s delay. |
 | ✅ | Session Client Impersonate | Done | `impersonate(identity)` on `Client` calls `ActivateSession` with the new token; updates stored identity for reconnect/refresh. `Session.impersonate()` delegates to `activateSession()`. |
-| ❌ | Session Client Renew NodeIds | Not impl | No namespace table change detection |
+| ✅ | Session Client Renew NodeIds | Done | `NamespaceTable` class tracks URI→index mapping. `Client.refreshNamespaceTable()` reads `Server.NamespaceArray` (ns=0,i=2255) after every session establishment and fires `onNamespaceTableChanged(oldTable, newTable)` when it changes. `NamespaceTable.remapNodeId()` recalculates a NodeId’s namespace index. `Client.getNamespaceTable()` exposes the current table. |
 
 ---
 
@@ -96,7 +96,7 @@
 - [x] **Session Cancel** — expose `CancelRequest` as a client API.
 - [x] **Detect Server Shutdown** — monitor `ServerStatus/State` and trigger a reconnect when a server shutdown is announced.
 - [x] **Session Impersonate** — add an explicit `impersonate(identity)` method that calls `ActivateSession` with a different identity token.
-- [ ] **Renew NodeIds** — track the NamespaceTable after session establishment and detect/recalculate NodeId Namespace Indices when it changes.
+- [x] **Renew NodeIds** — track the NamespaceTable after session establishment and detect/recalculate NodeId Namespace Indices when it changes.
 - [ ] **EstimatedReturnTime** — read `Server/ServerStatus/EstimatedReturnTime` during reconnect logic to schedule the next retry intelligently.
 - [ ] **CurrencyUnit Property** — handle `CurrencyUnitType` on DataVariables that represent currency values.
 - [ ] **SelectionListType** — recognise and expose `SelectionListType` variables to the application layer.

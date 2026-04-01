@@ -2,7 +2,7 @@
 
 **Facet**: Core 2022 Client Facet  
 **Type**: Optional  
-**Status**: ⚠️ Partial  
+**Status**: ✅ Implemented  
 
 ## Description
 
@@ -48,16 +48,14 @@ Online: https://reference.opcfoundation.org/Core/Part4/v105/docs/7.36
 
 ## Current State
 
-The `ActivateSession` call in `src/services/sessionService.ts` accepts any `UserIdentityToken`.  
-The `reconnectAndReactivate()` path in `src/client.ts` can pass a different token.  
-However, there is no explicit public `impersonate(identity: UserIdentity)` method on the `Client` class.
+✅ Implemented.
 
-## Work Required
+`Client.impersonate(identity)` calls `ActivateSession` with the new identity token on the current
+session (no new session is created). The new identity is also stored so that any subsequent
+auto-reconnect or session refresh uses it instead of the original identity.
 
-1. Add `client.impersonate(identity: UserIdentity): Promise<void>` that calls `ActivateSession` with the new token on the current session (without recreating it).
-2. Update `src/userIdentity.ts` to support `UserNameIdentityToken` with encrypted password (requires server's `userTokenPolicy.securityPolicyUri`).
-3. Restore the previous identity on failure.
-4. Integration tests: anonymous → username → anonymous round-trip.
+`Session.impersonate(identity)` is the lower-level entry point; it delegates to
+`Session.activateSession()` which handles `IssuedToken` callback resolution.
 
 ## Related Conformance Units
 

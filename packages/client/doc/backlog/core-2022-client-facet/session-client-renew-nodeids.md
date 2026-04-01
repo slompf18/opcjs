@@ -2,7 +2,7 @@
 
 **Facet**: Core 2022 Client Facet  
 **Type**: Optional  
-**Status**: ❌ Not implemented  
+**Status**: ✅ Implemented  
 
 ## Description
 
@@ -43,19 +43,40 @@ NodeId for `Server/NamespaceArray`: `ns=0; i=2255`
 Online: https://reference.opcfoundation.org/Core/Part3/v105/docs/8.2  
 Online: https://reference.opcfoundation.org/Core/Part5/v105/docs/12.2
 
-## Implementation Gap
+## Implementation
 
-After `ActivateSession`, the client does not read or compare `NamespaceArray`.  
-All internally cached NodeIds use raw numeric namespace indices with no translation layer.
+✅ Implemented.
 
-## Work Required
+### `NamespaceTable` (`src/namespaceTable.ts`)
 
-1. After every `ActivateSession` (initial and on reconnect), read `Server/NamespaceArray`.
-2. Store the array as `string[]` (URI list) keyed by index.
-3. Implement `namespaceIndexForUri(uri: string): number` lookup.
-4. Add a `NodeIdTranslator` utility that, given an old `NamespaceArray` and a new one, builds a `number → number` remapping table.
-5. Apply the remapping table to any cached NodeIds the application layer has stored.
-6. Expose an `onNamespaceTableChanged` event for applications to react.
+Immutable snapshot of the server's `NamespaceArray`:
+- `getUri(index)` / `getIndex(uri)` — bidirectional URI ↔ index lookup.
+- `equals(other)` — change detection.
+- `remapNodeId(nodeId, newTable)` — recalculates a `NodeId`'s namespace index by matching
+  URI; returns the same instance when unchanged; throws when the URI is absent from either table.
+  Namespace index 0 (OPC UA base namespace) is always returned unchanged.
+
+### `Client` additions (`src/client.ts`)
+
+- `Client.getNamespaceTable(): NamespaceTable | undefined` — exposes the current snapshot.
+- `Client.onNamespaceTableChanged?: (oldTable, newTable) => void` — fires whenever the table
+  changes after a session (re-)establishment.  Applications use `oldTable.remapNodeId(id, newTable)`
+  to remap cached `NodeId`s.
+- `Client.refreshNamespaceTable()` (private) — reads `Server.NamespaceArray` (ns=0, i=2255)
+  after every `initServices()` call (fire-and-forget). Navigates the `DataValue → Variant → string[]`
+  codec chain correctly. Fires `onNamespaceTableChanged` only when the table actually changes.
+
+### Tests
+
+- `tests/unit/namespaceTable.test.ts` — 14 pure unit tests for `NamespaceTable`.
+- `tests/unit/renewNodeIds.test.ts` — 8 behavioral tests for `Client.refreshNamespaceTable`.
+
+### Known limitations
+
+- NodeIds cached by the application before `onNamespaceTableChanged` fires are not automatically
+  remapped; the application must do so in the callback.
+- NodeIds that reference a namespace URI no longer present in the new table throw at remap time
+  rather than being silently invalidated.
 
 ## Related Conformance Units
 

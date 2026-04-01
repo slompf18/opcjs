@@ -47,9 +47,12 @@ import { BrowseNodeResult } from './browseNodeResult.js'
 import { CallMethodArgument } from './method/callMethodArgument.js'
 import type { RequestOptions } from './requestOptions.js'
 import { lastAssignedHandle, nextRequestHandle } from './services/serviceBase.js'
+import { NamespaceTable } from './namespaceTable.js'
 
 /** NodeId of Server_ServerStatus (ns=0, i=2256) — a cheap server-side read used for session keep-alive. */
 const SERVER_STATUS_NODE_ID = NodeId.newNumeric(0, 2256)
+/** NodeId of Server.NamespaceArray (ns=0, i=2255) — tracked to implement Session Client Renew NodeIds. */
+const NAMESPACE_ARRAY_NODE_ID = NodeId.newNumeric(0, 2255)
 /**
  * How often to read the server when no subscription is active (ms).
  * Must be shorter than the server's revisedSessionTimeout (default: 60 000 ms).
@@ -73,6 +76,23 @@ export class Client {
   private keepAliveTimer?: ReturnType<typeof setInterval>
   /** Set to true while a shutdown-triggered reconnect is pending to avoid duplicate attempts. */
   private shutdownReconnectPending = false
+  /** Most recently read NamespaceArray from the server (Session Client Renew NodeIds). */
+  private namespaceTable?: NamespaceTable
+
+  /**
+   * Called whenever the server's NamespaceArray changes after a session (re-)establishment
+   * (OPC UA Part 4, Section 5.7.1 — Session Client Renew NodeIds conformance unit).
+   *
+   * Use `oldTable.remapNodeId(nodeId, newTable)` to recalculate cached NodeIds.
+   *
+   * @example
+   * ```ts
+   * client.onNamespaceTableChanged = (oldTable, newTable) => {
+   *   cachedNodeId = oldTable.remapNodeId(cachedNodeId, newTable)
+   * }
+   * ```
+   */
+  onNamespaceTableChanged?: (oldTable: NamespaceTable, newTable: NamespaceTable) => void
 
   getSession(): Session {
     if (!this.session) {
@@ -97,6 +117,51 @@ export class Client {
     )
     // Wire the subscription-level shutdown notification into the same reconnect path.
     this.subscriptionHandler.onShutdown = () => this.handleServerShutdownDetected()
+    // Refresh the NamespaceArray after every session (re-)establishment; fire-and-forget.
+    void this.refreshNamespaceTable()
+  }
+
+  /**
+   * Reads `Server.NamespaceArray` (ns=0, i=2255) and updates the stored
+   * `NamespaceTable`. When the table changes compared to the previous read the
+   * `onNamespaceTableChanged` callback is fired so the application can remap
+   * any cached NodeIds (OPC UA Part 4, Section 5.7.1 — Session Client Renew
+   * NodeIds conformance unit).
+   *
+   * Errors are logged as warnings and do not propagate to the caller.
+   */
+  private async refreshNamespaceTable(): Promise<void> {
+    if (!this.attributeService) return
+    try {
+      const results = await this.attributeService.ReadValue([NAMESPACE_ARRAY_NODE_ID])
+      // AttributeService returns DataValue.value which is a Variant; the actual
+      // namespace URI array lives one level deeper inside Variant.value.
+      const variant = results[0]?.value as { value?: unknown } | undefined
+      const uris = variant?.value
+      if (!Array.isArray(uris)) {
+        this.logger.warn('NamespaceArray read returned an unexpected value; skipping table update.')
+        return
+      }
+      const newTable = new NamespaceTable(uris as string[])
+      const oldTable = this.namespaceTable
+      this.namespaceTable = newTable
+      if (oldTable !== undefined && !oldTable.equals(newTable)) {
+        this.logger.info('NamespaceArray changed; notifying application to renew NodeIds.')
+        this.onNamespaceTableChanged?.(oldTable, newTable)
+      }
+    } catch (err) {
+      this.logger.warn('NamespaceArray read failed; namespace table not updated:', err)
+    }
+  }
+
+  /**
+   * Returns the most recently read `NamespaceTable` for this session.
+   *
+   * Available after `connect()` completes (the table is read as part of session
+   * establishment). Returns `undefined` before the first successful read.
+   */
+  getNamespaceTable(): NamespaceTable | undefined {
+    return this.namespaceTable
   }
 
   /**
