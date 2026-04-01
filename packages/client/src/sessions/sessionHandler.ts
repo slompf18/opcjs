@@ -3,20 +3,47 @@ import { EndpointDescription, ISecureChannel, NodeId, UserTokenTypeEnum, getLogg
 import { SessionService } from "../services/sessionService";
 import { UserIdentity } from "../userIdentity";
 import { Session } from "./session";
+import { CertificateRequiredError } from "./certificateRequiredError.js";
 
 export class SessionHandler {
     private sessionServices: SessionService;
     private logger = getLogger("sessions.SessionHandler");
 
     async createNewSession(identity:UserIdentity) : Promise<Session>{
-        const ret = await this.sessionServices.createSession();
-        this.sessionServices = this.sessionServices.recreate(ret.authToken)
+        // OPC UA 1.0 fallback: first attempt without a client certificate (SecurityPolicy None
+        // default). If the server signals that a certificate is required, retry once with the
+        // applicationInstanceCertificate from the security configuration (if present).
+        let sessionResult: Awaited<ReturnType<SessionService['createSession']>>
+        try {
+            sessionResult = await this.sessionServices.createSession(null)
+        } catch (err) {
+            if (err instanceof CertificateRequiredError) {
+                const fallbackCert = this.configuration.securityConfiguration?.applicationInstanceCertificate
+                if (fallbackCert) {
+                    this.logger.info(
+                        'Server requires a client certificate (OPC UA 1.0 fallback); ' +
+                        'retrying CreateSession with applicationInstanceCertificate.',
+                    )
+                    sessionResult = await this.sessionServices.createSession(fallbackCert)
+                } else {
+                    this.logger.warn(
+                        'Server requires a client certificate but no applicationInstanceCertificate ' +
+                        'is configured in securityConfiguration. Cannot complete the 1.0 fallback.',
+                    )
+                    throw err
+                }
+            } else {
+                throw err
+            }
+        }
 
-        const session = new Session(ret.sessionId, ret.authToken, ret.endpoint, this.sessionServices);
+        this.sessionServices = this.sessionServices.recreate(sessionResult.authToken)
+
+        const session = new Session(sessionResult.sessionId, sessionResult.authToken, sessionResult.endpoint, this.sessionServices);
 
         // Enforce user-token type restrictions from the client security configuration
         // before activating; the endpoint is now known from CreateSession.
-        this.validateUserTokenPolicy(identity, ret.endpoint)
+        this.validateUserTokenPolicy(identity, sessionResult.endpoint)
 
         await session.activateSession(identity);
         return session;

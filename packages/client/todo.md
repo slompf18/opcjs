@@ -50,7 +50,7 @@
 | ✅ | SecurtyPolicy_None_Limits | Done | Signature key length = 0 |
 | ✅ | SymmetricEncryptionAlgorithm_None | Done | No-op |
 | ✅ | SymmetricSignatureAlgorithm_None | Done | No-op |
-| ❌ | Security None CreateSession ActivateSession 1.0 *(optional)* | Not impl | No fallback-with-cert retry logic when server requires a certificate |
+| ✅ | Security None CreateSession ActivateSession 1.0 *(optional)* | Done | `CertificateRequiredError` thrown for `BadCertificateInvalid` / `BadSecurityChecksFailed` / `BadNoValidCertificates`; `SessionHandler.createNewSession()` retries with `securityConfiguration.applicationInstanceCertificate` when set |
 
 ---
 
@@ -100,4 +100,4 @@
 - [ ] **EstimatedReturnTime** — read `Server/ServerStatus/EstimatedReturnTime` during reconnect logic to schedule the next retry intelligently.
 - [ ] **CurrencyUnit Property** — handle `CurrencyUnitType` on DataVariables that represent currency values.
 - [ ] **SelectionListType** — recognise and expose `SelectionListType` variables to the application layer.
-- [ ] **Security None with cert fallback** — if the server rejects CreateSession without a certificate, retry with an ApplicationInstanceCertificate.
+- [x] **Security None with cert fallback** — if the server rejects CreateSession without a certificate, retry with an ApplicationInstanceCertificate.

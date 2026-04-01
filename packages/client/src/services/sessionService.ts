@@ -7,15 +7,23 @@ import {
     StatusCodeToString, UserIdentityToken,
 } from "opcjs-base";
 import { ServiceBase } from "./serviceBase";
+import { CERTIFICATE_REQUIRED_STATUS_CODES, CertificateRequiredError } from "../sessions/certificateRequiredError.js";
 
 export class SessionService extends ServiceBase {
     private logger = getLogger("services.SessionService");
 
     /**
      * Creates a new session on the server (OPC UA Part 4, Section 5.7.2).
+     *
+     * @param clientCertificate - Optional DER-encoded client certificate to include in
+     *   the request. Pass `null` (default) for SecurityPolicy None without a cert.
+     *   When the server rejects a `null`-cert request with a certificate-related status
+     *   code, the caller should retry with a `Uint8Array` certificate (OPC UA 1.0
+     *   fallback — see `CertificateRequiredError`).
      * @returns The session ID, authentication token, and selected server endpoint.
+     * @throws {CertificateRequiredError} when the server demands a client certificate.
      */
-    async createSession(): Promise<{ sessionId: number, authToken: NodeId, endpoint: EndpointDescription }> {
+    async createSession(clientCertificate: Uint8Array | null = null): Promise<{ sessionId: number, authToken: NodeId, endpoint: EndpointDescription }> {
         this.logger.debug("Creating session...");
 
         const clientDescription = new ApplicationDescription();
@@ -34,7 +42,7 @@ export class SessionService extends ServiceBase {
         request.endpointUrl = this.secureChannel.getEndpointUrl();
         request.sessionName = '';
         request.clientNonce = null;
-        request.clientCertificate = null;
+        request.clientCertificate = clientCertificate ?? null;
         request.requestedSessionTimeout = 60000;
         request.maxResponseMessageSize = 0;
 
@@ -55,6 +63,9 @@ export class SessionService extends ServiceBase {
 
         const serviceResult = castedResponse.responseHeader?.serviceResult;
         if (serviceResult !== undefined && serviceResult !== StatusCode.Good) {
+            if (CERTIFICATE_REQUIRED_STATUS_CODES.has(serviceResult)) {
+                throw new CertificateRequiredError(serviceResult);
+            }
             throw new Error(`CreateSessionRequest failed: ${StatusCodeToString(serviceResult)}`);
         }
 
