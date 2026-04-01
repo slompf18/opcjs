@@ -89,4 +89,19 @@ export type SecurityConfiguration = {
    *       implemented alongside non-None security policies.
    */
   unknownCertificatePolicy?: UnknownCertificatePolicy
+
+  /**
+   * DER-encoded X.509 ApplicationInstanceCertificate for this client.
+   *
+   * When set, this certificate is used in a OPC UA 1.0 compatibility fallback:
+   * if `CreateSession` with no client certificate is rejected by the server with
+   * a certificate-related status code (`BadCertificateInvalid`,
+   * `BadSecurityChecksFailed`, or `BadNoValidCertificates`), the `CreateSession`
+   * is automatically retried with this certificate in the `clientCertificate`
+   * field (OPC UA Part 4, SecurityPolicy None – CreateSession/ActivateSession 1.0
+   * optional conformance unit).
+   *
+   * Without this field the fallback is disabled and the error propagates as-is.
+   */
+  applicationInstanceCertificate?: Uint8Array
 }
