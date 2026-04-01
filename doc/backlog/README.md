@@ -31,7 +31,7 @@ Each facet has its own folder; each conformance unit has its own document.
 
 | Status | Conformance Unit |
 |--------|-----------------|
-| ❌ | [Base Info Client Currency](./core-2022-client-facet/base-info-client-currency.md) |
+| ✅ | [Base Info Client Currency](./core-2022-client-facet/base-info-client-currency.md) |
 | ✅ | [Base Info Client Estimated Return Time](./core-2022-client-facet/base-info-client-estimated-return-time.md) |
 | ❌ | [Base Info Client Selection List](./core-2022-client-facet/base-info-client-selection-list.md) |
 | ✅ | [Base Services Client Diagnostics](./core-2022-client-facet/base-services-client-diagnostics.md) |
