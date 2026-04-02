@@ -87,11 +87,11 @@ Includes GetEndpoints/FindServers stubs. Tested with `opcjs-client`.
 
 *Parallel with Phases 2–3*
 
-- [ ] **4.1** Create `Node` model — `src/addressSpace/node.ts`
+- [x] **4.1** Create `Node` model — `src/addressSpace/node.ts`
   - Attributes as `Map<number, DataValue>` (attributeId → value)
   - Variable and Object node classes
 
-- [ ] **4.2** Create `AddressSpace` — `src/addressSpace/addressSpace.ts`
+- [x] **4.2** Create `AddressSpace` — `src/addressSpace/addressSpace.ts`
   - In-memory `Map<string, Node>` keyed by NodeId string
   - Pre-populate required nodes:
     - Server (i=2253), ServerStatus (i=2256), NamespaceArray (i=2255), ServerArray (i=2254)
@@ -103,7 +103,7 @@ Includes GetEndpoints/FindServers stubs. Tested with `opcjs-client`.
 
 *Depends on all above*
 
-- [ ] **5.1** Update `ServerOptions` — add `port`, `hostname`, `endpointPath`, `sessionTimeoutMs`, `maxSessions` (optional with defaults)
+- [ ] **5.1** Update `ServerConfiguration` — add `port`, `hostname`, `endpointPath`, `sessionTimeoutMs`, `maxSessions` (optional with defaults)
 - [ ] **5.2** Update `OpcUaServer.start()` — create ConfigurationServer, AddressSpace, SessionManager, WebSocketListener, ConnectionHandler pipeline, ServiceDispatcher
 - [ ] **5.3** Update `OpcUaServer.stop()` — close sessions, stop listener, clean up connections
 - [ ] **5.4** Update `index.ts` — export all new public types

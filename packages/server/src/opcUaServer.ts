@@ -3,7 +3,7 @@ import { getLogger, initLoggerProvider } from 'opcjs-base'
 import type { ILogger } from 'opcjs-base'
 
 import type { IAddressSpace } from './addressSpace/iAddressSpace.js'
-import { StubAddressSpace } from './addressSpace/stubAddressSpace.js'
+import { AddressSpace } from './addressSpace/addressSpace.js'
 import { ConfigurationServer, type ServerOptions } from './configuration/configurationServer.js'
 import { AttributeService } from './services/attributeService.js'
 import { DiscoveryService } from './services/discoveryService.js'
@@ -24,9 +24,8 @@ import { WebSocketListener } from './transport/webSocketListener.js'
  * authentication.  Start with {@link start} and stop cleanly with {@link stop}.
  *
  * The address space can be replaced before calling {@link start} by assigning
- * to the {@link addressSpace} property.  Defaults to {@link StubAddressSpace}
- * which returns `BadNodeIdUnknown` for all reads until Phase 4 provides a real
- * implementation.
+ * to the {@link addressSpace} property.  Defaults to {@link AddressSpace}
+ * which pre-populates the four standard OPC UA server nodes.
  */
 export class OpcUaServer {
   private readonly config: ConfigurationServer
@@ -34,8 +33,8 @@ export class OpcUaServer {
   private running = false
   private listener?: WebSocketListener
 
-  /** Address space used by the Attribute service. Swap out before {@link start}. */
-  public addressSpace: IAddressSpace = new StubAddressSpace()
+  /** Address space used by the Attribute service. Replace before {@link start}. */
+  public addressSpace: IAddressSpace = new AddressSpace()
 
   constructor(optionsOrConfig: ServerOptions | ConfigurationServer) {
     this.config =
