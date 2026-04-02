@@ -162,11 +162,7 @@ jobs:
           done
 
       - name: Build all packages
-        run: |
-          for pkg in ${{ steps.packages.outputs.list }}; do
-            echo "=== build: packages/${pkg} ==="
-            npm run verify --prefix "packages/${pkg}"
-          done
+        run: npx nx run-many -t verify
 
       - name: Dry-run publish (pre-check — no packages are published yet)
         run: |

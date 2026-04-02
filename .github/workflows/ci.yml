@@ -1,8 +1,9 @@
 # CI workflow — runs on every push to main and prerelease branches (v<M>.<m>-<channel>).
 #
 # Steps:
-#   1. Discover all publishable packages (have a "verify" script, not in EXCLUDED_PACKAGES).
-#   2. Build each package via "verify" (lint + type-check + build + unit tests).
+#   1. Install dependencies.
+#   2. Run "verify" (lint + type-check + build + unit tests) across all packages via Nx.
+#      Nx respects inter-package build order and caches results automatically.
 #      Unit tests run with OPCUA_EXTERNAL_SERVER=1 (embedded in each package's test script)
 #      so no live OPC UA server is needed in CI.
 #
@@ -20,9 +21,6 @@ on:
     branches:
       - main
 
-env:
-  EXCLUDED_PACKAGES: generator
-
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -36,31 +34,8 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      - name: Discover publishable packages
-        id: packages
-        run: |
-          DIRS=()
-          for pkg in packages/*/; do
-            name=$(basename "$pkg")
-            if echo " $EXCLUDED_PACKAGES " | grep -qw "$name"; then
-              echo "Skipping excluded package: $name"
-              continue
-            fi
-            if ! node -e "const p=require('./${pkg}package.json'); process.exit(p.scripts&&p.scripts.verify?0:1)" 2>/dev/null; then
-              echo "Skipping package without verify script: $name"
-              continue
-            fi
-            DIRS+=("$name")
-            echo "Found publishable package: $name"
-          done
-          echo "list=${DIRS[*]}" >> "$GITHUB_OUTPUT"
-
       - name: Install dependencies
         run: npm ci
 
-      - name: Build all packages
-        run: |
-          for pkg in ${{ steps.packages.outputs.list }}; do
-            echo "=== build: packages/${pkg} ==="
-            npm run verify --prefix "packages/${pkg}"
-          done
+      - name: Verify all packages
+        run: npx nx run-many -t verify

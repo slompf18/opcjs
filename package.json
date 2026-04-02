@@ -28,13 +28,11 @@
   ],
   "scripts": {
     "prepare": "git config core.hooksPath .githooks",
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage",
-    "generate:services": "node ./src/generators/runServicesGenerator.js",
-    "prepublishOnly": "npm run build"
+    "build": "nx run-many -t build",
+    "verify": "nx run-many -t verify",
+    "test": "nx run-many -t test:unit",
+    "graph": "nx graph",
+    "generate:services": "node ./src/generators/runServicesGenerator.js"
   },
   "keywords": [
     "opcua",

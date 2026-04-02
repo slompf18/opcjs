@@ -19,6 +19,10 @@ node_modules
 # test coverage
 coverage
 
+# nx cache
+.nx/cache
+.nx/workspace-data
+
 # temporary files
 *.tmp
 *.swp
