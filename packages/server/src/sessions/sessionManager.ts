@@ -190,6 +190,20 @@ export class SessionManager {
     this.rescheduleTimeout(key, session.revisedTimeoutMs)
   }
 
+  /**
+   * Closes all active sessions and cancels their timeout timers.
+   *
+   * Called during server shutdown so that no timers linger after the process
+   * would otherwise be idle.
+   */
+  closeAllSessions(): void {
+    for (const key of [...this.sessions.keys()]) {
+      this.cancelTimeout(key)
+    }
+    this.sessions.clear()
+    this.logger.debug('All sessions closed')
+  }
+
   // ── internal helpers ──────────────────────────────────────────────────────
 
   private findSession(authToken: NodeId): Session {

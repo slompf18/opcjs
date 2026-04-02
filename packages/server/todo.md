@@ -103,10 +103,10 @@ Includes GetEndpoints/FindServers stubs. Tested with `opcjs-client`.
 
 *Depends on all above*
 
-- [ ] **5.1** Update `ServerConfiguration` — add `port`, `hostname`, `endpointPath`, `sessionTimeoutMs`, `maxSessions` (optional with defaults)
-- [ ] **5.2** Update `OpcUaServer.start()` — create ConfigurationServer, AddressSpace, SessionManager, WebSocketListener, ConnectionHandler pipeline, ServiceDispatcher
-- [ ] **5.3** Update `OpcUaServer.stop()` — close sessions, stop listener, clean up connections
-- [ ] **5.4** Update `index.ts` — export all new public types
+- [x] **5.1** Update `ServerConfiguration` — add `port`, `hostname`, `endpointPath`, `sessionTimeoutMs`, `maxSessions` (optional with defaults)
+- [x] **5.2** Update `OpcUaServer.start()` — create ConfigurationServer, AddressSpace, SessionManager, WebSocketListener, ConnectionHandler pipeline, ServiceDispatcher
+- [x] **5.3** Update `OpcUaServer.stop()` — close sessions, stop listener, clean up connections
+- [x] **5.4** Update `index.ts` — export all new public types
 
 ---
 

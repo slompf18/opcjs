@@ -32,6 +32,7 @@ export class OpcUaServer {
   private readonly logger: ILogger
   private running = false
   private listener?: WebSocketListener
+  private sessionManager?: SessionManager
 
   /** Address space used by the Attribute service. Replace before {@link start}. */
   public addressSpace: IAddressSpace = new AddressSpace()
@@ -73,13 +74,14 @@ export class OpcUaServer {
 
     const url = this.endpointUrl
     const sessionManager = new SessionManager(this.config)
+    this.sessionManager = sessionManager
     const sessionSvc = new SessionService(sessionManager, this.config, url)
     const attributeSvc = new AttributeService(this.addressSpace)
     const discoverySvc = new DiscoveryService(this.config, url)
     const dispatcher = new ServiceDispatcher(sessionManager, sessionSvc, attributeSvc, discoverySvc)
 
     this.listener = new WebSocketListener(this.config.port, this.config.endpointPath, ws => {
-      new ConnectionHandler(ws, url, this.config, req => dispatcher.dispatch(req, 0))
+      new ConnectionHandler(ws, url, this.config, (req, channelId) => dispatcher.dispatch(req, channelId))
     })
 
     await this.listener.start()
@@ -94,6 +96,9 @@ export class OpcUaServer {
       return
     }
     this.logger.info('Stopping OPC UA server')
+
+    this.sessionManager?.closeAllSessions()
+    this.sessionManager = undefined
 
     await this.listener?.stop()
     this.listener = undefined

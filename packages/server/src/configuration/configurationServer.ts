@@ -30,6 +30,10 @@ export type ServerOptions = {
   hostname?: string
   /** URL path of the OPC UA WebSocket endpoint. Default: `'/opcua'`. */
   endpointPath?: string
+  /** Maximum session timeout in milliseconds. Default: 3 600 000 (1 hour). */
+  sessionTimeoutMs?: number
+  /** Maximum number of concurrent sessions. Default: 100. */
+  maxSessions?: number
   /** Custom logger factory. When omitted a console logger is used. */
   loggerFactory?: ILoggerFactory
 }
@@ -68,6 +72,8 @@ export class ConfigurationServer extends Configuration {
     if (options.port !== undefined) cfg.port = options.port
     if (options.hostname !== undefined) cfg.hostname = options.hostname
     if (options.endpointPath !== undefined) cfg.endpointPath = options.endpointPath
+    if (options.sessionTimeoutMs !== undefined) cfg.maxSessionTimeoutMs = options.sessionTimeoutMs
+    if (options.maxSessions !== undefined) cfg.maxSessions = options.maxSessions
     return cfg
   }
 

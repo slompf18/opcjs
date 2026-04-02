@@ -27,7 +27,7 @@ import {
 import type { IOpcType } from 'opcjs-base'
 
 /** Callback type for handling incoming service requests after a session is established. */
-export type ServerServiceHandler = (request: IOpcType) => Promise<IOpcType>
+export type ServerServiceHandler = (request: IOpcType, channelId: number) => Promise<IOpcType>
 
 /** Incremented per server instance to generate unique channel IDs. */
 let nextChannelId = 1
@@ -133,7 +133,7 @@ export class SecureChannelServer {
 
     let response: IOpcType
     try {
-      response = await this.serviceHandler(request)
+      response = await this.serviceHandler(request, this.context.channelId)
     } catch (err) {
       this.logger.error('Service handler threw; closing connection:', err)
       // TODO Phase 3: encode and return ServiceFault response instead of dropping.
