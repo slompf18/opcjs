@@ -8,10 +8,15 @@ Each facet has its own folder; each conformance unit has its own document.
 | Folder | Facet | Required by | Required CUs | Optional CUs |
 |--------|-------|-------------|--------------|--------------|
 | [core-2022-client-facet/](./core-2022-client-facet/) | Core 2022 Client Facet | Minimum UA Client 2022 Profile | 7 / 7 ✅ | 7 ✅ · 2 ❌ |
-| [ua-tcp-ua-sc-ua-binary/](./ua-tcp-ua-sc-ua-binary/) | UA-TCP UA-SC UA-Binary | Core 2022 Client Facet (dependency) | 3 / 3 ✅ | — |
-| [security-policy-none/](./security-policy-none/) | SecurityPolicy – None | Core 2022 Client Facet (dependency) | 7 / 7 ✅ | 1 / 1 ✅ |
-| [security-time-synchronization/](./security-time-synchronization/) | Security Time Synchronization | Core 2022 Client Facet (dependency) | 1 / 1 ✅ | 1 ✅ · 5 ❌ |
+| [ua-tcp-ua-sc-ua-binary/](./ua-tcp-ua-sc-ua-binary/) | UA-TCP UA-SC UA-Binary | Client & Server Core dependency | 3 / 3 ✅ | — |
+| [security-policy-none/](./security-policy-none/) | SecurityPolicy – None | Client & Server Core dependency | 7 / 7 ✅ | 1 / 1 ✅ |
+| [security-time-synchronization/](./security-time-synchronization/) | Security Time Synchronization | Client & Server Core dependency | 1 / 1 ✅ | 1 ✅ · 5 ❌ |
 | [user-token-anonymous-client/](./user-token-anonymous-client/) | User Token – Anonymous Client | Core 2022 Client Facet (dependency) | 1 / 1 ✅ | — |
+| [user-token-anonymous-server/](./user-token-anonymous-server/) | User Token – Anonymous Server | Core 2022 Server Facet (dependency) | 0 / 1 ❌ | — |
+| [user-token-user-name-password-server/](./user-token-user-name-password-server/) | User Token – User Name Password Server | Core 2022 Server Facet (dependency) | 0 / 2 ❌ | 1 ❌ |
+| [minimum-ua-2025-client-facet/](./minimum-ua-2025-client-facet/) | Minimum UA 2025 Client Facet | Minimum UA Client 2025 Profile | 0 / 2 ❌ | 1 ❌ |
+| [base-client-behaviour-facet/](./base-client-behaviour-facet/) | Base Client Behaviour Facet | Standard UA Client Profiles | 2 ✅ · 5 ❌ | — |
+| [core-2022-server-facet/](./core-2022-server-facet/) | Core 2022 Server Facet | Nano/Standard UA Server Profiles | 0 / 15 ❌ | 22 ❌ |
 
 ### Conformance Unit Detail
 
@@ -89,6 +94,97 @@ Each facet has its own folder; each conformance unit has its own document.
 | Status | Conformance Unit |
 |--------|-----------------|
 | ✅ | [Security User Anonymous Client](./user-token-anonymous-client/security-user-anonymous-client.md) |
+
+#### Minimum UA 2025 Client Facet — Required
+
+| Status | Conformance Unit |
+|--------|-----------------|
+| ❌ | [Discovery Client Configure Endpoint](./minimum-ua-2025-client-facet/discovery-client-configure-endpoint.md) |
+| ❌ | [Security Default ApplicationInstance Certificate](./minimum-ua-2025-client-facet/security-default-application-instance-certificate.md) |
+
+#### Minimum UA 2025 Client Facet — Optional
+
+| Status | Conformance Unit |
+|--------|-----------------|
+| ❌ | [Security ECC Policy](./minimum-ua-2025-client-facet/security-ecc-policy.md) |
+
+#### Base Client Behaviour Facet — Required
+
+| Status | Conformance Unit |
+|--------|-----------------|
+| ❌ | [Discovery Client Configure Endpoint](./base-client-behaviour-facet/discovery-client-configure-endpoint.md) |
+| ✅ | [Security Administration](./base-client-behaviour-facet/security-administration.md) |
+| ❌ | [Security Certificate Administration](./base-client-behaviour-facet/security-certificate-administration.md) |
+| ❌ | [Base Info Client Remote Nodes](./base-client-behaviour-facet/base-info-client-remote-nodes.md) |
+| ✅ | [Session Client Auto Reconnect](./base-client-behaviour-facet/session-client-auto-reconnect.md) |
+| ❌ | [Subscription Client Multiple](./base-client-behaviour-facet/subscription-client-multiple.md) |
+| ❌ | [Subscription Client Publish Multiple](./base-client-behaviour-facet/subscription-client-publish-multiple.md) |
+
+#### Core 2022 Server Facet — Required
+
+| Status | Conformance Unit |
+|--------|-----------------|
+| ❌ | [Address Space Atomicity](./core-2022-server-facet/address-space-atomicity.md) |
+| ❌ | [Address Space Base](./core-2022-server-facet/address-space-base.md) |
+| ❌ | [Address Space Full Array Only](./core-2022-server-facet/address-space-full-array-only.md) |
+| ❌ | [Attribute Read](./core-2022-server-facet/attribute-read.md) |
+| ❌ | [Base Info Core Structure 2](./core-2022-server-facet/base-info-core-structure-2.md) |
+| ❌ | [Base Info Server Capabilities 2](./core-2022-server-facet/base-info-server-capabilities-2.md) |
+| ❌ | [Discovery Find Servers Self](./core-2022-server-facet/discovery-find-servers-self.md) |
+| ❌ | [Discovery Get Endpoints](./core-2022-server-facet/discovery-get-endpoints.md) |
+| ❌ | [Documentation – Core Capacities](./core-2022-server-facet/documentation-core-capacities.md) |
+| ❌ | [SecurityPolicy Support](./core-2022-server-facet/security-policy-support.md) |
+| ❌ | [Session Base](./core-2022-server-facet/session-base.md) |
+| ❌ | [Session General Service Behaviour](./core-2022-server-facet/session-general-service-behaviour.md) |
+| ❌ | [View Basic 2](./core-2022-server-facet/view-basic-2.md) |
+| ❌ | [View RegisterNodes](./core-2022-server-facet/view-register-nodes.md) |
+| ❌ | [View TranslateBrowsePath](./core-2022-server-facet/view-translate-browse-path.md) |
+
+#### Core 2022 Server Facet — Optional
+
+| Status | Conformance Unit |
+|--------|-----------------|
+| ❌ | [Address Space AddIn DefaultInstanceBrowsename](./core-2022-server-facet/address-space-addin-default-instance-browsename.md) |
+| ❌ | [Address Space AddIn Reference](./core-2022-server-facet/address-space-addin-reference.md) |
+| ❌ | [Address Space Interfaces](./core-2022-server-facet/address-space-interfaces.md) |
+| ❌ | [Address Space NonVolatile and Constant](./core-2022-server-facet/address-space-non-volatile-and-constant.md) |
+| ❌ | [Attribute Write Index](./core-2022-server-facet/attribute-write-index.md) |
+| ❌ | [Attribute Write StatusCode & Timestamp](./core-2022-server-facet/attribute-write-statuscode-and-timestamp.md) |
+| ❌ | [Attribute Write Values](./core-2022-server-facet/attribute-write-values.md) |
+| ❌ | [Base Info Core Views Folder](./core-2022-server-facet/base-info-core-views-folder.md) |
+| ❌ | [Base Info Currency](./core-2022-server-facet/base-info-currency.md) |
+| ❌ | [Base Info Diagnostics](./core-2022-server-facet/base-info-diagnostics.md) |
+| ❌ | [Base Info Engineering Units](./core-2022-server-facet/base-info-engineering-units.md) |
+| ❌ | [Base Info Estimated Return Time](./core-2022-server-facet/base-info-estimated-return-time.md) |
+| ❌ | [Base Info LocalTime](./core-2022-server-facet/base-info-local-time.md) |
+| ❌ | [Base Info Locations Object](./core-2022-server-facet/base-info-locations-object.md) |
+| ❌ | [Base Info Namespace Metadata](./core-2022-server-facet/base-info-namespace-metadata.md) |
+| ❌ | [Base Info OptionSet](./core-2022-server-facet/base-info-option-set.md) |
+| ❌ | [Base Info Selection List](./core-2022-server-facet/base-info-selection-list.md) |
+| ❌ | [Base Info ValueAsText](./core-2022-server-facet/base-info-value-as-text.md) |
+| ❌ | [Base Services Diagnostics](./core-2022-server-facet/base-services-diagnostics.md) |
+| ❌ | [Security Administration](./core-2022-server-facet/security-administration.md) |
+| ❌ | [Security Role Server Authorization](./core-2022-server-facet/security-role-server-authorization.md) |
+| ❌ | [Session Change User](./core-2022-server-facet/session-change-user.md) |
+
+#### User Token – Anonymous Server — Required
+
+| Status | Conformance Unit |
+|--------|-----------------|
+| ❌ | [Security User Anonymous Server](./user-token-anonymous-server/security-user-anonymous-server.md) |
+
+#### User Token – User Name Password Server — Required
+
+| Status | Conformance Unit |
+|--------|-----------------|
+| ❌ | [Security Invalid user token](./user-token-user-name-password-server/security-invalid-user-token.md) |
+| ❌ | [Security User Name Password 2](./user-token-user-name-password-server/security-user-name-password-2.md) |
+
+#### User Token – User Name Password Server — Optional
+
+| Status | Conformance Unit |
+|--------|-----------------|
+| ❌ | [Security User Token Unencrypted](./user-token-user-name-password-server/security-user-token-unencrypted.md) |
 
 ## Specification References
 
