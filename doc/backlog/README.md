@@ -37,9 +37,9 @@ Each facet has its own folder; each conformance unit has its own document.
 | ✅ | [Base Services Client Diagnostics](./core-2022-client-facet/base-services-client-diagnostics.md) |
 | ❌ | [Security Admin – Certificate Management](./core-2022-client-facet/security-admin-certificate-management.md) |
 | ✅ | [Session Client Cancel](./core-2022-client-facet/session-client-cancel.md) |
-| ❌ | [Session Client Detect Shutdown](./core-2022-client-facet/session-client-detect-shutdown.md) |
-| ⚠️ | [Session Client Impersonate](./core-2022-client-facet/session-client-impersonate.md) |
-| ❌ | [Session Client Renew NodeIds](./core-2022-client-facet/session-client-renew-nodeids.md) |
+| ✅ | [Session Client Detect Shutdown](./core-2022-client-facet/session-client-detect-shutdown.md) |
+| ✅ | [Session Client Impersonate](./core-2022-client-facet/session-client-impersonate.md) |
+| ✅ | [Session Client Renew NodeIds](./core-2022-client-facet/session-client-renew-nodeids.md) |
 
 #### UA-TCP UA-SC UA-Binary — Required
 

@@ -97,7 +97,7 @@
 - [x] **Detect Server Shutdown** — monitor `ServerStatus/State` and trigger a reconnect when a server shutdown is announced.
 - [x] **Session Impersonate** — add an explicit `impersonate(identity)` method that calls `ActivateSession` with a different identity token.
 - [x] **Renew NodeIds** — track the NamespaceTable after session establishment and detect/recalculate NodeId Namespace Indices when it changes.
-- [ ] **EstimatedReturnTime** — read `Server/ServerStatus/EstimatedReturnTime` during reconnect logic to schedule the next retry intelligently.
+- [x] **EstimatedReturnTime** — read `Server/ServerStatus/EstimatedReturnTime` during reconnect logic to schedule the next retry intelligently.
 - [ ] **CurrencyUnit Property** — handle `CurrencyUnitType` on DataVariables that represent currency values.
 - [x] **SelectionListType** — recognise and expose `SelectionListType` variables to the application layer.
 - [x] **Security None with cert fallback** — if the server rejects CreateSession without a certificate, retry with an ApplicationInstanceCertificate.
